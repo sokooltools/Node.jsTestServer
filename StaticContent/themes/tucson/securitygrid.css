@@ -1,0 +1,57 @@
+﻿/*	=======================================================================================================
+	securitygrid.css
+	======================================================================================================= */
+
+.cell-username
+{
+	padding-left: 1px;
+	font-size: 8pt;
+}
+.slick-header-column
+{
+	font-weight: 400;
+}
+.cell-checkmark
+{
+	text-align: center;
+}
+.cell-selection
+{
+	border-right-color: silver;
+	border-right-style: solid;
+	background: #f5f5f5;
+	color: gray;
+	text-align: right;
+	font-size: 10px;
+}
+.slick-row.selected .cell-selection
+{
+	background-color: transparent; /* Show default selected row background */
+}
+.slick-cell.sec_to_delete
+{
+	font-style: italic;
+	text-decoration: line-through;
+	background-color: #e5e5e5;
+	color: #808080;
+}
+input.sec_to_delete, select.sec_to_delete
+{
+	font-style: italic;
+	text-decoration: line-through; /* background-color: #e5e5e5; 	color: #808080; */
+}
+div.r0
+{
+	color: white;
+}
+#sec_lblEditMode
+{
+	background-color: #f5f5dc;
+	border: thin #c0c0c0 solid;
+	border-bottom: none;
+	color: green;
+	font-size: 10pt;
+	font-weight: bolder;
+	padding: 4px 0 4px 6px;
+	text-align: left;
+}

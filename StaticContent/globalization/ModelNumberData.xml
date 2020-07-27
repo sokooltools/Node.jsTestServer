@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ModelNumberData Unknown="Unknown">
+	<SERIES CustomProduct="Custom Product">
+		<Kvps>
+			<Kvp Key="CP*PAC" Value="CP*PAC" />
+			<Kvp Key="CP*PAC320" Value="CP*PAC320" />
+			<Kvp Key="PAC320" Value="PAC320" />
+		</Kvps>
+	</SERIES>
+	<SOFTWARE>
+		<Kvps>
+			<Kvp Key="N" Value="No Software Image" />
+			<Kvp Key="E" Value="Windows Embedded 7 Only" />
+			<Kvp Key="W" Value="windows CE Only" />
+			<Kvp Key="P" Value="PLC Control Only" />
+			<Kvp Key="M" Value="PLC w/Motion" />
+			<Kvp Key="C" Value="PLC w/3D Motion" />
+		</Kvps>
+	</SOFTWARE>
+	<VISUALIZATION>
+		<Kvps>
+			<Kvp Key="N" Value="No Visualization" />
+			<Kvp Key="X" Value="Xpress Server" />
+			<Kvp Key="W" Value="Web Visualization" />
+			<Kvp Key="B" Value="Xpress Web Visualization" />
+		</Kvps>
+	</VISUALIZATION>
+	<FIELDBUS>
+		<Kvps>
+			<Kvp Key="N" Value="No Interface" />
+			<Kvp Key="E" Value="Ethernet/IP Slave" />
+			<Kvp Key="P" Value="Profinet Slave" />
+			<Kvp Key="L" Value="CC-Link Slave" />
+			<Kvp Key="B" Value="Ethernet/IP Slave and Profinet Slave" />
+			<Kvp Key="D" Value="DeviceNet Slave" />
+			<Kvp Key="C" Value="CANOpen" />
+		</Kvps>
+	</FIELDBUS>
+	<RETENTIVE_MEMORY>
+		<Kvps>
+			<Kvp Key="2" Value="256K" />
+			<Kvp Key="5" Value="512K" />
+		</Kvps>
+	</RETENTIVE_MEMORY>
+	<PROCESSOR_SPEED>
+		<Kvps>
+			<Kvp Key="1" Value="1.60GHz" />
+			<Kvp Key="2" Value="Future" />
+		</Kvps>
+	</PROCESSOR_SPEED>
+	<AGENCY_APPROVALS>
+		<Kvps>
+			<Kvp Key="1" Value="No Approvals" />
+			<Kvp Key="2" Value="UL, CD, cUL, ATEX" />
+			<Kvp Key="3" Value="UL, CE, cUL" />
+			<Kvp Key="5" Value="UL, CE, cUL, C1D2" />
+		</Kvps>
+	</AGENCY_APPROVALS>
+	<RESERVED>
+		<Kvps>
+			<Kvp Key="A" Value="A" />
+			<Kvp Key="X" Value="X" />
+		</Kvps>
+	</RESERVED>
+</ModelNumberData>

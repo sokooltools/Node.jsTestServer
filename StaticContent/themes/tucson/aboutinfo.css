@@ -1,0 +1,248 @@
+﻿/*	=======================================================================================================
+	aboutinfo.css
+	======================================================================================================= */
+
+#abt_tblMemory, #abt_tblModelNumber, #abt_tblModelNumberExt, #abt_tblAssembliesData
+{
+	border: thin solid #dddddd;
+}
+
+#abt_innerTable1, #abt_innerTable2, #abt_innerTable3
+{
+	border: thin solid #dddddd;
+	margin: 8px 8px 0 8px;
+	padding-bottom: 8px;
+	white-space: nowrap;
+	width: 98%;
+}
+
+#abt_tblModelNumber
+{
+	margin: 0 auto 5px 60px;
+	padding: 5px 20px 5px 20px;
+}
+
+#abt_tblMemory
+{
+	margin: 0 auto 5px 60px;
+	padding: 5px 15px 5px 15px;
+	width: 332px;
+}
+
+#abt_tblModelNumberExt
+{
+	margin-left: 10pt;
+}
+
+#abt_tblAssembliesData
+{
+	border-collapse: inherit;
+	font-size: 9pt;
+	margin: 0 auto 5px 60px;
+	padding: 0 0 0 1px;
+}
+
+#abt_tblDownload
+{
+	padding: 0 0 0 52px;
+}
+
+td.abt_lnkExpanded
+{
+	padding-right: 20px;
+	text-indent: 13px !important;
+}
+
+td.abt_lnkAll
+{
+	color: blue;
+	font-weight: bold;
+	text-indent: 8px;
+}
+
+td.abt_lnkHover
+{
+	color: green;
+}
+
+td.abt_lnkDownloadData
+{
+	color: blue;
+	font-style: italic;
+	font-weight: 400;
+}
+
+td.abt_rowHeader
+{
+	font-weight: bold;
+	padding-left: 0;
+	padding-right: 10px;
+	text-indent: 18px;
+	width: 50%;
+}
+
+td.abt_modRowHeader
+{
+	font-weight: bold;
+	height: 10pt;
+	padding: 0 30px 0 0;
+}
+
+td.abt_modCell1, td.abt_modCell3
+{
+	font-weight: bold;
+	height: 10pt;
+}
+
+td.abt_modCell1, td.abt_modCell3
+{
+	padding: 1px 30px 2px 10px;
+}
+
+td.abt_modCell3
+{
+	border-left: thin solid #dddddd;
+}
+
+td.abt_modCell2, td.abt_modCell4
+{
+	height: 10pt;
+	padding: 0 15px 0 0;
+}
+
+td.abt_modRowH
+{
+	text-align: center;
+	font-weight: bold;
+	border: thin solid #dddddd;
+}
+
+td.abt_memRowHeader
+{
+	font-weight: bold;
+	height: 10pt;
+	padding: 0 60px 0 0;
+}
+
+td.abt_cellData
+{
+	padding: 2px 1px 2px 1px;
+}
+
+td.abt_modCellDataExt
+{
+	padding: 0 0 0 10px;
+}
+
+td.abt_memCellData
+{
+	padding: 0 0 0 30px;
+	text-align: right;
+}
+
+.abt_tr1
+{
+	font-style: italic;
+	height: 21px;
+	width: auto;
+}
+
+.abt_tr1 > th
+{
+	background-color: #dddddd;
+	font-weight: 600;
+	padding: 0 12px 0 4px;
+	text-align: left;
+}
+
+.abt_td1, .abt_td2, .abt_td3, .abt_td4
+{
+	padding: 0 12px 0 4px;
+}
+
+#abt_caption
+{
+	border: thin solid #dddddd;
+	border-collapse: collapse;
+	font-weight: 800;
+	height: 18px;
+	text-align: left;
+	text-indent: 23px;
+	vertical-align: middle;
+}
+legend
+{
+	font-weight: bold;
+	font-size: 12pt;
+	margin: 0 5px 0 3px;
+	padding: 0 5px;
+}
+.btnWide
+{
+	width: 90px !important;
+	cursor: pointer;
+}
+
+input[type="file"]
+{
+	-webkit-appearance: none;
+	-webkit-rtl-ordering: inherit;
+	text-align: left !important;
+}
+
+input[type="file"]::-webkit-file-upload-button
+{
+	-webkit-appearance: none;
+	cursor: pointer;
+	float: right;
+	margin: 0 10px 0 10px;
+	border: 1px solid #aaaaaa;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#d2d0d0), to(#f0f0f0));
+	background-image: -moz-linear-gradient(90deg, #d2d0d0 0, #f0f0f0 100%);
+	background-image: linear-gradient(90deg, #d2d0d0 0, #f0f0f0 100%);
+}
+
+#abt_tdLicenseFile
+{
+	width: 100%;
+	border: 1px solid #C0C0C0;
+}
+
+#abt_txtLicenseFile
+{
+	width: 100%;
+	padding: 6px 4px 4px 4px;
+}
+
+#abt_txtLicenseFile
+{
+	width: 100%;
+	padding: 6px 4px 4px 4px;
+	box-sizing: border-box;
+}
+
+/* 
+input[type="file"]::-ms-browse
+{
+	color: red;
+	background-color: yellow;
+}
+*/
+
+/* Style only for Chrome/Opera */
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+}
+
+/* Style only for Internet Explorer */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+{
+}
+
+@media print
+{
+	.abt_tr1
+	{
+		font-style: italic;
+	}
+}

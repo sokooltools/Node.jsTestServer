@@ -1,0 +1,201 @@
+﻿<!--=================================================================================================-->
+<!--	CustomCombo.htm                                                                             -->
+<!--=================================================================================================-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery UI Autocomplete - Combobox</title>
+	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+	<style>
+		.custom-combobox {
+			position: relative;
+			display: inline-block;
+		}
+
+		.custom-combobox-toggle {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			margin-left: -1px;
+			padding: 0;
+		}
+
+		.custom-combobox-input {
+			margin: 0;
+			padding: 5px 10px;
+		}
+	</style>
+	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
+	<script type="text/javascript" src="../../scripts/tucson/tucson.common.js"> </script>
+	<script>
+		$(function() {
+
+			$("#back").on("click", function() {
+				history.go(-1);
+				return false;
+			});
+
+			$('#demo_getCustomComboValue').on("click", function() {
+				var ipaddress = $("#cboIpAddress").val();
+				var port = $("#cboPort").val();
+				var msg = "</br><span style='font-size:14pt;'>IP Address: <b>" + ipaddress + "</b>, Port: <b>" + port + "</b></span>";
+				window.CMN.showDialog(msg, document.title);
+			});
+
+			$.widget("custom.combobox", {
+				_create: function() {
+					this.wrapper = $("<span>")
+						.addClass("custom-combobox")
+						.insertAfter(this.element);
+
+					this.element.hide();
+					this._createAutocomplete();
+					this._createShowAllButton();
+				},
+
+				_createAutocomplete: function() {
+					var selected = this.element.children(":selected"),
+						value = selected.val() ? selected.text() : "";
+
+					this.input = $("<input>")
+						.appendTo(this.wrapper)
+						.val(value)
+						.attr("title", "")
+						.attr("spellcheck", "false")
+						.addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
+						.autocomplete({
+							delay: 0,
+							minLength: 0,
+							source: $.proxy(this, "_source")
+						})
+						.tooltip({
+							classes: {
+								"ui-tooltip": "ui-state-highlight"
+							}
+						});
+
+					this._on(this.input, {
+						autocompleteselect: function(event, ui) {
+							ui.item.option.selected = true;
+							this._trigger("select", event, {
+								item: ui.item.option
+							});
+						}
+
+						//,autocompletechange: "_removeIfInvalid"
+					});
+				},
+
+				_createShowAllButton: function() {
+					var input = this.input,
+						wasOpen = false;
+
+					$("<a>")
+						.attr("tabIndex", -1)
+						.attr("title", "") // "Show All Items"
+						.tooltip()
+						.appendTo(this.wrapper)
+						.button({
+							icons: {
+								primary: "ui-icon-triangle-1-s"
+							},
+							text: false
+						})
+						.removeClass("ui-corner-all")
+						.addClass("custom-combobox-toggle ui-corner-right")
+						.on("mousedown", function() {
+							wasOpen = input.autocomplete("widget").is(":visible");
+						})
+						.on("click", function() {
+							input.trigger("focus");
+
+							// Close if already visible
+							if(wasOpen) {
+								return;
+							}
+
+							// Pass empty string as value to search for, displaying all results
+							input.autocomplete("search", "");
+						});
+				},
+
+				_source: function(request, response) {
+					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+					response(this.element.children("option").map(function() {
+						var text = $(this).text();
+						if(this.value && (!request.term || matcher.test(text)))
+							return {
+								label: text,
+								value: text,
+								option: this
+							};
+					}));
+				},
+
+				_destroy: function() {
+					this.wrapper.remove();
+					this.element.show();
+				}
+			});
+
+			$("#combobox1").combobox();
+			$("#test1 > span.custom-combobox > input.ui-autocomplete-input").attr("id", "cboIpAddress");
+			$("#cboIpAddress").css("width", "120px").css("font-size", "12pt").css("font-weight", "bold");
+			$("#cboIpAddress").val("LocalHost");
+
+			$("#combobox2").combobox();
+			$("#test2 > span.custom-combobox > input.ui-autocomplete-input").attr("id", "cboPort");
+			$("#cboPort").css("width", "50px").css("font-size", "12pt").css("font-weight", "bold");
+			$("#cboPort").val("3000");
+
+			// input.val( $(select).find("option:selected").text());
+
+		});
+	</script>
+</head>
+<body>
+	<div>
+		<h1>jQuery UI Custom Combobox</h1>
+		<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
+		<button id="demo_getCustomComboValue" value="1" class="demo ui-button ui-corner-all ui-widget">
+			Get Value
+		</button>
+	</div>
+	<div class="demo-description">
+		<p>
+			This demo displays a custom combobox allowing the user to select an existing value or enter a new value.
+		</p>
+	</div>
+	<table>
+		<tr>
+			<td id="test1" class="ui-widget" style="padding-right: 30px;">
+				<label>IP Address: </label>
+				<select id="combobox1" style="font-size: 12pt;">
+					<option value="LocalHost">LocalHost</option>
+					<option value="192.168.10.50">192.168.10.50</option>
+					<option value="192.168.10.51">192.168.10.51</option>
+					<option value="192.168.10.52">192.168.10.52</option>
+					<option value="192.168.10.53">192.168.10.53</option>
+					<option value="192.168.10.54">192.168.10.54</option>
+					<option value="192.168.10.55">192.168.10.55</option>
+					<option value="172.25.8.47">172.25.8.47</option>
+				</select>
+			</td>
+			<td id="test2" class="ui-widget">
+				<label>Port: </label>
+				<select id="combobox2">
+					<option value="81">81</option>
+					<option value="1337">1337</option>
+					<option value="3000">3000</option>
+					<option value="8081">8081</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

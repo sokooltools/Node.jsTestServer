@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SecuritySettings language="en" timestamp="1391544915000">
+	<Controls>
+		<Control Type="label"  Id="sec_lblXpressSettings" lbl="Security Settings" ttp="This page provides information related to Security Settings." />
+		<Control Type="label"  Id="sec_lblUsername" lbl="Username:" ttp="The name this user provides for logging into the PAC." />
+		<Control Type="label"  Id="sec_lblNoPasswordReqd" lbl="No Password Required" ttp="When checkmarked, indicates a password is not required for this user to login to the PAC." />
+		<Control Type="label"  Id="sec_lblPassword" lbl="New Password:" ttp="The password this user provides for logging into the PAC." />
+		<Control Type="label"  Id="sec_lblPasswrd2" lbl="Confirm Password:" ttp="The password this user provides for logging into the PAC which must match the 'New Password' above." />
+		<Control Type="label"  Id="sec_lblLoginEnabled" lbl="Login Enabled" ttp="Indicates this user can login to the database when it contains a checkmark." />
+		<Control Type="label"  Id="sec_lblDateCreated" lbl="Date Created:" ttp="The date and time this user was orignally added to the database." />
+		<Control Type="label"  Id="sec_lblDateModified" lbl="Date Modified:" ttp="The date and time this user was last modified." />
+		<Control Type="label"  Id="sec_lblUserLevel" lbl="User Level:" ttp="Indicates the level of access granted to this user." />
+		<Control Type="button" Id="sec_btnHelp" lbl="" ttp="Displays online help related to this page when clicked." />
+		<Control Type="button" Id="sec_btnAddUser" lbl="Add User" ttp="Sets this page into [Add User] mode allowing data related to a new user to be added." />
+		<Control Type="button" Id="sec_btnRemUser" lbl="Remove User" ttp="Sets this page into [Remove User] mode affectively deleting this user from the database when the 'Save' button is clicked." />
+		<Control Type="button" Id="sec_btnSave" lbl="Save" ttp="Saves the current information pertaining to this user to the database." />
+		<Control Type="button" Id="sec_btnRefresh" lbl="Refresh" ttp="Refresh the contents of this page." />
+		<Control Type="button" Id="sec_btnCollapAll" lbl="Collapse All" ttp="Collapses all the groups displayed in the grid." />
+		<Control Type="button" Id="sec_btnExpandAll" lbl="Expand All" ttp="Expands all the groups displayed in the grid." />
+		<Control Type="column" Id="sec_colUsername" lbl="Username" ttp="The name the user provides for logging into the PAC." />
+		<Control Type="column" Id="sec_colUserLevel" lbl="UserLevel" ttp="Indicates the level of access granted to this user." />
+		<Control Type="column" Id="sec_colDateCreated" lbl="Date created" ttp="The date and time the user was orignally added to the database." />
+		<Control Type="column" Id="sec_colDateModified" lbl="Date modified" ttp="The date and time the user was last modified." />
+		<Control Type="column" Id="sec_colEnabled" lbl="Enabled" ttp="Indicates the user can login to the database when it contains a checkmark." />
+		<Control Type="column" Id="sec_colLastAccessed" lbl="Last Accessed" ttp="The date and time the user last accessed the database via the corresponding IP Address." />
+		<Control Type="column" Id="sec_colIpAddress" lbl="IP Address" ttp="The IP Address(es) the user accessed the database from." />
+	</Controls>
+	<DateTimeFormat>MM/DD/YYYY hh:mm A</DateTimeFormat>
+	<UserLevels>
+		<UserLevel Id='0' lbl='Admin' ttp=''/>
+		<UserLevel Id='1' lbl='Guest' ttp=''/>
+	</UserLevels>
+	<Messages>
+		<Message Id="1"><![CDATA[<b><i>Username</i></b> and <b><i>Password</i></b> must be provided.]]></Message>
+		<Message Id="2"><![CDATA[<b><i>Password</i></b> must be at least <b>{0}</b> characters in length.]]></Message>
+		<Message Id="3"><![CDATA[<b><i>Password</i></b> must be provided.]]></Message>
+		<Message Id="4"><![CDATA[<b><i>New Password</i></b> and <b><i>Confirm Password</i></b> must match.]]></Message>
+		<Message Id="5"><![CDATA[<b><i>Username</i></b> must be at least <b>{0}</b> characters in length.]]></Message>
+		<Message Id="6"><![CDATA[<b><i>Username</i></b> must be provided.]]></Message>
+		<Message Id="7"><![CDATA[Add User]]></Message>
+		<Message Id="8"><![CDATA[Update User]]></Message>
+		<Message Id="9"><![CDATA[Remove User]]></Message>
+	</Messages>
+</SecuritySettings>

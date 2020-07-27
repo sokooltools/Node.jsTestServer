@@ -1,0 +1,56 @@
+{
+	"name": "testserver",
+	"version": "1.0.2",
+	"description": "Nodejs server used for the demonstration and testing of the 'PAC Configuration Tool'...",
+	"keywords": [
+		"tucson",
+		"pac",
+		"config"
+	],
+	"author": {
+		"name": "RASOKOL"
+	},
+	"contributors": [
+		{
+			"name": "Ronn A. Sokol",
+			"email": "ronn@sokool.net",
+			"url": "http://sokool.net/"
+		}
+	],
+	"config": {
+		"port": "3000"
+	},
+	"devtoolsFrontendUrl": "chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:9229/d3aa41d7-e158-4052-9b0a-d5e5ca0d75be",
+	"faviconUrl": "https://nodejs.org/static/favicon.ico",
+	"id": "0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e",
+	"private": true,
+	"protocol": "inspector",
+	"program": "${workspaceRoot}/app.js",
+	"request": "launch",
+	"scripts": {
+		"start": "node testserver/app.js"
+	},
+	"title": "node",
+	"type": "node",
+	"url": "file://",
+	"webSocketDebuggerUrl": "ws://127.0.0.1:9229/d3aa41d7-e158-4052-9b0a-d5e5ca0d75be",
+	"dependencies": {
+		"body-parser": "^1.17.2",
+		"cookie-parser": "~1.4.3",
+		"debug": "^2.6.8",
+		"dns-sync": "^0.1.3",
+		"dns-then": "^0.1.0",
+		"express": "~4.15.3",
+		"fine-uploader": "^5.14.5",
+		"formidable": "~1.1.1",
+		"linq.js": "^1.0.6",
+		"mime": "~1.3.6",
+		"mkdirp": "^0.5.1",
+		"moment": "~2.18.1",
+		"morgan": "~1.8.2",
+		"multer": "^1.3.0",
+		"rimraf": "^2.5.4",
+		"serve-favicon": "~2.4.3",
+		"tcp-ping": "^0.1.1"
+	}
+}

@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>Error</title>
+	<link rel="stylesheet" type="text/css" href="../themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../themes/tucson/configtool.css" />
+	<script type="text/javascript" src="../scripts/jquery.js"> </script>
+	<script type="text/javascript" src="../scripts/ui/jquery-ui.js"> </script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#back").on("click", function() {
+				history.go(-1);
+				return false;
+			});
+		});
+	</script>
+</head>
+<body>
+	<h2>Sorry... that file could not be found.</h2>
+	<button id="back" class="ui-button ui-corner-all ui-widget">&laquo; Back</button>
+</body>
+</html>

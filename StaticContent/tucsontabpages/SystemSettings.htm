@@ -1,0 +1,146 @@
+<!--=================================================================================================-->
+<!--	SystemSettings.htm                                                                           -->
+<!--=================================================================================================-->
+<style type="text/css">
+	/* Override some values in jquery-ui.css */
+	.ui-widget input {
+		font-family: "Segoe UI";
+		font-size: 10pt;
+		width: 185px;
+	}
+	.ui-widget-content .ui-priority-secondary {
+		-ms-opacity: 1;
+		opacity: 1;
+		-moz-filter: Alpha(Opacity=100);
+		-o-filter: Alpha(Opacity=100);
+		filter: Alpha(Opacity=100);
+	}
+</style>
+<form id="frmSystemSettings" action="" method="GET">
+	<input id="sys_btnSaveD" class="hidden" type="submit" />
+	<!-- Error $container -->
+	<div class="errcontainer">
+		<ol class="olerror"></ol>
+	</div>
+	<div class="main">
+		<table class="paneTitle">
+			<tr>
+				<td id="sys_lblSystemSettings" class="mainTitle"></td>
+				<td class="noPrint">
+					<input type="submit" id="sys_btnHelp" name="sys_btnHelp" class="img_help" value="">
+				</td>
+			</tr>
+		</table>
+		<table class="tableRows" style="padding-top: 12px;">
+			<tr>
+				<td id="sys_lblMachineName" class="rowHeader">
+					Machine Name:
+				</td>
+				<td class="cellData">
+					<input id="sys_txtMachineName" name="sys_txtMachineName" type="text" autocomplete="off" spellcheck="false" maxlength="15"
+						   style="width: 150px; height: 16px; margin-bottom: 6px;" class="nobutton" />
+				</td>
+			</tr>
+			<tr>
+				<td id="sys_lblMachineDesc" class="rowHeader">
+					Machine Description:
+				</td>
+				<td class="cellData">
+					<input id="sys_txtMachineDesc" name="sys_txtMachineDesc" type="text" autocomplete="off" spellcheck="false" maxlength="80"
+						   style="width: 250px; height: 16px; margin-bottom: 6px;" />
+				</td>
+			</tr>
+			<tr>
+				<td id="sys_lblMachineDateTime" class="rowHeader">
+					Machine Date Time:
+				</td>
+				<td class="cellData" style="padding-top: 2px;">
+					<input type="text" id="datetimepicker" name="datetimepicker" disabled="" style="width: 185px; height: 18px; margin-bottom: 6px;" />
+				</td>
+			</tr>
+			<tr>
+				<td id="sys_lblMachineTimeZone" class="rowHeader">
+					Machine Time Zone:
+				</td>
+				<td class="cellData" style="padding-top: 2px;">
+					<select id="sys_cboMachineTimeZone" name="sys_cboMachineTimeZone" type="" style="width: 325px; height: 24px; margin-bottom: 6px;"></select>
+				</td>
+			</tr>
+			<tr>
+				<td class="rowHeader"></td>
+				<td class="cellData">
+					<label>
+						<input type="checkbox" id="sys_chkIsAutoDst" name="sys_chkIsAutoDst" />
+						<span id="sys_lblIsAutoDst">Automatically adjust clock for Daylight Saving Time</span>
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<td class="rowHeader"></td>
+				<td class="cellData" style="padding-top: 7px; display: block; margin: auto; ">
+					<label>
+						<input type="checkbox" id="sys_chkIsSyncWithMyClock" name="sys_chkIsSyncWithMyClock" />
+						<span id="sys_lblIsSyncWithMyClock">Sync with my Clock</span>
+					</label>
+					<label style="padding-left: 12px;">
+						<input type="checkbox" id="sys_chkIsSyncWithInternet" name="sys_chkIsSyncWithInternet"  />
+						<span id="sys_lblIsSyncWithInternet">Sync With Internet Time Server</span>
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="1" colspan="2" style="padding-top: 6px;">
+					<table id="sys_grpSyncWithInternet" style="border: solid thin gray; padding-top: 8px; margin: 0 10px; display: none;">
+						<tr>
+							<td id="sys_lblInternetTimeServer" class="rowHeader">
+								Internet Time Server:
+							</td>
+							<td id="sys_ui-widget" class="ui-widget cellData" style="padding-right: 30px;">
+								<select id="sys_selInternetTimeServer">
+									<!-- <option value="time.nist.gov">time.nist.gov</option> -->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td id="sys_lblRefreshInterval" class="rowHeader" style="padding-bottom: 10px; padding-top: 4px;">
+								Refresh Interval:
+							</td>
+							<td class="cellData" style="padding-top: 4px; padding-bottom: 6px;">
+								<input id="sys_txtRefreshInterval" name="sys_txtRefreshInterval" type="text" maxlength="4" autocomplete="off"
+									   style="height: 16px; width: 30px; text-align: center;" />
+								<select id="sys_cboRefreshUnits" name="sys_cboRefreshUnits" type="" style="height: 24px;"></select>
+							</td>
+							<td>
+								<input id="sys_btnSyncNow" name="sys_btnSyncNow" onclick="javascript:DTS.doSynchNow();"
+									   type="button" value="Sync Now" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="rowHeader"></td>
+				<td class="cellData"></td>
+			</tr>
+			<tr class="noPrint">
+				<td colspan="2" class="buttonPanel">
+					<input type="submit" name="sys_btnReboot" value="Reboot..." id="sys_btnReboot" class="btnClass" />
+					&nbsp;
+					<input type="submit" name="sys_btnSave" value="Save" id="sys_btnSave" class="btnClass" />
+					&nbsp;
+					<input type="submit" name="sys_btnRefresh" value="Refresh" id="sys_btnRefresh" class="btnClass" />
+					<input type="submit" name="sys_btnReset" value="Reset" id="sys_btnReset" class="btnClass hidden" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+
+<script type="text/javascript">
+	window.CMN.loadStyle("themes/base/jquery-ui-timepicker-addon.css");
+	$(document).ready(function() {
+		window.CMN.loadScript("scripts/jquery.mousewheel.js", true, {});
+		window.CMN.loadScript("scripts/tucson/systemsettings.js", true, {});
+	});
+</script>
+

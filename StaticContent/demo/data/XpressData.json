@@ -1,0 +1,27 @@
+﻿{
+	"islicensed": true,
+	"isenabled": true,
+	"isprojectloaded": true,
+	"autogenerateplctags": true,
+	"project": {
+		"name": "BlankProject",
+		"systemversion": 1,
+		"userversion": 1,
+		"exitruntimekey": 0,
+		"showdataerrors": true,
+		"runtimecursor": 2,
+		"usekeyboardruntime": true,
+		"startupconnected": true,
+		"initdatatransfers": true,
+		"firmwareversion1": 4,
+		"firmwareversion2": 1,
+		"firmwareversion3": 0,
+		"firmwareversion4": 1002,
+		"projectversion1": 1,
+		"projectversion2": 0,
+		"projectversion3": 0,
+		"projectversion4": 0,
+		"projecttype": 4,
+		"widescreen": 1
+	}
+}

@@ -1,0 +1,130 @@
+<!--=================================================================================================-->
+<!--	SecuritySettings.htm                                                                         -->
+<!--=================================================================================================-->
+<form id="frmSecuritySettings" action="" method="GET">
+	<input id="sec_btnSaveD" class="hidden" type="submit" />
+	<!-- Error $container -->
+	<div class="errcontainer">
+		<ol class="olerror">
+		</ol>
+	</div>
+	<div class="main">
+		<table class="paneTitle">
+			<tr>
+				<td id="sec_lblXpressSettings" class="mainTitle">
+				</td>
+				<td class="noPrint">
+					<input type="submit" name="sec_btnHelp" id="sec_btnHelp" class="img_help" value="">
+				</td>
+			</tr>
+		</table>
+		<div style="width: 760px; border: 1px solid #C0C0C0; padding: 4px 4px 8px 4px; margin: auto;">
+			<table id="secTable" style="height: auto; padding: 0; font-size: 9pt; border: thin solid lightgray;">
+				<tr>
+					<td id="secCell" style="width: 100%;">
+						<div id="secGrid" style="height: 170px; width: 744px;">
+						</div>
+					</td>
+				</tr>
+			</table>
+			<table class="noPrint" style="height: auto; width: 720px; margin: 6px auto 6px auto; padding: 8px 3px;">
+				<tr>
+					<td colspan="2">
+						<input type="submit" id="sec_btnRemUser" name="sec_btnRemUser" value="Remove User" class="btnClass" style="font-size: 8pt;
+						float: right;" tabindex="5" />
+						<input type="submit" id="sec_btnAddUser" name="sec_btnAddUser" value="Add User" class="btnClass" style="font-size: 8pt;
+						float: right; margin-right: 8px;" tabindex="4" />
+						<input type="submit" id="sec_btnCollapAll" name="sec_btnCollapAll" value="Collapse All" class="btnClass" style="font-size: 8pt;
+						float: right; margin-right: 24px;" tabindex="3" />
+						<input type="submit" id="sec_btnExpandAll" name="sec_btnExpandAll" value="Expand All" class="btnClass" style="font-size: 8pt;
+						float: right; margin-right: 8px;" tabindex="2" />
+					</td>
+				</tr>
+			</table>
+			<table class="tableRows" style="width: 650px; padding: 0">
+				<caption id="sec_lblEditMode">[Add User]</caption>
+				<tr>
+					<td id="sec_lblUsername" class="rowHeader" style="padding-top: 6px;">
+						Username:
+					</td>
+					<td class="cellData" style="padding-top: 6px;">
+						<input type="text" spellcheck="false" id="sec_txtUsername" name="sec_txtUsername" maxlength="30" style="width: 242px;"
+						 tabindex="6" />
+					</td>
+				</tr>
+				<tr>
+					<td id="sec_lblPassword" class="rowHeader">
+						New Password:
+					</td>
+					<td class="cellData">
+						<input type="password" id="sec_txtPassword" name="sec_txtPassword" maxlength="30" style="width: 242px;" tabindex="7"
+						/>
+						<input type="checkbox" id="sec_chkNoPwdReqd" name="sec_chkNoPwdReqd" style="margin-left: 6px;" tabindex="9" />
+						<label for="sec_chkNoPwdReqd" id="sec_lblNoPasswordReqd" style='font-size: 10pt; font-weight: 400; font-style: italic; vertical-align: top;'>
+						No Password Required</label>
+					</td>
+				</tr>
+				<tr>
+					<td id="sec_lblPasswrd2" class="rowHeader">
+						Confirm Password:
+					</td>
+					<td class="cellData">
+						<input type="password" id="sec_txtPasswrd2" name="sec_txtPasswrd2" maxlength="30" style="width: 242px;" tabindex="8"
+						/>
+					</td>
+				</tr>
+				<tr>
+					<td id="sec_lblDateCreated" class="rowHeader">
+						Date Created:
+					</td>
+					<td class="cellData">
+						<input type="text" id="sec_txtDateCreated" name="sec_txtDateCreated" disabled="disabled" />
+					</td>
+				</tr>
+				<tr>
+					<td id="sec_lblDateModified" class="rowHeader">
+						Date Modified:
+					</td>
+					<td class="cellData">
+						<input type="text" id="sec_txtDateModified" name="sec_txtDateModified" disabled="disabled" />
+					</td>
+				</tr>
+				<tr>
+					<td id="" class="rowHeader">
+						<label for="sec_cboUserLevel" style="font-weight: bold; text-align: right; vertical-align: top; padding-right: 5px;">
+						<span id="sec_lblUserLevel">User Level:</span>
+					</label>
+					</td>
+					<td class="cellData">
+						<select id="sec_cboUserLevel" name="sec_cboUserLevel" tabindex="10" >
+							<option value="5">Guest</option>
+						</select>
+						<input type="checkbox" id="sec_chkLoginEnabled" name="sec_chkLoginEnabled" checked="checked" tabindex="11" style="margin-left: 15px;" />
+						<label for="sec_chkLoginEnabled" id="sec_lblLoginEnabled" style="font-size: 10pt; font-weight: bold; vertical-align: top;">
+						Login Enabled</label>
+					</td>
+				</tr>
+				<tr style="display: none;">
+					<td id="sec_lblDeleted" class="rowHeader">
+					</td>
+					<td class="cellData">
+						<input type="checkbox" id="sec_chkDeleted" name="sec_chkDeleted" />
+					</td>
+				</tr>
+				<tr class="noPrint">
+					<td colspan="2" class="buttonPanel">
+						<input type="submit" id="sec_btnSave" name="sec_btnSave" value="Save" class="btnClass" tabindex="11" />	&nbsp;
+						<input type="submit" id="sec_btnRefresh" name="sec_btnRefresh" value="Refresh" class="btnClass" tabindex="12" />
+						<input type="submit" id="sec_btnReset" name="sec_btnReset" value="Reset" class="btnClass hidden" tabindex="12">
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	$(document).ready(function () {
+		window.CMN.loadScript("scripts/tucson/securitysettings.js", true, {});
+		window.CMN.loadScript("scripts/tucson/securitygrid.js", true, {});
+	});
+</script>

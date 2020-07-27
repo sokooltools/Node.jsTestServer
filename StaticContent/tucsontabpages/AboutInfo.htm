@@ -1,0 +1,120 @@
+<!--=================================================================================================-->
+<!--	AboutInfo.htm                                                                                -->
+<!--=================================================================================================-->
+<!--<link rel="stylesheet" type="text/css" href="themes/tucson/aboutInfo.css">-->
+<form id="frmAboutInfo" action="../updatelicense.aspx" method="POST" enctype="multipart/form-data" target="">
+	<!-- Error $container -->
+	<div class="errcontainer">
+		<ol class="olerror"></ol>
+	</div>
+	<div class="main">
+		<table class="paneTitle">
+			<tr>
+				<td id="abt_lblAboutPac" class="mainTitle">
+					About the PAC
+				</td>
+				<td class="noPrint">
+					<input type="submit" name="abt_btnHelp" id="abt_btnHelp" class="img_help" value="">
+				</td>
+			</tr>
+		</table>
+		<table class="tableRows" style="padding-right: 6px;">
+			<tr>
+				<td>
+					<table id="abt_innerTable1">
+						<tr id="abt_ModelNumberData" style="display: none;">
+							<td colspan="2">
+								<table id="abt_tblModelNumber"></table>
+							</td>
+						</tr>
+						<tr>
+							<td id="abt_lblSerialNumber" class="abt_rowHeader"></td>
+							<td id="abt_txtSerialNumber" class="abt_cellData"></td>
+						</tr>
+						<tr>
+							<td id="abt_lblWinCEVersion" class="abt_rowHeader"></td>
+							<td id="abt_txtWinCEVersion" class="abt_cellData"></td>
+						</tr>
+						<tr>
+							<td id="abt_lblPlatform" class="abt_rowHeader"></td>
+							<td id="abt_txtPlatform" class="abt_cellData"></td>
+						</tr>
+						<tr>
+							<td id="abt_lblPacFirmware" class="abt_rowHeader"></td>
+							<td id="abt_txtPacFirmware" class="abt_cellData"></td>
+						</tr>
+						<tr>
+							<td id="abt_lblXpsFirmware" class="abt_rowHeader"></td>
+							<td id="abt_txtXpsFirmware" class="abt_cellData"></td>
+						</tr>
+						<tr id="abt_MemoryData" style="display: none;">
+							<td colspan="2">
+								<table id="abt_tblMemory"></table>
+							</td>
+						</tr>
+						<tr id="abt_Assemblies" style="display: none;">
+							<td id="abt_lnkAssemblies" class="abt_rowHeader abt_lnkAll" onclick="ABT.toggleTable('Assemblies');"
+								style="text-indent: 6px;"></td>
+							<td id="abt_txtAssemblies" class="abt_cellData"></td>
+						</tr>
+						<tr id="abt_AssembliesData" style="display: none;">
+							<td colspan="2">
+								<table id="abt_tblAssembliesData"></table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table id="abt_innerTable2" class="noPrint">
+						<tr id="abt_DownloadData" style="display: none;">
+							<td colspan="2">
+								<table id="abt_tblDownload"></table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table id="abt_innerTable3" class="noPrint">
+						<tr>
+							<td>
+								<fieldset style="border: 1px solid #C0C0C0;">
+									<legend id="abt_lblLicenseFile" style="font-size: 10pt;">Update License:</legend>
+									<table style="width: 100%; padding: 0;">
+										<tr>
+											<td id="abt_tdLicenseFile">
+												<input type="file" id="abt_txtLicenseFile" name="abt_txtLicenseFile" accept=".xml" />
+											</td>
+											<td>
+												<input type="submit" id="abt_btnLicenseFile" value="Update" style="margin-left: 8px;" class="btnWide"
+													   title="Click to update the license on the PAC using the chosen file." disabled="disabled" />
+											</td>
+										</tr>
+									</table>
+								</fieldset>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr class="noPrint">
+				<td colspan="2" class="buttonPanel">
+					<input type="submit" name="abt_btnPrint" value="Print..." id="abt_btnPrint" class="btnClass" />
+					&nbsp;
+					<input type="submit" name="abt_btnRefresh" value="Refresh" id="abt_btnRefresh" class="btnClass" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		window.CMN.loadStyle("themes/tucson/aboutInfo.css");
+		window.CMN.loadScript("scripts/tucson/aboutinfo.js", true, {});
+	});
+</script>
+

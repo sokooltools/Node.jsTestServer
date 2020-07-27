@@ -1,0 +1,39 @@
+<!--=================================================================================================-->
+<!--	AjaxTest.htm                                                                                   -->
+<!--=================================================================================================-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery Ajax Test</title>
+	<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="../themes/demo.css" />
+	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
+	<script type="text/javascript" src="../../scripts/tucson/tucson.common.js"> </script>
+	<script type="text/javascript" src="../scripts/AjaxTest.js"> </script>
+	<style>
+		div#myDiv 
+		{
+			width: 420px;
+			height: 80px;
+			background-color: aliceblue;
+			padding: 6px 0 6px 12px;
+			border: thin gray double;
+			margin: 6px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<h1>
+			jQuery AJAX Test</h1>
+		<button id="back" class="demo ui-button ui-corner-all ui-widget" title="Click to go back to the start page.">
+			&laquo; Back</button>
+		<button id="run" class="demo ui-button ui-corner-all ui-widget" style="width: 150px;" title="Click to request data be retrieved from the server and loaded into this document.">
+			Request Data...</button>
+	</div>
+	<div id="myDiv">
+	</div>
+</body>
+</html>

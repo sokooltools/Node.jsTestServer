@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NetworkSettings language="it" timestamp="1511191501000">
+	<Controls>
+		<Control Type="caption" Id="net_lblNetworkSettings" lbl="Impostazioni di rete" ttp="itThis page is used for maintaining information related to 'Network Settings'." />
+		<Control Type="label" Id="net_lblAdapterName" lbl="itNetwork Interface Controller (NIC):" ttp="" />
+		<Control Type="label" Id="net_lblAdapterId" lbl="" ttp="" />
+		<Control Type="label" Id="net_lblOperationalStatus" lbl="itOperational Status:" ttp="" />
+		<Control Type="label" Id="net_lblDomainName" lbl="itDomain Name:" ttp="" />
+		<Control Type="label" Id="net_lblMachineName" lbl="itMachine Name:" ttp="" />
+		<Control Type="label" Id="net_lblMACAddress" lbl="itMAC Address:" ttp="" />
+		<Control Type="label" Id="net_lblIsDHCP" lbl="itNetwork Connection:" ttp="" />
+		<Control Type="label" Id="net_lblDhcpLeaseObtained" lbl="itDHCP Lease Obtained:" ttp="" />
+		<Control Type="label" Id="net_lblDhcpLeaseExpires" lbl="itDHCP Lease Expires:" ttp="" />
+		<Control Type="label" Id="net_lblIPAddress" lbl="itIP Address:" ttp="" />
+		<Control Type="label" Id="net_lblSubnetMask" lbl="itSubnet Mask:" ttp="" />
+		<Control Type="label" Id="net_lblDefaultGateway" lbl="itDefault Gateway:" ttp="" />
+		<Control Type="label" Id="net_lblPrimaryDNS" lbl="itPrimary DNS:" ttp="" />
+		<Control Type="label" Id="net_lblSecondaryDNS" lbl="itSecondary DNS:" ttp="" />
+		<Control Type="label" Id="net_lblPrimaryWINS" lbl="itPrimary WINS:" ttp="" />
+		<Control Type="label" Id="net_lblSecondaryWINS" lbl="itSecondary WINS:" ttp="" />
+		<Control Type="label" Id="net_lblDynamic" lbl="itDynamic" ttp="" />
+		<Control Type="label" Id="net_lblStatic" lbl="itStatic" ttp="" />
+		<Control Type="button" Id="net_btnHelp" lbl="" ttp="itClick to display online help related to this page..." />
+		<Control Type="button" Id="net_btnSave" lbl="itSave" ttp="itClick to save the contents of this page to the current device..." />
+		<Control Type="button" Id="net_btnRefresh" lbl="itRefresh" ttp="itClick to refresh the contents of this page..." />
+		<Control Type="button" Id="net_btnReset" lbl="itReset" ttp="itClick to reset the contents of this page to what it was after the last save..." />
+	</Controls>
+	<Messages>
+		<Message Id="1"><![CDATA[itIf you select the other <b>Network Interface Controller (NIC)</b>, all unsaved changes made to the current NIC will be discarded.</br></br>OK to discard the changes and select the other NIC?]]></Message>
+		<Message Id="2">
+			<!-- Attempting to reconnect to new local IP Address: '{192.168.10.51}'... Please wait. --><![CDATA[itAttempting to reconnect to new local IP Address: <b>'{0}'</b>...<br/>Please wait.]]></Message>
+		<Message Id="3"><![CDATA[itPlease wait while the changes to the <b>NIC</b> take effect...]]></Message>
+		<Message Id="4">
+			<!-- Please wait while the Network Connection is changed from '{Static}' to '{Dynamic}'...  --><![CDATA[itPlease wait while the <b>Network Connection</b> is changed from</br><b>'<i>{0}</i>'</b> to <b>'<i>{1}</i>'</b>...]]></Message>
+		<Message Id="5"><![CDATA[itCould not reconnect to IP Address: <b>'{0}'</b></br></br>			After closing this dialog, try typing the following directly into</br>this browser's address bar: <b>{1}</b>...]]></Message>
+		<Message Id="8"><![CDATA[it'<b>IP Address</b>' is required and must contain a valid <i>'ip address'</i> when <b><i>Network Connection</i></b> is set to <b><i>'Static'</i></b>.]]></Message>
+		<Message Id="9"><![CDATA[it'<b>Subnet Mask</b>' is required and must contain a valid <i>'ip address'</i> when <b><i>Network Connection</i></b> is set to <b><i>'Static'</i></b>.]]></Message>
+		<Message Id="10"><![CDATA[it'<b>Default Gateway</b>' must either be empty or contain a valid <i>'ip address'</i> when <b><i>Network Connection</i></b> is set to <b><i>'Static'</i></b>.]]></Message>
+		<Message Id="11"><![CDATA[it'<b>Primary DNS</b>' must either be empty or contain a valid <i>'ip address'</i> when <b><i>Network Connection</i></b> is set to <b><i>'Static'</i></b>.]]></Message>
+		<Message Id="12"><![CDATA[it'<b>Secondary DNS</b>' must either be empty or contain a valid <i>'ip address'</i> when <b><i>Network Connection</i></b> is set to <b><i>'Static'</i></b>.]]></Message>
+		<Message Id="13"><![CDATA[it'<b>Primary DNS</b>' must either be empty or contain a valid <i>'ip address'</i> when <b><i>Network Connection</i></b> is set to <b><i>'Static'</i></b>.]]></Message>
+		<Message Id="14"><![CDATA[it'<b>Secondary DNS</b>' must either be empty or contain a valid <i>'ip address'</i> when <b><i>Network Connection</i></b> is set to <b><i>'Static'</i></b>.]]></Message>
+		<Message Id="15"><![CDATA[itIt is highly recommended that the PAC be rebooted to finalize changes made to the <b>Network Settings</b>.</br></br>Click '<b>Yes</b>' to reboot the PAC now or click '<b>No</b>' if you prefer to reboot it later...]]></Message>
+	</Messages>
+</NetworkSettings>

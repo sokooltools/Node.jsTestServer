@@ -1,0 +1,62 @@
+<!--=================================================================================================-->
+<!--	ErrorDialog.htm                                                                                -->
+<!--=================================================================================================-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Load Page Dynamically inside a jQuery UI Dialog</title>
+	<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="../themes/demo.css" />
+	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+</head>
+<body>
+	<h1>jQuery UI Error Dialog</h1>
+	<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
+	<button id="run"  class="demo ui-button ui-corner-all ui-widget">Show...</button>
+<div class="demo-description">
+	<p>
+		This demo displays a standard modal dialog.
+	</p>
+	<p>However the dialog's content is loaded from an external file containing a pre-formatted error message.</p>
+	<p>Clicking the <b>OK</b> button dismisses the dialog.</p>
+</div>
+	<script type="text/javascript">
+			$(document).ready(function() {
+				$("#back").on("click", function() {
+					history.go(-1);
+					return false;
+				});
+				$("#run").on("click", function() {
+					ShowInDialog('ErrorDialog.txt.htm', 'Padarn Server Error');
+					return;
+				});
+			});
+
+			function ShowInDialog(filename, title)
+			{
+				$('<div>').dialog({
+					modal: true,
+					dialogClass: "alert",
+					open: function()
+					{
+						$(this).load(filename);
+					},
+					close: function()
+					{
+						$(this).dialog('close');
+					},
+					buttons: {
+						'OK': function()
+						{
+							$(this).dialog('close');
+						}
+					},
+					width: 600,
+					height: 400,
+					title: title
+				});
+			};
+	</script>
+</body>
+</html>

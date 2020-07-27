@@ -1,0 +1,66 @@
+<!--=================================================================================================-->
+<!--	Login.htm                                                                                    -->
+<!--=================================================================================================-->
+<form id="frmLogin" action="" method="GET">
+	<input id="lgn_btnLoginD" class="hidden" type="submit" />
+	<!-- Error $container -->
+	<div class="errcontainer">
+		<ol class="olerror">
+		</ol>
+	</div>
+	<div class="main">
+		<table class="paneTitle">
+			<tr>
+				<td id="lgn_lblLogin" class="mainTitle">
+					Login to the PAC
+				</td>
+				<td class="noPrint">
+					<input type="submit" name="lgn_btnHelp" id="lgn_btnHelp" class="img_help" value="">
+				</td>
+			</tr>
+		</table>
+		<table class="tableRows" style="height: auto; margin: 0 25% 0 25%; padding-top: 12px;">
+			<tr>
+				<td id="lgn_lblUsername" class="rowHeader">
+					Username:
+				</td>
+				<td class="cellData">
+					<input type="text" autocomplete="off" spellcheck="false" id="lgn_txtUsername" name="lgn_txtUsername" maxlength="30" style="width: 189px;"
+					/>
+				</td>
+			</tr>
+			<tr>
+				<td id="lgn_lblPassword" class="rowHeader">
+					Password:
+				</td>
+				<td class="cellData">
+					<input type="password" id="lgn_txtPassword" name="lgn_txtPassword" maxlength="30" style="width: 189px;" />
+				</td>
+			</tr>
+			<tr>
+				<td class="rowHeader">
+				</td>
+				<td class="cellData">
+					<input type="checkbox" id="lgn_chkRememberMe" name="lgn_chkRememberMe" />
+					<label for="lgn_chkRememberMe" id="lgn_lblRememberMe" style="font-size: 10pt; font-weight: 600; vertical-align: top;">
+				</label>
+				</td>
+			</tr>
+			<tr class="noPrint">
+				<td colspan="2" class="buttonPanel">
+					<input type="submit" id="lgn_btnLogin" name="lgn_btnLogin" value="Login" class="btnClass" /> &nbsp;
+					<input type="submit" id="lgn_btnReset" name="lgn_btnReset" value="Reset" class="btnClass" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="width: 579px; text-align: center; padding-bottom: 5px;">
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<script type="text/javascript">
+	$(document).ready(function () {
+		window.CMN.loadScript("scripts/tucson/tucson.login.js", true, {});
+	});
+</script>

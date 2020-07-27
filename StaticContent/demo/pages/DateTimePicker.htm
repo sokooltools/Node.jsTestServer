@@ -1,0 +1,91 @@
+﻿<!--=================================================================================================-->
+<!--	DateTimePicker.htm                                                                           -->
+<!--=================================================================================================-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+	<title>jQuery UI Standard Dialog</title>
+	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui-timepicker-addon.css">
+	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery-ui-timepicker-addon.js"> </script>
+	<script type="text/javascript" src="../../scripts/moment.js"> </script>
+	<script type="text/javascript" src="../../scripts/tucson/tucson.common.js"> </script>
+	<style type="text/css">
+		/* Override some values in jquery-ui.css */
+		.ui-widget input {
+			font-family: "Segoe UI";
+			font-size: 10pt;
+			width: 185px;
+		}
+
+		.ui-widget-content .ui-priority-secondary {
+			opacity: 1;
+			filter: Alpha(Opacity=100);
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<h1>jQuery DateTimePicker</h1>
+		<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
+	</div>
+	<div>
+		<input style="width: 200px;" type="text" name="utility_example_1" id="utility_example_1">
+		<button id="utility_example_1_setdt" value="1" class="demo ui-button ui-corner-all ui-widget">Set Datetime</button>
+		<button id="utility_example_1_getdt" value="1" class="demo ui-button ui-corner-all ui-widget">Get Datetime</button>
+	</div>
+	<script type="text/javascript">
+		//$(document).ready(function () {
+
+		$("#back").on("click", function() {
+			history.go(-1);
+			return false;
+		});
+
+		var dtp = $('#utility_example_1');
+
+		dtp.datetimepicker({
+			//controlType: "select",
+			dateFormat: 'mm/dd/yy',
+			timeFormat: 'hh:mm:ss TT',
+			separator: ' @ ',
+			showTimezone: false,
+			timezone: null
+		});
+
+		$('#utility_example_1_setdt').on("click", function() {
+			var dt = millisecondsToDate(dateToMilliseconds());
+			dtp.datetimepicker('setDate', dt);
+		});
+
+		$('#utility_example_1_getdt').on("click", function() {
+			var dt = dtp.datetimepicker('getDate');
+			var msg = "</br><span style='font-size:14pt;'>DateTime: <b>" + dt + "</b></span>";
+			window.CMN.showDialog(msg, document.title);
+		});
+
+		// -------------------------------------------------------------------------------------------
+		// Returns a date converted from the specified number of milliseconds since midnight 01-01-1970.
+		// -------------------------------------------------------------------------------------------
+		millisecondsToDate = function(milliseconds) {
+			return new Date(parseFloat(milliseconds));
+		};
+
+		// -------------------------------------------------------------------------------------------
+		// Returns the number of milliseconds between the specified date and midnight 01-01-1970.
+		// The current date and time is used when no date is specified.
+		// -------------------------------------------------------------------------------------------
+		dateToMilliseconds = function(dt) {
+			return Date.parse(!dt ? (new Date()) : dt);
+		};
+
+		//});
+
+	</script>
+</body>
+</html>

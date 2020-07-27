@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XpressSettings language="en" timestamp="1391544915000">
+	<Controls>
+		<Control Type="button" Id="xps_btnHelp" lbl="" ttp="Click to display online help related to this page..." />
+		<Control Type="button" Id="xps_btnSave" lbl="Save" ttp="Click to save the contents of this page to the current device..." />
+		<Control Type="button" Id="xps_btnRefresh" lbl="Refresh" ttp="Click to refresh the contents of this page..." />
+		<Control Type="button" Id="xps_btnReset" lbl="Reset" ttp="Click to reset the contents of this page to what it was after the last save..." />
+		<Control Type="button" Id="xps_btnLaunchShell" lbl="Launch Interact Xpress Shell" ttp="Click to open a new or activate an existing window containing the 'Interact Xpress Shell'." />
+		<Control Type="button" Id="xps_btnProjSend" lbl="Send" ttp="Click to send (upload) a project from your computer to the PAC." />
+		<Control Type="button" Id="xps_btnProjGet" lbl="Get" ttp="Click to get a copy of the project from the PAC to your computer." />
+		<Control Type="button" Id="xps_btnProjDel" lbl="Delete" ttp="Click to indicate the current project should be deleted from the PAC once the 'Save' button is clicked." />
+		<Control Type="label" Id="xps_lblXpressSettings" lbl="Xpress HMI Settings" ttp="This page is used for managing the Xpress HMI." />
+		<Control Type="label" Id="xps_lblAutoGenPlcTags" lbl="Auto Generate PLC Tags" ttp="When checked, indicates that the PAC should automatically generate the PLC tags." />
+		<Control Type="label" Id="xps_lblProject" lbl="Xpress HMI Project" ttp="Contains data related to the current Xpress HMI Project." />
+		<Control Type="label" Id="xps_lblProjFile" lbl="Project File To Send:" ttp="The full path and name of the Xpress HMI Project file to send (upload) to the PAC." />
+		<Control Type="label" Id="xps_lblProjName" lbl="Name:" ttp="The name of the current Xpress Project." />
+		<Control Type="label" Id="xps_lblProjVersion" lbl="Version:" ttp="The version of the current Xpress Project." />
+	</Controls>
+	<Messages>
+		<Message Id="1"><![CDATA['<b>Project Name</b>' must be provided.]]></Message>
+		<Message Id="2"><![CDATA['<b>Project Name</b>' must be at least <b>3</b> characters in length.]]></Message>
+		<Message Id="3"><![CDATA['<b>Project Version</b>' must contain at least one digit.]]></Message>
+		<Message Id="4"><![CDATA['<b>Project sub-Version</b>' must contain at least one digit.]]></Message>
+		<Message Id="5"><![CDATA[The project file you are attempting to send: <b><i>'{0}'</i></b> is not valid.]]></Message>
+		<Message Id="6"><![CDATA[Sending <b>Xpress Project</b> file to the PAC... Please wait.]]></Message>
+		<Message Id="7"><![CDATA[Restarting the <b>Xpress Server</b> on the PAC.<br/>(<i>Please wait as this may take a while...</i>)]]></Message>
+		<Message Id="8"><![CDATA[Deleting the <b>Xpress Project</b> from the PAC... Please wait.]]></Message>
+		<Message Id="9"><![CDATA[The <b>Xpress HMI Project</b> is still loading...]]></Message>
+		<Message Id="10"><![CDATA[(Wait a few seconds then try launching the shell again.)]]></Message>
+	</Messages>
+</XpressSettings>

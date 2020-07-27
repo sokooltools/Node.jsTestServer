@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<InternetSettings language="de" timestamp="1511191501000">
+	<Controls>
+		<Control Type="label" Id="int_lblInternetSettings" lbl="deInternet Settings" ttp="deThis page provides information related to System Settings." />
+		<Control Type="label" Id="int_lblProxyHost" lbl="deProxy Host:" ttp="" />
+		<Control Type="label" Id="int_lblProxyPort" lbl="deProxy Port:" ttp="" />
+		<Control Type="label" Id="int_lblIsBypassLocal" lbl="deBypass proxy server for local addresses:" ttp="deSynchronize the date and time on the device with the date and time on my computer." />
+		<Control Type="label" Id="int_lblIsProxyEnabled" lbl="deIs Proxy Enabled:" ttp="deChecked indicates that Proxy is enabled on this device." />
+		<Control Type="button" Id="int_btnHelp" lbl="" ttp="deClick to display online help related to this page..." />
+		<Control Type="button" Id="int_btnSave" lbl="deSave" ttp="deClick to open the print dialog for sending the contents of this page to the default printer..." />
+		<Control Type="button" Id="int_btnRefresh" lbl="deRefresh" ttp="deClick to refresh the contents of this page..." />
+	</Controls>
+	<Messages>
+		<Message Id="1"><![CDATA[de'<b>Internet Proxy Host</b>' minimum length is <b>4</b>.]]></Message>
+		<Message Id="2"><![CDATA[de'<b>Internet Proxy Host</b>' is required when <b><i>Access the Internet using a proxy server</i></b> contains a <i>'checkmark'</i>.]]></Message>
+		<Message Id="3"><![CDATA[de'<b>Internet Proxy Port</b>' minimum length is <b>2</b>.]]></Message>
+		<Message Id="4"><![CDATA[de'<b>Internet Proxy Port</b>' is required when <b><i>Access the Internet using a proxy server</i></b> contains a <i>'checkmark'</i>.]]></Message>
+	</Messages>
+</InternetSettings>

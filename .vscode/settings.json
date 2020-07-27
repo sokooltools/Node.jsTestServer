@@ -1,0 +1,12 @@
+{
+"json.schemas": [
+    {
+        "name": "manifest.json",
+        "description": "manifest description file",
+        "fileMatch": [
+            "/manifest.json"
+        ],
+        "url": "http://json.schemastore.org/chrome-manifest"
+    }
+]
+}

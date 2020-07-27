@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "TestServer", "TestServer.njsproj", "{A29156A7-909B-4A0A-899F-1E902A6AB961}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A29156A7-909B-4A0A-899F-1E902A6AB961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A29156A7-909B-4A0A-899F-1E902A6AB961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A29156A7-909B-4A0A-899F-1E902A6AB961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A29156A7-909B-4A0A-899F-1E902A6AB961}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

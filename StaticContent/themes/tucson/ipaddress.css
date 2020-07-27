@@ -1,0 +1,42 @@
+﻿/*	=======================================================================================================
+	ipaddress.css
+	======================================================================================================= */
+div.ip_container
+{
+	border: 0 none rgb(255, 255, 255);
+	padding: 0 0 0 2px;
+	background-color: transparent;
+	min-height: 0;
+}
+div.ip_invalid, div.ip_blank
+{
+	border: solid 2px red;
+	padding: 2px 0 4px 0;
+	background-color: transparent;
+}
+.ip_octet
+{
+	border: solid 1px currentColor;
+	width: 2em;
+	text-align: center;
+}
+input.ipv4mask
+{
+	font-size: 10pt;
+	padding-left: 4px;
+	width: 132px;
+}
+input.ip
+{
+	color: Black;
+	height: 17px;
+	width: 26px;
+}
+input.hidden
+{
+	left: -999px;
+	top: -999px;
+	width: 0;
+	height: 0;
+	position: absolute;
+}

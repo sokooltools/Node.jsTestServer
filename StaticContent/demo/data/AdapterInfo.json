@@ -1,0 +1,12 @@
+[
+	{
+		"id": 3,
+		"name": "PCI\\DC21X41",
+		"alias": "ETHERNET-X2"
+	},
+	{
+		"id": 2,
+		"name": "PCI\\DC21X42",
+		"alias": "ETHERNET-X3"
+	}
+]

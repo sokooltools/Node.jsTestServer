@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<SupportedLanguages version="1.0.0.0">
+	<Languages id="en">
+		<option id="en">English</option>
+		<option id="fr">French</option>
+		<option id="de">German</option>
+		<option id="it">Italian</option>
+		<option id="es">Spanish</option>
+		<option id="nl">Dutch</option>
+		<option id="zh">Chinese</option>
+	</Languages>
+	<Languages id="fr">
+		<option id="en">Anglais</option>
+		<option id="fr">français</option>
+		<option id="de">allemand</option>
+		<option id="it">italien</option>
+		<option id="es">espagnol</option>
+		<option id="nl">néerlandais</option>
+		<option id="zh">chinois</option>
+	</Languages>
+	<Languages id="de">
+		<option id="en">Englisch</option>
+		<option id="fr">Französisch</option>
+		<option id="de">Deutsch</option>
+		<option id="it">Italienisch</option>
+		<option id="es">Spanisch</option>
+		<option id="nl">Dutch</option>
+		<option id="zh">Chinesisch</option>
+	</Languages>
+	<Languages id="es">
+		<option id="en">Inglés</option>
+		<option id="fr">francés</option>
+		<option id="de">alemán</option>
+		<option id="it">italiano</option>
+		<option id="es">español</option>
+		<option id="nl">holandés</option>
+		<option id="zh">chino</option>
+	</Languages>
+	<Languages id="zh">
+		<option id="en">Yingyu</option>
+		<option id="fr">Fàguó rén</option>
+		<option id="de">Déguó rén</option>
+		<option id="it">Yìdàlì de</option>
+		<option id="es">Xibanyá rén</option>
+		<option id="nl">Hélán rén</option>
+		<option id="zh">Zhongguó de</option>
+	</Languages>
+	<Languages id="it">
+		<option id="en">Inglese</option>
+		<option id="fr">francese</option>
+		<option id="de">tedesco</option>
+		<option id="it">italiano</option>
+		<option id="es">Spagnolo</option>
+		<option id="nl">Olandese</option>
+		<option id="zh">cinese</option>
+	</Languages>
+	<Languages id="nl">
+		<option id="en">Engels</option>
+		<option id="fr">Frans</option>
+		<option id="de">Duits</option>
+		<option id="it">Italiaans</option>
+		<option id="es">Spaans</option>
+		<option id="nl">Nederlands</option>
+		<option id="zh">Chinees</option>
+	</Languages>
+</SupportedLanguages>

@@ -1,0 +1,54 @@
+﻿/*	=======================================================================================================
+	XpressSettings.css
+	======================================================================================================= */
+
+input.xps_to_delete, select.xps_to_delete
+{
+	font-style: italic;
+	text-decoration: line-through;
+}
+table.xps_tableRows
+{
+	height: auto;
+	width: 75%;
+	margin: 0 auto 0 auto;
+	padding: 12px 12px 12px 12px;
+	-moz-min-width: 485px;
+	-ms-min-width: 485px;
+	-o-min-width: 485px;
+	-webkit-min-width: 485px;
+	min-width: 485px;
+}
+TD.rowHeader
+{
+	padding: 10px 10px 0 10px;
+}
+legend
+{
+	font-weight: bold;
+	font-size: 12pt;
+	margin: 0 5px 0 3px;
+	padding: 0 5px;
+}
+.btnWide
+{
+	width: 90px !important;
+	cursor: pointer;
+}
+#stillLoading1
+{
+	font-size: 12pt;
+	padding: 12px 0;
+}
+#stillLoading2
+{
+	font-size: 10pt;
+	padding-bottom: 12px;
+}
+/*
+#xps_btnProjGet {
+	background: url('../tucson/images/help.png');
+	background-position:center;
+	background-repeat:no-repeat;
+}
+*/

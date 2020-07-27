@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SecuritySettings language="it" timestamp="1511191501000">
+	<Controls>
+		<Control Type="label" Id="sec_lblXpressSettings" lbl="Impostazioni di sicurezza" ttp="itThis page provides information related to Security Settings." />
+		<Control Type="label" Id="sec_lblUsername" lbl="itUsername:" ttp="itThe username used for logging into the PAC." />
+		<Control Type="label" Id="sec_lblNoPasswordReqd" lbl="itNo Password Required" ttp="itWhen checked, indicates no password is required for this user to login to the PAC." />
+		<Control Type="label" Id="sec_lblPassword" lbl="itPassword:" ttp="itThe password used for logging into the PAC." />
+		<Control Type="label" Id="sec_lblPasswrd2" lbl="itConfirm Password:" ttp="itThe password used for logging into the PAC. (Must match the password entered above.)" />
+		<Control Type="label" Id="sec_lblLoginEnabled" lbl="itEnabled:" ttp="itWhen checkmarked, indicates that this user is currently enabled." />
+		<Control Type="label" Id="sec_lblDateCreated" lbl="itDate Created:" ttp="itDate and time this user was first added to the database." />
+		<Control Type="label" Id="sec_lblDateModified" lbl="itDate Modified:" ttp="itDate and time of the last modifications made to this user." />
+		<Control Type="label" Id="sec_lblUserLevel" lbl="itUser Level:" ttp="itLevel of access granted to this user." />
+		<Control Type="button" Id="sec_btnHelp" lbl="" ttp="itClick to display online help related to this page..." />
+		<Control Type="button" Id="sec_btnAddUser" lbl="itAdd User" ttp="itClick to begin adding a new user..." />
+		<Control Type="button" Id="sec_btnRemUser" lbl="itRemove" ttp="itClick to indicate the selected user should be removed..." />
+		<Control Type="button" Id="sec_btnSave" lbl="itSave" ttp="itClick to save the current user information to the database..." />
+		<Control Type="button" Id="sec_btnRefresh" lbl="itRefresh" ttp="itClick to refresh the contents of this page..." />
+		<Control Type="button" Id="sec_btnCollapAll" lbl="itCollapse All" ttp="itClick to collapse all the groups in the grid..." />
+		<Control Type="button" Id="sec_btnExpandAll" lbl="itExpand All" ttp="itClick to expand all the groups in the grid..." />
+		<Control Type="column" Id="sec_colUsername" lbl="itUsername" ttp="itThe username used for logging into the PAC" />
+		<Control Type="column" Id="sec_colUserLevel" lbl="itUserLevel" ttp="itIndicates the level of access granted to this user." />
+		<Control Type="column" Id="sec_colDateCreated" lbl="itDate created" ttp="itThe date and time the user was added to the database." />
+		<Control Type="column" Id="sec_colDateModified" lbl="itDate modified" ttp="itThe date and time of the last modification." />
+		<Control Type="column" Id="sec_colEnabled" lbl="itEnabled" ttp="itIndicates whether the user is currently enabled or not." />
+		<Control Type="column" Id="sec_colLastAccessed" lbl="itLast Accessed" ttp="itThe date and time the user last accessed the database via the corresponding IP Address." />
+		<Control Type="column" Id="sec_colIpAddress" lbl="itIP Address" ttp="itThe IP Address(es) the user accessed the database from." />
+	</Controls>
+	<DateTimeFormat>MM/DD/YYYY HH:mm A</DateTimeFormat>
+	<UserLevels>
+		<UserLevel Id="0" lbl="itAdmin" ttp="" />
+		<UserLevel Id="1" lbl="itGuest" ttp="" />
+	</UserLevels>
+	<Messages>
+		<Message Id="1"><![CDATA[it<b><i>Username</i></b> and <b><i>Password</i></b> must be provided.]]></Message>
+		<Message Id="2"><![CDATA[it<b><i>Password</i></b> must be at least <b>{0}</b> characters in length.]]></Message>
+		<Message Id="3"><![CDATA[it<b><i>Password</i></b> must be provided.]]></Message>
+		<Message Id="4"><![CDATA[it<b><i>New Password</i></b> and <b><i>Confirm Password</i></b> must match.]]></Message>
+		<Message Id="5"><![CDATA[it<b><i>Username</i></b> must be at least <b>{0}</b> characters in length.]]></Message>
+		<Message Id="6"><![CDATA[it<b><i>Username</i></b> must be provided.]]></Message>
+		<Message Id="7"><![CDATA[itAdd User]]></Message>
+		<Message Id="8"><![CDATA[itUpdate User]]></Message>
+		<Message Id="9"><![CDATA[itRemove User]]></Message>
+	</Messages>
+</SecuritySettings>
