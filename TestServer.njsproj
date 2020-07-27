@@ -45,19 +45,30 @@
     <Compile Include="StaticContent\scripts\deploy\release\jquery.mousewheel.min.js" />
     <Compile Include="TestServer\app.js" />
     <Compile Include="TestServer\routes\common.js" />
-    <Compile Include="TestServer\routes\services.js">      <SubType>Code</SubType>    </Compile>
-    <Compile Include="TestServer\routes\test.js">      <SubType>Code</SubType>    </Compile>
+    <Compile Include="TestServer\routes\services.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestServer\routes\test.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TestServer\routes\download.js" />
     <Compile Include="TestServer\routes\index.js" />
-    <Compile Include="TestServer\routes\upload.js">      <SubType>Code</SubType>    </Compile>
+    <Compile Include="TestServer\routes\upload.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TestServer\routes\uploads.js" />
     <Compile Include="TestServer\routes\users.js" />
     <Compile Include="StaticContent\demo\scripts\jquery.fine-uploader.js" />
     <Content Include="package.json" />
+    <Content Include="Solution Items\Dependencies.txt">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Solution Items\DeveloperNotes.txt" />
     <Content Include="StaticContent\demo\data\NetworkInfo3.json" />
     <Content Include="StaticContent\demo\data\XpressData.json" />
-    <Content Include="StaticContent\demo\data\AboutData.json">      <SubType>Code</SubType>    </Content>
+    <Content Include="StaticContent\demo\data\AboutData.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="StaticContent\demo\data\SystemData.json" />
     <Content Include="StaticContent\demo\docs\Sessions.json" />
     <Content Include="StaticContent\demo\pages\CustomCombo.htm" />
@@ -84,8 +95,12 @@
     <Content Include="StaticContent\demo\themes\source\placeholders\waiting-generic.png" />
     <Content Include="StaticContent\demo\themes\trash.gif" />
     <Content Include="StaticContent\demo\pages\Upload.htm" />
-    <Content Include="StaticContent\docs\error.htm">      <SubType>Code</SubType>    </Content>
-    <Content Include="StaticContent\demo\pages\FineUploader.htm">      <SubType>Code</SubType>    </Content>
+    <Content Include="StaticContent\docs\error.htm">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="StaticContent\demo\pages\FineUploader.htm">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="AssemblyVersion.cs" />
     <Content Include="StaticContent\ConfigTool.aspx" />
     <Content Include="StaticContent\ConfigTool.htm" />
