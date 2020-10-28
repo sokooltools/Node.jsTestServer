@@ -1,5 +1,8 @@
 [ NODE_MODULES (DEPENDENCIES) ]
 
+Enter the following after the "Package Manager Console" window prompt:
+PM> npm list
+
 testserver@1.1.0
 +-- body-parser@1.19.0
 | +-- bytes@3.1.0
@@ -202,4 +205,4 @@ testserver@1.1.0
 | `-- safe-buffer@5.1.1
 `-- tcp-ping@0.1.1
 
-PM> 
+ 

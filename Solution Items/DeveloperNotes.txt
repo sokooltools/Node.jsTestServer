@@ -1,7 +1,7 @@
 ﻿[Studio Code]
 	Running from Studio Code
-	Open Javascript debug Terminal window
-	Make sure the path is 
+	Open 'Javascript debug Terminal' window
+	Make sure the path is set to this solution
 	Enter: Node app.js
 	Open Internet Browser and enter the following URL http://localhost:3000/demo/demo.htm
 

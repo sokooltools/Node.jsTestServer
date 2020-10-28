@@ -95,7 +95,7 @@ app.use("/services", services);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
-	var err = new Error("Not Found");
+	const err = new Error("Not Found");
 	err.status = 404;
 	next(err);
 });
@@ -127,7 +127,7 @@ app.use(function (err, req, res) {
 // -----------------------------------------------
 
 var server = app.listen(app.get("port"), function() {
-	debug.log("Express (Test Server) listening on port " + server.address().port);
+	debug.log(`Express (Test Server) listening on port ${server.address().port}`);
 });
 
 module.exports = app;

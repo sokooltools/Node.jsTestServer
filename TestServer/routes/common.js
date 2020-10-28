@@ -15,19 +15,19 @@ var tcpp = require("tcp-ping");
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Path to the static content (i.e. "../staticcontent")
+ * Path to the static content (i.e. "../StaticContent")
  */
-var fileroot = path.join(path.dirname(__dirname), "..\\staticcontent");
+var fileroot = path.join(path.dirname(__dirname), "..\\StaticContent");
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Path to the demo data files (i.e. "../staticcontent/demo/data")
+ * Path to the demo data files (i.e. "../StaticContent/demo/data")
  */
 var demodata = path.join(fileroot, "demo/data");
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Path to the language data files (i.e. "../staticcontent/globalization")
+ * Path to the language data files (i.e. "../StaticContent/globalization")
  */
 var globalization = path.join(fileroot, "globalization");
 
