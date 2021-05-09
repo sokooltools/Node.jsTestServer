@@ -1,0 +1,117 @@
+/* ---------------------------------------------------------------------- */
+/*  Language Switcher                                                     */
+/* ---------------------------------------------------------------------- */
+
+@import 'jquery-language-flags.css';
+
+#cmn_cboLanguage, #cmn_cboLanguage *
+{
+	margin: 0;
+	outline: none;
+	padding: 0;
+	float: right;
+}
+
+#cmn_cboLanguage ul
+{
+	list-style: none;
+}
+
+#cmn_cboLanguage
+{
+	color: #444;
+	font-family: "Helvetica Neue" , Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	line-height: normal;
+	position: relative; /* sets the initial position for the drop-down menu */
+	z-index: 100;
+}
+
+#cmn_cboLanguage form
+{
+	display: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* JS-created Code
+/* ---------------------------------------------------------------------- */
+#cmn_cboLanguage a
+{
+	background-position: 6px center;
+	background-repeat: no-repeat;
+	color: #444;
+	display: block;
+	padding: 0.5em 6px 0.5em 28px; /* 6px 6px 6px 28px */
+	text-decoration: none;
+	width: 7em; /* 84px; total width: 120px */
+}
+
+#cmn_cboLanguage a:hover
+{
+	color: #000;
+}
+
+#cmn_cboLanguage a.curLanguage:link, #cmn_cboLanguage a.curLanguage:visited, #cmn_cboLanguage a.curLanguage:active
+{
+	background-color: #FFF;
+	border: 1px solid #E5E5E5; /*	border-radius: 3px; */
+	height: 1.25em; /* 15px */
+	position: relative; /* sets the initial position for the trigger arrow */
+	border: thin solid #808080;
+}
+
+#cmn_cboLanguage a.curLanguage:hover, #cmn_cboLanguage ul.dropdown li:hover
+{
+	background-color: #F7F7F7;
+}
+
+#cmn_cboLanguage a.active
+{
+	/* This style is applied as long as the drop-down menu is visible. */
+	border-bottom: none !important; /*	border-radius: 3px 3px 0 0 !important; */
+}
+
+#cmn_cboLanguage span.trigger
+{
+	display: block;
+	height: 5px;
+	position: absolute;
+	right: 6px;
+	text-indent: -10000em;
+	top: 0.5em; /* 6px */
+	width: 9px;
+}
+
+#cmn_cboLanguage a.curLanguage:link span.trigger, #cmn_cboLanguage a.curLanguage:visited span.trigger
+{
+	background: url(images/arrow-down.gif) no-repeat left top;
+}
+
+#cmn_cboLanguage a.curLanguage:hover span.trigger, #cmn_cboLanguage a.curLanguage:active span.trigger, #cmn_cboLanguage a.active span.trigger
+{
+	background-position: left bottom !important;
+}
+
+/* Drop-Down Menu */
+
+#cmn_cboLanguage ul.dropdown
+{
+	background-color: #FFF;
+	border: 1px solid #E5E5E5; /* border-radius: 0 0 3px 3px; */
+	border-top: none !important;
+	display: none;
+	left: 0;
+	position: absolute;
+	top: 2.333em; /* 28px */
+}
+
+#cmn_cboLanguage ul.dropdown li
+{
+	border-top: 1px dotted #D4D4D4;
+}
+
+/* 
+#cmn_cboLanguage ul.dropdown li:last-child {
+	border-radius: 0 0 3px 3px; 
+}
+*/

@@ -4,9 +4,28 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "TestEchoHello",
-            "type": "process",
-            "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+            "taskName": "build",
+            "command": "msbuild",
+            "args": [
+                "/property:GenerateFullPaths=true",
+                "/t:build"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "npm",
+            "script": "start",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

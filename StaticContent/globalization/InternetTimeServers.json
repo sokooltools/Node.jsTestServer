@@ -1,0 +1,22 @@
+﻿[
+	{
+		"index": 1,
+		"displayname": "time.windows.com"
+	},
+	{
+		"index": 2,
+		"displayname": "time.nist.gov"
+	},
+	{
+		"index": 3,
+		"displayname": "time-a.nist.gov"
+	},
+	{
+		"index": 4,
+		"displayname": "time-b.nist.gov"
+	},
+	{
+		"index": 5,
+		"displayname": "tock.usno.navy.mil"
+	}
+]

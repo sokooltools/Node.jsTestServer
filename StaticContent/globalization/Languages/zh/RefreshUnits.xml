@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RefreshUnits>
+	<RefreshUnit Index="1" DisplayName="zh_seconds" />
+	<RefreshUnit Index="2" DisplayName="zh_minutes" />
+	<RefreshUnit Index="3" DisplayName="zh_hours" />
+	<RefreshUnit Index="4" DisplayName="zh_days" />
+	<RefreshUnit Index="5" DisplayName="zh_weeks" />
+</RefreshUnits>

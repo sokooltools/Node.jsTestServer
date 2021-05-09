@@ -1,0 +1,11 @@
+{
+	"machinedesc": "Parker Automation Controller",
+	"machinename": "PAC00105300001F",
+	"internettimeservers": ["time.windows.com"],
+	"isautodst": true,
+	"isautoupdate": true,
+	"recoveryrefresh": 1800000,
+	"refreshinterval": 300000,
+	"serverrole": 1,
+	"threshold": 86400000
+}

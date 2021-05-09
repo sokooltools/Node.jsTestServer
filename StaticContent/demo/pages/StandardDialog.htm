@@ -1,0 +1,74 @@
+﻿<!--=================================================================================================-->
+<!--	StandardDialog.htm                                                                             -->
+<!--=================================================================================================-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<title>jQuery UI Standard Dialog</title>
+	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+</head>
+<body>
+	<form action="">
+		<div>
+			<h1>jQuery UI Standard Dialog</h1>
+			<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
+			<button id="run" class="demo ui-button ui-corner-all ui-widget">Show...</button>
+		</div>
+		<div class="demo-description">
+			<p>
+				This demo displays a standard modal dialog requiring input from the user.
+			</p>
+			<p>Clicking the <b>OK</b> button in the dialog displays a message using window.alert</p>
+		</div>
+		<div id="testdlg" title="jQuery UI Dialog">
+			<p>This is a jQuery Dialog</p>
+		</div>
+	</form>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#back").on("click", function() {
+				history.go(-1);
+				return false;
+			});
+			// Hook the click event on document ready
+			$("#run").on("click", function() {
+				ShowErrorDialog();
+				return false;
+			});
+			// Make sure the dialog div is hidden:
+			$('#testdlg').hide();
+		});
+
+		function ShowErrorDialog() {
+			// Select the dialog div and show it as a jQuery dialog
+			$('#testdlg').dialog({
+				autoOpen: true,
+				resizable: false,
+				modal: true,
+				width: 400,
+				open: function() {
+					var ipAddress = "192.168.10.50";
+					var urlRoot = "http://" + ipAddress;
+					var msg = "Could not reconnect to IP Address: <b>" + ipAddress + "</b></br></br>"
+						+ "After closing this dialog, try typing the following directly into</br>"
+						+ "this browser's address bar: <b>" + urlRoot + "</b> ...";
+					jQuery(this).html(msg);
+				},
+				buttons: {
+					'OK': function() {
+						$(this).dialog('close');
+						window.alert("Hello from '" + window.location.href + "'!");
+					},
+					'Cancel': function() {
+						$(this).dialog('close');
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

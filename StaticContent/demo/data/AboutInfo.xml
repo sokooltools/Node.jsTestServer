@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AboutInfo language="en" timestamp="1391544915000">
+	<AssembliesHeader Id="Assembly Name" Version="Version" ModDate="Last Modified" ModDateFormat="MM/dd/yyyy hh:mm tt"/>
+	<Assemblies Visible="True">
+		<Assembly Id="opennetcf.dll" Version="2.3.12004.0" ModDate="06/29/2017 08:21 AM" lbl="PAC OpenNetCF DLL"/>
+		<Assembly Id="opennetcf.windowsce.dll" Version="2.3.12004.0" ModDate="06/29/2017 08:21 AM" lbl="PAC OpenNetCF WindowsCE DLL"/>
+		<Assembly Id="opennetcf.net.dll" Version="2.3.12004.0" ModDate="06/29/2017 08:21 AM" lbl="PAC OpenNetCF Net DLL"/>
+		<Assembly Id="opennetcf.ssl.dll" Version="1.5.13272.0" ModDate="06/29/2017 08:21 AM" lbl="PAC OpenNetCF Ssl DLL"/>
+		<Assembly Id="opennetcf.web.dll" Version="1.5.13272.0" ModDate="06/29/2017 08:21 AM" lbl="PAC OpenNetCF Web DLL"/>
+		<Assembly Id="WebServer.exe" Version="1.4.0.0" ModDate="07/05/2017 07:52 AM" lbl="PAC Configuration Tool EXE"/>
+		<Assembly Id="Parker.Tucson.Web.Services.dll" Version="1.4.0.0" ModDate="07/05/2017 07:52 AM" lbl="PAC Configuration Web DLL"/>
+		<Assembly Id="Parker.Tucson.Core.dll" Version="1.4.0.0" ModDate="06/30/2017 02:38 PM" lbl="PAC Configuration Core DLL"/>
+		<Assembly Id="Parker.Tucson.Data.dll" Version="1.4.0.0" ModDate="07/05/2017 07:52 AM" lbl="PAC Configuration Data DLL"/>
+		<Assembly Id="Parker.Tucson.IO.dll" Version="1.4.0.0" ModDate="06/30/2017 02:37 PM" lbl="PAC Configuration IO DLL"/>
+		<Assembly Id="Parker.Tucson.Utilities.dll" Version="1.4.0.0" ModDate="06/30/2017 02:37 PM" lbl="PAC Configuration Utilities DLL"/>
+		<Assembly Id="\Hard Disk\Project\Web\webserver.exe.ini" Version="" ModDate="05/19/2017 01:22 PM" lbl="PAC Configuration Tool Ini File"/>
+		<Assembly Id="\Windows\CoDeSysControlWinCE.exe" Version="3.5.9.10" ModDate="04/28/2017 02:28 PM" lbl="CoDeSysRuntime EXE"/>
+	</Assemblies>
+	<ModelNumberItems>
+		<ModelNumberItem Id="SERIES" lbl="Series" ttp="">PAC320</ModelNumberItem>
+		<ModelNumberItem Id="SOFTWARE" lbl="Software" ttp="">PLC w/3D Motion</ModelNumberItem>
+		<ModelNumberItem Id="VISUALIZATION" lbl="Visualization" ttp="">Xpress Server</ModelNumberItem>
+		<ModelNumberItem Id="FIELDBUS" lbl="Communications Option" ttp="">Profinet Slave</ModelNumberItem>
+		<ModelNumberItem Id="RETENTIVE_MEMORY" lbl="Retentive Memory" ttp="">256K</ModelNumberItem>
+		<ModelNumberItem Id="PROCESSOR_SPEED" lbl="Processor Speed" ttp="">1.60GHz</ModelNumberItem>
+		<ModelNumberItem Id="AGENCY_APPROVALS" lbl="Agency Approvals" ttp="">UL, CE, cUL</ModelNumberItem>
+		<ModelNumberItem Id="RESERVED" lbl="Reserved" ttp="">X</ModelNumberItem>
+	</ModelNumberItems>
+	<ModelNumberItemsExt>
+		<ModelNumberItemExt Id="1" lbl="OPC-UA" ttp="">1</ModelNumberItemExt>
+		<ModelNumberItemExt Id="2" lbl="Ethernet IP Adapter" ttp="">1</ModelNumberItemExt>
+		<ModelNumberItemExt Id="3" lbl="Ethernet IP Slave" ttp="">0</ModelNumberItemExt>
+		<ModelNumberItemExt Id="4" lbl="Profinet Master" ttp="">1</ModelNumberItemExt>
+		<ModelNumberItemExt Id="5" lbl="Profinet Slave" ttp="">0</ModelNumberItemExt>
+	</ModelNumberItemsExt>
+</AboutInfo>

@@ -1,0 +1,47 @@
+[
+	{
+		"username": "Admin",
+		"password": "",
+		"userlevel": 0,
+		"enabled": 1,
+		"deleted": 0,
+		"datecreated": 1502699808000.0,
+		"datemodified": 1502699808000.0
+	},
+	{
+		"username": "Brian",
+		"password": "",
+		"userlevel": 0,
+		"enabled": 1,
+		"deleted": 0,
+		"datecreated": 1502700096000.0,
+		"datemodified": 1502701774000.0
+	},
+	{
+		"username": "Darren",
+		"password": "xyz",
+		"userlevel": 1,
+		"enabled": 1,
+		"deleted": 0,
+		"datecreated": 1502700096000.0,
+		"datemodified": 1502701774000.0
+	},
+	{
+		"username": "David",
+		"password": "password",
+		"userlevel": 1,
+		"enabled": 0,
+		"deleted": 0,
+		"datecreated": 1502700096000.0,
+		"datemodified": 1502701774000.0
+	},
+	{
+		"username": "Mike",
+		"password": "abc",
+		"userlevel": 1,
+		"enabled": 1,
+		"deleted": 0,
+		"datecreated": 1502700096000.0,
+		"datemodified": 1502701774000.0
+	}
+]

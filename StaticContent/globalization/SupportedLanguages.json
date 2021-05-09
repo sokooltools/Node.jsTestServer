@@ -1,0 +1,233 @@
+[
+	{
+		"code": "en",
+		"opts": [
+			{
+				"code": "en",
+				"name": "English"
+			},
+			{
+				"code": "fr",
+				"name": "French"
+			},
+			{
+				"code": "de",
+				"name": "German"
+			},
+			{
+				"code": "it",
+				"name": "Italian"
+			},
+			{
+				"code": "es",
+				"name": "Spanish"
+			},
+			{
+				"code": "nl",
+				"name": "Dutch"
+			},
+			{
+				"code": "zh",
+				"name": "Chinese"
+			}
+		]
+	},
+	{
+		"code": "fr",
+		"opts": [
+			{
+				"code": "en",
+				"name": "Anglais"
+			},
+			{
+				"code": "fr",
+				"name": "français"
+			},
+			{
+				"code": "de",
+				"name": "allemand"
+			},
+			{
+				"code": "it",
+				"name": "italien"
+			},
+			{
+				"code": "es",
+				"name": "espagnol"
+			},
+			{
+				"code": "nl",
+				"name": "néerlandais"
+			},
+			{
+				"code": "zh",
+				"name": "chinois"
+			}
+		]
+	},
+	{
+		"code": "de",
+		"opts": [
+			{
+				"code": "en",
+				"name": "Englisch"
+			},
+			{
+				"code": "fr",
+				"name": "Französisch"
+			},
+			{
+				"code": "de",
+				"name": "Deutsch"
+			},
+			{
+				"code": "it",
+				"name": "Italienisch"
+			},
+			{
+				"code": "es",
+				"name": "Spanisch"
+			},
+			{
+				"code": "nl",
+				"name": "Dutch"
+			},
+			{
+				"code": "zh",
+				"name": "Chinesisch"
+			}
+		]
+	},
+	{
+		"code": "es",
+		"opts": [
+			{
+				"code": "en",
+				"name": "Inglés"
+			},
+			{
+				"code": "fr",
+				"name": "francés"
+			},
+			{
+				"code": "de",
+				"name": "alemán"
+			},
+			{
+				"code": "it",
+				"name": "italiano"
+			},
+			{
+				"code": "es",
+				"name": "español"
+			},
+			{
+				"code": "nl",
+				"name": "holandés"
+			},
+			{
+				"code": "zh",
+				"name": "chino"
+			}
+		]
+	},
+	{
+		"code": "zh",
+		"opts": [
+			{
+				"code": "en",
+				"name": "Yingyu"
+			},
+			{
+				"code": "fr",
+				"name": "Fàguó rén"
+			},
+			{
+				"code": "de",
+				"name": "Déguó rén"
+			},
+			{
+				"code": "it",
+				"name": "Yìdàlì de"
+			},
+			{
+				"code": "es",
+				"name": "Xibanyá rén"
+			},
+			{
+				"code": "nl",
+				"name": "Hélán rén"
+			},
+			{
+				"code": "zh",
+				"name": "Zhongguó de"
+			}
+		]
+	},
+	{
+		"code": "it",
+		"opts": [
+			{
+				"code": "en",
+				"name": "Inglese"
+			},
+			{
+				"code": "fr",
+				"name": "francese"
+			},
+			{
+				"code": "de",
+				"name": "tedesco"
+			},
+			{
+				"code": "it",
+				"name": "italiano"
+			},
+			{
+				"code": "es",
+				"name": "Spagnolo"
+			},
+			{
+				"code": "nl",
+				"name": "Olandese"
+			},
+			{
+				"code": "zh",
+				"name": "cinese"
+			}
+		]
+	},
+	{
+		"code": "nl",
+		"opts": [
+			{
+				"code": "en",
+				"name": "Engels"
+			},
+			{
+				"code": "fr",
+				"name": "Frans"
+			},
+			{
+				"code": "de",
+				"name": "Duits"
+			},
+			{
+				"code": "it",
+				"name": "Italiaans"
+			},
+			{
+				"code": "es",
+				"name": "Spaans"
+			},
+			{
+				"code": "nl",
+				"name": "Nederlands"
+			},
+			{
+				"code": "zh",
+				"name": "Chinees"
+			}
+		]
+	}
+]

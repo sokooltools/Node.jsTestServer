@@ -1,0 +1,64 @@
+﻿[Studio Code]
+	Running from Studio Code
+	Open 'Javascript debug Terminal' window
+	Make sure the path is set to this solution
+	Enter: Node app.js
+	Open Internet Browser and enter the following URL http://localhost:3000/demo/demo.htm
+
+[ Package.json version numbers]
+
+In the simplest terms, the tilde matches the most recent minor version (the middle number). 
+~1.2.3 will match all 1.2.x versions but will miss 1.3.0.
+
+in our "package.json" the line:
+		"express": "~4.9.0",
+indicates any version 4.9.x meaning "4.9.0", "4.9.1", etc.
+
+The caret, on the other hand, is more relaxed. 
+It will update you to the most recent major version (the first number). 
+^1.2.3 will match any 1.x.x release including 1.3.0, but will hold off on 2.0.0.
+
+[HELP pages]
+
+	Open the the help page you want to get help for in the web browser by clicking the (?) link.
+	
+
+The name of each image as part of each "Help" page can be exposed on the page by either:
+	Executing the following method in the developer console pane ***: showImageNames() or
+	by simply control-clicking anywhere on the "Help" toolbar at the top of the help page.
+
+	*** Press [F12] to display the developer window.
+
+[NodeJS DOWNLOAD]
+
+http://expressjs.com/
+http://momentjs.com/
+https://github.com/expressjs/body-parser#readme
+https://github.com/expressjs/cookie-parser#readme
+https://github.com/visionmedia/debug#readme
+https://github.com/FineUploader/fine-uploader#readme
+https://github.com/felixge/node-formidable
+https://github.com/broofa/node-mime#readme
+https://github.com/substack/node-mkdirp#readme
+https://github.com/expressjs/morgan#readme
+https://github.com/isaacs/rimraf#readme
+https://github.com/expressjs/serve-favicon#readme
+
+
+[BATCH FILE XCOPY HELP]
+:: ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: /D  Copies only those files whose source time is newer than than destination time.
+:: 
+:: /E  Copies directories and subdirectories, including empty ones. Same as /S /E. May be used to modify /T.
+:: 
+:: /I  If destination does not exist and copying more than one file, assumes that destination must be a directory.
+:: 
+:: /L  Displays files that would be copied.
+:: 
+:: /Q  Does not display file names while copying.
+:: 
+:: /S  Copies directories and subdirectories except empty ones.
+:: 
+:: /Y  Suppresses prompting to confirm you want to overwrite an existing destination file.
+:: ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+

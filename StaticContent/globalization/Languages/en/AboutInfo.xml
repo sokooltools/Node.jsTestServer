@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AboutInfo language="en" timestamp="1391544915000">
+	<Controls>
+		<Control Type="button" Id="abt_btnHelp" lbl="" ttp="Click to display online help related to this page..." />
+		<Control Type="button" Id="abt_btnPrint" lbl="Print..." ttp="Click to open the print dialog for sending the contents of this page to the default printer..." />
+		<Control Type="button" Id="abt_btnRefresh" lbl="Refresh" ttp="Click to refresh the contents of this page..." />
+		<Control Type="caption" Id="abt_lblAboutPac" lbl="About the PAC" ttp="This page provides information related to the PAC." />
+		<Control Type="label" Id="abt_lblAssemblies" lbl="PAC Assemblies" ttp="" />
+		<Control Type="label" Id="abt_lblPacFirmware" lbl="PAC Firmware:" ttp="" />
+		<Control Type="label" Id="abt_lblPlatform" lbl="Platform:" ttp="" />
+		<Control Type="label" Id="abt_lblSerialNumber" lbl="Serial Number:" ttp="" />
+		<Control Type="label" Id="abt_lblWinCEVersion" lbl="Win CE Version:" ttp="" />
+		<Control Type="label" Id="abt_lblXpsFirmware" lbl="Xpress Firmware:" ttp="" />
+		<Control Type="link" Id="abt_lnkAssemblies" lbl="PAC Assemblies" ttp="Click to expand or collapse 'PAC Assemblies'." />
+		<Control Type="link" Id="abt_lnkDownload" lbl="Download a file" ttp="Click to expand or collapse files available for 'Download'." />
+		<Control Type="link" Id="abt_lnkMemory" lbl="Program Memory" ttp="Click to expand or collapse 'Program Memory' info." />
+		<Control Type="link" Id="abt_lnkModelNumber" lbl="Model Number" ttp="Click to expand or collapse 'Model Number' info." />
+		<Control Type="link" Id="abt_lnkModelNumberExt" lbl="Extended" ttp="Click to expand or collapse 'Extended Model Number' info." />
+	</Controls>
+	<AssembliesHeader Id="Assembly Name" Version="Version" ModDate="Last Modified" ModDateFormat="MM/dd/yyyy hh:mm tt" />
+	<Assemblies>
+		<Assembly Id="opennetcf.dll" Version="" ModDate="" lbl="PAC OpenNetCF DLL" />
+		<Assembly Id="opennetcf.windowsce.dll" Version="" ModDate="" lbl="PAC OpenNetCF WindowsCE DLL" />
+		<Assembly Id="opennetcf.net.dll" Version="" ModDate="" lbl="PAC OpenNetCF Net DLL" />
+		<Assembly Id="opennetcf.ssl.dll" Version="" ModDate="" lbl="PAC OpenNetCF Ssl DLL" />
+		<Assembly Id="opennetcf.web.dll" Version="" ModDate="" lbl="PAC OpenNetCF Web DLL" />
+		<Assembly Id="WebServer.exe" Version="" ModDate="" lbl="PAC Configuration Tool EXE" />
+		<Assembly Id="Parker.Tucson.Web.Services.dll" Version="" ModDate="" lbl="PAC Configuration Web DLL" />
+		<Assembly Id="Parker.Tucson.Core.dll" Version="" ModDate="" lbl="PAC Configuration Core DLL" />
+		<Assembly Id="Parker.Tucson.Data.dll" Version="" ModDate="" lbl="PAC Configuration Data DLL" />
+		<Assembly Id="Parker.Tucson.IO.dll" Version="" ModDate="" lbl="PAC Configuration IO DLL" />
+		<Assembly Id="Parker.Tucson.Utilities.dll" Version="" ModDate="" lbl="PAC Configuration Utilities DLL" />
+		<Assembly Id="\Hard Disk\Project\Web\webserver.exe.ini" Version="" ModDate="" lbl="PAC Configuration Tool Ini File" />
+		<Assembly Id="\Windows\CoDeSysControlWinCE.exe" Version="" ModDate="" lbl="CoDeSysRuntime EXE" />
+	</Assemblies>
+	<DownloadItems>
+		<DownloadItem Id="pac_user_guide.pdf" lbl="PAC User Guide..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="litesw.log" lbl="PAC Runtime Log file..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="codesyscontrol.cfg" lbl="PAC Runtime Config file..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="retmem.log" lbl="Retentive Memory Log file..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="webserver.exe.log" lbl="PAC Configuration Tool Log file..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="webserver.exe.ini" lbl="PAC Configuration Tool Ini file..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="webserver.exe.log.docx" lbl="PAC Configuration Tool Log File (Support Document)..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="webserver.exe.ini.docx" lbl="PAC Configuration Tool Ini File (Support Document)..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="globalization.zip" lbl="PAC Language Translation Template..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="sessions.json" lbl="PAC Sessions File..." ttp="Click to download this file to your computer." />
+		<DownloadItem Id="pacremotedesktop.exe" lbl="PAC Remote Desktop Client..." ttp="Click to download this file to your computer." />
+	</DownloadItems>
+	<MemoryItems>
+		<MemoryItem Id="ALLOCATED" lbl="Allocated" ttp=""></MemoryItem>
+		<MemoryItem Id="IN_USE" lbl="In Use" ttp=""></MemoryItem>
+		<MemoryItem Id="FREE" lbl="Free" ttp=""></MemoryItem>
+	</MemoryItems>
+	<ModelNumberItems>
+		<ModelNumberItem Id="SERIES" lbl="Series" ttp=""></ModelNumberItem>
+		<ModelNumberItem Id="SOFTWARE" lbl="Software" ttp=""></ModelNumberItem>
+		<ModelNumberItem Id="VISUALIZATION" lbl="Visualization" ttp=""></ModelNumberItem>
+		<ModelNumberItem Id="FIELDBUS" lbl="Communications Option" ttp=""></ModelNumberItem>
+		<ModelNumberItem Id="RETENTIVE_MEMORY" lbl="Retentive Memory" ttp=""></ModelNumberItem>
+		<ModelNumberItem Id="PROCESSOR_SPEED" lbl="Processor Speed" ttp=""></ModelNumberItem>
+		<ModelNumberItem Id="AGENCY_APPROVALS" lbl="Agency Approvals" ttp=""></ModelNumberItem>
+		<ModelNumberItem Id="RESERVED" lbl="Reserved" ttp=""></ModelNumberItem>
+	</ModelNumberItems>
+	<ModelNumberItemsExt>
+		<ModelNumberItemExt Id="1" lbl="OPC-UA" ttp="Bit1"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="2" lbl="Undefined" ttp="Bit2"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="3" lbl="Undefined" ttp="Bit3"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="4" lbl="Undefined" ttp="Bit4"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="5" lbl="Undefined" ttp="Bit5"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="6" lbl="Undefined" ttp="Bit6"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="7" lbl="Undefined" ttp="Bit7"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="8" lbl="Undefined" ttp="Bit8"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="9" lbl="Push to Fit" ttp="Bit9"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="10" lbl="Undefined" ttp="Bit10"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="11" lbl="Undefined" ttp="Bit11"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="12" lbl="Undefined" ttp="Bit12"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="13" lbl="Undefined" ttp="Bit13"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="14" lbl="Undefined" ttp="Bit14"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="15" lbl="Undefined" ttp="Bit15"></ModelNumberItemExt>
+		<ModelNumberItemExt Id="16" lbl="Undefined" ttp="Bit16"></ModelNumberItemExt>
+	</ModelNumberItemsExt>
+	<Messages>
+		<Message Id="0"><![CDATA[Not Licensed]]></Message>
+		<Message Id="1"><![CDATA[Licensed]]></Message>
+		<Message Id="2"><![CDATA[The specified file '{0}' is invalid.]]></Message>
+		<Message Id="3"><![CDATA[Updating 'License' on the PAC...]]></Message>
+	</Messages>
+</AboutInfo>

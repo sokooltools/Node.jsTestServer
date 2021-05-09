@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<RefreshUnits>
+	<RefreshUnit Index="1" DisplayName="fr_seconds" />
+	<RefreshUnit Index="2" DisplayName="fr_minutes" />
+	<RefreshUnit Index="3" DisplayName="fr_hours" />
+	<RefreshUnit Index="4" DisplayName="fr_days" />
+	<RefreshUnit Index="5" DisplayName="fr_weeks" />
+</RefreshUnits>
+

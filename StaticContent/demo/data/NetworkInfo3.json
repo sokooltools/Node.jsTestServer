@@ -1,0 +1,18 @@
+{
+	"adaptername": "PCI\\E1Q51CE63",
+	"adapterid": 3,
+	"operationalstatus": "Up",
+	"domainname": "us.parker.corp",
+	"machinename": "PAC00105300001F",
+	"macaddress": "00:10:53:00:00:0F",
+	"isdhcp": true,
+	"dhcpleaseobtained": "08/14/2017 13:53:09",
+	"dhcpleaseexpires": "08/21/2017 13:53:09",
+	"ipaddress": "172.25.8.51",
+	"subnetmask": "255.255.255.0",
+	"defaultgateway": "172.25.8.254",
+	"primarydns": "172.29.12.4",
+	"secondarydns": "172.29.12.5",
+	"primarywins": "",
+	"secondarywins": ""
+}

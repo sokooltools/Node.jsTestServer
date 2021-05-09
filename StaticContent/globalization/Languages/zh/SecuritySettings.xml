@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SecuritySettings language="zh" timestamp="1511191501000">
+	<Controls>
+		<Control Type="label" Id="sec_lblXpressSettings" lbl="安全设置" ttp="zhThis page provides information related to Security Settings." />
+		<Control Type="label" Id="sec_lblUsername" lbl="zhUsername:" ttp="zhThe username used for logging into the PAC." />
+		<Control Type="label" Id="sec_lblNoPasswordReqd" lbl="zhNo Password Required" ttp="zhWhen checked, indicates no password is required for this user to login to the PAC." />
+		<Control Type="label" Id="sec_lblPassword" lbl="zhPassword:" ttp="zhThe password used for logging into the PAC." />
+		<Control Type="label" Id="sec_lblPasswrd2" lbl="zhConfirm Password:" ttp="zhThe password used for logging into the PAC. (Must match the password entered above.)" />
+		<Control Type="label" Id="sec_lblLoginEnabled" lbl="zhEnabled:" ttp="zhWhen checkmarked, indicates that this user is currently enabled." />
+		<Control Type="label" Id="sec_lblDateCreated" lbl="zhDate Created:" ttp="zhDate and time this user was first added to the database." />
+		<Control Type="label" Id="sec_lblDateModified" lbl="zhDate Modified:" ttp="zhDate and time of the last modifications made to this user." />
+		<Control Type="label" Id="sec_lblUserLevel" lbl="zhUser Level:" ttp="zhLevel of access granted to this user." />
+		<Control Type="button" Id="sec_btnHelp" lbl="" ttp="zhClick to display online help related to this page..." />
+		<Control Type="button" Id="sec_btnAddUser" lbl="zhAdd User" ttp="zhClick to begin adding a new user..." />
+		<Control Type="button" Id="sec_btnRemUser" lbl="zhRemove" ttp="zhClick to indicate the selected user should be removed..." />
+		<Control Type="button" Id="sec_btnSave" lbl="zhSave" ttp="zhClick to save the current user information to the database..." />
+		<Control Type="button" Id="sec_btnRefresh" lbl="zhRefresh" ttp="zhClick to refresh the contents of this page..." />
+		<Control Type="button" Id="sec_btnCollapAll" lbl="zhCollapse All" ttp="zhClick to collapse all the groups in the grid..." />
+		<Control Type="button" Id="sec_btnExpandAll" lbl="zhExpand All" ttp="zhClick to expand all the groups in the grid..." />
+		<Control Type="column" Id="sec_colUsername" lbl="zhUsername" ttp="zhThe username used for logging into the PAC" />
+		<Control Type="column" Id="sec_colUserLevel" lbl="zhUserLevel" ttp="zhIndicates the level of access granted to this user." />
+		<Control Type="column" Id="sec_colDateCreated" lbl="zhDate created" ttp="zhThe date and time the user was added to the database." />
+		<Control Type="column" Id="sec_colDateModified" lbl="zhDate modified" ttp="zhThe date and time of the last modification." />
+		<Control Type="column" Id="sec_colEnabled" lbl="zhEnabled" ttp="zhIndicates whether the user is currently enabled or not." />
+		<Control Type="column" Id="sec_colLastAccessed" lbl="zhLast Accessed" ttp="zhThe date and time the user last accessed the database via the corresponding IP Address." />
+		<Control Type="column" Id="sec_colIpAddress" lbl="zhIP Address" ttp="zhThe IP Address(es) the user accessed the database from." />
+	</Controls>
+	<DateTimeFormat>MM/DD/YYYY HH:mm A</DateTimeFormat>
+	<UserLevels>
+		<UserLevel Id="0" lbl="zhAdmin" ttp="" />
+		<UserLevel Id="1" lbl="zhGuest" ttp="" />
+	</UserLevels>
+	<Messages>
+		<Message Id="1"><![CDATA[zh<b><i>Username</i></b> and <b><i>Password</i></b> must be provided.]]></Message>
+		<Message Id="2"><![CDATA[zh<b><i>Password</i></b> must be at least <b>{0}</b> characters in length.]]></Message>
+		<Message Id="3"><![CDATA[zh<b><i>Password</i></b> must be provided.]]></Message>
+		<Message Id="4"><![CDATA[zh<b><i>New Password</i></b> and <b><i>Confirm Password</i></b> must match.]]></Message>
+		<Message Id="5"><![CDATA[zh<b><i>Username</i></b> must be at least <b>{0}</b> characters in length.]]></Message>
+		<Message Id="6"><![CDATA[zh<b><i>Username</i></b> must be provided.]]></Message>
+		<Message Id="7"><![CDATA[zhAdd User]]></Message>
+		<Message Id="8"><![CDATA[zhUpdate User]]></Message>
+		<Message Id="9"><![CDATA[zhRemove User]]></Message>
+	</Messages>
+</SecuritySettings>

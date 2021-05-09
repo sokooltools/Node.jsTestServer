@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SystemSettings language="en" timestamp="1391544915000">
+	<Controls>
+		<Control Type="caption" Id="sys_lblSystemSettings" lbl="System Settings" ttp="This page is for maintaining information related to 'System Settings'." />
+		<Control Type="button" Id="sys_btnHelp" lbl="" ttp="Click to display online help related to this page." />
+		<Control Type="button" Id="sys_btnReboot" lbl="Reboot..." ttp="Click to reboot the PAC..." />
+		<Control Type="button" Id="sys_btnSave" lbl="Save" ttp="Click to save the contents of this page to the PAC." />
+		<Control Type="button" Id="sys_btnRefresh" lbl="Refresh" ttp="Click to refresh the contents of this page with the current values obtained from the PAC." />
+		<Control Type="button" Id="sys_btnReset" lbl="Reset" ttp="Click to reset the contents of this page to what it was following the last save." />
+		<Control Type="button" Id="sys_btnSyncNow" lbl="Sync Now" ttp="Click to synchronize the 'Machine Date Time' on the PAC with the 'Internet Time Server' right now." />
+		<Control Type="label" Id="sys_lblInternetTimeServer" lbl="Internet Time Server:" ttp="Provides the choices for Internet Time Server." />
+		<Control Type="label" Id="sys_lblIsAutoDst" lbl="Automatically adjust clock for Daylight Saving Time" ttp="When checkmarked, the clock on the PAC will automatically be adjusted for 'Daylight Saving Time'." />
+		<Control Type="label" Id="sys_lblIsSyncWithInternet" lbl="Sync with an Internet Time Server (Reboot Required)" ttp="When checkmarked, the date and time on the PAC is synchronized with the date and time obtained from the selected 'Internet Time Server'. (A reboot is initially required once enabled)" />
+		<Control Type="label" Id="sys_lblIsSyncWithMyClock" lbl="Sync with my Clock" ttp="When checkmarked, the date and time on the PAC is synchronized with the date and time obtained from this computer." />
+		<Control Type="label" Id="sys_lblMachineName" lbl="Machine Name:" ttp="The unique name of the machine the PAC is running on." />
+		<Control Type="label" Id="sys_lblMachineDesc" lbl="Machine Description:" ttp="The description of the machine the PAC is running on. It does not need to be unique." />
+		<Control Type="label" Id="sys_lblMachineDateTime" lbl="Machine Date Time:" ttp="The current date and time on the PAC." />
+		<Control Type="label" Id="sys_lblMachineTimeZone" lbl="Machine Time Zone:" ttp="The current time zone on the PAC." />
+		<Control Type="label" Id="sys_lblRefreshInterval" lbl="Refresh Interval:" ttp="The amount of time to wait until the next synchronization between the internet time server and the PAC." />
+	</Controls>
+	<DateFormat>mm/dd/yy</DateFormat>
+	<TimeFormat>hh:mm:ss TT</TimeFormat>
+	<Messages>
+		<Message Id="1">
+			<!-- The 'System Settings' cannot be saved since the specified Machine Name: '{Compact}' already exists on this network.  -->
+			<![CDATA[The <i>System Settings</i> cannot be saved since the specified <b>Machine Name</b>: <i>'{0}'</i> already exists on this network.]]>
+		</Message>
+		<Message Id="2"><![CDATA['<b>Machine Name</b>' must be at least <b>4</b> characters in length.]]></Message>
+		<Message Id="3"><![CDATA['<b>Machine Name</b>' must be provided.]]></Message>
+		<Message Id="4"><![CDATA['<b>Machine Name</b>' must begin with a character and end with either a character or a number.]]></Message>
+		<Message Id="5"><![CDATA[Are you sure you want to <b><i>Reboot</i></b> the PAC?]]></Message>
+		<Message Id="6"><![CDATA['<b>Internet Time Server</b>' must be at least <b>4</b> characters in length.]]></Message>
+		<Message Id="7"><![CDATA['<b>Internet Time Server</b>' must be provided.]]></Message>
+		<Message Id="8"><![CDATA['<b>Refresh Interval</b>' must be at least 5 minutes and no more than 2 weeks.]]></Message>
+		<Message Id="9"><![CDATA['<b>Refresh Interval</b>' must be provided.]]></Message>
+		<Message Id="10"><![CDATA[Validating '<b>Machine Name</b>'... Please wait.]]></Message>
+		<Message Id="11"><![CDATA[To effectively initiate the changes made to the current <b>System Settings</b>, it is recommended that you reboot the PAC...]]></Message>
+	</Messages>
+</SystemSettings>

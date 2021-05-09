@@ -1,0 +1,5 @@
+{
+    "eslint.enable": false,
+    "npm.enableScriptExplorer": true,
+    "docthis.includeDescriptionTag": true
+}

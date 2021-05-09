@@ -1,0 +1,43 @@
+﻿<div style="font-family: Helvetica; color: #000; font-size: 11pt; margin-right: 45px;">
+	<div style="text-align: left; margin-top: 0; margin-bottom: 0; border: 1px solid #e3e3e3; width: 100%; background: #fff;
+		margin-left: 0; margin-right: 0; padding-left: 10px; padding-right: 30px; padding-top: 10px; padding-bottom: 0;">
+		<div style="margin-left: 10px; width: 100%;">
+			<div style="font-size: 14pt; font-weight: bold; padding-bottom: 5px; border-bottom: 1px solid #e3e3e3;">
+				Server Error: Unhandled exception.
+			</div>
+			<p style="padding-bottom: 5px; border-bottom: 1px solid #e3e3e3;">
+				There was an unhandled exception in '/services/network/networksettings/'. Please review the exception and stack trace below.
+			</p>
+			<p>
+				<b>Exception:</b><br />
+				<span style="font-family: Courier New; font-size: 9pt;">System.Xml.XmlException: An error message is available for this exception
+					but cannot be displayed because these messages are optional and are not currently installed on this device. Please install
+					‘NETCFv35.Messages.EN.wm.cab’ for Windows Mobile 5.0 and above or ‘NETCFv35.Messages.EN.cab’ for other platforms. Restart
+					the application to see the message.</span></p>
+			<p>
+				<b>Stack Trace:</b><br />
+				<span style="font-family: Courier New; font-size: 8pt;">at System.Xml.XmlTextReaderImpl.Throw(Exception e)<br />
+					at System.Xml.XmlTextReaderImpl.ThrowWithoutLineInfo(Int32 res)<br />
+					at System.Xml.XmlTextReaderImpl.ParseDocumentContent()<br />
+					at System.Xml.XmlTextReaderImpl.Read()<br />
+					at System.Xml.Linq.XDocument.Load(XmlReader reader, LoadOptions options)<br />
+					at System.Xml.Linq.XDocument.Parse(String text, LoadOptions options)<br />
+					at System.Xml.Linq.XDocument.Parse(String text)<br />
+					at Parker.Tucson.Web.Services.NetworkInfo.GetXml(String adapterId)<br />
+					at Parker.Tucson.Web.Services.NetworkHttpHandler.HandleGet(HttpContext context)<br />
+					at Parker.Tucson.Web.Services.BaseHttpHandler.ProcessRequest(HttpContext context)<br />
+					at OpenNETCF.Web.Hosting.AsyncWorkerRequest.c3a231978d05ccfcf56f5356b465261a1()<br />
+					at OpenNETCF.Web.Hosting.AsyncWorkerRequest.ProcessRequest()<br />
+					at OpenNETCF.Web.DefaultHttpHandler.ProcessRequest(HttpContext context)<br />
+					at OpenNETCF.Web.HttpRuntime.c3a231978d05ccfcf56f5356b465261a1(HttpWorkerRequest c2bf857ca584e7df34b9b53dad8a87a1c, ILogProvider
+					c27cdce7b44aba4b8e8f864be089216e6)<br />
+					at OpenNETCF.Web.HttpRuntime.cf12540012a1c04fa0f5f61a16aa2f299(HttpWorkerRequest c2bf857ca584e7df34b9b53dad8a87a1c, ILogProvider
+					c27cdce7b44aba4b8e8f864be089216e6)<br />
+					at A.c54c340bc7bffbee3cb70b44c03fbaf55.c162aad4c404d77aac633dee7ece297ed.c4caef32ac6f0d1cf306ef3d545c12995(Object cac5b91c2b2c0f95a98d270b7315f96ef)<br />
+					at System.Threading.ThreadPool.WorkItem.doWork(Object o)<br />
+					at System.Threading.Timer.ring()<br />
+				</span>
+			</p>
+		</div>
+	</div>
+</div>

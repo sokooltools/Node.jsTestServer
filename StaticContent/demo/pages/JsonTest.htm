@@ -1,0 +1,51 @@
+﻿<!--=================================================================================================-->
+<!--	JsonTest.htm                                                                                   -->
+<!--=================================================================================================-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="pragma" content="no-cache, no-store" />
+	<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+	<title>jQuery JSON Test</title>
+	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../../grid/slick.grid.css" />
+	<link rel="stylesheet" type="text/css" href="../../grid/slick-default-theme.css" />
+	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
+	<script type="text/javascript" src="../../scripts/moment.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
+	<script type="text/javascript" src="../../scripts/tucson/tucson.common.js"> </script>
+	<script type="text/javascript" src="../../grid/lib/jquery.event.drag-2.2.js"> </script>
+	<script type="text/javascript" src="../../grid/slick.core.js"> </script>
+	<script type="text/javascript" src="../../grid/slick.grid.js"> </script>
+	<script type="text/javascript" src="../../grid/slick.dataview.js"> </script>
+	<script type="text/javascript" src="../../grid/slick.groupitemmetadataprovider.js"> </script>
+	<script type="text/javascript" src="../../grid/slick.formatters.js"> </script>
+	<script type="text/javascript" src="../../grid/plugins/slick.cellrangedecorator.js"></script>
+	<script type="text/javascript" src="../../grid/plugins/slick.cellrangeselector.js"></script>
+	<script type="text/javascript" src="../../grid/plugins/slick.cellselectionmodel.js"></script>
+	<script type="text/javascript" src="../../grid/plugins/slick.rowselectionmodel.js"></script>
+	<script type="text/javascript" src="../scripts/jsontest.js"> </script>
+</head>
+<body>
+	<div>
+		<h1>jQuery JSON Test</h1>
+		<button id="back" class="demo ui-button ui-corner-all ui-widget" title="Click to go back to the start page.">
+			&laquo; Back</button>
+		<button id="run" class="demo ui-button ui-corner-all ui-widget" style="width: 150px;" title="Click to request data be retrieved from the server and loaded into the grid below.">
+			Request Data...</button>
+	</div>
+	<div style="line-height: 1.75rem;">This page uses the 'Slick Grid' widget to display data retrieved from a JSON file. </div>
+	<div style="line-height: 1.75rem;">Click the <b>Request Data...</b> button to perform the action.</div>
+	<div id="secGrid" style="border: thin solid #808080; height: 260px; width: 800px;">
+	</div>
+	<div style="margin-top: 5px;">
+		<button id="collapseAll" class="demo ui-button ui-corner-all ui-widget" title="Click to collapse all the rows in the grid above.">
+			Collapse all Groups</button>&nbsp;
+		<button id="expandAll" class="demo ui-button ui-corner-all ui-widget" title="Click to expand all the rows in the grid above.">
+			Expand all Groups</button>
+	</div>
+</body>
+</html>

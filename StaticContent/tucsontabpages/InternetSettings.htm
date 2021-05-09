@@ -1,0 +1,64 @@
+<!--=================================================================================================-->
+<!--	InternetSettings.htm                                                                         -->
+<!--=================================================================================================-->
+<form id="frmInternetSettings" action="" method="GET">
+	<input id="int_btnSaveD" class="hidden" type="submit" />
+	<!-- Error container -->
+	<div class="errcontainer">
+		<ol class="olerror">
+		</ol>
+	</div>
+	<div class="main">
+		<table class="paneTitle">
+			<tr>
+				<td id="int_lblInternetSettings" class="mainTitle">
+				</td>
+				<td class="noPrint">
+					<input type="submit" name="int_btnHelp" id="int_btnHelp" class="img_help" value="">
+				</td>
+			</tr>
+		</table>
+		<table class="tableRows" style="height: auto; margin: 0 20% 0 20%;">
+			<tr>
+				<td id="int_lblIsProxyEnabled" class="rowHeader">
+				</td>
+				<td class="cellData">
+					<input type="checkbox" id="int_chkIsProxyEnabled" name="int_chkIsProxyEnabled" checked="checked" />
+				</td>
+			</tr>
+			<tr>
+				<td id="int_lblProxyHost" class="rowHeader">
+				</td>
+				<td class="cellData">
+					<input type="text" id="int_txtProxyHost" name="int_txtProxyHost" maxlength="30" style="width: 169px;" />
+				</td>
+			</tr>
+			<tr>
+				<td id="int_lblProxyPort" class="rowHeader">
+				</td>
+				<td class="cellData">
+					<input type="text" id="int_txtProxyPort" name="int_txtProxyPort" maxlength="5" style="width: 70px;" />
+				</td>
+			</tr>
+			<tr>
+				<td id="int_lblIsBypassLocal" class="rowHeader">
+				</td>
+				<td class="cellData">
+					<input type="checkbox" id="int_chkIsBypassLocal" name="int_chkIsBypassLocal" checked="checked" />
+				</td>
+			</tr>
+			<tr class="noPrint">
+				<td colspan="2" class="buttonPanel">
+					<input type="submit" id="int_btnSave" name="int_btnSave" value="Save" class="btnClass" /> &nbsp;
+					<input type="submit" id="int_btnRefresh" name="int_btnRefresh" value="Refresh" class="btnClass" />
+					<input type="submit" id="int_btnReset" name="int_btnReset" value="Reset" class="btnClass hidden">
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<script type="text/javascript">
+	$(document).ready(function () {
+		window.CMN.loadScript("scripts/tucson/internetsettings.js", true, {});
+	});
+</script>

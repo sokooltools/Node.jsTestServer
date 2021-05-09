@@ -1,0 +1,28 @@
+/* ---------------------------------------------------------------------- */
+/*  jquery-language-flags.css                                             */
+/* ---------------------------------------------------------------------- */
+
+#en {
+	background-image: url('flags/en.png');
+}
+#fr {
+	background-image: url('flags/fr.png');
+}
+#de {
+	background-image: url('flags/de.png');
+}
+#it {
+	background-image: url('flags/it.png');
+}
+#es {
+	background-image: url('flags/es.png');
+}
+#ja {
+	background-image: url('flags/ja.png');
+}
+#nl {
+	background-image: url('flags/nl.png');
+}
+#zh {
+	background-image: url('flags/zh.png');
+}

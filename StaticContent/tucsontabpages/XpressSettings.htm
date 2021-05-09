@@ -1,0 +1,108 @@
+<!--=================================================================================================-->
+<!--	XpressSettings.htm                                                                           -->
+<!--=================================================================================================-->
+<form id="frmXpressSettings" action="../upload.aspx" method="POST" enctype="multipart/form-data" target="">
+	<div class="errcontainer">
+		<ol class="olerror"></ol>
+	</div>
+	<div class="main">
+		<table class="paneTitle">
+			<tr>
+				<td id="xps_lblXpressSettings" class="mainTitle"></td>
+				<td class="noPrint">
+					<input type="submit" id="xps_btnHelp" name="xps_btnHelp" class="img_help" value="">
+				</td>
+			</tr>
+		</table>
+		<table class="tableRows xps_tableRows">
+			<tr>
+				<td style="text-align: center; padding-bottom: 18px;">
+					<input type="submit" id="xps_btnLaunchShell" name="xps_btnLaunchShell" value="Launch Interact Xpress Shell" class="btnClass"
+						   tabindex="1" style="width: auto !important;
+					padding: 2px 16px;" />
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center; padding-bottom: 12px;">
+					<input type="checkbox" id="xps_chkAutoGenPlcTags" name="xps_chkAutoGenPlcTags" checked="checked" tabindex="2" />
+					<label for="xps_chkAutoGenPlcTags" id="xps_lblAutoGenPlcTags" style="font-size: 10pt; font-weight: bold; vertical-align: top;">
+						Auto Generate PLC Tags
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<fieldset style="padding-bottom: 15px;">
+						<legend id="xps_lblProject">Xpress HMI Project</legend>
+						<table style="padding: 5px 10px 10px 0; margin: 10px auto; border: thin solid gray; table-layout: auto;">
+							<tr>
+								<td id="xps_lblProjName" class="rowHeader">
+									Name:
+								</td>
+								<td style="padding-top: 10px;">
+									<input type="text" spellcheck="false" id="xps_txtProjName" name="xps_txtProjName" maxlength="64" style="width: 240px;" tabindex="3"
+										   disabled="disabled" autocomplete="off" />
+								</td>
+							</tr>
+							<tr>
+								<td id="xps_lblProjVersion" class="rowHeader">
+									Version:
+								</td>
+								<td style="padding-top: 5px;">
+									<input type="text" id="xps_txtProjVers1" name="xps_txtProjVers1" maxlength="4" style="width: 30px; text-align: center;" tabindex="4"
+										   disabled="disabled" autocomplete="off" /> .
+									<input type="text" id="xps_txtProjVers2" name="xps_txtProjVers2" maxlength="4" style="width: 30px; text-align: center;" tabindex="5"
+										   disabled="disabled" autocomplete="off" />
+								</td>
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<td>
+									<input type="submit" id="xps_btnProjGet" name="xps_btnProjGet" value="Get" class="btnWide" tabindex="6" style="float: left;
+									margin-right: 4px;" />
+								</td>
+								<td>
+									<input type="submit" id="xps_btnProjDel" name="xps_btnProjDel" value="Delete" class="btnWide" tabindex="7" style="float: right;
+									margin-left: 4px;" />
+								</td>
+							</tr>
+						</table>
+						<table style="padding: 0 5px; margin-top: 12px; width: 90%;">
+							<tr>
+								<td>
+									<fieldset style="padding: 2px 8px 8px 8px;">
+										<legend id="xps_lblProjFile" style="font-size: 10pt;padding-left: 0;">Project File To Send:</legend>
+										<table style="padding: 0;">
+											<tr>
+												<td style="width: 100%;">
+													<input type="file" id="xps_txtProjFile" name="xps_txtProjFile" style="padding: 4px; width: 100%;" disabled="disabled" tabindex="8" />
+												</td>
+												<td>
+													<input type="submit" id="xps_btnProjSend" name="xps_btnProjSend" value="Send" style="margin-left: 8px;" class="btnWide" disabled="disabled"
+														   tabindex="9" />
+												</td>
+											</tr>
+										</table>
+									</fieldset>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
+				</td>
+			</tr>
+			<tr class="noPrint">
+				<td style="text-align: center; padding-top: 10px;">
+					<input type="submit" id="xps_btnSave" name="xps_btnSave" value="Save" class="btnClass" disabled="disabled" tabindex="10" />					&nbsp;
+					<input type="submit" id="xps_btnRefresh" name="xps_btnRefresh" value="Refresh" class="btnClass" tabindex="11" />
+					<input type="submit" id="xps_btnReset" name="xps_btnReset" value="Reset" class="btnClass hidden" tabindex="11" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<script type="text/javascript">
+	$(document).ready(function() {
+		window.CMN.loadScript("scripts/tucson/xpresssettings.js", true, {});
+	});
+</script>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SystemSettings language="es" timestamp="1533033941000">
+	<Controls>
+		<Control Type="button" Id="sys_btnHelp" lbl="" ttp="esClick to display online help related to this page..." />
+		<Control Type="button" Id="sys_btnReboot" lbl="esReboot..." ttp="esClick to reboot the PAC..." />
+		<Control Type="button" Id="sys_btnSave" lbl="esSave" ttp="esClick to save the contents of this page to the current device..." />
+		<Control Type="button" Id="sys_btnRefresh" lbl="esRefresh" ttp="esClick to refresh the contents of this page..." />
+		<Control Type="button" Id="sys_btnSyncNow" lbl="esSync Now" ttp="esClick to immediately refresh the 'Machine Date Time' on the device using the chosen 'Internet Time Server'." />
+		<Control Type="button" Id="sys_btnReset" lbl="esReset" ttp="esClick to reset the contents of this page to what it was after the last save..." />
+		<Control Type="caption" Id="sys_lblSystemSettings" lbl="esSystem Settings" ttp="esThis page is for maintaining information related to 'System Settings'." />
+		<Control Type="label" Id="sys_lblInternetTimeServer" lbl="esInternet Time Server" ttp="esProvides multiple choices for Internet time server." />
+		<Control Type="label" Id="sys_lblIsAutoDst" lbl="esAutomatically adjust clock for Daylight Saving Time" ttp="esWhen checkmarked, the clock on the PAC will automatically be adjusted for 'Daylight Saving Time'." />
+		<Control Type="label" Id="sys_lblIsSyncWithInternet" lbl="esSync with an Internet Time Server (Reboot Required)" ttp="esSynchronize the date and time on the device with the date and time received from an internet time server. (A reboot is initially required once enabled)" />
+		<Control Type="label" Id="sys_lblIsSyncWithMyClock" lbl="esSync with my Clock" ttp="esSynchronize the date and time on the device with the date and time on my computer." />
+		<Control Type="label" Id="sys_lblMachineName" lbl="esMachine Name:" ttp="" />
+		<Control Type="label" Id="sys_lblMachineDesc" lbl="esMachine Description:" ttp="" />
+		<Control Type="label" Id="sys_lblMachineDateTime" lbl="esMachine Date Time:" ttp="" />
+		<Control Type="label" Id="sys_lblMachineTimeZone" lbl="esMachine Time Zone:" ttp="" />
+		<Control Type="label" Id="sys_lblRefreshInterval" lbl="esRefresh Interval:" ttp="esProvides the amount of time to wait for the next synchronization to take place between the internet time server and the PAC.." />
+	</Controls>
+	<DateFormat>mm-dd-yy</DateFormat>
+	<TimeFormat>hh.mm.ss tt</TimeFormat>
+	<Messages>
+		<Message Id="1">
+			<!-- The 'System Settings' cannot be saved since the specified Machine Name: '{Compact}' already exists on this network.  --><![CDATA[esThe <i>System Settings</i> cannot be saved since the specified <b>Machine Name</b>: <i>'{0}'</i> already exists on this network.]]></Message>
+		<Message Id="2"><![CDATA[es'<b>Machine Name</b>' must be at least <b>4</b> characters in length.]]></Message>
+		<Message Id="3"><![CDATA[es'<b>Machine Name</b>' must be provided.]]></Message>
+		<Message Id="4"><![CDATA[es'<b>Machine Name</b>' must begin with a character and end with either a character or a number.]]></Message>
+		<Message Id="5"><![CDATA[esAre you sure you want to <b><i>Reboot</i></b> the PAC?]]></Message>
+		<Message Id="6"><![CDATA[es'<b>Internet Time Server</b>' must be at least <b>4</b> characters in length.]]></Message>
+		<Message Id="7"><![CDATA[es'<b>Internet Time Server</b>' must be provided.]]></Message>
+		<Message Id="8"><![CDATA[es'<b>Refresh Interval</b>' must be at least 5 minutes and no more than 2 weeks.]]></Message>
+		<Message Id="9"><![CDATA[es'<b>Refresh Interval</b>' must be provided.]]></Message>
+		<Message Id="10"><![CDATA[esValidating '<b>Machine Name</b>'... Please wait.]]></Message>
+		<Message Id="11"><![CDATA[esTo effectively initiate the changes made to the current <b>System Settings</b>, it is recommended that you reboot the PAC...]]></Message>
+	</Messages>
+</SystemSettings>

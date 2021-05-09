@@ -1,0 +1,146 @@
+<!-- ================================================================================================= -->
+<!--	NetworkSettings.htm                                                                            -->
+<!-- ================================================================================================= -->
+<form id="frmNetworkSettings" action="" method="GET">
+<input id="net_btnSaveD" name="net_btnSaveD" class="hidden" type="submit" />
+<!-- Error $container -->
+<div class="errcontainer">
+	<ol class="olerror">
+	</ol>
+</div>
+<div class="main">
+	<table class="paneTitle" style="margin-bottom: 2px;">
+		<tr>
+			<td id="net_lblNetworkSettings" class="mainTitle">
+				Network Settings
+			</td>
+			<td class="noPrint">
+				<input type="submit" id="net_btnHelp" name="net_btnHelp" class="img_help" value="">
+			</td>
+		</tr>
+	</table>
+	<table style="margin-bottom: 12px; width: 100%;">
+		<tr>
+			<td style="width: 50%;" />
+			<td style="white-space: nowrap;">
+				<label for="net_cboNetworkAdapters" style="font-weight: bold; text-align: right; vertical-align: top; padding-right: 5px;">
+					<span id="net_lblAdapterName">Network Interface Controller (NIC):</span>
+				</label>
+				<select id="net_cboNetworkAdapters" name="net_cboNetworkAdapters">
+				</select>
+			</td>
+			<td style="width: 50%;" />
+		</tr>
+	</table>
+	<table class="tableRows">
+		<tr>
+			<td id="net_lblMachineName" class="rowHeader">
+				Machine Name:
+			</td>
+			<td class="cellData">
+				<span id="net_txtMachineName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td id="net_lblMACAddress" class="rowHeader">
+				MAC Address:
+			</td>
+			<td class="cellData">
+				<span id="net_txtMACAddress"></span>
+			</td>
+		</tr>
+		<tr style="margin-bottom: 9px;">
+			<td class="emptyCell">
+			</td>
+			<td class="emptyCell">
+			</td>
+		</tr>
+		<tr>
+			<td id="net_lblIsDHCP" class="rowHeader">
+				Network Connection:
+			</td>
+			<td class="cellData" style="padding-top: 0; padding-bottom: 4px;">
+				<span style="padding-right: 10px;">
+					<input id="net_rdoDynamic" type="radio" name="nwConnGroup" value="net_rdoDynamic">
+					<label id="net_lblDynamic" for="net_rdoDynamic">
+						Dynamic
+					</label>
+				</span>
+				<span style="padding-right: 10px;">
+					<input id="net_rdoStatic" type="radio" name="nwConnGroup" value="net_rdoStatic">
+					<label id="net_lblStatic" for="net_rdoStatic">
+						Static
+					</label>
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="net_lblIPAddress" class="rowHeader">
+				IP Address:
+			</td>
+			<td class="cellData">
+				<input id="net_txtIPAddress" name="net_txtIPAddress" class="ipv4mask">
+			</td>
+		</tr>
+		<tr>
+			<td id="net_lblSubnetMask" class="rowHeader">
+				Subnet Mask:
+			</td>
+			<td class="cellData">
+				<input id="net_txtSubnetMask" name="net_txtSubnetMask" class="ipv4mask">
+			</td>
+		</tr>
+		<tr>
+			<td id="net_lblDefaultGateway" class="rowHeader">
+				Default Gateway:
+			</td>
+			<td class="cellData">
+				<input id="net_txtDefaultGateway" name="net_txtDefaultGateway" class="ipv4mask">
+			</td>
+		</tr>
+		<!-- The next 4 fields are not used in this iteration
+		<tr style="visibility: collapse; display:none;">
+			<td id="net_lblPrimaryDNS" class="rowHeader">
+			</td>
+			<td class="cellData">
+				<input id="net_txtPrimaryDNS" name="net_txtPrimaryDNS" class="ipv4mask">
+			</td>
+		</tr>
+		<tr style="visibility: collapse; display:none;">
+			<td id="net_lblSecondaryDNS" class="rowHeader">
+			</td>
+			<td class="cellData">
+				<input id="net_txtSecondaryDNS" name="net_txtSecondaryDNS" class="ipv4mask">
+			</td>
+		</tr>
+		<tr style="visibility: collapse; display:none;">
+			<td id="net_lblPrimaryWINS" class="rowHeader">
+			</td>
+			<td class="cellData">
+				<input id="net_txtPrimaryWINS" name="net_txtPrimaryWINS" class="ipv4mask">
+			</td>
+		</tr>
+		<tr style="visibility: collapse; display:none;">
+			<td id="net_lblSecondaryWINS" class="rowHeader">
+			</td>
+			<td class="cellData">
+				<input id="net_txtSecondaryWINS" name="net_txtSecondaryWINS" class="ipv4mask">
+			</td>
+		</tr> -->
+		<tr class="noPrint">
+			<td colspan="2" class="buttonPanel">
+				<input type="submit" name="net_btnSave" value="Save" id="net_btnSave" disabled="" class="btnClass">
+				&nbsp;
+				<input type="submit" name="net_btnRefresh" value="Refresh" id="net_btnRefresh" class="btnClass">
+				<input type="submit" name="net_btnReset" value="Reset" id="net_btnReset" class="btnClass hidden">
+			</td>
+		</tr>
+	</table>
+</div>
+</form>
+<script type="text/javascript">
+	$(document).ready(function() {
+		window.CMN.loadStyle("themes/tucson/ipaddress.css");
+		window.CMN.loadScript("scripts/tucson/networksettings.js", true, {});
+	});
+</script>

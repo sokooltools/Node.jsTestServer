@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RefreshUnits>
+	<RefreshUnit Index="1" DisplayName="de_seconds" />
+	<RefreshUnit Index="2" DisplayName="de_minutes" />
+	<RefreshUnit Index="3" DisplayName="de_hours" />
+	<RefreshUnit Index="4" DisplayName="de_days" />
+	<RefreshUnit Index="5" DisplayName="de_weeks" />
+</RefreshUnits>

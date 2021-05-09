@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Login language="de" timestamp="1511191501000">
+	<Controls>
+		<Control Type="label" Id="lgn_lblLogin" lbl="Login zum PAC" ttp="deThis page is used for logging into the PAC." />
+		<Control Type="label" Id="lgn_lblUsername" lbl="deUsername:" ttp="" />
+		<Control Type="label" Id="lgn_lblPassword" lbl="dePassword:" ttp="" />
+		<Control Type="label" Id="lgn_lblRememberMe" lbl="deRemember Me" ttp="deWhen checked, indicates the current 'Username' will be remembered for the next time this login page is display." />
+		<Control Type="button" Id="lgn_btnHelp" lbl="" ttp="deClick to display online help related to this page..." />
+		<Control Type="button" Id="lgn_btnLogin" lbl="deLogin" ttp="deClick to login to the PAC..." />
+		<Control Type="button" Id="lgn_btnReset" lbl="deReset" ttp="deClick to reset the contents of this page..." />
+	</Controls>
+	<Messages>
+		<Message Id="1"><![CDATA[dePassword minimum length is <b>6</b>.]]></Message>
+		<Message Id="2"><![CDATA[dePassword is required.]]></Message>
+		<Message Id="3"><![CDATA[deUsername minimum length is <b>4</b>.]]></Message>
+		<Message Id="4"><![CDATA[deUsername is required.]]></Message>
+	</Messages>
+</Login>

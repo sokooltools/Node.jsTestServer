@@ -1,0 +1,108 @@
+﻿<!-- ================================================================================================= -->
+<!--	ConfigTool.htm                                                                                 -->
+<!-- ================================================================================================= -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!--<meta http-equiv="pragma" content="no-cache, no-store">-->
+	<!--<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">-->
+	<title>PAC Configuration Tool</title>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<!-- STYLES -->
+	<link rel="stylesheet" type="text/css" href="themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="themes/base/jquery-language-switcher.css" />
+	<link rel="stylesheet" type="text/css" href="themes/tucson/configtool.css" />
+	<link rel="stylesheet" type="text/css" href="themes/tucson/tabs-no-images.css" />
+	<!-- SCRIPTS -->
+	<script type="text/javascript" src="scripts/jquery.js"></script>
+	<script type="text/javascript" src="scripts/jquery-migrate.js"></script>
+	<script type="text/javascript" src="scripts/jquery.validate.js"></script>
+	<script type="text/javascript" src="scripts/detect.js"></script>
+	<script type="text/javascript" src="scripts/ui/jquery-ui.js"></script>
+	<!-- The following script must be referenced after the preceding script. -->
+	<script type="text/javascript" src="scripts/jquery.tools.min.js"></script>
+</head>
+<body style="display: none;">
+	<table style="margin: 0; padding: 0; font-style: italic;">
+		<tr>
+			<td id="cmn_lblLoggedInUser" style="width: 100%; padding: 0 0 4px 0;">
+			</td>
+			<td style="padding: 0 0 4px 0;">
+				<input type="submit" id="cmn_btnLogout" name="cmn_btnLogout" value="Logout" class="btnClass noPrint" />
+			</td>
+		</tr>
+	</table>
+	<table id="cmn_masterTable">
+		<tr>
+			<td style="width: 64px;">
+				<img id="cmn_imgLogo" style="height: 32px;" alt="Parker Logo" src="themes/tucson/images/logo.png">
+			</td>
+			<td id="cmn_masterHeader">
+				PAC CONFIGURATION TOOL
+			</td>
+			<td style="width: 400px; text-align: right;">
+				<img id="cmn_imgTagline" style="height: 12px;" alt="Engineering Your Success" src="themes/tucson/images/tagline.jpg">
+			</td>
+		</tr>
+	</table>
+	<div id="cmn_cboLanguage">
+		<form action="#">
+			<select id="cmn_cboLanguageOptions">
+			<option id="en" value="en">English</option>
+		</select>
+		</form>
+	</div>
+	<!-- TABS -->
+	<ul class="css-tabs">
+		<li id="T1"><a id="LGN" href="tucsontabpages/Login.htm" class="">Login</a></li>
+		<li id="T2"><a id="NET" href="tucsontabpages/NetworkSettings.htm" class="">Network Settings</a></li>
+		<li id="T3"><a id="SYS" href="tucsontabpages/SystemSettings.htm" class="">System Settings</a></li>
+		<li id="T4"><a id="INT" href="tucsontabpages/InternetSettings.htm" class="">Internet Settings</a></li>
+		<li id="T5"><a id="SEC" href="tucsontabpages/SecuritySettings.htm" class="">Security Settings</a></li>
+		<li id="T6"><a id="XPS" href="tucsontabpages/XpressSettings.htm" class="">Xpress HMI Settings</a></li>
+		<li id="T7"><a id="ABT" href="tucsontabpages/AboutInfo.htm" class="">About the PAC</a></li>
+	</ul>
+	<!-- These represent the unique panes corresponding to each tab -->
+	<div class="css-panes">
+		<div style="display: block;">
+		</div>
+		<div>
+		</div>
+		<div>
+		</div>
+		<div>
+		</div>
+		<div>
+		</div>
+		<div>
+		</div>
+		<div>
+		</div>
+	</div>
+	<!-- IMAGE CACHE -->
+	<div style="display: none">
+		<img alt="" src="themes/base/images/busy.gif" />
+		<img alt="" src="themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" />
+		<img alt="" src="themes/base/images/ui-bg_flat_75_ffffff_40x100.png" />
+		<img alt="" src="themes/base/images/ui-bg_glass_65_ffffff_1x400.png" />
+		<img alt="" src="themes/base/images/ui-bg_glass_75_dadada_1x400.png" />
+		<img alt="" src="themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" />
+		<img alt="" src="themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" />
+		<img alt="" src="themes/base/images/ui-icons_888888_256x240.png" />
+		<img alt="" src="themes/tucson/images/exclamation.png" />
+		<img alt="" src="themes/tucson/images/help.png" />
+	</div>
+	<!-- The following scripts must be loaded in this order -->
+	<script type="text/javascript" src="scripts/ui/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="scripts/ui/jquery.ipaddress.js"></script>
+	<script type="text/javascript" src="scripts/ui/jquery.language.switcher.js"></script>
+	<script type="text/javascript" src="scripts/ui/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="scripts/tucson/tucson.common.js"></script>
+	<script type="text/javascript" src="scripts/tucson/tucson.utils.js"></script>
+	<script type="text/javascript" src="scripts/tucson/tucson.configtool.js"></script>
+	<script type="text/javascript" src="scripts/moment.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ConfigTool language="fr" timestamp="1511191705000">
+	<Controls>
+		<Control Type="button" Id="cmn_btnLogout" lbl="Déconnexion" ttp="Cliquez pour vous déconnecter de la PAC." />
+		<Control Type="caption" Id="NET" lbl="frNetwork Settings" ttp="frClick this tab to display information related to the Network Settings." />
+		<Control Type="caption" Id="SYS" lbl="Paramètres système" ttp="frThis page provifrs information related to System Settings." />
+		<Control Type="caption" Id="ABT" lbl="À propos fr la PAC" ttp="frThis page provifrs information related to the PAC." />
+		<Control Type="caption" Id="INT" lbl="frInternet Settings" ttp="frClick this tab to display information related to the Internet Settings." />
+		<Control Type="caption" Id="SEC" lbl="Paramètres de sécurité" ttp="frClick this tab to display information related to the Security Settings." />
+		<Control Type="caption" Id="XPS" lbl="frXpress HMI Settings" ttp="frClick this tab to display information related to Interact Xpress HMI Settings." />
+		<Control Type="caption" Id="LGN" lbl="Connectez-vous pour la PAC" ttp="frLogin." />
+	</Controls>
+	<Messages>
+		<Message Id="1"><![CDATA[frPlease wait]]></Message>
+		<Message Id="2"><![CDATA[frLoading]]></Message>
+		<Message Id="3"><![CDATA[frSaving]]></Message>
+		<Message Id="4"><![CDATA[frRefreshing]]></Message>
+		<Message Id="5"><![CDATA[frResetting]]></Message>
+		<Message Id="6"><![CDATA[frOK]]></Message>
+		<Message Id="7"><![CDATA[frCancel]]></Message>
+		<Message Id="8"><![CDATA[frYes]]></Message>
+		<Message Id="9"><![CDATA[frNo]]></Message>
+		<Message Id="10"><![CDATA[frRetry]]></Message>
+		<Message Id="11"><![CDATA[frError]]></Message>
+		<Message Id="12"><![CDATA[frWarning]]></Message>
+		<Message Id="13"><![CDATA[frMessage]]></Message>
+		<Message Id="14"><![CDATA[frSome of the data you specified is invalid and must be corrected before the {0} can be saved!]]></Message>
+		<Message Id="15"><![CDATA[frThe <b>Username</b> and&#47;or <b>Password</b> you entered is invalid.]]></Message>
+		<Message Id="16"><![CDATA[frThis account is currently <b>disabled</b>. Please contact your administrator for further details.]]></Message>
+		<Message Id="17"><![CDATA[frPAC Configuration Error]]></Message>
+		<Message Id="18"><![CDATA[frUnknown Error Occured]]></Message>
+		<Message Id="19"><![CDATA[frThe device located at <b>IP Address</b>: '<i>{0}</i>' is not responding.]]></Message>
+		<Message Id="20"><![CDATA[frSorry... This feature is still under construction.]]></Message>
+		<Message Id="21"><![CDATA[frSorry... This feature is not available in <b>Simulation Mode</b>.]]></Message>
+		<Message Id="22"><![CDATA[frNetwork Connection]]></Message>
+		<Message Id="23"><![CDATA[frCurrent User]]></Message>
+		<Message Id="24"><![CDATA[<b>frRebooting the PAC...</b></br>Please wait as this sometimes can take a minute or more...]]></Message>
+	</Messages>
+</ConfigTool>

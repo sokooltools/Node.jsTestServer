@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Login language="zh" timestamp="1511191501000">
+	<Controls>
+		<Control Type="label" Id="lgn_lblLogin" lbl="登錄到PAC" ttp="zhThis page is used for logging into the PAC." />
+		<Control Type="label" Id="lgn_lblUsername" lbl="zhUsername:" ttp="" />
+		<Control Type="label" Id="lgn_lblPassword" lbl="zhPassword:" ttp="" />
+		<Control Type="label" Id="lgn_lblRememberMe" lbl="zhRemember Me" ttp="zhWhen checked, indicates the current 'Username' will be remembered for the next time this login page is display." />
+		<Control Type="button" Id="lgn_btnHelp" lbl="" ttp="zhClick to display online help related to this page..." />
+		<Control Type="button" Id="lgn_btnLogin" lbl="zhLogin" ttp="zhClick to login to the PAC..." />
+		<Control Type="button" Id="lgn_btnReset" lbl="zhReset" ttp="zhClick to reset the contents of this page..." />
+	</Controls>
+	<Messages>
+		<Message Id="1"><![CDATA[zhPassword minimum length is <b>6</b>.]]></Message>
+		<Message Id="2"><![CDATA[zhPassword is required.]]></Message>
+		<Message Id="3"><![CDATA[zhUsername minimum length is <b>4</b>.]]></Message>
+		<Message Id="4"><![CDATA[zhUsername is required.]]></Message>
+	</Messages>
+</Login>

@@ -1,0 +1,336 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Network Settings Help</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta id="GENERATOR" content="?">
+	<meta id="Author" content="rasokol">
+	<meta id="Description" content="description">
+	<link rel="stylesheet" type="text/css" href="themes/help.css">
+	<script type="text/javascript" src="../scripts/jquery.js"></script>
+	<script type="text/javascript" src="scripts/help.js"></script>
+	<style type="text/css">
+		img {
+			border: none;
+		}
+	</style>
+</head>
+<body>
+	<table id="help_Toolbar" class="noPrint">
+		<tr>
+			<td class="title">
+				Network Settings Help
+			</td>
+			<td nowrap="nowrap">
+				<button type="button" id="help_btnShowCommon"></button>
+			</td>
+			<td id="help_btnClose">
+				<span class="close">Close</span><span class="close_x">X</span>
+			</td>
+		</tr>
+	</table>
+	<div id="help_Frame">
+		<table id="help_toc_table">
+			<tr>
+				<td>
+					To achieve the best user experience, Javascript must be enabled!
+				</td>
+			</tr>
+		</table>
+		<ol class="main">
+			<li class="li2">
+				<a>Initial <q>Network Settings</q> page displayed</a>
+				<div class="t1">
+					The following is an example of the page displayed in the web browser after logging in successfully to the PAC:
+				</div>
+				<img alt="" src="images/networksettings/img01.png" />
+				<div class="t2">
+				</div>
+			</li>
+			<li class="li2">
+				<a>Changing the current <q>Network Interface Controller</q></a>
+				<div class="t1">
+					You can view and/or configure the alternate <span class="sp1">Network Interface Controller (NIC)</span>, at anytime by selecting
+					it from the drop-down:
+				</div>
+				<img alt="" src="images/networksettings/img02.png" />
+				<div class="t2">
+					You must <i>save</i> any changes you make to the currently selected <span class="sp1">NIC</span> prior to selecting another
+					<span class="sp1">NIC</span> from the drop-down to prevent the current changes from being discarded. (Note that you will
+					be provided a warning with the ability to save your changes should this situation be encountered.)
+				</div>
+			</li>
+			<li class="li2">
+				<a>Changing an <q>IP Address</q></a>
+				<div class="t1">
+					To change the <span class="sp1">IP Address</span>, click inside any one of its corresponding fields (a.k.a. "octets").<br />
+					In the example below, the fourth octet of the <i>ip address</i> is selected and the <span class="sp2">delete</span> key
+					is subsequently pressed:
+				</div>
+				<img alt="" src="images/networksettings/img03.png" />
+				<div class="t2">
+					Whenever a field contains invalid information the field itself is surrounded with a red border and a notification message
+					instantly displayed inside a red frame at the top of the page as shown above. Once valid information is entered into the
+					field, the notification dissappears.
+					<br />
+				</div>
+				<div class="t2">
+					Instead of clicking each field (octet) using the mouse, you can use the keyboard to navigate. For example, you can press
+					the <span class="sp2">tab</span> key to move from one octet to the next or <span class="sp2">shift+tab</span> to move to
+					the previous octet; press the <span class="sp2">left-arrow</span> or <span class="sp2">right-arrow</span> keys to move a
+					single character left or right or press the <span class="sp2">Home</span> or <span class="sp2">End</span> keys to quickly
+					move to the beginning or to the end of the entire ip address field. You can select then type over existing digits, or press
+					the <span class="sp2">backspace</span> or the <span class="sp2">delete</span> key and then retype the appropriate digit(s).
+					Note that each ip address control only allows numbers to be typed in via the keyboard (or pasted in using the <span class="sp2">
+						Ctrl-V
+					</span> shortcut). You can also type a one or two digit number followed by a period causing the cursor to automatically
+					jump to the next octet in the sequence.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Saving a changed <q>IP Address</q></a>
+				<div class="t1">
+					The following example illustrates a valid <span class="sp1">IP Address</span> being entered followed by the <span class="sp1">
+						Save
+					</span> button being clicked:
+				</div>
+				<img alt="" src="images/networksettings/img04.png" />
+			</li>
+			<li class="li2">
+				<a>Progress notifier displayed while <q>Saving</q></a>
+				<div class="t1">
+					After the <span class="sp1">Save</span> button is clicked, the page is locked and a progress notifier displayed while the
+					changes are being saved to the NIC:
+				</div>
+				<img alt="" src="images/networksettings/img05.png" />
+				<div class="t2">
+					The page is unlocked and the progress notifier disappears automatically once the save has completed.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Reboot dialog displayed following <q>Save</q></a>
+				<div class="t1">
+					After a <span class="sp1">Save</span> has completed, a confirmation dialog appears asking whether you want to reboot the PAC in order to
+					<i>finalize</i> the changes made to the Network Settings:
+				</div>
+				<img alt="" src="images/networksettings/img05b.png" />
+				<div class="t2">
+					As described in the confirmation dialog itself, it is highly recommended that the PAC be rebooted following a change to an <i>ip address</i>.
+					This assures that all the sub-systems get initialized to use the most current system values (i.e., re-attached to an <i>ip address</i>
+					which may have changed).<br /><br />
+					Clicking the <q>Yes</q> button will display another progress notifier indicating the system is being rebooted as shown in the next step:
+				</div>
+			</li>
+			<li class="li2">
+				<a>Progress notifier displayed while <q>Rebooting</q></a>
+				<div class="t1">
+					While the <span class="sp1">reboot</span> is taking place, a progress notifier is displayed:
+				</div>
+				<img alt="" src="images/networksettings/img05c.png" />
+				<div class="t2">
+					A reboot can take a minute or more so please be patient.
+					After the reboot has completed the browser will be automatically redirected back to the <b>Login</b> page.<br /><br />
+					Click the <q>No</q> button to skip this step and reboot the PAC at your own discretion.<br /><br />
+					If you do select <q>No</q>, there will be a long pause (similar to what is shown in the next step)
+					while the changes to the NIC take affect and your browser is automatically reconnected to the PAC:
+				</div>
+			</li>
+			<li class="li2">
+				<a>Progress notifier displayed while <q>Reconnecting</q> Pt. 1</a>
+				<div class="t1">
+					Whenever you change the <i>ip address</i> of the <span class="sp1">NIC</span> being used to communicate with the web server,
+					the web page you are using to access the server, must ultimately be reconnected to the new <i>ip address</i>:
+				</div>
+				<img alt="" src="images/networksettings/img06a.png" />
+				<div class="t2">
+				</div>
+			</li>
+			<li class="li2">
+				<a>Progress notifier displayed while <q>Reconnecting</q> Pt. 2</a>
+				<div class="t1">
+				</div>
+				<img alt="" src="images/networksettings/img06b.png" />
+				<div class="t2">
+					The reconnection happens automatically after a short waiting period (usually no more than 20-30 seconds)...
+				</div>
+			</li>
+			<li class="li2">
+				<a><q>Loading</q> page displayed after an IP Address change</a>
+				<div class="t1">
+					The page shown here appears briefly following an <i>ip address</i> change:
+				</div>
+				<img alt="" src="images/networksettings/img07.png" />
+				<div class="t2">
+					If for some reason the page above continues to be displayed for more than 20-30 seconds it usually means the <i>ip address</i> change
+					and <i>auto-reconnect</i> process has stalled. Try clicking the browser's own <span class="sp1">Refresh</span> button to
+					have it manually reconnect to the web server using the new <i>ip address</i> *.<br /><br />
+					* On occasion you may also need to manually enter the <b>new</b> <i>ip address</i> (and <i>port number</i>) into the browser's
+					address bar before clicking the browser's <span class="sp1">Refresh</span> button.
+				</div>
+			</li>
+			<li class="li2">
+				<a><q>Network Settings</q> page displayed after an IP Address change</a>
+				<div class="t1">
+					Once the ip address is successfully changed on the PAC, you should see the new <i>ip address</i> appear in the address bar
+					corresponding to the modified <i>ip address</i> you entered in a previous step:
+				</div>
+				<img alt="" src="images/networksettings/img08.png" />
+				<div class="t2">
+					Your browser should now be reconnected to the Web Server on the PAC and you can continue to make other changes as necessary.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Clicking the <q>Refresh</q> button</a>
+				<div class="t1">
+					Click the <span class="sp1">Refresh</span> button at the bottom of the page at any time to retrieve the latest values from
+					the PAC:
+				</div>
+				<img alt="" src="images/networksettings/img09.png" />
+				<div class="t2">
+					Note that this is the preferable method versus clicking the browser's own refresh button which always resets and retrieves
+					all the tabs and corresponding values instead of just the <q>values</q> being retrieved for the <i>current</i> tab....
+				</div>
+				<div class="t2">
+					Whenever you make changes to the page, the name of the "<i>Refresh</i>" button automatically changes to "<i>Reset</i>".
+					Subsequently resetting or saving the contents of the page results in the name of the button reverting back to "<i>Refresh</i>"...
+				</div>
+			</li>
+			<li class="li2">
+				<a>Progress notifier displayed while the page is <q>Refreshing</q></a>
+				<div class="t1">
+					Whenever the <span class="sp1">Refresh</span> button is clicked, the page is locked and a progress notifier momentarily
+					displayed while the data is being refreshed:
+				</div>
+				<img alt="" src="images/networksettings/img10.png" />
+				<div class="t2">
+					The page is automatically unlocked and the progress notifier hidden as soon as the refresh has completed.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Clicking the <q>Reset</q> button</a>
+				<div class="t1">
+					As described earlier in this online help, whenever you make changes to the data on the page which is considered to be invalid,
+					a notification frame is displayed.
+				</div>
+				<img alt="" src="images/networksettings/img11.png" />
+				<div class="t2">
+					If you wish to abandon the changes and return to the previously saved state, you can click the <span class="sp1">Reset</span>
+					button at any time (that is, any time <i>prior</i> to clicking the <span class="sp1">Save</span> button which makes valid
+					changes <i>permanent</i>).
+				</div>
+			</li>
+			<li class="li2">
+				<a>Progress notifier displayed while the page is <q>Resetting</q></a>
+				<div class="t1">
+					Whenever the <span class="sp1">Reset</span> button is clicked, the page is locked and a progess notifier is momentarily
+					displayed while the <i>Network Settings</i> are being reset:
+				</div>
+				<img alt="" src="images/networksettings/img12.png" />
+				<div class="t2">
+					The page is automatically unlocked and the progress notifier hidden after the reset has completed.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Notification frame displayed when data is invalid</a>
+				<div class="t1">
+					The following page shows the <span class="sp1">Subnet Mask</span> field containing invalid data:
+				</div>
+				<img alt="" src="images/networksettings/img13.png" />
+				<div class="t2">
+					Invalid data is always easy to identify because it is displayed with a red border around it.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Invalid data notifier displayed while attempting to <q>Save</q></a>
+				<div class="t1">
+					If the <span class="sp1">Save</span> button is clicked while any field on the page contains invalid data, the page is locked
+					and a notification message is momentarily displayed:
+				</div>
+				<img alt="" src="images/networksettings/img14.png" />
+				<div class="t2">
+					The message disappears automatically after a few seconds allowing you to proceed to make the neccessary corrections.<br />
+					You can click the mouse at any time to force the message to disappear immediately without having to wait.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Changing the <q>Network Interface Controller (NIC)</q></></a>
+				<div class="t1">
+					The following page shows the result of selecting a different <span class="sp1">Network Interface Controller (NIC)</span>
+					using the drop-down.
+					<br />
+					Here the NIC is changed from <b><i>ETHERNET-X2</i></b> to <b><i>ETHERNET-X3</i></b>:
+				</div>
+				<img alt="" src="images/networksettings/img15.png" />
+				<div class="t1">
+					The <span class="sp1">Network Connection</span> can be changed from <b><i>Dynamic</i></b> to <b><i>Static</i></b> at any
+					time, but can only be changed from <b><i>Static</i></b> to <b><i>Dynamic</i></b>, if and only if, the currently selected
+					<span class="sp1">NIC</span> is <i>not</i> the one being used by the Active Web Server to communicate with the client. This
+					is because changing a network connection to <i>Dynamic</i> results in an unknown <i>arbitrary</i> ip address being assigned
+					to the controller by the domain's DHCP server thus preventing the client from knowing <q>how to</q> automatically reconnect
+					itself to the web server using the new ip address.
+				</div>
+			</li>
+			<li class="li2">
+				<a><q>Changing the <q>Network Connection</q> from Dynamic to Static</q></a>
+				<div class="t1">
+					Sometimes when changing the Network Connection from <b><i>Dynamic</i></b> to <b><i>Static</i></b>, invalid data is immediately
+					indicated in red as shown below.<br />
+					This situation happens because only <b><i>Static</i></b> data can be considered invalid. <b><i>Dynamic</i></b> data is automatically
+					set by the DHCP server.
+				</div>
+				<img alt="" src="images/networksettings/img15a.png" />
+				<div class="t1">
+				</div>
+			</li>
+			<li class="li2">
+				<a>Changing the <q>IP Address</q> to one that already exists on the network</a>
+				<div class="t1">
+					In this example we are going to change the IP Address to one which already exists on the server.
+				</div>
+				<img alt="" src="images/networksettings/img15b.png" />
+				<div class="t1">
+					Enter a new IP Address such as 192.168.10.60 and then click the Save button.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Saving an <q>IP Address</q> that already exists on the network</a>
+				<div class="t1">
+					The following page shows the result of attempting to save an <span class="sp1">IP Address</span> that already exists on
+					the network:
+				</div>
+				<img alt="" src="images/networksettings/img16.png" />
+				<div class="t2">
+					Each device on a network must have a unique <i>ip address</i>. The client is automatically notified when it is attempting
+					to save an <i>ip address</i> that has already been assigned to another device on the network i.e., as long as the other
+					device containing the same ip address is turned <i>on</i> at the time of the <i>save</i>, otherwise a conflict can still
+					occur once both devices have been turned on and will thus have to be manually resolved.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Changing selected <q>NIC</q> when there are unsaved changes</a>
+				<div class="t1">
+					The following page shows the result of attempting to change the selected <span class="sp1">Network Interface Controller (NIC)</span>
+					when there are unsaved changes made to the currently selected NIC:
+				</div>
+				<img alt="" src="images/networksettings/img18.png" />
+				<div class="t2">
+					You are provided the opportunity to either <i>discard</i> the changes made to the currently selected NIC (by clicking the <b>OK</b>
+					button), or to <i>abort</i> the selection of the other NIC (by clicking the <b>Cancel</b> button), at which time you can elect to save
+					the changes.
+				</div>
+			</li>
+			<li class="li2">
+				<a>Displaying <q>Online Help</q></a>
+				<div class="t1">
+					Click on the [<span class="sp1">?</span>] button at the upper right corner of the page to display this online help at any
+					time:
+				</div>
+				<img alt="" src="images/networksettings/img17.png" />
+				<div class="t2">
+					Online help appears independently in its own window within the web browser.
+				</div>
+			</li>
+		</ol>
+	</div>
+</body>
+</html>
