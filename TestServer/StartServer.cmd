@@ -1,4 +1,5 @@
 @echo off
+
 call :perform
 
 REM start node --inspect=localhost:5555 
@@ -25,4 +26,4 @@ echo NodeJs            [%_nodeVer%]
 for /f "tokens=*" %%a in ('NPM -v')  do set _npmVer=%%a
 echo NPM               [v%_npmVer%]
 :: Start the server
-set DEBUG=testserver:* & set PORT=3000 & npm start
+set DEBUG=testserver:* & set PORT=3000 & npm start 

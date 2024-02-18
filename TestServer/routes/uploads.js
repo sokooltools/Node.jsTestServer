@@ -141,24 +141,28 @@ function onDeleteFile(req, res) {
 	});
 }
 
-// -----------------------------------------------------------------------------------------------------
-// moveUploadedFile
-// -----------------------------------------------------------------------------------------------------
+/* -------------------------------------------------------------------------------------------*/ /**
+ * Moves the specified uploaded file to its destination.
+ * @param {object} the the uploaded file
+ * @param {string} uuid the uuid
+ * @param {any} success the success callback
+ * @param {any} failure the failure callback
+ */
 function moveUploadedFile(file, uuid, success, failure) {
 	//var destinationDir = uploadedFilesPath + uuid + "/"; // RAS
-	const destinationDir = uploadedFilesPath + "/";
+    const destinationDir = uploadedFilesPath;// + "/"; // RAS 02/13/2024
 	const fileDestination = destinationDir + file.name;
 	moveFile(destinationDir, file.path, fileDestination, success, failure);
 }
 
 /* -------------------------------------------------------------------------------------------*/ /**
- * Stores chucks.
- * @param {any} file the file object
- * @param {any} uuid the uuid
- * @param {any} index the index
- * @param {any} numChunks number of chunks
- * @param {any} success 
- * @param {any} failure 
+ * Stores the specified file as chunks.
+ * @param {object} the the file object
+ * @param {string} uuid the uuid
+ * @param {number} index the index
+ * @param {number} numChunks number of chunks
+ * @param {any} success the success callback
+ * @param {any} failure the failure callback
  */
 function storeChunk(file, uuid, index, numChunks, success, failure) {
 	const destinationDir = uploadedFilesPath + uuid + "/" + chunkDirName + "/";
@@ -169,8 +173,8 @@ function storeChunk(file, uuid, index, numChunks, success, failure) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Combines chunks.
- * @param {any} file 
- * @param {any} uuid 
+ * @param {object} file 
+ * @param {string} uuid 
  * @param {any} success the success callback
  * @param {any} failure the failure callback
  */
@@ -203,8 +207,8 @@ function combineChunks(file, uuid, success, failure) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Returns an indication as to whether to the specified size is less than the maximum allowed.
- * @param {} size
- * @returns {} true or false
+ * @param {number} size
+ * @returns {boolean} true or false
  */
 function isValid(size) {
 	return maxFileSize === 0 || size < maxFileSize;

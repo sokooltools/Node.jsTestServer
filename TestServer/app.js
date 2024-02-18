@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------
 // app.js
 // -----------------------------------------------------------------------------------------------------
 
@@ -6,8 +6,8 @@
 
 // MODULE   VERSION
 // -------  -------------
-// Node     7.10.0
-// NPM      5.0.3
+// Node     20.11.0
+// NPM      10.2.4
 // Express  4.15.3
 
 /*jslint node: true */
@@ -51,7 +51,7 @@ if (app.get("env") === "development") {
 	// Log everything to std console.
 	app.use(morgan("dev"));
 } else {
-	var logsDir = path.join(__dirname, "Logs"); // Y:\Tucson\trunk\ParkerWebCF\TestServer\Logs
+	var logsDir = path.join(__dirname, "Logs"); // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
 	// Ensure the "Logs" directory exists.
 	if (!fs.existsSync(logsDir)) 
 		fs.mkdirSync(logsDir);
@@ -70,9 +70,9 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-var rootFolder = path.dirname(__dirname);                 // Y:\Tucson\trunk\ParkerWebCF
+var rootFolder = path.dirname(__dirname);                 // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool"
 
-var contentFldr = path.join(rootFolder, "StaticContent"); // Y:\Tucson\trunk\ParkerWebCF\StaticContent
+var contentFldr = path.join(rootFolder, "StaticContent"); // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\StaticContent"
 
 app.use(favicon(path.join(contentFldr, "favicon.ico")));
 

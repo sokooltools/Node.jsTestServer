@@ -1,0 +1,92 @@
+<!--=================================================================================================-->
+<!--	TestServerAdmin.htm                                                                                  -->
+<!--=================================================================================================-->
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="pragma" content="no-cache, no-store"/>
+		<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate"/>
+		<title>Test Server Admin</title>
+		<link rel="stylesheet" href="../../themes/base/jquery-ui.css"/>
+		<link rel="stylesheet" href="../themes/demo.css"/>
+		<style type="text/css"></style>
+		<script type="text/javascript" src="../../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+	</head>
+	<body>
+		<div>
+			<h1>Test Server Administration</h1>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">&laquo;Back</button>
+			<button type="button" id="run" class="demo ui-button ui-corner-all ui-widget" style="display:none;">Run </button>
+			<p>This page is used for providing some Test Server Administration features.</p>
+			<div class="block"></div>
+			<div class="block"></div>
+		</div>
+		<div class="row2">
+			<a id="getAbout" href="javascript:;" class="cell" title="Get About HTML.">Get About Html</a>
+		</div>
+		<div class="row2">
+			<a id="getJson" href="javascript:;" class="cell" title="Get some JSON.">Get JSON</a>
+		</div>
+		<div class="row2">
+			<a id="getArray" href="javascript:;" class="cell" title="Get an Array.">Get Array</a>
+		</div>
+		<div class="row2">
+			<a id="getVersion" href="javascript:;" class="cell" title="Get Module Version.">Get Module Version</a>
+		</div>
+		<div class="row2">
+			<a id="clearscreen" href="javascript:;" class="cell" title="Clear the Test Server window.">Clear Test Server Window</a>
+		</div>
+		<textarea id="response" rows="5" style="width:132em;flex-wrap:nowrap;"></textarea>
+		<script>
+			$("#back").on("click", function() {
+				history.go(-1);
+			});
+
+			$("#run").on("click", function() {});
+
+			$("#getAbout").on("click", function() {
+				doGet("/test/about", foo);
+			});
+
+			$("#getJson").on("click", function() {
+				doGet("/test/json", foo);
+			});
+
+			$("#getArray").on("click", function() {
+				doGet("/test/array", foo);
+			});
+			
+			$("#getVersion").on("click", function() {
+				doGet("/test/version", foo);
+			});
+
+			$("#clearscreen").on("click", function() {
+				doGet("/test/clear?express", foo);
+			});
+
+			function doGet(url, callback) {
+				$("textarea#response").val("");
+				$.ajax({
+					type: "GET",
+					url: url,
+					dataType: null,
+					async: true,
+					cache: false,
+					success: function(e) {
+						callback(e);
+					},
+					error: function(jqXHR) {
+						callback(jqXHR.status);
+					}
+				});
+			}
+			function foo(data) {
+				// use your data here
+				$("textarea#response").val(JSON.stringify(data));
+			}
+			;</script>
+	</body>
+</html>

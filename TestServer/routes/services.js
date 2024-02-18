@@ -118,7 +118,7 @@ router.get("/network/iscurrentipaddress/:adapterid/:hostoraddress", function (re
 		req.params.adapterid, req.params.hostoraddress);
 	const json = {
 		adapterid: req.params.adapterid,
-		hostoraddress: req.params.hostOrAddress,
+		hostoraddress: req.params.hostoraddress,
 		iscurrentipaddress: (req.params.adapterid === "3") // TODO:
 	};
 	res.status(200).json(json).end();
@@ -405,7 +405,7 @@ function doPutXpressData(req, res) {
 function doPutSecurityData(req, res) {
 	const json = req.body;
 	updateDataWithJson(_user, json);
-	var dt = common.dateToMilliseconds(new Date());
+	const dt = common.dateToMilliseconds(new Date());
 	_user.datecreated = dt;
 	_user.datemodified = dt;
 	if (_user.password === emptyPasswordIndicator) {
@@ -485,7 +485,7 @@ function addOrUpdateUsers(user) {
 			}
 		}
 	}
-	// If we got here then user did'nt exist so we need to add it.
+	// If we got here then user didn't exist so we need to add it.
 	users.push(user);
 	common.writeFileCache(filepath, users);
 }

@@ -40,6 +40,9 @@ a:hover {
 .row {
 	padding: 5px 0 5px 120px;
 }
+.row2 {
+	padding: 0.5em;
+}
 
 .cell {
 	margin: 10px;

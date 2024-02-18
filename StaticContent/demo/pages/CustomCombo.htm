@@ -1,4 +1,4 @@
-﻿<!--=================================================================================================-->
+<!--=================================================================================================-->
 <!--	CustomCombo.htm                                                                             -->
 <!--=================================================================================================-->
 <!doctype html>
@@ -65,7 +65,7 @@
 					this.input = $("<input>")
 						.appendTo(this.wrapper)
 						.val(value)
-						.attr("title", "")
+						//.attr("title", "the title")
 						.attr("spellcheck", "false")
 						.addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
 						.autocomplete({
@@ -97,7 +97,7 @@
 
 					$("<a>")
 						.attr("tabIndex", -1)
-						.attr("title", "") // "Show All Items"
+						//.attr("title", "the title") // "Show All Items"
 						.tooltip()
 						.appendTo(this.wrapper)
 						.button({
@@ -153,6 +153,7 @@
 			$("#cboPort").css("width", "50px").css("font-size", "12pt").css("font-weight", "bold");
 			$("#cboPort").val("3000");
 
+			//$('#combobox1,#combobox2').prop('title', 'This is the title');
 			// input.val( $(select).find("option:selected").text());
 
 		});

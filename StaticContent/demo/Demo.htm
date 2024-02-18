@@ -1,179 +1,165 @@
-﻿<!--=================================================================================================-->
+<!--=================================================================================================-->
 <!--	Demo.htm                                                                                       -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta http-equiv="pragma" content="no-cache, no-store" />
-	<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate" />
-	<title>Tucson Demo</title>
-	<link rel="stylesheet" type="text/css" href="../themes/base/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="./themes/demo.css" />
-	<script type="text/javascript" src="../scripts/jquery.js"> </script>
-	<script type="text/javascript" src="../scripts/jquery-migrate.js"> </script>
-	<script type="text/javascript" src="../scripts/ui/jquery-ui.js"> </script>
-	<script type="text/javascript" src="../scripts/ui/jquery.effects.core.js"> </script>
-	<script type="text/javascript" src="../scripts/ui/jquery.blockUI.js"> </script>
-	<script type="text/javascript" src="./scripts/demo.js"> </script>
-	<script type="text/javascript">	
-		$(document).ready(function() {
-			window.DEMO.loadForm();
-		});
-	</script>
-</head>
-<body>
-	<form action="">
-		<div>
-			<h1>Tucson Demo</h1>		
-			<table style="padding-top: 8px; border: 1px solid black; border-collapse:inherit;">
-				<tr>
-					<td rowspan="3">
-						<fieldset title="Open From CE Web Server" style="border: white; margin-left: 10px; padding-right: 20px;">
-							<input id="demo_rdoWeb" type="radio" name="nwConnGroup" value="demo_rdoWeb" checked="checked" />
-							<label class="demo_rdoLabel" for="demo_rdoWeb" style="">
-								PAC Web Server
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<meta http-equiv="pragma" content="no-cache, no-store"/>
+		<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate"/>
+		<title>Tucson Demo</title>
+		<link rel="stylesheet" type="text/css" href="../themes/base/jquery-ui.css"/>
+		<link rel="stylesheet" type="text/css" href="./themes/demo.css"/>
+		<script type="text/javascript" src="../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../scripts/jquery-migrate.js"></script>
+		<script type="text/javascript" src="../scripts/ui/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/ui/jquery.effects.core.js"></script>
+		<script type="text/javascript" src="../scripts/ui/jquery.blockUI.js"></script>
+		<script type="text/javascript" src="./scripts/demo.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				window.DEMO.loadForm();
+			});
+		</script>
+	</head>
+	<body>
+		<form action="">
+			<div>
+				<h1>Tucson Demo</h1>
+				<table style="padding-top: 8px; border: 1px solid black; border-collapse:inherit;">
+					<tr>
+						<td rowspan="3">
+							<fieldset title="Open From CE Web Server" style="border: white; margin-left: 10px; padding-right: 20px;">
+								<input id="demo_rdoWeb" type="radio" name="nwConnGroup" value="demo_rdoWeb" checked="checked"/>
+								<label class="demo_rdoLabel" for="demo_rdoWeb" style="">PAC Web Server
 							</label>
-						</fieldset>
+							</fieldset>
+						</td>
+						<td id="demo_lblProtocol" style="padding-top: 10px;">*Protocol:
 					</td>
-					<td id="demo_lblProtocol" style="padding-top: 10px;">
-						*Protocol:
+						<td id="demo_lblIpAddress" style="padding-top: 10px;">*IP Address:
 					</td>
-					<td id="demo_lblIpAddress" style="padding-top: 10px;">
-						*IP Address:
+						<td id="demo_lblPort" style="padding: 10px 0 0 0;">*Port:
 					</td>
-					<td id="demo_lblPort" style="padding: 10px 0 0 0;">
-						*Port:
+					</tr>
+					<tr>
+						<td>
+							<fieldset id="fsProtocol" style="float: left; margin: 0 10px 0 0; padding: 2px 10px 2px 0;																																																																																																										font: 12pt arial; font-weight: 600; border: thin solid gray;">
+								<input type="radio" id="demo_rdoHttp" name="protocol" value="http" style="width: 12pt;" placeholder="" title="Http" checked="checked"/>
+								<label for="demo_rdoHttp">Http</label>
+								<input type="radio" id="demo_rdoHttps" name="protocol" value="https" style="width: 12pt;" placeholder="" title="Https"/>
+								<label for="demo_rdoHttps">Https</label>
+							</fieldset>
+						</td>
+						<td id="test1" class="ui-widget" style="padding-right: 30px;" placeholder="">
+							<select id="combobox1" title="Select IP Address">
+								<option value="LocalHost">LocalHost</option>
+								<option value="192.168.10.50">192.168.10.50</option>
+								<option value="192.168.10.51">192.168.10.51</option>
+								<option value="192.168.10.52">192.168.10.52</option>
+								<option value="192.168.10.53">192.168.10.53</option>
+								<option value="192.168.10.54">192.168.10.54</option>
+								<option value="192.168.10.55">192.168.10.55</option>
+								<option value="172.25.8.47">172.25.8.47</option>
+							</select>
+						</td>
+						<td id="test2" class="ui-widget" style="padding-right: 60px;" placeholder="">
+							<select id="combobox2" title="Select Port">
+								<option value="81">81</option>
+								<option value="1337">1337</option>
+								<option value="3000">3000</option>
+								<option value="8081">8081</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" style="font-size: 7pt; text-align: right; padding: 10px 22px 6px 0;">* To persist this data between sessions requires this page be added to your Favorites...
 					</td>
-				</tr>
-				<tr>
-					<td>
-						<fieldset id="fsProtocol" style="float: left; margin: 0 10px 0 0; padding: 2px 10px 2px 0;																																																																																																										font: 12pt arial; font-weight: 600; border: thin solid gray;">
-							<input type="radio" id="demo_rdoHttp" name="protocol" value="http" style="width: 12pt;" checked="checked" />
-							<label for="demo_rdoHttp">Http</label>
-							<input type="radio" id="demo_rdoHttps" name="protocol" value="https" style="width: 12pt;" />
-							<label for="demo_rdoHttps">Https</label>
-						</fieldset>
-					</td>
-					<td id="test1" class="ui-widget" style="padding-right: 30px;">
-						<select id="combobox1">
-							<option value="LocalHost">LocalHost</option>
-							<option value="192.168.10.50">192.168.10.50</option>
-							<option value="192.168.10.51">192.168.10.51</option>
-							<option value="192.168.10.52">192.168.10.52</option>
-							<option value="192.168.10.53">192.168.10.53</option>
-							<option value="192.168.10.54">192.168.10.54</option>
-							<option value="192.168.10.55">192.168.10.55</option>
-							<option value="172.25.8.47">172.25.8.47</option>
-						</select>
-					</td>
-					<td id="test2" class="ui-widget" style="padding-right: 60px;">		
-						<select id="combobox2">
-							<option value="81">81</option>
-							<option value="1337">1337</option>
-							<option value="3000">3000</option>
-							<option value="8081">8081</option>
-						</select>		
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4" style="font-size: 7pt; text-align: right; padding: 10px 22px 6px 0;">
-						* To persist this data between sessions requires this page be added to your Favorites...
-					</td>
-				</tr>
-			</table>
-			<br />
-		</div>
-		<div id="desktopDiv" style="text-align: left;">
-			<hr />
-			<div id="webDiv" style="text-align: left; display: none;">
+					</tr>
+				</table>
+				<br/>
 			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('../ConfigTool.htm');" title="Click to open the PAC Configuration Tool.">
-					PAC Configuration Tool
+			<div id="desktopDiv" style="text-align: left;">
+				<hr/>
+				<div id="webDiv" style="text-align: left; display: none;"></div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('../ConfigTool.htm');" title="Click to open the PAC Configuration Tool.">PAC Configuration Tool
 				</a>
-			</div>
-			<hr />
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('ColorTest.htm');" title="Click to demo changing colors using 'jQuery-UI.js'.">
-					jQuery UI Color Test
+				</div>
+				<hr/>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('ColorTest.htm');" title="Click to demo changing colors using 'jQuery-UI.js'.">jQuery UI Color Test
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('StandardDialog.htm');" title="Click to demo a standard dialog using 'jQuery-UI.js'.">
-					jQuery UI Standard dialog
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('StandardDialog.htm');" title="Click to demo a standard dialog using 'jQuery-UI.js'.">jQuery UI Standard dialog
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('UserEntryDialog.htm');" title="Click to demo a user-entry dialog using 'jQuery-UI.js'.">
-					jQuery UI User-Entry dialog
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('UserEntryDialog.htm');" title="Click to demo a user-entry dialog using 'jQuery-UI.js'.">jQuery UI User-Entry dialog
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('ErrorDialog.htm');" title="Click to demo an error dialog using 'jQuery-UI.js'.">
-					jQuery UI Error dialog
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('ErrorDialog.htm');" title="Click to demo an error dialog using 'jQuery-UI.js'.">jQuery UI Error dialog
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl1.htm');" title="Click to demo a tab control using 'jQuery-UI.js'.">
-					jQuery UI Tabs 1
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl1.htm');" title="Click to demo a tab control using 'jQuery-UI.js'.">jQuery UI Tabs 1
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl2.htm');" title="Click to demo a tab control using 'jQuery.tools.min.js'.">
-					jQuery UI Tabs 2
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl2.htm');" title="Click to demo a tab control using 'jQuery.tools.min.js'.">jQuery UI Tabs 2
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('AjaxTest.htm');" title="Click to demo loading the DOM using AJAX in 'jQuery-UI.js'.">
-					jQuery AJAX Loading
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('AjaxTest.htm');" title="Click to demo loading the DOM using AJAX in 'jQuery-UI.js'.">jQuery AJAX Loading
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('JsonTest.htm');" title="Click to demo loading the DOM using JSON in 'jQuery-UI.js'.">
-					jQuery JSON Loading
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('JsonTest.htm');" title="Click to demo loading the DOM using JSON in 'jQuery-UI.js'.">jQuery JSON Loading
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('DateTimePicker.htm');" title="Click to demo the DateTimePicker using 'jquery-ui-timepicker-addon.js'.">
-					jQuery DateTime Picker
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('DateTimePicker.htm');" title="Click to demo the DateTimePicker using 'jquery-ui-timepicker-addon.js'.">jQuery DateTime Picker
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('CustomCombo.htm');" title="Click to demo the CustomCombo using 'jQuery-UI.js'.">
-					jQuery Custom Combobox
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('CustomCombo.htm');" title="Click to demo the CustomCombo using 'jQuery-UI.js'.">jQuery Custom Combobox
 				</a>
+				</div>
 			</div>
-		</div>
-		<hr />
-		<div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('upload.htm');" title="Click to demo uploading a file to the server.">
-					Upload File
+			<hr/>
+			<div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('upload.htm');" title="Click to demo uploading a file to the server.">Upload File
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.doClick('fineuploader.htm');" title="Click to demo fine-uploading a file to the server.">
-					Fine-Upload File
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('fineuploader.htm');" title="Click to demo fine-uploading a file to the server.">Fine-Upload File
 				</a>
+				</div>
 			</div>
-		</div>
-		<hr />
-		<div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.ini.docx');" title="Click to demo downloading a document.">
-					WebServer.exe.ini.docx
+			<hr/>
+			<div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.ini.docx');" title="Click to demo downloading a document.">WebServer.exe.ini.docx
 				</a>
-			</div>
-			<div class="row">
-				<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.log.docx');" title="Click to demo downloading a document.">
-					WebServer.exe.log.docx
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.log.docx');" title="Click to demo downloading a document.">WebServer.exe.log.docx
 				</a>
+				</div>
 			</div>
-		</div>
-		<hr />
-		<div id="errordialog">
-		</div>
-	</form>
-</body>
+			<hr/>
+			<div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TestServerAdmin.htm');" title="Click to go to Test Server admin page.">Test Server Administration
+				</a>
+				</div>
+			</div>
+			<hr/>
+			<div id="errordialog"></div>
+		</form>
+	</body>
 </html>

@@ -13,8 +13,9 @@ var router = express.Router();
 // Define upload route.
 router.post("/", function(req, res) {
 	const form = new formidable.IncomingForm();
-	form.parse(req, function(err, fields, files) {
-		const uploadsDir = path.join(__dirname, "../../Uploaded/");
+	const uploadsDir = path.join(__dirname, "../../Uploaded/");
+    form.uploadDir = uploadsDir;
+    form.parse(req, function (err, fields, files) {
 
 		// Ensure new directory exists.
 		fs.existsSync(uploadsDir) || fs.mkdirSync(uploadsDir);

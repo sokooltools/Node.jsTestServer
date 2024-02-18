@@ -36,7 +36,7 @@
     <NoConfig>true</NoConfig>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <NoWarn>1685</NoWarn>
-    <BaseIntermediateOutputPath>S:\Temp\Web\Inetpub\obj</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>D:\Temp\Web\Inetpub\obj</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -50,7 +50,7 @@
     <NoConfig>true</NoConfig>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <NoWarn>1685</NoWarn>
-    <BaseIntermediateOutputPath>S:\Temp\Web\Inetpub\obj</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>D:\Temp\Web\Inetpub\obj</BaseIntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ItemGroup>

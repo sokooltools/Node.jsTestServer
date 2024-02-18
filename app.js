@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------
 // app.js
 // -----------------------------------------------------------------------------------------------------
 
@@ -14,11 +14,9 @@
 "use strict";
 
 // This is the web framework.
-// https://expressjs.com/
 var express = require("express");
 
 // This is the logger.
-// https://github.com/expressjs/morgan
 var morgan = require("morgan");
 
 var fs = require("fs");
@@ -51,7 +49,7 @@ if (app.get("env") === "development") {
 	// Log everything to std console.
 	app.use(morgan("dev"));
 } else {
-	var logsDir = path.join(__dirname, "Logs"); // Y:\Tucson\trunk\ParkerWebCF\TestServer\Logs
+	var logsDir = path.join(__dirname, "Logs"); // 
 	// Ensure the "Logs" directory exists.
 	if (!fs.existsSync(logsDir)) 
 		fs.mkdirSync(logsDir);
