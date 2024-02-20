@@ -1,4 +1,4 @@
-﻿<!--=================================================================================================-->
+<!--=================================================================================================-->
 <!--	TabControl1.htm                                                                              -->                    
 <!--=================================================================================================-->
 <!DOCTYPE html>
@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+	<script type="text/javascript" src="../scripts/demo.js"> </script>
 	<script type="text/javascript">
 			$(function() {
 				$("#css-tabs").tabs({
@@ -37,7 +38,7 @@
 					}
 				});
 				$("button#back").on("click", function() {
-					history.go(-1);
+					DEMO.goHome();
 					return false;
 				});
 			});

@@ -8,9 +8,8 @@ var grid;
 var dataview;
 
 $(document).ready(function() {
-
 	$("#back").on("click", function() {
-		history.go(-1);
+		DEMO.goHome();
 	});
 	$("#run").on("click", function() {
 		loadGrid();

@@ -1,4 +1,4 @@
-﻿<!--=================================================================================================-->
+<!--=================================================================================================-->
 <!--	DateTimePicker.htm                                                                           -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="../../scripts/ui/jquery-ui-timepicker-addon.js"> </script>
 	<script type="text/javascript" src="../../scripts/moment.js"> </script>
 	<script type="text/javascript" src="../../scripts/tucson/tucson.common.js"> </script>
+	<script type="text/javascript" src="../scripts/demo.js"> </script>
 	<style type="text/css">
 		/* Override some values in jquery-ui.css */
 		.ui-widget input {
@@ -45,7 +46,7 @@
 		//$(document).ready(function () {
 
 		$("#back").on("click", function() {
-			history.go(-1);
+			DEMO.goHome();
 			return false;
 		});
 

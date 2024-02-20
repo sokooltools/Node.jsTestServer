@@ -114,3 +114,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*/Logs
+/TestServer.sln.DotSettings.user
+/ConfigToolWorkspace.code-workspace
+/.vs/TestServer/v16
+/bin

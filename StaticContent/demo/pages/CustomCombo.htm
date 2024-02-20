@@ -32,11 +32,12 @@
 	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
 	<script type="text/javascript" src="../../scripts/tucson/tucson.common.js"> </script>
+	<script type="text/javascript" src="../scripts/demo.js"> </script>
 	<script>
 		$(function() {
 
 			$("#back").on("click", function() {
-				history.go(-1);
+				DEMO.goHome();
 				return false;
 			});
 

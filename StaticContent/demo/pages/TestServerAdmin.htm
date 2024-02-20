@@ -14,12 +14,13 @@
 		<style type="text/css"></style>
 		<script type="text/javascript" src="../../scripts/jquery.js"></script>
 		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/demo.js"></script>
 	</head>
 	<body>
 		<div>
 			<h1>Test Server Administration</h1>
-			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">&laquo;Back</button>
-			<button type="button" id="run" class="demo ui-button ui-corner-all ui-widget" style="display:none;">Run </button>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget" title="Go Back">&laquo;Back</button>
+			<button type="button" id="clearscreen" class="demo ui-button ui-corner-all ui-widget" title="Clear Test Server Window" style="width: 15em;">Clear Test Server Window</button>
 			<p>This page is used for providing some Test Server Administration features.</p>
 			<div class="block"></div>
 			<div class="block"></div>
@@ -34,18 +35,16 @@
 			<a id="getArray" href="javascript:;" class="cell" title="Get an Array.">Get Array</a>
 		</div>
 		<div class="row2">
-			<a id="getVersion" href="javascript:;" class="cell" title="Get Module Version.">Get Module Version</a>
+			<a id="getVersion" href="javascript:;" class="cell" title="Get the versions of each module referenced in this project's package.json file.">Get Module Versions</a>
 		</div>
-		<div class="row2">
-			<a id="clearscreen" href="javascript:;" class="cell" title="Clear the Test Server window.">Clear Test Server Window</a>
-		</div>
-		<textarea id="response" rows="5" style="width:132em;flex-wrap:nowrap;"></textarea>
+		<textarea id="response" rows="5" style="width:40em;height:26em;flex-wrap:nowrap;"></textarea>
+		<!-- <div class="row2">
+			<a id="xxx" href="javascript:;" class="cell" title="Do something">Do Something</a>
+		</div> -->
 		<script>
 			$("#back").on("click", function() {
-				history.go(-1);
+				DEMO.goHome();
 			});
-
-			$("#run").on("click", function() {});
 
 			$("#getAbout").on("click", function() {
 				doGet("/test/about", foo);
@@ -58,13 +57,13 @@
 			$("#getArray").on("click", function() {
 				doGet("/test/array", foo);
 			});
-			
+
 			$("#getVersion").on("click", function() {
-				doGet("/test/version", foo);
+				doGet("/test/version?module=morgan", foo);
 			});
 
 			$("#clearscreen").on("click", function() {
-				doGet("/test/clear?express", foo);
+				doGet("/test/clear", foo);
 			});
 
 			function doGet(url, callback) {
@@ -85,7 +84,8 @@
 			}
 			function foo(data) {
 				// use your data here
-				$("textarea#response").val(JSON.stringify(data));
+				//$("textarea#response").val(JSON.stringify(data));
+				$("textarea#response").val(data);
 			}
 			;</script>
 	</body>

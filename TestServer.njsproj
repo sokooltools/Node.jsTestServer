@@ -61,12 +61,17 @@
     <Compile Include="TestServer\routes\uploads.js" />
     <Compile Include="TestServer\routes\users.js" />
     <Compile Include="StaticContent\demo\scripts\jquery.fine-uploader.js" />
+    <Content Include="LICENSE" />
+    <Content Include="nodejs.ico" />
     <Content Include="package.json" />
+    <Content Include="README.md" />
     <Content Include="Solution Items\Dependencies.txt">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Solution Items\DeveloperNotes.txt" />
+    <Content Include="StartServer.cmd" />
     <Content Include="StaticContent\demo\data\NetworkInfo3.json" />
+    <Content Include="StaticContent\demo\data\Sessions.json" />
     <Content Include="StaticContent\demo\data\XpressData.json" />
     <Content Include="StaticContent\demo\data\AboutData.json">
       <SubType>Code</SubType>
@@ -83,6 +88,7 @@
     <Content Include="StaticContent\demo\docs\retmem.log" />
     <Content Include="StaticContent\demo\docs\webServer.exe.log" />
     <Content Include="StaticContent\demo\docs\webserver.exe.ini" />
+    <Content Include="StaticContent\demo\pages\TestServerAdmin.htm" />
     <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.js.map" />
     <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.min.js.map" />
     <Content Include="StaticContent\demo\themes\continue.gif" />
@@ -109,6 +115,7 @@
     <Content Include="StaticContent\Download.aspx" />
     <Content Include="StaticContent\Loading.htm" />
     <Content Include="StaticContent\Properties\AssemblyInfo.cs" />
+    <Content Include="StaticContent\StaticContent.csproj" />
     <Content Include="StaticContent\UpdateLicense.aspx" />
     <Content Include="StaticContent\Upload.aspx" />
     <Content Include="StaticContent\demo\Demo.htm" />

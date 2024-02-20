@@ -1,4 +1,4 @@
-﻿<!--=================================================================================================-->
+<!--=================================================================================================-->
 <!--	ColorTest.htm                                                                                  -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
@@ -22,6 +22,7 @@
 	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery.color.js"> </script>
+	<script type="text/javascript" src="../scripts/demo.js"> </script>
 </head>
 <body>
 	<div>
@@ -38,7 +39,7 @@
 		</div>
 	</div>
 	<script>
-		$("#back").on("click", function() {history.go(-1);});
+		$("#back").on("click", function() {DEMO.goHome();});
 		$("#run").on("click", function() {
 			$(".block").animate({ backgroundColor: "yellow" }, 1000)
 				.delay(200)

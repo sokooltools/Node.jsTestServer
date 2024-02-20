@@ -1,4 +1,4 @@
-﻿<!--=================================================================================================-->
+<!--=================================================================================================-->
 <!--	StandardDialog.htm                                                                             -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
 	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
+	<script type="text/javascript" src="../scripts/demo.js"> </script>
 </head>
 <body>
 	<form action="">
@@ -31,7 +32,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#back").on("click", function() {
-				history.go(-1);
+				DEMO.goHome();
 				return false;
 			});
 			// Hook the click event on document ready

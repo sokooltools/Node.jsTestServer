@@ -28,6 +28,7 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var debug = require("debug");
 
+//var common = require("./routes/common");
 var download = require("./routes/download");
 var index = require("./routes/index");
 var test = require("./routes/test");
