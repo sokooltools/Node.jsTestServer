@@ -69,7 +69,40 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Solution Items\DeveloperNotes.txt" />
-    <Content Include="StartServer.cmd" />
+    <Content Include="Solution Items\NPM List Modules.jpg" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\assets\down-arrow.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\assets\empty-image.jpg" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\assets\favicon.ico" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\assets\text-document.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\ConvertToBase64String.htm" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\css\dragdrop.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\css\main.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\external\jquery\jquery.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_444444_256x240.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_555555_256x240.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_777620_256x240.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_777777_256x240.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\index.html" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.min.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.min.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.structure.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.structure.min.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.theme.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.theme.min.css" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\LICENSE.txt" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\package.json" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery.min.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\README.md" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\conversion.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\dragdrop.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\fileutils.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\main.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\miscutils.js" />
+    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\unused.js" />
     <Content Include="StaticContent\demo\data\NetworkInfo3.json" />
     <Content Include="StaticContent\demo\data\Sessions.json" />
     <Content Include="StaticContent\demo\data\XpressData.json" />
@@ -91,6 +124,7 @@
     <Content Include="StaticContent\demo\pages\TestServerAdmin.htm" />
     <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.js.map" />
     <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.min.js.map" />
+    <Content Include="StaticContent\demo\scripts\testserver-admin.js" />
     <Content Include="StaticContent\demo\themes\continue.gif" />
     <Content Include="StaticContent\demo\themes\edit.gif" />
     <Content Include="StaticContent\demo\themes\fine-uploader-new.css" />
@@ -567,6 +601,15 @@
   <ItemGroup>
     <Folder Include="Solution Items\" />
     <Folder Include="StaticContent\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\assets\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\css\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\external\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\external\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\external\jquery\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\" />
+    <Folder Include="StaticContent\demo\ConvertToBase64String\scripts\" />
     <Folder Include="StaticContent\Properties\" />
     <Folder Include="StaticContent\demo\" />
     <Folder Include="StaticContent\demo\data\" />

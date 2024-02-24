@@ -52,7 +52,8 @@ if (app.get("env") === "development") {
 	// Log everything to std console.
 	app.use(morgan("dev"));
 } else {
-	var logsDir = path.join(__dirname, "Logs"); // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
+    // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
+	var logsDir = path.join(__dirname, "Logs"); 
 	// Ensure the "Logs" directory exists.
 	if (!fs.existsSync(logsDir)) 
 		fs.mkdirSync(logsDir);
@@ -71,9 +72,11 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-var rootFolder = path.dirname(__dirname);                 // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool"
+// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool"
+var rootFolder = path.dirname(__dirname);
 
-var contentFldr = path.join(rootFolder, "StaticContent"); // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\StaticContent"
+// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\StaticContent"
+var contentFldr = path.join(rootFolder, "StaticContent"); 
 
 app.use(favicon(path.join(contentFldr, "favicon.ico")));
 

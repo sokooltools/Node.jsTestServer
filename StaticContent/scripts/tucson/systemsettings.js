@@ -68,7 +68,8 @@ SYS.$validator = $("#frmSystemSettings").validate(
 $("input").bind("mouseup", function(e) {
 	var $input = $(this),
 		oldValue = $input.val();
-	if (oldValue === "") return;
+	if (oldValue === "")
+		return;
 	// When this event is fired after the 'clear' button is clicked the value is not cleared yet.
 	// We have to wait for it.
 	window.setTimeout(function() {
@@ -412,7 +413,7 @@ SYS.savePage = function() {
 };
 
 // -------------------------------------------------------------------------------------------
-// Saves the specified 'System Settings' xml text to the device via an AJAX call.
+// Saves the specified 'System Settings' json text to the device via an AJAX call.
 // -------------------------------------------------------------------------------------------
 SYS.saveJson = function(json) {
 	$.ajax({

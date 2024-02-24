@@ -496,10 +496,22 @@ SEC.addValidatorRules = function() {
 });
 $sel = $("#sec_txtPassword");
 $sel.rules("remove");
-$sel.rules("add", {});
-$sel = $("#sec_txtPasswrd2");
-$sel.rules("remove");
-$sel.rules("add", {	equalTo: {		depends: function() { return SEC.isUserAllowedLogin() && !CMN.isReallyEmpty($("#sec_txtPassword")); },		param: "#sec_txtPassword"	},	messages: {		equalTo: CMN.lookup(SEC.xml, SEC.msgs.PASSWORDS_MUST_MATCH)	}});
+$sel.rules("add", {
+});
+
+$sel = $("#sec_txtPasswrd2");
+
+$sel.rules("remove");
+
+$sel.rules("add", {
+	equalTo: {
+		depends: function() { return SEC.isUserAllowedLogin() && !CMN.isReallyEmpty($("#sec_txtPassword")); },
+		param: "#sec_txtPassword"
+	},
+	messages: {
+		equalTo: CMN.lookup(SEC.xml, SEC.msgs.PASSWORDS_MUST_MATCH)
+	}
+});
 };
 
 // -------------------------------------------------------------------------------------------

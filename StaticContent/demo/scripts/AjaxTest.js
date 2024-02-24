@@ -5,7 +5,7 @@ var CFG = window.CFG;
 
 $(document).ready(function() {
 	$("#back").button().on("click", function() {
-		DEMO.goHome();
+		window.DEMO.goHome();
 		return false;
 	});
 	$("#run").button().on("click", function() {
@@ -36,12 +36,12 @@ function LoadXmlDoc() {
 	}
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4 && xhr.status === 200) {
-			//document.getElementById('myDiv').innerHTML = xhr.responseText;
-			var sel = $("div#myDiv");
-			sel.html($.parseHTML(xhr.responseText));
+            //document.getElementById('myDiv').innerHTML = xhr.responseText;
+            const sel = $("div#myDiv");
+            sel.html($.parseHTML(xhr.responseText));
 			//eval(sel.innerHTML);  // Doesn't work properly in IE
-		}
-	};
+        }
+    };
 	try {
 		// Note: The following only works when retrieving data from an actual web server!
 		xhr.open("GET", "AjaxTest.txt", true);

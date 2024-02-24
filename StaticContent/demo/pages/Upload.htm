@@ -33,7 +33,7 @@
 		$(document).ready(function() {
 
 			$("#back").on("click", function() {
-				DEMO.goHome();
+				window.DEMO.goHome();
 				return false;
 			});
 
@@ -41,9 +41,9 @@
 			// Handles the event raised when the 'File to Upload' input box value changes.
 			// (Used for enabling the 'Upload' button).
 			// -------------------------------------------------------------------------------------------
-			$("#demo_txtFile").on("change", function() {
+			$("#demo_inputFile").on("change", function() {
 				window.setTimeout(function() {
-					$("#demo_btnUpload").prop("disabled", ($("#demo_txtFile").val() === ""));
+					$("#demo_btnUpload").prop("disabled", ($("#demo_inputFile").val() === ""));
 				}, 10);
 			});
 
@@ -53,7 +53,7 @@
 			// AJAX methods to upload files do not work with browsers prior to IE 10!)
 			// -------------------------------------------------------------------------------------------
 			$("#demo_frmUpload").submit(function(e) {
-				var theFile = $("#demo_txtFile").val();
+				const theFile = $("#demo_inputFile").val();
 				if(theFile.length > 0) {
 					//window.DEMO.setCookie(document, "upload", "", 1);
 					e.target.submit();
@@ -93,7 +93,7 @@
 						<table style="padding: 5px;">
 							<tr>
 								<td style="width: 100%;">
-									<input type="file" id="demo_txtFile" name="demo_txtFile" style="font-size: 10pt; padding: 10px; width: 100%;" tabindex="1">
+									<input type="file" id="demo_inputFile" name="demo_inputFile" style="font-size: 10pt; padding: 10px; width: 100%;" tabindex="1">
 								</td>
 								<td>
 									<input type="submit" id="demo_btnUpload" name="demo_btnUpload" value="Upload" style="margin-left: 8px;" class="btnWide" disabled="" tabindex="2" />
@@ -104,6 +104,7 @@
 				</td>
 			</tr>
 		</table>
+		<textarea id="base64StringTextArea" rows="15" title="This is the 'Base64String' representation." spellcheck="false"style="width: 90%;"></textarea>
 	</form>
 </body>
 </html>

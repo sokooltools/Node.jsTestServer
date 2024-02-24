@@ -13,7 +13,7 @@ DEMO.loadForm = function(ipAddress, port) {
 
 	DEMO.loadCustomComboboxes();
 
-	var isSsl = DEMO.getCookie(document, "isssl", "false");
+	const isSsl = DEMO.getCookie(document, "isssl", "false");
 
 	if (!ipAddress)
 		ipAddress = DEMO.getCookie(document, "address", "LocalHost");
@@ -51,8 +51,8 @@ DEMO.loadCustomComboboxes = function() {
 			this._createShowAllButton();
 		},
 		_createAutocomplete: function() {
-			var selected = this.element.children(":selected"),
-				value = selected.val() ? selected.text() : "";
+            const selected = this.element.children(":selected");
+            const value = selected.val() ? selected.text() : "";
 
 			this.input = $("<input>")
 				.appendTo(this.wrapper)
@@ -119,14 +119,14 @@ DEMO.loadCustomComboboxes = function() {
 		_source: function(request, response) {
 			var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 			response(this.element.children("option").map(function() {
-				var text = $(this).text();
-				if (this.value && (!request.term || matcher.test(text)))
+                const text = $(this).text();
+                if (this.value && (!request.term || matcher.test(text)))
 					return {
 						label: text,
 						value: text,
 						option: this
 					};
-			}));
+            }));
 		},
 		_destroy: function() {
 			this.wrapper.remove();
@@ -156,9 +156,9 @@ DEMO.isEnterkey = function(e) {
 // -------------------------------------------------------------------------------------------
 DEMO.doClick = function() {
 	if ($("#demo_rdoWeb").is(":checked")) {
-		var urlRoot = DEMO.getUrlRoot();
-		DEMO.showBusy("Connecting to: '" + urlRoot + "'...<br/>Please wait.");
-		var page;
+		const urlRoot = DEMO.getUrlRoot();
+		DEMO.showBusy(`Connecting to: '${urlRoot}'...<br/>Please wait.`);
+		let page;
 		if (arguments[0]) {
 			page = arguments[0].substring(0, 3) === "../" ? arguments[0].substring(3) : "demo/pages/" + arguments[0];
 		} else {
@@ -168,16 +168,16 @@ DEMO.doClick = function() {
 	}
 	else {
 		// Get the extension to make sure it is html
-		var ext = arguments[0].split("/").reverse()[0].split(".").reverse()[0];
+		const ext = arguments[0].split("/").reverse()[0].split(".").reverse()[0];
 		if (!(ext === "htm" || ext === "html")) {
 			$.unblockUI({
 				onUnblock: function() { DEMO.showDialog('Sorry... only raw "html" pages can be opened from the desktop!'); }
 			});
 			return false;
 		}
-		var path = $(window.location).prop("href");
+		const path = $(window.location).prop("href");
 		//  path = "file:///C:/Parker/Tucson/trunk/ParkerWebCF/StaticContent/demo/Demo.htm"
-		var url = path.replace(path.split("/").reverse()[0], arguments[0]);
+		const url = path.replace(path.split("/").reverse()[0], arguments[0]);
 		window.location.href = url;
 	}
 	return false;
@@ -192,10 +192,10 @@ DEMO.getProtocol = function() { return $("#demo_rdoHttp").is(":checked") ? "http
 // Selects the last octet of the ip address.
 // -------------------------------------------------------------------------------------------
 DEMO.selectIpAddress = function() {
-	var sel = $("#demo_cboIpAddress");
-	var len = sel.val().length;
-	var idx = sel.val().lastIndexOf(".");
-	var start = (idx > -1) ? idx + 1 : len;
+	const sel = $("#demo_cboIpAddress");
+	const len = sel.val().length;
+	const idx = sel.val().lastIndexOf(".");
+	const start = (idx > -1) ? idx + 1 : len;
 	sel.setSelection(start, len);
 }
 
@@ -212,9 +212,9 @@ DEMO.openDoc = function(doc) {
 	else {
 		// Open the document located on this computer.
 		path = $(window.location).prop("href");
-		var splitPath = path.split("/").reverse();
-		var searchValue = splitPath[2] + "/" + splitPath[1] + "/" + splitPath[0];
-		var replaceValue = "documentation/" + doc;
+		const splitPath = path.split("/").reverse();
+		const searchValue = splitPath[2] + "/" + splitPath[1] + "/" + splitPath[0];
+		const replaceValue = `documentation/${doc}`;
 		path = path.replace(searchValue, replaceValue);
 	}
 	window.location.href = path;
@@ -224,9 +224,9 @@ DEMO.openDoc = function(doc) {
 // Gets the web address with the port number appended to it (if it has been specified).
 // -------------------------------------------------------------------------------------------
 DEMO.getUrlRoot = function() {
-	var addr = $("#demo_cboIpAddress").val();
-	var port = $("#demo_cboPort").val();
-	var urlRoot = (addr + ((port) ? ":" + port : ""));
+	const addr = $("#demo_cboIpAddress").val();
+	const port = $("#demo_cboPort").val();
+	const urlRoot = (addr + ((port) ? `:${port}` : ""));
 	return urlRoot;
 }
 
@@ -236,7 +236,7 @@ DEMO.getUrlRoot = function() {
 DEMO.showBusy = function(msg) {
 	jQuery.blockUI.defaults.css = {};
 	jQuery.blockUI({
-		message: '<img src="themes/base/images/busy.gif"/> ' + msg,
+		message: `<img src="themes/base/images/busy.gif"/> ${msg}`,
 		//timeout: 15000,
 		overlayCSS: { backgroundColor: "#A0A0A0" }
 	});
@@ -247,24 +247,23 @@ DEMO.showBusy = function(msg) {
 // current IP Address and if so goes to the page.
 // -------------------------------------------------------------------------------------------
 DEMO.goToPage = function(doc, urlRoot, page, numAttempt) {
-	var protocol = DEMO.getProtocol();
+	const protocol = DEMO.getProtocol();
 	if (!numAttempt)
 		numAttempt = 1;
-	DEMO.debugLog("Attempting to connect to: '" + urlRoot + "'... (" + numAttempt + ")");
+	DEMO.debugLog(`Attempting to connect to: '${urlRoot}'... (${numAttempt})`);
 	//var img = new window.Image();  //document.createElement("img");
 	//img.onload = function()
 	//{
-	var url = protocol + "//" + urlRoot + ((page) ? "/" + page : "");
+	const url = protocol + "//" + urlRoot + ((page) ? `/${page}` : "");
 	window.location.href = url;
 
 	var address = urlRoot;
 	var port = "";
-	var itms = urlRoot.split(":");
+	const itms = urlRoot.split(":");
 	if (itms.length > 1) {
-		address = itms[0];
-		port = itms[1];
-	}
-	var isssl = $("#demo_rdoHttps").is(":checked");
+        [address, port] = itms;
+    }
+	const isssl = $("#demo_rdoHttps").is(":checked");
 	DEMO.setCookie(doc, "isssl", isssl, 14);
 	DEMO.setCookie(doc, "address", address, 14);
 	DEMO.setCookie(doc, "port", port, 14);
@@ -311,10 +310,10 @@ DEMO.showDialog = function(message, title) {
 // Gets a cookie value corresponding to the specified document and cookie name.
 // -------------------------------------------------------------------------------------------
 DEMO.getCookie = function(doc, name, deflt) {
-	var nameEq = name + "=";
-	var ca = doc.cookie.split(";");
-	for (var i = 0; i < ca.length; i++) {
-		var c = ca[i];
+	const nameEq = name + "=";
+	const ca = doc.cookie.split(";");
+	for (let i = 0; i < ca.length; i++) {
+		let c = ca[i];
 		while (c.charAt(0) === " ")
 			c = c.substring(1, c.length);
 		if (c.indexOf(nameEq) === 0)
@@ -327,9 +326,9 @@ DEMO.getCookie = function(doc, name, deflt) {
 // Sets the specified cookie value corresponding to the specified  cookie name.
 // -------------------------------------------------------------------------------------------
 DEMO.setCookie = function(doc, name, value, expdays) {
-	var exdate = new Date();
+	const exdate = new Date();
 	exdate.setDate(exdate.getDate() + expdays);
-	var cvalue = window.escape(value) + ((expdays == null) ? "" : "; expires=" + exdate.toUTCString());
+	const cvalue = window.escape(value) + ((expdays == null) ? "" : "; expires=" + exdate.toUTCString());
 	doc.cookie = name + "=" + cvalue;
 }
 
@@ -338,8 +337,8 @@ DEMO.setCookie = function(doc, name, value, expdays) {
 // -------------------------------------------------------------------------------------------
 DEMO.getQueryStringByName = function(name) {
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-	var	results = regex.exec(location.search);
+	const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+	const results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
@@ -358,9 +357,9 @@ DEMO.debugLog = function(message) {
 jQuery.fn.setSelection = function(selectionStart, selectionEnd) {
 	if (this.length === 0)
 		return this;
-	var input2 = this[0];
+	const input2 = this[0];
 	if (input2.createTextRange) {
-		var range = input2.createTextRange();
+		const range = input2.createTextRange();
 		range.collapse(true);
 		range.moveEnd("character", selectionEnd);
 		range.moveStart("character", selectionStart);

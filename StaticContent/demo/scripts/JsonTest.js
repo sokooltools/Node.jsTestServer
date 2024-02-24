@@ -9,7 +9,7 @@ var dataview;
 
 $(document).ready(function() {
 	$("#back").on("click", function() {
-		DEMO.goHome();
+		window.DEMO.goHome();
 	});
 	$("#run").on("click", function() {
 		loadGrid();
