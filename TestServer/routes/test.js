@@ -5,32 +5,26 @@
 var express = require("express");
 var router = express.Router();
 var fs = require("fs");
+var common = require("./common");
+
+const { join } = require("path");
 const gifResize = require("@gumlet/gif-resize");
 
-
-var common = require("./common");
-//const { dirname, join } = require("path");
-const { join } = require("path");
-
-// Experimental ------------------------------
+// ----- Experimental ------------------------
 var app = express();
 app.use(express.json({ limit: "2mb" }));
-
-//var bodyParser = require("body-parser");
-//app.use(bodyParser.json({ limit: "10mb" }));
-//app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 // -------------------------------------------
 
 // Middleware that is specific to this route.
 router.use(function (req, res, next) {
 
-	// Experimental ------------------------------
+	// --------------------------------------------
 	// Add CORS headers to all responses
 	res.setHeader("Access-Control-Allow-Origin", "*"); // Allowing all origins (not recommended for production)
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-	res.setHeader("Access-Control-Allow-Credentials", "true"); // If cookies are needed
-	// -------------------------------------------
+	//res.setHeader("Access-Control-Allow-Credentials", "true"); // If cookies are needed
+	// --------------------------------------------
 
 	// This writes a line containing the date and time preceding all the methods below.
 	console.log(common.getFormattedDateTime());
@@ -99,7 +93,7 @@ router.put("/resize-gif", function (req, res) {
 	try {
 		const bufferIn = getBufferFromBase64String(req.body.base64String);
 		gifResize({
-			width: req.body.width
+			width: Math.trunc(req.body.width)
 		})(bufferIn).then(bufferOut => {
 			const base64String = `data:image/gif;base64,${getBase64StringFromBuffer(bufferOut)}`;
 			res.status(200).send(base64String);
@@ -110,8 +104,9 @@ router.put("/resize-gif", function (req, res) {
 });
 
 // ReSharper disable UnusedLocals
-// Gets the Base64 string converted from the content of the specified file (Synchronously).
-function getBase64StringFromFileSync(file) {
+
+// Gets the Base64 string (read synchronously) from the specified file.
+function getBase64StringFromFile(file) {
 	try {
 		const binary = fs.readFileSync(file, { encoding: "base64" });
 	} catch (err) {
@@ -120,8 +115,8 @@ function getBase64StringFromFileSync(file) {
 	return null;
 };
 
-// Gets the Base64 string converted from the content of the specified file (Asynchronously).
-async function getBase64StringFromFile(filePath) {
+// Gets the Base64 string (read asynchronously) from the specified file.
+async function getBase64StringFromFileAsync(filePath) {
 	try {
 		return await fs.readFile(filePath, { encoding: "base64" });
 	} catch (err) {
@@ -132,23 +127,35 @@ async function getBase64StringFromFile(filePath) {
 
 // ReSharper restore UnusedLocals
 
-// Gets a Base64 string converted from the specified buffer.
+/**
+ * Gets a Base64 string converted from the specified buffer.
+ *
+ * @param {Buffer} buffer
+ * @return {String}
+ */
 function getBase64StringFromBuffer(buffer) {
 	return Buffer.from(buffer).toString("base64");
 }
 
-// Gets a buffer converted from the specified Base64 string.
+/**
+ * Gets a buffer converted from the specified Base64 string.
+ *
+ * @param {String} base64string
+ * @return {Buffer}
+ */
 function getBufferFromBase64String(base64string) {
-	//return new Buffer(getBase64StringWithoutMeta(base64string), "base64");
-	return new Buffer(getBase64StringWithoutMeta(base64string), "base64");
+	return Buffer.from(getBase64StringMinusMeta(base64string), "base64");
 }
 
-// Gets the specified Base64 string without its meta data.
-function getBase64StringWithoutMeta(base64String) {
-	// getBase64StringWithoutMeta("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgA");
+/**
+ * Gets the specified Base64 string minus its meta data.
+ *
+ * @param {String} base64string
+ * @return {String}
+ */
+function getBase64StringMinusMeta(base64String) {
 	return base64String.startsWith("data:") ? base64String.split(";base64,").pop() : base64String;
 }
-
 
 //The 404 Route (ALWAYS keep this as the last route in the event no other processes the request)
 router.get("*", function (req, res) {
