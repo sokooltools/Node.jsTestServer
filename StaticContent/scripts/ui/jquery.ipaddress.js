@@ -62,7 +62,7 @@ IPA.isValidIp = function(ip) {
 				el.focus();
 				el.setSelectionRange(start, end);
 			} else if (el.createTextRange) {
-				var range = el.createTextRange();
+				const range = el.createTextRange();
 				range.collapse(true);
 				range.moveEnd("character", end);
 				range.moveStart("character", start);
@@ -83,12 +83,12 @@ IPA.isValidIp = function(ip) {
 			}
 		} else {
 			// Get the range.
-			var elm = this[0];
+			const elm = this[0];
 			if (elm.createTextRange && document.selection) {
-				var r = document.selection.createRange().duplicate();
-				var endm = elm.value.lastIndexOf(r.text) + r.text.length;
+				const r = document.selection.createRange().duplicate();
+				const endm = elm.value.lastIndexOf(r.text) + r.text.length;
 				r.moveEnd("character", elm.value.length);
-				var startm = (r.text === "") ? elm.value.length : elm.value.lastIndexOf(r.text);
+				const startm = (r.text === "") ? elm.value.length : elm.value.lastIndexOf(r.text);
 				return [startm, endm];
 			} else {
 				return [elm.selectionStart, elm.selectionEnd];
@@ -102,10 +102,10 @@ IPA.isValidIp = function(ip) {
 	$.fn.ipAddress = function(ipAddress) {
 		if ((ipAddress !== undefined && ipAddress !== null) && this.hasClass("ip-enabled")) {
 			this.val(ipAddress);
-			var ipId = this.attr("id");
-			var ipArray = ipAddress.split(".");
-			for (var n = 0; n <= 3; n++) {
-				var idPfx = "input#" + ipId + "_octet_" + (n + 1);
+			const ipId = this.attr("id");
+			const ipArray = ipAddress.split(".");
+			for (let n = 0; n <= 3; n++) {
+				const idPfx = "input#" + ipId + "_octet_" + (n + 1);
 				$(idPfx).val(ipArray[n]);
 			}
 		}
@@ -116,7 +116,7 @@ IPA.isValidIp = function(ip) {
 	// Provides indication using css as to whether this IP Address is valid.
 	// -------------------------------------------------------------------------------------------
 	$.fn.ipIsValid = function(n) {
-		var sibling = $(this).next($("div"));
+		const sibling = $(this).next($("div"));
 		if (IPA.isStaticIp && !isValid($(this).val())) {
 			sibling.addClass("ip_invalid");
 			return false;
@@ -139,7 +139,7 @@ IPA.isValidIp = function(ip) {
 	// Provides indication using css as to whether this IP Address is or is not '' (or '0.0.0.0').
 	// -------------------------------------------------------------------------------------------
 	$.fn.ipIsNotBlank = function() {
-		var sibling = $(this).next($("div"));
+		const sibling = $(this).next($("div"));
 		if (IPA.isStaticIp && isBlank((this).ipAddress())) {
 			sibling.addClass("ip_blank");
 			return false;
@@ -186,17 +186,17 @@ IPA.isValidIp = function(ip) {
 			if (!$this.hasClass("ip-enabled")) {
 				$this.hide();
 
-				var ipValue = (this.value) ? this.value.split(".") : ["", "", "", ""];
-				var octets = [];
-				var idPrefix = $this.attr("name").replace(/\[/g, "_").replace(/\]/g, "");
-				for (var i = 0; i <= 3; i++) {
-					var nameAndId = idPrefix + "_octet_" + (i + 1);
-					var s1 = '<input type="text" class="ip_octet" name="' + nameAndId;
+				const ipValue = (this.value) ? this.value.split(".") : ["", "", "", ""];
+				const octets = [];
+				const idPrefix = $this.attr("name").replace(/\[/g, "_").replace(/\]/g, "");
+				for (let i = 0; i <= 3; i++) {
+					const nameAndId = idPrefix + "_octet_" + (i + 1);
+					let s1 = '<input type="text" class="ip_octet" name="' + nameAndId;
 					s1 += '" id="' + nameAndId + '" maxlength="3" autocomplete="off" value="' + ipValue[i] + '" disabled="" />';
 					octets.push(s1);
 				}
-				var octetHtml = octets.join(".");
-				var s2 = "<div class=\"ip_container\" style=\"display: inline";
+				const octetHtml = octets.join(".");
+				let s2 = "<div class=\"ip_container\" style=\"display: inline";
 				//s2 += (($.browser.msie) ? "" : "-block") + ";\">";
 				s2 += "-block;\">";
 				$this.after($(s2).html(octetHtml));
@@ -211,7 +211,7 @@ IPA.isValidIp = function(ip) {
 			};
 
 			var isValidKey = function(e) {
-				var k = e.keyCode;
+				const k = e.keyCode;
 				// Allow shift key only in combination with tab key.
 				if (e.shiftKey && k !== 9) {
 					return false;
@@ -221,7 +221,7 @@ IPA.isValidIp = function(ip) {
 				{
 					return true;
 				}
-				var valid = [
+				const valid = [
 					8, // backspace
 					9, // tab
 					13, // enter
@@ -243,7 +243,7 @@ IPA.isValidIp = function(ip) {
 					57, 105, // 9
 					110, 190  // period
 				];
-				for (var idx = 0; idx < valid.length; idx++) {
+				for (let idx = 0; idx < valid.length; idx++) {
 					if (k === valid[idx]) {
 						return true;
 					}
@@ -259,12 +259,12 @@ IPA.isValidIp = function(ip) {
 			$("input.ip_octet", $this.next(".ip_container")).bind("keydown", function(e) {
 				// Helper function for caret positioning.
 				function getCaretPosition(ctl) {
-					var res = { begin: 0, end: 0 };
+					const res = { begin: 0, end: 0 };
 					if (ctl.setSelectionRange) {
 						res.begin = ctl.selectionStart;
 						res.end = ctl.selectionEnd;
 					} else if (document.selection && document.selection.createRange) {
-						var range = document.selection.createRange();
+						const range = document.selection.createRange();
 						res.begin = 0 - range.duplicate().moveStart("character", -100000);
 						res.end = res.begin + range.text.length;
 					}
@@ -412,7 +412,7 @@ IPA.isValidIp = function(ip) {
 				$("input.ip_octet", $(this).parent()).each(function() {
 					ipValueA.push(this.value);
 				});
-				var newval = ipValueA.join(".").replace("...", "");
+				const newval = ipValueA.join(".").replace("...", "");
 
 				$this.val(newval);
 
@@ -423,7 +423,7 @@ IPA.isValidIp = function(ip) {
 				if (e.keyCode === 46) {
 					// If at the end of the cell jump to next octet.
 					if ($(this).caret()[0] === this.value.length) {
-						var nextOctet = $(this).next("input.ip_octet");
+						const nextOctet = $(this).next("input.ip_octet");
 						if (nextOctet.length) {
 							nextOctet.focus().caret(0);
 						}
@@ -437,15 +437,15 @@ IPA.isValidIp = function(ip) {
 					raiseValueChangedEvent($(this));
 				}
 			}).bind("paste", function(e) {
-				var data = window.clipboardData ?
+				const data = window.clipboardData ?
 					window.clipboardData.getData("Text") : // IE Only.
 					e.originalEvent.clipboardData.getData("text/plain");
 				if (!(data)) {
 					return false;
 				}
-				var thisId = this.name; //(arguments[0].currentTarget.id);
-				var prefix = "net_txtSubnetMask";
-				var suffix = "octet_1";
+				const thisId = this.name; //(arguments[0].currentTarget.id);
+				const prefix = "net_txtSubnetMask";
+				const suffix = "octet_1";
 				// Default pattern used for anything other than the 1st octet.
 				var pattern = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/g;
 				// Is it the 1st octet?
@@ -458,7 +458,7 @@ IPA.isValidIp = function(ip) {
 						pattern = /\b(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]?)\b/g;
 					}
 				}
-				var newData = "".concat(this.value.slice(0, $(this).caret()[0]), data, this.value.slice($(this).caret()[1], 3));
+				const newData = "".concat(this.value.slice(0, $(this).caret()[0]), data, this.value.slice($(this).caret()[1], 3));
 				// Can the current selection be pasted into?
 				if (newData.replace(pattern, "") === "") {
 					raiseValueChangedEvent($(this));

@@ -25,7 +25,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <NodejsPort>3000</NodejsPort>
     <StartWebBrowser>True</StartWebBrowser>
   </PropertyGroup>
@@ -43,8 +43,6 @@
     <Compile Include="StaticContent\grid\lib\jquery.event.drop-2.3.0.js" />
     <Compile Include="StaticContent\grid\plugins\slick.cellexternalcopymanager.js" />
     <Compile Include="StaticContent\grid\plugins\slick.draggablegrouping.js" />
-    <Compile Include="StaticContent\scripts\deploy\debug\jquery.mousewheel.js" />
-    <Compile Include="StaticContent\scripts\deploy\release\jquery.mousewheel.min.js" />
     <Compile Include="TestServer\app.js" />
     <Compile Include="TestServer\routes\common.js" />
     <Compile Include="TestServer\routes\services.js">
@@ -65,102 +63,45 @@
     <Content Include="nodejs.ico" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="Solution Items\body-parser mod .jpg" />
     <Content Include="Solution Items\Dependencies.txt">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Solution Items\DeveloperNotes.txt" />
     <Content Include="Solution Items\NPM List Modules.jpg" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\assets\down-arrow.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\assets\empty-image.jpg" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\assets\favicon.ico" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\assets\text-document.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\ConvertToBase64String.htm" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\css\dragdrop.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\css\main.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\external\jquery\jquery.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_444444_256x240.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_555555_256x240.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_777620_256x240.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_777777_256x240.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\index.html" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.min.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.min.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.structure.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.structure.min.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.theme.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\jquery-ui.theme.min.css" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\LICENSE.txt" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\package.json" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\external\jquery.min.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\README.md" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\conversion.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\dragdrop.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\fileutils.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\main.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\miscutils.js" />
-    <Content Include="StaticContent\demo\ConvertToBase64String\scripts\unused.js" />
     <Content Include="StaticContent\demo\data\NetworkInfo3.json" />
     <Content Include="StaticContent\demo\data\Sessions.json" />
     <Content Include="StaticContent\demo\data\XpressData.json" />
     <Content Include="StaticContent\demo\data\AboutData.json">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="StaticContent\demo\data\SystemData.json" />
-    <Content Include="StaticContent\demo\docs\Sessions.json" />
-    <Content Include="StaticContent\demo\pages\CustomCombo.htm" />
+    <Content Include="AssemblyVersion.cs" />
+    <Content Include="StaticContent\ConfigTool.htm" />
+    <Content Include="StaticContent\globalization\SupportedLanguages.json" />
+    <Content Include="StaticContent\Loading.htm" />
+    <Content Include="StaticContent\Properties\AssemblyInfo.cs" />
+    <Content Include="StaticContent\StaticContent.csproj" />
+    <Content Include="StaticContent\demo\Demo.htm" />
+    <Content Include="StaticContent\demo\Demo.ico" />
+    <Content Include="StaticContent\demo\data\AboutInfo.xml" />
     <Content Include="StaticContent\demo\data\AdapterInfo.json" />
     <Content Include="StaticContent\demo\data\NetworkInfo2.json" />
+    <Content Include="StaticContent\demo\data\SupportedLanguages.xml" />
+    <Content Include="StaticContent\demo\data\SystemData.json" />
     <Content Include="StaticContent\demo\data\TimeZoneList.json" />
     <Content Include="StaticContent\demo\data\Users.json" />
+    <Content Include="StaticContent\demo\data\UsersSessions.json" />
+    <Content Include="StaticContent\demo\data\XpressShell.htm" />
+    <Content Include="StaticContent\demo\docs\Sessions.json" />
     <Content Include="StaticContent\demo\docs\codesyscontrol.cfg" />
     <Content Include="StaticContent\demo\docs\litesw.log" />
     <Content Include="StaticContent\demo\docs\retmem.log" />
     <Content Include="StaticContent\demo\docs\webServer.exe.log" />
     <Content Include="StaticContent\demo\docs\webserver.exe.ini" />
-    <Content Include="StaticContent\demo\pages\TestServerAdmin.htm" />
-    <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.js.map" />
-    <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.min.js.map" />
-    <Content Include="StaticContent\demo\scripts\testserver-admin.js" />
-    <Content Include="StaticContent\demo\themes\continue.gif" />
-    <Content Include="StaticContent\demo\themes\edit.gif" />
-    <Content Include="StaticContent\demo\themes\fine-uploader-new.css" />
-    <Content Include="StaticContent\demo\themes\fine-uploader-new.min.css" />
-    <Content Include="StaticContent\demo\themes\loading.gif" />
-    <Content Include="StaticContent\demo\themes\pause.gif" />
-    <Content Include="StaticContent\demo\themes\processing.gif" />
-    <Content Include="StaticContent\demo\themes\retry.gif" />
-    <Content Include="StaticContent\demo\themes\source\placeholders\not_available-generic.png" />
-    <Content Include="StaticContent\demo\themes\source\placeholders\waiting-generic.png" />
-    <Content Include="StaticContent\demo\themes\trash.gif" />
-    <Content Include="StaticContent\demo\pages\Upload.htm" />
-    <Content Include="StaticContent\docs\error.htm">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="StaticContent\demo\pages\FineUploader.htm">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="AssemblyVersion.cs" />
-    <Content Include="StaticContent\ConfigTool.aspx" />
-    <Content Include="StaticContent\ConfigTool.htm" />
-    <Content Include="StaticContent\Download.aspx" />
-    <Content Include="StaticContent\Loading.htm" />
-    <Content Include="StaticContent\Properties\AssemblyInfo.cs" />
-    <Content Include="StaticContent\StaticContent.csproj" />
-    <Content Include="StaticContent\UpdateLicense.aspx" />
-    <Content Include="StaticContent\Upload.aspx" />
-    <Content Include="StaticContent\demo\Demo.htm" />
-    <Content Include="StaticContent\demo\Demo.ico" />
-    <Content Include="StaticContent\demo\data\AboutInfo.xml" />
-    <Content Include="StaticContent\demo\data\SupportedLanguages.xml" />
-    <Content Include="StaticContent\demo\data\UsersSessions.json" />
-    <Content Include="StaticContent\demo\data\XpressShell.htm" />
     <Content Include="StaticContent\demo\pages\AjaxTest.htm" />
     <Content Include="StaticContent\demo\pages\AjaxTest.txt" />
     <Content Include="StaticContent\demo\pages\ColorTest.htm" />
+    <Content Include="StaticContent\demo\pages\CustomCombo.htm" />
     <Content Include="StaticContent\demo\pages\DateTimePicker.htm" />
     <Content Include="StaticContent\demo\pages\ErrorDialog.htm" />
     <Content Include="StaticContent\demo\pages\ErrorDialog.txt.htm" />
@@ -168,6 +109,8 @@
     <Content Include="StaticContent\demo\pages\StandardDialog.htm" />
     <Content Include="StaticContent\demo\pages\TabControl1.htm" />
     <Content Include="StaticContent\demo\pages\TabControl2.htm" />
+    <Content Include="StaticContent\demo\pages\TestServerAdmin.htm" />
+    <Content Include="StaticContent\demo\pages\Upload.htm" />
     <Content Include="StaticContent\demo\pages\UserEntryDialog.htm" />
     <Content Include="StaticContent\demo\pages\tabpages\content1.htm" />
     <Content Include="StaticContent\demo\pages\tabpages\content2.htm" />
@@ -177,14 +120,28 @@
     <Content Include="StaticContent\demo\scripts\AjaxTest.js" />
     <Content Include="StaticContent\demo\scripts\JsonTest.js" />
     <Content Include="StaticContent\demo\scripts\demo.js" />
+    <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.js.map" />
+    <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.min.js.map" />
+    <Content Include="StaticContent\demo\scripts\testserver-admin.js" />
     <Content Include="StaticContent\demo\themes\base\images\busy.gif" />
     <Content Include="StaticContent\demo\themes\base\images\eye192.png" />
     <Content Include="StaticContent\demo\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
     <Content Include="StaticContent\demo\themes\base\images\ui-icons_222222_256x240.png" />
     <Content Include="StaticContent\demo\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="StaticContent\demo\themes\continue.gif" />
     <Content Include="StaticContent\demo\themes\demo.css" />
+    <Content Include="StaticContent\demo\themes\edit.gif" />
+    <Content Include="StaticContent\demo\themes\fine-uploader-new.css" />
+    <Content Include="StaticContent\demo\themes\fine-uploader-new.min.css" />
+    <Content Include="StaticContent\demo\themes\loading.gif" />
+    <Content Include="StaticContent\demo\themes\pause.gif" />
+    <Content Include="StaticContent\demo\themes\processing.gif" />
+    <Content Include="StaticContent\demo\themes\retry.gif" />
+    <Content Include="StaticContent\demo\themes\source\placeholders\not_available-generic.png" />
+    <Content Include="StaticContent\demo\themes\source\placeholders\waiting-generic.png" />
     <Content Include="StaticContent\demo\themes\standalone.css" />
     <Content Include="StaticContent\demo\themes\tabs-no-images.css" />
+    <Content Include="StaticContent\demo\themes\trash.gif" />
     <Content Include="StaticContent\docs\PAC_User_Guide.pdf" />
     <Content Include="StaticContent\docs\WebServer.exe.ini.docx" />
     <Content Include="StaticContent\docs\WebServer.exe.log.docx" />
@@ -480,24 +437,6 @@
     <Content Include="StaticContent\postbuild.cmd" />
     <Content Include="StaticContent\postdeploy.cmd" />
     <Content Include="StaticContent\prebuild.cmd" />
-    <Content Include="StaticContent\scripts\deploy\debug\detect.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\jquery-migrate.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\jquery-ui-timepicker-addon.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\jquery-ui.custom.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\jquery.blockUI.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\jquery.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\jquery.uploadfile.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\jquery.validate.js" />
-    <Content Include="StaticContent\scripts\deploy\debug\moment.js" />
-    <Content Include="StaticContent\scripts\deploy\release\detect.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\jquery-migrate.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\jquery-ui-timepicker-addon.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\jquery-ui.custom.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\jquery.blockUI.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\jquery.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\jquery.uploadfile.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\jquery.validate.min.js" />
-    <Content Include="StaticContent\scripts\deploy\release\moment.min.js" />
     <Content Include="StaticContent\scripts\detect.js" />
     <Content Include="StaticContent\scripts\jquery-migrate.js" />
     <Content Include="StaticContent\scripts\jquery.js" />
@@ -597,19 +536,16 @@
     <Content Include="TestServer\nodejs.ico" />
     <Content Include="TestServer\typings.json" />
     <Content Include="TestServer\views\index.htm" />
+    <Content Include="StaticContent\docs\error.htm">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="StaticContent\demo\pages\FineUploader.htm">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Solution Items\" />
     <Folder Include="StaticContent\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\assets\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\css\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\external\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\external\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\external\jquery\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\external\jquery-ui-1.13.2\images\" />
-    <Folder Include="StaticContent\demo\ConvertToBase64String\scripts\" />
     <Folder Include="StaticContent\Properties\" />
     <Folder Include="StaticContent\demo\" />
     <Folder Include="StaticContent\demo\data\" />
@@ -651,15 +587,6 @@
     <Folder Include="StaticContent\help\scripts\" />
     <Folder Include="StaticContent\help\themes\" />
     <Folder Include="StaticContent\scripts\" />
-    <Folder Include="StaticContent\scripts\deploy\" />
-    <Folder Include="StaticContent\scripts\deploy\debug\" />
-    <Folder Include="StaticContent\scripts\deploy\release\" />
-    <Folder Include="StaticContent\scripts\diff\" />
-    <Folder Include="StaticContent\scripts\diff\tucson\" />
-    <Folder Include="StaticContent\scripts\diff\ui\" />
-    <Folder Include="StaticContent\scripts\temp\" />
-    <Folder Include="StaticContent\scripts\temp\tucson\" />
-    <Folder Include="StaticContent\scripts\temp\ui\" />
     <Folder Include="StaticContent\scripts\tucson\" />
     <Folder Include="StaticContent\scripts\ui\" />
     <Folder Include="StaticContent\themes\" />

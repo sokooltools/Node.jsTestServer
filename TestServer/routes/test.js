@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------------------------------
-// test.js  ( e.g. http://localhost:3000/test/about or http://localhost:3000/test/clear )
+// test.js  ( e.g. http://localhost:3000/test/about )
 // -----------------------------------------------------------------------------------------------------
 
 var express = require("express");
@@ -7,20 +7,22 @@ var router = express.Router();
 var fs = require("fs");
 var common = require("./common");
 
+const gifMetaString = "data:image/gif;base64,";
+
 const { join } = require("path");
 const gifResize = require("@gumlet/gif-resize");
 
 // ----- Experimental ------------------------
-var app = express();
-app.use(express.json({ limit: "2mb" }));
+//var app = express();
+//app.use(express.json({ limit: "25mb" }));
+//app.use(express.urlencoded({ limit: "25mb", extended: true, parameterLimit: 50000 }));
 // -------------------------------------------
 
 // Middleware that is specific to this route.
 router.use(function (req, res, next) {
-
 	// --------------------------------------------
 	// Add CORS headers to all responses
-	res.setHeader("Access-Control-Allow-Origin", "*"); // Allowing all origins (not recommended for production)
+	res.setHeader("Access-Control-Allow-Origin", "*"); // Allowing all origins (Not recommended for production)
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 	//res.setHeader("Access-Control-Allow-Credentials", "true"); // If cookies are needed
@@ -93,14 +95,20 @@ router.put("/resize-gif", function (req, res) {
 	try {
 		const bufferIn = getBufferFromBase64String(req.body.base64String);
 		gifResize({
-			width: Math.trunc(req.body.width)
+			width: Math.trunc(req.body.width) // Make sure it's an int and not a float!
 		})(bufferIn).then(bufferOut => {
-			const base64String = `data:image/gif;base64,${getBase64StringFromBuffer(bufferOut)}`;
+			const base64String = `${gifMetaString}${getBase64StringFromBuffer(bufferOut)}`;
 			res.status(200).send(base64String);
 		});
 	} catch (err) {
 		console.error(err.message);
 	}
+});
+
+//The 404 Route (ALWAYS keep this as the last route should the put request not be handled)
+router.put("*", function (req, res) {
+	const fullUrl = url.parse(req.url, true);
+	res.status(404).send(util.format("Could not resolve \"%s\"!", fullUrl.pathname));
 });
 
 // ReSharper disable UnusedLocals
