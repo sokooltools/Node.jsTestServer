@@ -138,8 +138,8 @@ async function getBase64StringFromFileAsync(filePath) {
 /**
  * Gets a Base64 string converted from the specified buffer.
  *
- * @param {Buffer} buffer
- * @return {String}
+ * @param {Buffer} buffer The Buffer.
+ * @return {String} a Base64 string.
  */
 function getBase64StringFromBuffer(buffer) {
 	return Buffer.from(buffer).toString("base64");
@@ -148,8 +148,8 @@ function getBase64StringFromBuffer(buffer) {
 /**
  * Gets a buffer converted from the specified Base64 string.
  *
- * @param {String} base64string
- * @return {Buffer}
+ * @param {String} base64string The Base64 string.
+ * @return {Buffer} The Buffer.
  */
 function getBufferFromBase64String(base64string) {
 	return Buffer.from(getBase64StringMinusMeta(base64string), "base64");
