@@ -2,11 +2,12 @@
 <!--	AjaxTest.htm                                                                                   -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+	<meta charset="utf-8">
 	<title>jQuery Ajax Test</title>
-	<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
-	<link rel="stylesheet" href="../themes/demo.css" />
+	<link rel="stylesheet" href="../../themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="../themes/demo.css">
 	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
@@ -23,15 +24,17 @@
 			border: thin gray double;
 			margin: 6px;
 		}
+		button#run{
+			width: 150px;
+		}
 	</style>
 </head>
 <body>
 	<div>
 		<h1>
 			jQuery AJAX Test</h1>
-		<button id="back" class="demo ui-button ui-corner-all ui-widget" title="Click to go back to the start page.">
-			&laquo; Back</button>
-		<button id="run" class="demo ui-button ui-corner-all ui-widget" style="width: 150px;" title="Click to request data be retrieved from the server and loaded into this document.">
+		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+		<button type="button" id="run" class="demo ui-button ui-corner-all ui-widget" title="Click to request data be retrieved from the server and loaded into this document.">
 			Request Data...</button>
 	</div>
 	<div id="myDiv">

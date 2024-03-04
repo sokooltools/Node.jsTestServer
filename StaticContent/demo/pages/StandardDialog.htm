@@ -2,9 +2,9 @@
 <!--	StandardDialog.htm                                                                             -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<meta charset="utf-8">
 	<title>jQuery UI Standard Dialog</title>
 	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
@@ -16,8 +16,8 @@
 	<form action="">
 		<div>
 			<h1>jQuery UI Standard Dialog</h1>
-			<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
-			<button id="run" class="demo ui-button ui-corner-all ui-widget">Show...</button>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+			<button type="button" id="run" class="demo ui-button ui-corner-all ui-widget">Show...</button>
 		</div>
 		<div class="demo-description">
 			<p>
@@ -31,11 +31,8 @@
 	</form>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#back").on("click", function() {
-                window.DEMO.goHome();
-				return false;
-			});
-			// Hook the click event on document ready
+            window.DEMO.loadCommon();
+			// Hook the click event on document ready.
 			$("#run").on("click", function() {
 				ShowErrorDialog();
 				return false;
@@ -52,17 +49,16 @@
 				modal: true,
 				width: 400,
 				open: function() {
-					var ipAddress = "192.168.10.50";
-					var urlRoot = "http://" + ipAddress;
-					var msg = "Could not reconnect to IP Address: <b>" + ipAddress + "</b></br></br>"
-						+ "After closing this dialog, try typing the following directly into</br>"
-						+ "this browser's address bar: <b>" + urlRoot + "</b> ...";
+					const ipAddress = "192.168.10.50";
+					const urlRoot = `http://${ipAddress}`;
+					const msg = `Could not reconnect to IP Address: <b>${ipAddress}</b></br></br>After closing this dialog, 
+                                try typing the following directly into</br>this browser's address bar: <b>${urlRoot}</b> ...`;
 					jQuery(this).html(msg);
 				},
 				buttons: {
 					'OK': function() {
 						$(this).dialog('close');
-						window.alert("Hello from '" + window.location.href + "'!");
+						window.alert(`Hello from '${window.location.href}'!`);
 					},
 					'Cancel': function() {
 						$(this).dialog('close');

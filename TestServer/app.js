@@ -14,11 +14,11 @@
 "use strict";
 
 // This is the web framework.
-// https://expressjs.com/
+// see https://expressjs.com/
 var express = require("express");
 
 // This is the logger.
-// https://github.com/expressjs/morgan
+// see https://github.com/expressjs/morgan
 var morgan = require("morgan");
 
 var fs = require("fs");
@@ -31,11 +31,11 @@ var debug = require("debug");
 //var common = require("./routes/common");
 var download = require("./routes/download");
 var index = require("./routes/index");
-var test = require("./routes/test");
 var upload = require("./routes/upload");
 var uploads = require("./routes/uploads");
 var users = require("./routes/users");
 var services = require("./routes/services");
+var test = require("./routes/test");
 
 //var inspect = debug("testserver");
 
@@ -46,11 +46,12 @@ app.set("port", process.env.PORT || 3000);
 // Uncomment the next line to set the environment to 'Production'.
 //app.set("env", "production");
 
-// Set morgan to log according to environment.
+// Setup morgan to log according to environment.
 // https://github.com/expressjs/morgan/blob/master/README.md
 if (app.get("env") === "development") {
-	// Log everything to std console.
+	// Log everything to std console immediately.
 	app.use(morgan("dev"));
+	//app.use(morgan(":method :url :status :res[content-length] - :response-time ms", { immediate: function(){} }));
 } else {
     // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
 	var logsDir = path.join(__dirname, "Logs"); 
@@ -92,10 +93,10 @@ app.use(express.static(contentFldr));
 app.use("/", index);
 app.use("/users", users);
 app.use("/download", download);
-app.use("/test", test);
 app.use("/upload", upload);
 app.use("/uploads", uploads);
 app.use("/services", services);
+app.use("/test", test);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {

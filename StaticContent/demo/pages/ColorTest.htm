@@ -2,9 +2,9 @@
 <!--	ColorTest.htm                                                                                  -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8">
 	<meta http-equiv="pragma" content="no-cache, no-store" />
 	<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate" />
 	<title>Color Test</title>
@@ -27,8 +27,8 @@
 <body>
 	<div>
 		<h1>jQuery UI Color Test</h1>
-		<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
-		<button id="run"  class="demo ui-button ui-corner-all ui-widget">Run </button>
+		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+		<button type="button" id="run"  class="demo ui-button ui-corner-all ui-widget">Run </button>
 		<p>
 			This demo uses '<i><b>jquery.color.js</b></i>' to animate the two blocks below 
 			by slowly changing their color from blue to yellow and then back to blue.
@@ -39,7 +39,7 @@
 		</div>
 	</div>
 	<script>
-		$("#back").on("click", function () { window.DEMO.goHome();});
+        window.DEMO.loadCommon();
 		$("#run").on("click", function() {
 			$(".block").animate({ backgroundColor: "yellow" }, 1000)
 				.delay(200)

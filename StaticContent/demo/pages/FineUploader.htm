@@ -1,32 +1,49 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Fine-Upload Demo</title>
+		<style>
+			#trigger-upload {
+				color: white;
+				background-color: #00ABC7;
+				font-size: 14px;
+				padding: 7px 20px;
+				background-image: none;
+			}
 
-	<!-- jQuery JS
-	====================================================================== -->
-	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+			#fine-uploader-manual-trigger .qq-upload-button {
+				margin-right: 15px;
+			}
 
-	<!-- jQuery CSS
-	====================================================================== -->
-	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
-	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
-	<script type="text/javascript" src="../scripts/demo.js"> </script>
+			#fine-uploader-manual-trigger .buttons {
+				width: 36%;
+			}
 
-	<!-- Fine Uploader New/Modern CSS file
-	====================================================================== -->
-	<link href="../themes/fine-uploader-new.css" rel="stylesheet">
-
-	<!-- Fine Uploader jQuery JS file
-	====================================================================== -->
-	<script src="../scripts/jquery.fine-uploader.js"></script>
-
-	<!-- Fine Uploader Thumbnails template w/ customization
-	====================================================================== -->
-	<script type="text/template" id="qq-template-manual-trigger">
-		<div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
+			#fine-uploader-manual-trigger .qq-uploader .qq-total-progress-bar-container {
+				width: 60%;
+			}
+		</style>
+		<!--====================================================================== -->
+		<!-- jQuery CSS-->
+		<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css"/>
+		<link rel="stylesheet" type="text/css" href="../themes/demo.css"/>
+		<!--====================================================================== -->
+		<!-- Fine Uploader New/Modern CSS file -->
+		<link href="../themes/fine-uploader-new.css" rel="stylesheet">
+		<!--====================================================================== -->
+		<!-- jQuery JS -->
+		<script type="text/javascript" src="../../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/demo.js"></script>
+		<!--====================================================================== -->
+		<!-- Fine Uploader jQuery JS file -->
+		<script src="../scripts/jquery.fine-uploader.js"></script>
+		<!--====================================================================== -->
+		<!-- Fine Uploader Thumbnails template w/customization -->
+		<script type="text/template" id="qq-template-manual-trigger">
+			<div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
 			<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
 				<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
 			</div>
@@ -62,14 +79,12 @@
 					<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
 				</li>
 			</ul>
-
 			<dialog class="qq-alert-dialog-selector">
 				<div class="qq-dialog-message-selector"></div>
 				<div class="qq-dialog-buttons">
 					<button type="button" class="qq-cancel-button-selector">Close</button>
 				</div>
 			</dialog>
-
 			<dialog class="qq-confirm-dialog-selector">
 				<div class="qq-dialog-message-selector"></div>
 				<div class="qq-dialog-buttons">
@@ -77,7 +92,6 @@
 					<button type="button" class="qq-ok-button-selector">Yes</button>
 				</div>
 			</dialog>
-
 			<dialog class="qq-prompt-dialog-selector">
 				<div class="qq-dialog-message-selector"></div>
 				<input type="text">
@@ -86,105 +100,83 @@
 					<button type="button" class="qq-ok-button-selector">Ok</button>
 				</div>
 			</dialog>
+		</div>	
+		
+		
+		</script>
+	</head>
+	<body>
+		<div>
+			<h1>Fine-Upload File Demo</h1>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+			<button type="button" id="reset" class="demo ui-button ui-corner-all ui-widget">Reset</button>
 		</div>
-	</script>
-
-	<style>
-		#trigger-upload {
-			color: white;
-			background-color: #00ABC7;
-			font-size: 14px;
-			padding: 7px 20px;
-			background-image: none;
-		}
-
-		#fine-uploader-manual-trigger .qq-upload-button {
-			margin-right: 15px;
-		}
-
-		#fine-uploader-manual-trigger .buttons {
-			width: 36%;
-		}
-
-		#fine-uploader-manual-trigger .qq-uploader .qq-total-progress-bar-container {
-			width: 60%;
-		}
-	</style>
-
-	<title>Fine-Upload Demo</title>
-</head>
-<body>
-
-	<div>
-		<h1>Fine-Upload File Demo</h1>
-		<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
-		<button id="reset" class="demo ui-button ui-corner-all ui-widget">Reset</button>
-	</div>
-	<div class="demo-description">
-		<p>
-			This page is used for demonstrating the uploading of a file to the nodeJs server using Fine-Uploader.js.
-		</p>
-	</div>
-
-	<!-- Fine Uploader DOM Element
-	====================================================================== -->
-	<div id="fine-uploader-manual-trigger"></div>
-
-	<!-- Your code to create an instance of Fine Uploader and bind to the DOM/template
-	====================================================================== -->
-	<script type="text/javascript">
-		var uploader;
-		(createUploader = function() {
-			uploader = new window.qq.FineUploader({
-				debug: true, // Log messages are written to the window.console object when true.
-				element: $("#fine-uploader-manual-trigger")[0],
-				autoUpload: false,
-				template: "qq-template-manual-trigger",
-				request: {
-					endpoint: "/uploads" // The endpoint (route) to send upload requests to.
-				},
-				thumbnails: {
-					placeholders: {
-						waitingPath: "../themes/source/placeholders/waiting-generic.png",
-						notAvailablePath: "../themes/source/placeholders/not_available-generic.png"
-					}
-				},
-				retry: {
-					enableAuto: false // Enable or disable retrying uploads that receive any error response. (defaults to false)
-				},
-				callbacks: {
-					onComplete: function(id, name, response) {
-						//var serverPathToFile = response.filePath;
-						//var fileItem = this.getItemByFileId(id);
-						if(response.success) {
-							//var viewBtn = window.qq(fileItem).getByClass("view-btn")[0];
-							//viewBtn.setAttribute("href", serverPathToFile);
-							//window.qq(viewBtn).removeClass("hide");
+		<div class="demo-description">
+			<p>This page is used for demonstrating the uploading of one or more files to the nodeJs server using
+				Fine-Uploader.js.
+			</p>
+		</div>
+		<!--====================================================================== -->
+		<!-- Fine Uploader DOM Element -->
+		<div id="fine-uploader-manual-trigger"></div>
+		<!--====================================================================== -->
+		<!-- Your code to create an instance of Fine Uploader and bind to the DOM/template -->
+		<script type="text/javascript">
+			var uploader;
+			(createUploader = function() {
+				uploader = new window.qq.FineUploader({
+					// Log messages are written to the window.console object when true.
+					debug: true,
+					element: $("#fine-uploader-manual-trigger")[0],
+					autoUpload: false,
+					template: "qq-template-manual-trigger",
+					request: {
+						// The endpoint (route) to send upload requests to.
+						endpoint: "/uploads"
+					},
+					thumbnails: {
+						placeholders: {
+							waitingPath: "../themes/source/placeholders/waiting-generic.png",
+							notAvailablePath: "../themes/source/placeholders/not_available-generic.png"
 						}
+					},
+					retry: {
+						enableAuto: false // Enable or disable retrying uploads that receive any error response. (defaults to false)
+					},
+					callbacks: {
+						onComplete: function(id, name, response) {
+							//var serverPathToFile = response.filePath;
+							//var fileItem = this.getItemByFileId(id);
+							if (response.success) {
+								//var viewBtn = window.qq(fileItem).getByClass("view-btn")[0];
+								//viewBtn.setAttribute("href", serverPathToFile);
+								//window.qq(viewBtn).removeClass("hide");
+							}
+						}
+					},
+					// Prevents user from simultaneously selecting or dropping more than one item when false.
+					multiple: true,
+					validation: {
+						//allowedExtensions: ['pdf'],
+						// The maximum allowable size, in bytes, for an item. (5 MB = 5 *1024 * 1024 bytes)
+						sizeLimit: 5242880,
+						// Maximum number of items that can be potentially uploaded in this session. Will reject all items that are added or retried after this limit is reached.			
+						itemLimit: 5 
 					}
-				},
-				multiple: true, // Prevents user from simultaneously selecting or dropping more than one item when false.
-				validation: {
-					//allowedExtensions: ['pdf'],
-					sizeLimit: 5242880, // The maximum allowable size, in bytes, for an item. (5 MB = 5 *1024 * 1024 bytes)
-					itemLimit: 5 // Maximum number of items that can be potentially uploaded in this session. Will reject all items that are added or retried after this limit is reached.
-				}
+				});
+			}());
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				window.DEMO.loadCommon();
+				$("#trigger-upload").on("click", function() {
+					uploader.uploadStoredFiles();
+				});
+				$("#reset").on("click", function() {
+					// Cancels all queued or currently uploading items.
+					uploader.cancelAll();
+				});
 			});
-		}());
-
-		$("#trigger-upload").on("click", function() {
-			uploader.uploadStoredFiles();
-		});
-
-		$("#back").on("click", function() {
-            window.DEMO.goHome();
-			return false;
-		});
-
-		$("#reset").on("click", function() {
-			uploader.cancelAll(); // Cancels all queued or currently uploading items.
-			return false;
-		});
-	</script>
-</body>
+		</script>
+	</body>
 </html>

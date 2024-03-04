@@ -2,16 +2,22 @@
 <!--	Upload.htm                                                                                -->
 <!--=================================================================================================-->
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
 	<title>Upload</title>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8">
 	<meta id="GENERATOR" content="?" />
 	<meta id="Author" content="rasokol" />
 	<meta id="Description" content="description" />
 	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
 	<style type="text/css">
+		table{
+			padding: 0 5px; 
+			margin-top: 22px; 
+			width: 90%;
+		}
+
 		legend {
 			font-weight: bold;
 			font-size: 12pt;
@@ -25,18 +31,26 @@
 			height: 20px;
 			cursor: pointer;
 		}
+
+		input#demo_inputFile{
+			font-size: 10pt; 
+			padding: 10px; 
+			width: 100%;
+		}
+		
+		legend#demo_lblFile{
+			font-size: 10pt; 
+			padding: 10px;
+		}
 	</style>
 	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
 	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
 	<script type="text/javascript" src="../scripts/demo.js"> </script>
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(function() {
 
-			$("#back").on("click", function() {
-				window.DEMO.goHome();
-				return false;
-			});
-
+            window.DEMO.loadCommon();
+			
 			// -------------------------------------------------------------------------------------------
 			// Handles the event raised when the 'File to Upload' input box value changes.
 			// (Used for enabling the 'Upload' button).
@@ -77,7 +91,7 @@
 <body>
 	<div>
 		<h1>Upload File Demo</h1>
-		<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
+		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
 	</div>
 	<div class="demo-description">
 		<p>
@@ -85,15 +99,15 @@
 		</p>
 	</div>
 	<form id="demo_frmUpload" action="/upload" enctype="multipart/form-data" method="post">
-		<table style="padding: 0 5px; margin-top: 22px; width: 90%;">
+		<table >
 			<tr>
 				<td>
 					<fieldset style="padding: 2px 8px 8px 8px;">
-						<legend id="demo_lblFile" style="font-size: 10pt; padding: 10px;">File To Upload:</legend>
+						<legend id="demo_lblFile">File To Upload:</legend>
 						<table style="padding: 5px;">
 							<tr>
 								<td style="width: 100%;">
-									<input type="file" id="demo_inputFile" name="demo_inputFile" style="font-size: 10pt; padding: 10px; width: 100%;" tabindex="1">
+									<input type="file" id="demo_inputFile" name="demo_inputFile" title="title"  tabindex="1">
 								</td>
 								<td>
 									<input type="submit" id="demo_btnUpload" name="demo_btnUpload" value="Upload" style="margin-left: 8px;" class="btnWide" disabled="" tabindex="2" />
@@ -104,7 +118,7 @@
 				</td>
 			</tr>
 		</table>
-		<textarea id="base64StringTextArea" rows="15" title="This is the 'Base64String' representation." spellcheck="false"style="width: 90%;"></textarea>
+		<!-- <textarea id="base64StringTextArea" rows="15" title="This is the 'Base64String' representation." spellcheck="false"style="width: 90%;"></textarea> -->
 	</form>
 </body>
 </html>

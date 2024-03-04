@@ -2,36 +2,34 @@ button#clearscreen{
     width: 15em;
 }
 
+button#back{
+    width:15em;
+}
+
 #resizeGifDiv {
-    margin: 0.5em;
+    margin: 0.5em 0;
     border: black thin solid;
+    margin-bottom: 2em;
 }
 
 #jsonText {
     width: 99.5%;
-    margin-top: 1em;
-    margin-right: 1em;
+    margin: 1em 0;
     height: 3.5em;
     /* Prevent resizing horizontally */
     resize: vertical;
 }
 
 #response {
-    width: 99%;
+    width: 99.5%;
     flex-wrap: nowrap;
+    height: 22em;
+    margin-right: 0;
     /* Prevent resizing horizontally */
     resize: vertical;
 }
 
 .container {
-    width: 98.5%;
-    margin: 0.5em;
     padding: 0.5em;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    /*height: 100%;*/
-    /*min-height: 3em;*/
-    /*background-color: green;*/
-    resize: vertical;
     border: black thin solid;
 }

@@ -3,11 +3,8 @@
 // ====================================================================================================
 var CFG = window.CFG;
 
-$(document).ready(function() {
-	$("#back").button().on("click", function() {
-		window.DEMO.goHome();
-		return false;
-	});
+$(function() {
+	window.DEMO.loadCommon();
 	$("#run").button().on("click", function() {
 		LoadXmlDoc();
 		return false;
@@ -44,7 +41,7 @@ function LoadXmlDoc() {
     };
 	try {
 		// Note: The following only works when retrieving data from an actual web server!
-		xhr.open("GET", "AjaxTest.txt", true);
+		xhr.open("GET", "../Data/AjaxTest.txt", true);
 		xhr.send();
 	} catch (e) {
 		CFG.showError(e.toString());

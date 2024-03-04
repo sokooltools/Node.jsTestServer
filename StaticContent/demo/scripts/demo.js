@@ -4,6 +4,28 @@
 
 var DEMO = {};
 
+DEMO.loadCommon = function () {
+	if ($("#back")) {
+		if (document.referrer === "") {
+			$("#back").attr("title", "Click to go to the Demo Home page...");
+			$("#back").html("« Go to Demo Home");
+		} else {
+			$("#back").attr("title", "Click to go back to the Demo Home page...");
+			$("#back").html("« Go Back");
+		}
+		$("#back").button().on("click", function () {
+			DEMO.goHome();
+		});
+	}
+}
+
+DEMO.getPathRoot = function() {
+	if (window.location.pathname.startsWith("/StaticContent")) {
+		return `${window.location.origin}/StaticContent`;
+	}
+	return window.location.origin;
+}
+
 // -------------------------------------------------------------------------------------------
 // Sets the Protocol, the Port, and the specified IP Address. 
 // If the specified ip address is null or empty and a cookie containing the ip address exists
@@ -32,8 +54,8 @@ DEMO.loadForm = function(ipAddress, port) {
 // -------------------------------------------------------------------------------------------
 // Goes back to the Demo home page.
 // -------------------------------------------------------------------------------------------
-DEMO.goHome = function(){
-	window.location.href="../demo.htm";
+DEMO.goHome = function() {
+	window.location.href = "../demo.htm";
 }
 
 // -------------------------------------------------------------------------------------------
@@ -42,39 +64,29 @@ DEMO.goHome = function(){
 DEMO.loadCustomComboboxes = function() {
 	$.widget("custom.combobox", {
 		_create: function() {
-			this.wrapper = $("<span>")
-				.addClass("custom-combobox")
-				.insertAfter(this.element);
+			this.wrapper = $("<span>").addClass("custom-combobox").insertAfter(this.element);
 
 			this.element.hide();
 			this._createAutocomplete();
 			this._createShowAllButton();
 		},
 		_createAutocomplete: function() {
-            const selected = this.element.children(":selected");
-            const value = selected.val() ? selected.text() : "";
+			const selected = this.element.children(":selected");
+			const value = selected.val() ? selected.text() : "";
 
-			this.input = $("<input>")
-				.appendTo(this.wrapper)
-				.val(value)
-				.attr("title", "")
-				.attr("spellcheck", "false")
-				.on("keydown", function() { // RAS 2017
-					if (DEMO.isEnterkey(event)) {
-						DEMO.doClick();
-					}
-				})
-				.addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
-				.autocomplete({
-					delay: 0,
-					minLength: 0,
-					source: $.proxy(this, "_source")
-				})
-				.tooltip({
-					classes: {
-						"ui-tooltip": "ui-state-highlight"
-					}
-				});
+			this.input = $("<input>").appendTo(this.wrapper).val(value).attr("title", "").attr("spellcheck", "false").on("keydown", function() {
+				if (DEMO.isEnterkey(event)) {
+					DEMO.doClick();
+				}
+			}).addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left").autocomplete({
+				delay: 0,
+				minLength: 0,
+				source: $.proxy(this, "_source")
+			}).tooltip({
+				classes: {
+					"ui-tooltip": "ui-state-highlight"
+				}
+			});
 
 			this._on(this.input, {
 				autocompleteselect: function(event, ui) {
@@ -86,47 +98,40 @@ DEMO.loadCustomComboboxes = function() {
 			});
 		},
 		_createShowAllButton: function() {
-			var input = this.input,
-				wasOpen = false;
-			$("<a>")
-				.attr("tabIndex", -1)
-				.attr("title", "Show All Items")
-				.tooltip()
-				.appendTo(this.wrapper)
-				.button({
-					icons: {
-						primary: "ui-icon-triangle-1-s"
-					},
-					text: false
-				})
-				.removeClass("ui-corner-all")
-				.addClass("custom-combobox-toggle ui-corner-right")
-				.on("mousedown", function() {
-					wasOpen = input.autocomplete("widget").is(":visible");
-				})
-				.on("click", function() {
-					input.trigger("focus");
+			var input = this.input
+			  , wasOpen = false;
+			$("<a>").attr("tabIndex", -1).attr("title", "Show All Items").tooltip().appendTo(this.wrapper).button({
+				icons: {
+					primary: "ui-icon-triangle-1-s"
+				},
+				text: false
+			}).removeClass("ui-corner-all").addClass("custom-combobox-toggle ui-corner-right").on("mousedown", function() {
+				wasOpen = input.autocomplete("widget").is(":visible");
+			}).on("click", function() {
+				input.trigger("focus");
 
-					// Close if already visible
-					if (wasOpen) {
-						return;
-					}
+				// Close if already visible
+				if (wasOpen) {
+					return;
+				}
 
-					// Pass empty string as value to search for, displaying all results
-					input.autocomplete("search", "");
-				});
+				// Pass empty string as value to search for, displaying all results
+				input.autocomplete("search", "");
+			});
 		},
 		_source: function(request, response) {
-			var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+			var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term),"i");
 			response(this.element.children("option").map(function() {
-                const text = $(this).text();
-                if (this.value && (!request.term || matcher.test(text)))
+				const text = $(this).text();
+				if (this.value && (!request.term || matcher.test(text))) {
 					return {
 						label: text,
 						value: text,
 						option: this
 					};
-            }));
+				}
+				return {};
+			}));
 		},
 		_destroy: function() {
 			this.wrapper.remove();
@@ -141,15 +146,16 @@ DEMO.loadCustomComboboxes = function() {
 	$("#combobox2").combobox();
 	$("#test2 > span.custom-combobox > input.ui-autocomplete-input").attr("id", "demo_cboPort");
 	$("#demo_cboPort").css("width", "50px").css("font-size", "12pt").css("font-weight", "bold");
-
-};
+}
+;
 
 // -------------------------------------------------------------------------------------------
 // Returns an indication as to whether the specified event code is an enter key.
 // -------------------------------------------------------------------------------------------
 DEMO.isEnterkey = function(e) {
 	return e.keyCode === 13 || e.charCode === 13;
-};
+}
+;
 
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when one of the hyperlinks is clicked.
@@ -165,18 +171,19 @@ DEMO.doClick = function() {
 			page = "configtool.htm";
 		}
 		DEMO.goToPage(document, urlRoot, page);
-	}
-	else {
+	} else {
 		// Get the extension to make sure it is html
 		const ext = arguments[0].split("/").reverse()[0].split(".").reverse()[0];
 		if (!(ext === "htm" || ext === "html")) {
 			$.unblockUI({
-				onUnblock: function() { DEMO.showDialog('Sorry... only raw "html" pages can be opened from the desktop!'); }
+				onUnblock: function() {
+					DEMO.showDialog('Sorry... only raw "html" pages can be opened from the desktop!');
+				}
 			});
 			return false;
 		}
 		const path = $(window.location).prop("href");
-		//  path = "file:///C:/Parker/Tucson/trunk/ParkerWebCF/StaticContent/demo/Demo.htm"
+		//  path = "file:///D:/Parker/Tucson/trunk/ParkerWebCF/StaticContent/demo/Demo.htm"
 		const url = path.replace(path.split("/").reverse()[0], arguments[0]);
 		window.location.href = url;
 	}
@@ -186,7 +193,9 @@ DEMO.doClick = function() {
 // -------------------------------------------------------------------------------------------
 // Returns the currently selected protocol (i.e., 'Http:' or 'Https:').
 // -------------------------------------------------------------------------------------------
-DEMO.getProtocol = function() { return $("#demo_rdoHttp").is(":checked") ? "http:" : "https:"; }
+DEMO.getProtocol = function() {
+	return $("#demo_rdoHttp").is(":checked") ? "http:" : "https:";
+}
 
 // -------------------------------------------------------------------------------------------
 // Selects the last octet of the ip address.
@@ -208,8 +217,7 @@ DEMO.openDoc = function(doc) {
 	if ($("#demo_rdoWeb").prop("checked")) {
 		// Open the document located on the web.
 		path = DEMO.getProtocol() + "//" + DEMO.getUrlRoot() + "/docs/" + doc;
-	}
-	else {
+	} else {
 		// Open the document located on this computer.
 		path = $(window.location).prop("href");
 		const splitPath = path.split("/").reverse();
@@ -238,7 +246,9 @@ DEMO.showBusy = function(msg) {
 	jQuery.blockUI({
 		message: `<img src="themes/base/images/busy.gif"/> ${msg}`,
 		//timeout: 15000,
-		overlayCSS: { backgroundColor: "#A0A0A0" }
+		overlayCSS: {
+			backgroundColor: "#A0A0A0"
+		}
 	});
 }
 
@@ -261,8 +271,8 @@ DEMO.goToPage = function(doc, urlRoot, page, numAttempt) {
 	var port = "";
 	const itms = urlRoot.split(":");
 	if (itms.length > 1) {
-        [address, port] = itms;
-    }
+		[address,port] = itms;
+	}
 	const isssl = $("#demo_rdoHttps").is(":checked");
 	DEMO.setCookie(doc, "isssl", isssl, 14);
 	DEMO.setCookie(doc, "address", address, 14);
@@ -340,7 +350,8 @@ DEMO.getQueryStringByName = function(name) {
 	const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 	const results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-};
+}
+;
 
 // -------------------------------------------------------------------------------------------
 // Utility function for writing the specified message to the developer console window.
@@ -369,5 +380,5 @@ jQuery.fn.setSelection = function(selectionStart, selectionEnd) {
 		input2.setSelectionRange(selectionStart, selectionEnd);
 	}
 	return this;
-};
-
+}
+;

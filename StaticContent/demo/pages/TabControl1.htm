@@ -2,9 +2,9 @@
 <!--	TabControl1.htm                                                                              -->                    
 <!--=================================================================================================-->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<meta charset="utf-8">
 	<title>jQuery UI Tabs 1</title>
 	<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
 	<link rel="stylesheet" href="../themes/demo.css" />
@@ -37,17 +37,14 @@
 						}
 					}
 				});
-				$("button#back").on("click", function() {
-                    window.DEMO.goHome();
-					return false;
-				});
+                window.DEMO.loadCommon();
 			});
 	</script>
 </head>
 <body>
 	<div>
 		<h1>jQuery UI Tabs 1</h1>
-		<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
+		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
 		<p>
 			This particular demo uses '<i><b>jquery-ui.js</b></i>' to generate the tabs (as opposed to using '<i><b>jquery.tools.min.js</b></i>)'
 		</p>

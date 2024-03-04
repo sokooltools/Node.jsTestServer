@@ -10,7 +10,7 @@
     <ScriptArguments>
     </ScriptArguments>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
-    <LaunchUrl>demo/demo.htm</LaunchUrl>
+    <LaunchUrl>demo\demo.htm</LaunchUrl>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -69,6 +69,7 @@
     </Content>
     <Content Include="Solution Items\DeveloperNotes.txt" />
     <Content Include="Solution Items\NPM List Modules.jpg" />
+    <Content Include="StaticContent\demo\data\ErrorDialog.txt" />
     <Content Include="StaticContent\demo\data\NetworkInfo3.json" />
     <Content Include="StaticContent\demo\data\Sessions.json" />
     <Content Include="StaticContent\demo\data\XpressData.json" />
@@ -77,6 +78,7 @@
     </Content>
     <Content Include="AssemblyVersion.cs" />
     <Content Include="StaticContent\ConfigTool.htm" />
+    <Content Include="StaticContent\demo\themes\testserver-admin.css" />
     <Content Include="StaticContent\docs\globalization.zip" />
     <Content Include="StaticContent\globalization\SupportedLanguages.json" />
     <Content Include="StaticContent\Loading.htm" />
@@ -100,12 +102,11 @@
     <Content Include="StaticContent\demo\docs\webServer.exe.log" />
     <Content Include="StaticContent\demo\docs\webserver.exe.ini" />
     <Content Include="StaticContent\demo\pages\AjaxTest.htm" />
-    <Content Include="StaticContent\demo\pages\AjaxTest.txt" />
+    <Content Include="StaticContent\demo\data\AjaxTest.txt" />
     <Content Include="StaticContent\demo\pages\ColorTest.htm" />
     <Content Include="StaticContent\demo\pages\CustomCombo.htm" />
     <Content Include="StaticContent\demo\pages\DateTimePicker.htm" />
     <Content Include="StaticContent\demo\pages\ErrorDialog.htm" />
-    <Content Include="StaticContent\demo\pages\ErrorDialog.txt.htm" />
     <Content Include="StaticContent\demo\pages\JsonTest.htm" />
     <Content Include="StaticContent\demo\pages\StandardDialog.htm" />
     <Content Include="StaticContent\demo\pages\TabControl1.htm" />

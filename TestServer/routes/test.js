@@ -4,22 +4,25 @@
 
 var express = require("express");
 var router = express.Router();
+var path = require("path");
 var fs = require("fs");
-var common = require("./common");
+var gifResize = require("@gumlet/gif-resize");
+//var common = require("./common");
 
 const gifMetaString = "data:image/gif;base64,";
-
-const { join } = require("path");
-const gifResize = require("@gumlet/gif-resize");
 
 // ----- Experimental ------------------------
 //var app = express();
 //app.use(express.json({ limit: "25mb" }));
-//app.use(express.urlencoded({ limit: "25mb", extended: true, parameterLimit: 50000 }));
+//app.use(express.urlencoded({ limit: "25mb", extended: true, parameterLimit: 5000 }));
 // -------------------------------------------
 
 // Middleware that is specific to this route.
 router.use(function (req, res, next) {
+
+	// Write a line (containing the date and time), preceding all subsequent methods.
+	//console.log(common.getFormattedDateTime());
+
 	// --------------------------------------------
 	// Add CORS headers to all responses
 	res.setHeader("Access-Control-Allow-Origin", "*"); // Allowing all origins (Not recommended for production)
@@ -27,18 +30,15 @@ router.use(function (req, res, next) {
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 	//res.setHeader("Access-Control-Allow-Credentials", "true"); // If cookies are needed
 	// --------------------------------------------
-
-	// This writes a line containing the date and time preceding all the methods below.
-	console.log(common.getFormattedDateTime());
 	next();
 });
 
-// Define the home page route
+// Returns info pertaining to the root route
 router.get("/", function (req, res) {
 	res.send("<h1>Test home page</h1>");
 });
 
-// Define the about route.
+// Returns About info.
 router.get("/about", function (req, res) {
 	res.send("<h2>Test About</h2>");
 });
@@ -48,7 +48,7 @@ router.get("/clear", function () {
 	console.log("\x1Bc");
 });
 
-// Define a json route
+// Returns a simple Json object
 router.get("/json", function (req, res) {
 	const json = JSON.stringify({
 		key1: "value1",
@@ -58,11 +58,12 @@ router.get("/json", function (req, res) {
 	res.send(json);
 });
 
-// Define an array route
+// Returns a simple Json Array.
 router.get("/array", function (req, res) {
 	res.send([1, 2, 3]);
 });
 
+// Returns a list of module versions.
 router.get("/version", function (req, res) {
 	fs.readFile("package.json", (err, data) => {
 		if (err) {
@@ -77,7 +78,7 @@ router.get("/version", function (req, res) {
 			const keys = Object.keys(packageJson.dependencies);
 			for (const key of keys) {
 				try {
-					const dir = join(key, "package.json");
+					const dir = path.join(key, "package.json");
 					const resolved = require.resolve(dir);
 					obj[key] = require(resolved).version;
 				} catch (err) {
@@ -91,6 +92,24 @@ router.get("/version", function (req, res) {
 	});
 });
 
+// Uploads a GIF (rec'd as a Base64String) to this server's Downloads folder.
+router.put("/upload-gif", function (req, res) {
+	try {
+		const downloadsFolder = getDownloadsFolder();
+		const fileName = req.body.filename ? req.body.filename : "test-server.gif";
+		const bufferIn = getBufferFromBase64String(req.body.base64String);
+		const fullpath = path.join(downloadsFolder, fileName);
+		const msg = `'${fullpath}' was successfully uploaded to the server.`;
+		fs.writeFileSync(fullpath, bufferIn);
+		console.log(msg);
+		res.send(msg);
+	} catch (err) {
+		console.error(err.message);
+		res.send(err.message);
+	}
+});
+
+// Resize a GIF'.
 router.put("/resize-gif", function (req, res) {
 	try {
 		const bufferIn = getBufferFromBase64String(req.body.base64String);
@@ -102,6 +121,7 @@ router.put("/resize-gif", function (req, res) {
 		});
 	} catch (err) {
 		console.error(err.message);
+		res.send(err.message);
 	}
 });
 
@@ -111,12 +131,18 @@ router.put("*", function (req, res) {
 	res.status(404).send(util.format("Could not resolve \"%s\"!", fullUrl.pathname));
 });
 
+//The 404 Route (ALWAYS keep this as the last route in the event no other processes the request)
+router.get("*", function (req, res) {
+	res.status(404).send("<h3>Sorry... that route could not be found!</h3>");
+});
+
 // ReSharper disable UnusedLocals
+
 
 // Gets the Base64 string (read synchronously) from the specified file.
 function getBase64StringFromFile(file) {
 	try {
-		const binary = fs.readFileSync(file, { encoding: "base64" });
+		const binary = readFileSync(file, { encoding: "base64" });
 	} catch (err) {
 		console.error("Error reading file:", err);
 	}
@@ -165,10 +191,21 @@ function getBase64StringMinusMeta(base64String) {
 	return base64String.startsWith("data:") ? base64String.split(";base64,").pop() : base64String;
 }
 
-//The 404 Route (ALWAYS keep this as the last route in the event no other processes the request)
-router.get("*", function (req, res) {
-	res.status(404).send("<h3>Sorry... that address could not be found!</h3>");
-});
+function getDownloadsFolder() {
+	const registry = require("registry-js");
+	const folder = `${process.env.USERPROFILE}\\Downloads`;
+	const folders =
+		registry.enumerateValues(
+			registry.HKEY.HKEY_CURRENT_USER,
+			"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
+	for (const value of folders) {
+		if (value.name === "{374DE290-123F-4565-9164-39C4925E467B}") {
+			//folder = value.data.replace("%USERPROFILE%", process.env.USERPROFILE);
+			return value.data;
+		}
+	}
+	return folder;
+}
 
 //function doDownload(res){
 //    //const filePath = `${__dirname}/uploaded/temp.gif`;    

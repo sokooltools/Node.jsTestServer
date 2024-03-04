@@ -8,10 +8,9 @@ var grid;
 var dataview;
 
 $(document).ready(function() {
-	$("#back").on("click", function() {
-		window.DEMO.goHome();
-	});
-	$("#run").on("click", function() {
+	window.DEMO.loadCommon();
+
+	$("#run").on("click", function () {
 		loadGrid();
 	});
 	$("#expandAll").on("click", function() {

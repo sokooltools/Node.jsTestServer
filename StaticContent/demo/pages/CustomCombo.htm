@@ -36,15 +36,12 @@
 	<script>
 		$(function() {
 
-			$("#back").on("click", function() {
-                window.DEMO.goHome();
-				return false;
-			});
+            window.DEMO.loadCommon();
 
 			$('#demo_getCustomComboValue').on("click", function() {
-				var ipaddress = $("#cboIpAddress").val();
-				var port = $("#cboPort").val();
-				var msg = "</br><span style='font-size:14pt;'>IP Address: <b>" + ipaddress + "</b>, Port: <b>" + port + "</b></span>";
+				const ipaddress = $("#cboIpAddress").val();
+				const port = $("#cboPort").val();
+				const msg = `</br><span style='font-size:14pt;'>IP Address: <b>${ipaddress}</b>, Port: <b>${port}</b></span>`;
 				window.CMN.showDialog(msg, document.title);
 			});
 
@@ -58,10 +55,9 @@
 					this._createAutocomplete();
 					this._createShowAllButton();
 				},
-
 				_createAutocomplete: function() {
-					var selected = this.element.children(":selected"),
-						value = selected.val() ? selected.text() : "";
+                    const selected = this.element.children(":selected");
+                    const value = selected.val() ? selected.text() : "";
 
 					this.input = $("<input>")
 						.appendTo(this.wrapper)
@@ -79,7 +75,6 @@
 								"ui-tooltip": "ui-state-highlight"
 							}
 						});
-
 					this._on(this.input, {
 						autocompleteselect: function(event, ui) {
 							ui.item.option.selected = true;
@@ -91,7 +86,6 @@
 						//,autocompletechange: "_removeIfInvalid"
 					});
 				},
-
 				_createShowAllButton: function() {
 					var input = this.input,
 						wasOpen = false;
@@ -124,20 +118,18 @@
 							input.autocomplete("search", "");
 						});
 				},
-
 				_source: function(request, response) {
 					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 					response(this.element.children("option").map(function() {
-						var text = $(this).text();
-						if(this.value && (!request.term || matcher.test(text)))
+                        const text = $(this).text();
+                        if(this.value && (!request.term || matcher.test(text)))
 							return {
 								label: text,
 								value: text,
 								option: this
 							};
-					}));
+                    }));
 				},
-
 				_destroy: function() {
 					this.wrapper.remove();
 					this.element.show();
@@ -163,15 +155,11 @@
 <body>
 	<div>
 		<h1>jQuery UI Custom Combobox</h1>
-		<button id="back" class="demo ui-button ui-corner-all ui-widget">&laquo; Back</button>
-		<button id="demo_getCustomComboValue" value="1" class="demo ui-button ui-corner-all ui-widget">
-			Get Value
-		</button>
+		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+		<button type="button" id="demo_getCustomComboValue" value="1" class="demo ui-button ui-corner-all ui-widget">Get Value</button>
 	</div>
 	<div class="demo-description">
-		<p>
-			This demo displays a custom combo box allowing the user to select an existing value or enter in a new value.
-		</p>
+		<p>This demo displays a custom combo box allowing the user to select an existing value or enter in a new value.</p>
 	</div>
 	<table>
 		<tr>
