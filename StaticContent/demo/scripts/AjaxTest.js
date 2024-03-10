@@ -41,7 +41,7 @@ function LoadXmlDoc() {
     };
 	try {
 		// Note: The following only works when retrieving data from an actual web server!
-		xhr.open("GET", "../Data/AjaxTest.txt", true);
+		xhr.open("GET", "../data/AjaxTest.txt", true);
 		xhr.send();
 	} catch (e) {
 		CFG.showError(e.toString());

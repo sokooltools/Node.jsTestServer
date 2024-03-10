@@ -2,11 +2,48 @@
     // Use IntelliSense to learn about possible Node.js debug attributes.
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+
+    // https://code.visualstudio.com/docs/editor/variables-reference#:~:text=%24%7BworkspaceFolder%7D%20%2D%20the%20path%20of,file%7D%20%2D%20the%20current%20opened%20file
     "version": "0.2.0",
-    "configurations": [{
-        "type": "node",
-        "request": "launch",
-        "name": "Launch Program",
-        "program": "${workspaceRoot}/TestServer/app.js"
-    }]
+    "configurations": [
+        {
+            "name": "Launch Demo in Edge (LocalHost:3000)",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:3000/demo/demo.htm",
+            "webRoot": "${workspaceFolder}/staticcontent"
+        }, 
+        {
+            "name": "Launch Demo in Edge (File-Based)",
+            "request": "launch",
+            "type": "msedge",
+            "url": "D:/Users/Ronn/Documents/Visual Studio 2019/DevTools/ParkerConfigTool/StaticContent/Demo/Demo.htm",
+            "webRoot": "${workspaceFolder}/staticcontent"
+        },
+        {
+            "name": "Attach to Edge",
+            "port": 9222,
+            "request": "attach",
+            "type": "msedge",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Attach to Process ID",
+            "processId": "${command:PickProcess}",
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "Launch TestServer",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/TestServer/app.js",
+            "skipFiles": [
+                "<node_internals/**>"
+            ]
+        }
+    ]
 }

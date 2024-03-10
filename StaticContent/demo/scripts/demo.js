@@ -36,6 +36,8 @@ DEMO.loadForm = function(ipAddress, port) {
 	DEMO.loadCustomComboboxes();
 
 	const isSsl = DEMO.getCookie(document, "isssl", "false");
+	
+	const isWeb = DEMO.getCookie(document, "isweb", "false");
 
 	if (!ipAddress)
 		ipAddress = DEMO.getCookie(document, "address", "LocalHost");
@@ -43,8 +45,12 @@ DEMO.loadForm = function(ipAddress, port) {
 	if (!port)
 		port = DEMO.getCookie(document, "port", "3000");
 
+	$("#demo_rdoWeb").prop("checked", isWeb === "true");
+	$("#demo_rdoDesktop").prop("checked", isWeb === "false");
+	
 	$("#demo_rdoHttp").prop("checked", isSsl === "false");
 	$("#demo_rdoHttps").prop("checked", isSsl === "true");
+	
 	$("#demo_cboIpAddress").val(ipAddress);
 	$("#demo_cboPort").val(port);
 
@@ -147,7 +153,6 @@ DEMO.loadCustomComboboxes = function() {
 	$("#test2 > span.custom-combobox > input.ui-autocomplete-input").attr("id", "demo_cboPort");
 	$("#demo_cboPort").css("width", "50px").css("font-size", "12pt").css("font-weight", "bold");
 }
-;
 
 // -------------------------------------------------------------------------------------------
 // Returns an indication as to whether the specified event code is an enter key.
@@ -155,7 +160,23 @@ DEMO.loadCustomComboboxes = function() {
 DEMO.isEnterkey = function(e) {
 	return e.keyCode === 13 || e.charCode === 13;
 }
-;
+
+DEMO.doGet = function(url, isAsync) {
+	console.log("");
+	$.ajax({
+		type: "GET",
+		url: url,
+		dataType: null,
+		async: isAsync | true,
+		cache: false,
+		success: function(data) {
+			console.log(data);
+		},
+		error: function(jqXHR) {
+			console.log(jqXHR.status);
+		}
+	});
+}
 
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when one of the hyperlinks is clicked.
@@ -182,9 +203,10 @@ DEMO.doClick = function() {
 			});
 			return false;
 		}
+		DEMO.setCookie(document, "isweb", false, 14);
 		const path = $(window.location).prop("href");
 		//  path = "file:///D:/Parker/Tucson/trunk/ParkerWebCF/StaticContent/demo/Demo.htm"
-		const url = path.replace(path.split("/").reverse()[0], arguments[0]);
+		const url = path.replace(path.split("/").reverse()[0], "pages/" + arguments[0]);
 		window.location.href = url;
 	}
 	return false;
@@ -273,10 +295,13 @@ DEMO.goToPage = function(doc, urlRoot, page, numAttempt) {
 	if (itms.length > 1) {
 		[address,port] = itms;
 	}
+	const isweb = $("#demo_rdoWeb").is(":checked");
 	const isssl = $("#demo_rdoHttps").is(":checked");
+	
 	DEMO.setCookie(doc, "isssl", isssl, 14);
 	DEMO.setCookie(doc, "address", address, 14);
 	DEMO.setCookie(doc, "port", port, 14);
+	DEMO.setCookie(doc, "isweb", isweb, 14);
 	//};
 	//img.onabort = function() {
 	//	jQuery.unblockUI();
@@ -327,19 +352,19 @@ DEMO.getCookie = function(doc, name, deflt) {
 		while (c.charAt(0) === " ")
 			c = c.substring(1, c.length);
 		if (c.indexOf(nameEq) === 0)
-			return window.unescape(c.substring(nameEq.length, c.length));
+			return encodeURI(c.substring(nameEq.length, c.length));
 	}
 	return deflt;
 }
 
 // -------------------------------------------------------------------------------------------
-// Sets the specified cookie value corresponding to the specified  cookie name.
+// Sets the specified cookie value corresponding to the specified cookie name.
 // -------------------------------------------------------------------------------------------
 DEMO.setCookie = function(doc, name, value, expdays) {
 	const exdate = new Date();
 	exdate.setDate(exdate.getDate() + expdays);
-	const cvalue = window.escape(value) + ((expdays == null) ? "" : "; expires=" + exdate.toUTCString());
-	doc.cookie = name + "=" + cvalue;
+	const cvalue = `${name}=${encodeURI(value)}${(expdays == null) ? "" : `; expires=${exdate.toUTCString()}`}`;
+	doc.cookie = cvalue;
 }
 
 // -------------------------------------------------------------------------------------------
@@ -351,7 +376,6 @@ DEMO.getQueryStringByName = function(name) {
 	const results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-;
 
 // -------------------------------------------------------------------------------------------
 // Utility function for writing the specified message to the developer console window.
@@ -381,4 +405,4 @@ jQuery.fn.setSelection = function(selectionStart, selectionEnd) {
 	}
 	return this;
 }
-;
+
