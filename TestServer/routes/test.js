@@ -11,11 +11,23 @@ var gifResize = require("@gumlet/gif-resize");
 
 const gifMetaString = "data:image/gif;base64,";
 
-// ----- Experimental ------------------------
-//var app = express();
+// ----- Experimental ------------------------------
+const app = express();
+const helmet = require('helmet')
+
 //app.use(express.json({ limit: "25mb" }));
 //app.use(express.urlencoded({ limit: "25mb", extended: true, parameterLimit: 5000 }));
-// -------------------------------------------
+
+app.use(helmet({
+	contentSecurityPolicy: {
+	  directives: {
+		defaultSrc: ["'self'"],
+		connectSrc: ["'self'", 'http://127.0.0.1:8000', 'ws://localhost:3000/']
+	  }
+	}
+  }));
+
+// ------------------------------------------------
 
 // Middleware that is specific to this route.
 router.use(function (req, res, next) {
@@ -33,24 +45,25 @@ router.use(function (req, res, next) {
 	next();
 });
 
+// Clears the Nodejs console window.
+router.get("/clear", function (req, res) {
+	console.log("\x1Bc");
+	res.json("Test Server console was cleared");
+});
+
 // Returns info pertaining to the root route
 router.get("/", function (req, res) {
-	res.send("<h1>Test home page</h1>");
+	res.send(JSON.stringify("You've reached the 'Test' Route home page."));
 });
 
 // Returns About info.
 router.get("/about", function (req, res) {
-	res.send("<h2>Test About</h2>");
+	res.json("<h2>Test Route About Html</h2>");
 });
 
-// Clears the Nodejs console window.
-router.get("/clear", function () {
-	console.log("\x1Bc");
-});
-
-// Returns a simple Json object
+// Returns a simple Json object.
 router.get("/json", function (req, res) {
-	const json = JSON.stringify({
+	const json =JSON.stringify({
 		key1: "value1",
 		key2: "value2",
 		key3: "value3"
@@ -60,14 +73,16 @@ router.get("/json", function (req, res) {
 
 // Returns a simple Json Array.
 router.get("/array", function (req, res) {
-	res.send([1, 2, 3]);
+	res.json(JSON.stringify([1, 2, 3]));
 });
 
 // Returns a list of module versions.
-router.get("/version", function (req, res) {
+router.get("/versions", function (req, res) {
+	// Read the file asynchronously.
 	fs.readFile("package.json", (err, data) => {
 		if (err) {
 			console.error(err);
+			res.status(401).send("Error reading package.json");
 			return;
 		}
 		const obj = {};
@@ -87,8 +102,8 @@ router.get("/version", function (req, res) {
 				}
 			}
 		}
-		const json = `versions: ${JSON.stringify(obj, null, 4)}`;
-		res.send(json);
+		const json = `"versions": ${JSON.stringify(obj, null, 4)}`;
+		res.status(200).json(json);
 	});
 });
 
@@ -96,16 +111,17 @@ router.get("/version", function (req, res) {
 router.put("/upload-gif", function (req, res) {
 	try {
 		const downloadsFolder = getDownloadsFolder();
-		const fileName = req.body.filename ? req.body.filename : "test-server.gif";
+		const fileName = req.body.filename ? req.body.filename : "testserver.gif";
 		const bufferIn = getBufferFromBase64String(req.body.base64String);
 		const fullpath = path.join(downloadsFolder, fileName);
-		const msg = `'${fullpath}' was successfully uploaded to the server.`;
+		const msg1 = `Uploaded GIF '${fullpath}' to the server.`;
+		const msg2 = "The GIF was successfully uploaded to the server.";
 		fs.writeFileSync(fullpath, bufferIn);
-		console.log(msg);
-		res.send(msg);
+		console.log(msg1);
+		res.status(200).json(msg2);
 	} catch (err) {
 		console.error(err.message);
-		res.send(err.message);
+		res.status(404).json(err.message);
 	}
 });
 
@@ -117,27 +133,27 @@ router.put("/resize-gif", function (req, res) {
 			width: Math.trunc(req.body.width) // Make sure it's an int and not a float!
 		})(bufferIn).then(bufferOut => {
 			const base64String = `${gifMetaString}${getBase64StringFromBuffer(bufferOut)}`;
-			res.status(200).send(base64String);
+			res.status(200).json(base64String);
 		});
 	} catch (err) {
 		console.error(err.message);
-		res.send(err.message);
+		res.status(404).json(err.message);
 	}
 });
 
 //The 404 Route (ALWAYS keep this as the last route should the put request not be handled)
 router.put("*", function (req, res) {
-	const fullUrl = url.parse(req.url, true);
-	res.status(404).send(util.format("Could not resolve \"%s\"!", fullUrl.pathname));
+	const fullUrl = new URL(req.url, `http://${req.headers.host}`).href;
+	res.status(404).json(`Could not resolve ${fullUrl}!`);
 });
 
 //The 404 Route (ALWAYS keep this as the last route in the event no other processes the request)
 router.get("*", function (req, res) {
-	res.status(404).send("<h3>Sorry... that route could not be found!</h3>");
+	const fullUrl = new URL(req.url, `http://${req.headers.host}`).href;
+	res.status(404).json(`Could not resolve ${fullUrl}!`);
 });
 
-// ReSharper disable UnusedLocals
-
+// --- HELPER FUNCTIONS ------------------------------------------------------------------------
 
 // Gets the Base64 string (read synchronously) from the specified file.
 function getBase64StringFromFile(file) {
@@ -152,14 +168,12 @@ function getBase64StringFromFile(file) {
 // Gets the Base64 string (read asynchronously) from the specified file.
 async function getBase64StringFromFileAsync(filePath) {
 	try {
-		return await fs.readFile(filePath, { encoding: "base64" });
+		return fs.readFile(filePath, { encoding: "base64" });
 	} catch (err) {
 		console.error("Error reading file:", err);
 		return null;
 	}
 };
-
-// ReSharper restore UnusedLocals
 
 /**
  * Gets a Base64 string converted from the specified buffer.
@@ -182,7 +196,7 @@ function getBufferFromBase64String(base64string) {
 }
 
 /**
- * Gets the specified Base64 string minus its meta data.
+ * Gets the specified Base64 string minus the meta data at the beginning of the string.
  *
  * @param {String} base64string
  * @return {String}
@@ -191,6 +205,10 @@ function getBase64StringMinusMeta(base64String) {
 	return base64String.startsWith("data:") ? base64String.split(";base64,").pop() : base64String;
 }
 
+/**
+ * Gets the full path to the 'Downloads' folder located on this machine.
+ *
+ */
 function getDownloadsFolder() {
 	const registry = require("registry-js");
 	const folder = `${process.env.USERPROFILE}\\Downloads`;
