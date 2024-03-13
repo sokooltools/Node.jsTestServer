@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,25 +26,35 @@
 				width: 60%;
 			}
 		</style>
+
 		<!--====================================================================== -->
 		<!-- jQuery CSS-->
-		<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="../themes/demo.css"/>
+		<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+
 		<!--====================================================================== -->
 		<!-- Fine Uploader New/Modern CSS file -->
-		<link href="../themes/fine-uploader-new.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="../themes/fine-uploader-new.css">
+
 		<!--====================================================================== -->
 		<!-- jQuery JS -->
 		<script type="text/javascript" src="../../scripts/jquery.js"></script>
 		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+
+		<!--====================================================================== -->
+		<!-- DEMO JS -->
 		<script type="text/javascript" src="../scripts/demo.js"></script>
+
 		<!--====================================================================== -->
 		<!-- Fine Uploader jQuery JS file -->
 		<script src="../scripts/jquery.fine-uploader.js"></script>
+		<!-- <script src="../scripts/jquery.fine-uploader.js.map"></script> -->
+
 		<!--====================================================================== -->
 		<!-- Fine Uploader Thumbnails template w/customization -->
 		<script type="text/template" id="qq-template-manual-trigger">
-			<div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
+
+		<div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
 			<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
 				<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
 			</div>
@@ -76,6 +87,9 @@
 					<button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Cancel</button>
 					<button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Retry</button>
 					<button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">Delete</button>
+
+					<!-- <a class="view-btn qq-hide btn">View</a> -->
+
 					<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
 				</li>
 			</ul>
@@ -101,38 +115,46 @@
 				</div>
 			</dialog>
 		</div>	
-		
-		
+			
 		</script>
 	</head>
+
 	<body>
 		<div>
 			<h1>Fine-Upload File Demo</h1>
 			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
-			<button type="button" id="reset" class="demo ui-button ui-corner-all ui-widget">Reset</button>
+			<button type="button" id="cancelAll" class="demo ui-button ui-corner-all ui-widget"
+				title="Clears the File selection before the Upload">Cancel All</button>
+			<button type="button" id="reset" class="demo ui-button ui-corner-all ui-widget"
+				title="Clears the File selection after the Upload">Reset</button>
 		</div>
 		<div class="demo-description">
 			<p>This page is used for demonstrating the uploading of one or more files to the nodeJs server using
-				Fine-Uploader.js.
-			</p>
+				Fine-Uploader.js.</p>
 		</div>
+
 		<!--====================================================================== -->
 		<!-- Fine Uploader DOM Element -->
 		<div id="fine-uploader-manual-trigger"></div>
+
 		<!--====================================================================== -->
 		<!-- Your code to create an instance of Fine Uploader and bind to the DOM/template -->
 		<script type="text/javascript">
 			var uploader;
-			(createUploader = function() {
+			(createUploader = function () {
 				uploader = new window.qq.FineUploader({
 					// Log messages are written to the window.console object when true.
-					debug: true,
+					debug: false,
 					element: $("#fine-uploader-manual-trigger")[0],
 					autoUpload: false,
 					template: "qq-template-manual-trigger",
 					request: {
 						// The endpoint (route) to send upload requests to.
 						endpoint: "/uploads"
+					},
+					deleteFile: {
+						enabled: false,
+						endpoint: '/uploads'
 					},
 					thumbnails: {
 						placeholders: {
@@ -141,16 +163,17 @@
 						}
 					},
 					retry: {
-						enableAuto: false // Enable or disable retrying uploads that receive any error response. (defaults to false)
+						// Enable or disable retrying uploads that receive any error response. (defaults to false)
+						enableAuto: false
 					},
 					callbacks: {
-						onComplete: function(id, name, response) {
+						onComplete: function (id, name, response) {
 							//var serverPathToFile = response.filePath;
 							//var fileItem = this.getItemByFileId(id);
 							if (response.success) {
 								//var viewBtn = window.qq(fileItem).getByClass("view-btn")[0];
-								//viewBtn.setAttribute("href", serverPathToFile);
-								//window.qq(viewBtn).removeClass("hide");
+								//viewBtn.setAttribute("href", "file://" + serverPathToFile);
+								//window.qq(viewBtn).removeClass("qq-hide");
 							}
 						}
 					},
@@ -160,23 +183,25 @@
 						//allowedExtensions: ['pdf'],
 						// The maximum allowable size, in bytes, for an item. (5 MB = 5 *1024 * 1024 bytes)
 						sizeLimit: 5242880,
-						// Maximum number of items that can be potentially uploaded in this session. Will reject all items that are added or retried after this limit is reached.			
-						itemLimit: 5 
+						// The maximum number of items that can be potentially uploaded in this session. 
+						// (Will reject all items that are added or retried after this limit is reached.)			
+						itemLimit: 15
 					}
 				});
 			}());
-		</script>
-		<script type="text/javascript">
-			$(function() {
-				window.DEMO.loadCommon();
-				$("#trigger-upload").on("click", function() {
-					uploader.uploadStoredFiles();
-				});
-				$("#reset").on("click", function() {
-					// Cancels all queued or currently uploading items.
-					uploader.cancelAll();
-				});
+			<!-- ====================================================================== -->
+			window.DEMO.loadCommon();
+			$("#cancelAll").on("click", function () {
+				// Cancels all queued or currently uploading items.
+				uploader.cancelAll();
+			});
+			$("#reset").on("click", function () {
+				uploader.reset();
+			});
+			$("#trigger-upload").on("click", function () {
+				uploader.uploadStoredFiles();
 			});
 		</script>
 	</body>
+
 </html>

@@ -266,9 +266,9 @@
 INPUT.qq-edit-filename {
     position: absolute;
     opacity: 0;
-    filter: alpha(opacity=0);
     z-index: -1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
 }
 
 .qq-upload-file.qq-editable {
@@ -290,10 +290,9 @@ INPUT.qq-edit-filename.qq-editing {
     border: 1px solid #ccc;
     border-radius: 2px;
     font-size: 16px;
-
     opacity: 1;
+       -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter: alpha(opacity=100);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
 .qq-edit-filename-icon {

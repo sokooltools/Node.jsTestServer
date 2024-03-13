@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------------------------------
-// test.js  ( e.g. http://localhost:3000/test/about )
+// test.js  ( e.g. http://localhost:3000/test/xxx )
 // -----------------------------------------------------------------------------------------------------
 
 var express = require("express");
@@ -20,12 +20,12 @@ const helmet = require('helmet')
 
 app.use(helmet({
 	contentSecurityPolicy: {
-	  directives: {
-		defaultSrc: ["'self'"],
-		connectSrc: ["'self'", 'http://127.0.0.1:8000', 'ws://localhost:3000/']
-	  }
+		directives: {
+			defaultSrc: ["'self'"],
+			connectSrc: ["'self'", 'http://127.0.0.1:8000', 'ws://localhost:3000/']
+		}
 	}
-  }));
+}));
 
 // ------------------------------------------------
 
@@ -48,35 +48,36 @@ router.use(function (req, res, next) {
 // Clears the Nodejs console window.
 router.get("/clear", function (req, res) {
 	console.log("\x1Bc");
-	res.json("Test Server console was cleared");
+	res.json("Test Server console was cleared!");
 });
 
 // Returns info pertaining to the root route
 router.get("/", function (req, res) {
-	res.send(JSON.stringify("You've reached the 'Test' Route home page."));
+	res.json("You've reached the home page of the 'Test' routes.");
 });
 
 // Returns About info.
 router.get("/about", function (req, res) {
-	res.json("<h2>Test Route About Html</h2>");
+	res.json("Test Route About Html");
 });
 
 // Returns a simple Json object.
 router.get("/json", function (req, res) {
-	const json =JSON.stringify({
-		key1: "value1",
-		key2: "value2",
-		key3: "value3"
-	}, null, 4);
-	res.send(json);
+	const json = "test: " + JSON.stringify(
+		{
+			key1: "value1",
+			key2: "value2",
+			key3: "value3"
+		}, null, 4);
+	res.json(json);
 });
 
 // Returns a simple Json Array.
 router.get("/array", function (req, res) {
-	res.json(JSON.stringify([1, 2, 3]));
+	res.json([1, 2, 3]);
 });
 
-// Returns a list of module versions.
+// Returns the version of all node modules listed in the project's package.json.
 router.get("/versions", function (req, res) {
 	// Read the file asynchronously.
 	fs.readFile("package.json", (err, data) => {
@@ -141,13 +142,13 @@ router.put("/resize-gif", function (req, res) {
 	}
 });
 
-//The 404 Route (ALWAYS keep this as the last route should the put request not be handled)
+// The 404 Route (ALWAYS keep this as the last route should the put request not be handled)
 router.put("*", function (req, res) {
 	const fullUrl = new URL(req.url, `http://${req.headers.host}`).href;
 	res.status(404).json(`Could not resolve ${fullUrl}!`);
 });
 
-//The 404 Route (ALWAYS keep this as the last route in the event no other processes the request)
+// The 404 Route (ALWAYS keep this as the last route should the get request not be handled)
 router.get("*", function (req, res) {
 	const fullUrl = new URL(req.url, `http://${req.headers.host}`).href;
 	res.status(404).json(`Could not resolve ${fullUrl}!`);

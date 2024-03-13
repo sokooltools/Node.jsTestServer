@@ -7,21 +7,21 @@ var CFG = window.CFG;
 var grid;
 var dataview;
 
-$(document).ready(function() {
+$(function () {
 	window.DEMO.loadCommon();
 
 	$("#run").on("click", function () {
 		loadGrid();
 	});
-	$("#expandAll").on("click", function() {
+	$("#expandAll").on("click", function () {
 		dataview.expandAllGroups();
 	});
-	$("#collapseAll").on("click", function() {
+	$("#collapseAll").on("click", function () {
 		dataview.collapseAllGroups();
 	});
 });
 
-loadGrid = function() {
+loadGrid = function () {
 	var dateTimeFormat = "MM/DD/YYYY hh:mm A";
 
 	function checkmarkFormatter(row, cell, value, columnDef, dataContext) {
@@ -63,15 +63,15 @@ loadGrid = function() {
 	};
 
 	var columns = [
-//		{
-//			id: 'colId',
-//			name: 'ID',
-//			field: 'id',
-//			sortable: true,
-//			width: 37,
-//			//minWidth: 20,
-//			//maxWidth: 70,
-//		},
+		//		{
+		//			id: 'colId',
+		//			name: 'ID',
+		//			field: 'id',
+		//			sortable: true,
+		//			width: 37,
+		//			//minWidth: 20,
+		//			//maxWidth: 70,
+		//		},
 		{
 			id: "sec_colUsername",
 			name: "Username",
@@ -134,7 +134,7 @@ loadGrid = function() {
 
 	var data = getJson("../data/userssessions.json");
 
-	var notDeletedRowsFilter = function(item) {
+	var notDeletedRowsFilter = function (item) {
 		return item.deleted === 0;
 	};
 
@@ -148,8 +148,8 @@ loadGrid = function() {
 	dataview.setFilter(notDeletedRowsFilter);
 	dataview.endUpdate();
 
-	var gridSorter = function(field, sortAsc) {
-		var comparer = function(a, b) {
+	var gridSorter = function (field, sortAsc) {
+		var comparer = function (a, b) {
 			return a[field] > b[field] ? 1 : a[field] < b[field] ? -1 : 0;
 		};
 		// Delegate the sorting to DataView. (This will fire the change events and update the grid).
@@ -171,17 +171,17 @@ loadGrid = function() {
 
 	dataview.syncGridSelection(grid);
 
-	dataview.onRowsChanged.subscribe(function(e, args) {
+	dataview.onRowsChanged.subscribe(function (e, args) {
 		grid.invalidateRows(args.rows);
 		grid.render();
 	});
 
-	dataview.onRowCountChanged.subscribe(function() {
+	dataview.onRowCountChanged.subscribe(function () {
 		grid.updateRowCount();
 		grid.render();
 	});
 
-	grid.onSort.subscribe(function(e, args) { // args: sort information.
+	grid.onSort.subscribe(function (e, args) { // args: sort information.
 		gridSorter(args.sortCol.field, args.sortAsc);
 	});
 
@@ -211,7 +211,7 @@ loadGrid = function() {
 	function groupByUsername() {
 		dataview.setGrouping({
 			getter: "username",
-			formatter: function(g) {
+			formatter: function (g) {
 				return g.value + "  <span style='color:green'>(" + g.count + " items)</span>";
 			},
 			//aggregators: [
@@ -227,17 +227,17 @@ loadGrid = function() {
 	// -------------------------------------------------------------------------------------------
 	// Returns json data from the specified URL.
 	// -------------------------------------------------------------------------------------------
-	 function getJson(url) {
+	function getJson(url) {
 		var retVal;
 		$.ajax({
 			type: "GET",
 			url: url,
 			dataType: "json",
 			async: false,
-			success: function(dta) {
+			success: function (dta) {
 				retVal = dta;
 			},
-			error: function(jqXHR) {
+			error: function (jqXHR) {
 				CFG.showError(jqXHR);
 			}
 		});

@@ -19,7 +19,7 @@ DEMO.loadCommon = function () {
 	}
 }
 
-DEMO.getPathRoot = function() {
+DEMO.getPathRoot = function () {
 	if (window.location.pathname.startsWith("/StaticContent")) {
 		return `${window.location.origin}/StaticContent`;
 	}
@@ -31,12 +31,12 @@ DEMO.getPathRoot = function() {
 // If the specified ip address is null or empty and a cookie containing the ip address exists
 // then its value will be used. 
 // -------------------------------------------------------------------------------------------
-DEMO.loadForm = function(ipAddress, port) {
+DEMO.loadForm = function (ipAddress, port) {
 
 	DEMO.loadCustomComboboxes();
 
 	const isSsl = DEMO.getCookie(document, "isssl", "false");
-	
+
 	const isWeb = DEMO.getCookie(document, "isweb", "false");
 
 	if (!ipAddress)
@@ -47,10 +47,10 @@ DEMO.loadForm = function(ipAddress, port) {
 
 	$("#demo_rdoWeb").prop("checked", isWeb === "true");
 	$("#demo_rdoDesktop").prop("checked", isWeb === "false");
-	
+
 	$("#demo_rdoHttp").prop("checked", isSsl === "false");
 	$("#demo_rdoHttps").prop("checked", isSsl === "true");
-	
+
 	$("#demo_cboIpAddress").val(ipAddress);
 	$("#demo_cboPort").val(port);
 
@@ -60,27 +60,27 @@ DEMO.loadForm = function(ipAddress, port) {
 // -------------------------------------------------------------------------------------------
 // Goes back to the Demo home page.
 // -------------------------------------------------------------------------------------------
-DEMO.goHome = function() {
+DEMO.goHome = function () {
 	window.location.href = "../demo.htm";
 }
 
 // -------------------------------------------------------------------------------------------
 // Loads the two custom comboboxes.
 // -------------------------------------------------------------------------------------------
-DEMO.loadCustomComboboxes = function() {
+DEMO.loadCustomComboboxes = function () {
 	$.widget("custom.combobox", {
-		_create: function() {
+		_create: function () {
 			this.wrapper = $("<span>").addClass("custom-combobox").insertAfter(this.element);
 
 			this.element.hide();
 			this._createAutocomplete();
 			this._createShowAllButton();
 		},
-		_createAutocomplete: function() {
+		_createAutocomplete: function () {
 			const selected = this.element.children(":selected");
 			const value = selected.val() ? selected.text() : "";
 
-			this.input = $("<input>").appendTo(this.wrapper).val(value).attr("title", "").attr("spellcheck", "false").on("keydown", function() {
+			this.input = $("<input>").appendTo(this.wrapper).val(value).attr("title", "").attr("spellcheck", "false").on("keydown", function () {
 				if (DEMO.isEnterkey(event)) {
 					DEMO.doClick();
 				}
@@ -95,7 +95,7 @@ DEMO.loadCustomComboboxes = function() {
 			});
 
 			this._on(this.input, {
-				autocompleteselect: function(event, ui) {
+				autocompleteselect: function (event, ui) {
 					ui.item.option.selected = true;
 					this._trigger("select", event, {
 						item: ui.item.option
@@ -103,17 +103,17 @@ DEMO.loadCustomComboboxes = function() {
 				}
 			});
 		},
-		_createShowAllButton: function() {
+		_createShowAllButton: function () {
 			var input = this.input
-			  , wasOpen = false;
+				, wasOpen = false;
 			$("<a>").attr("tabIndex", -1).attr("title", "Show All Items").tooltip().appendTo(this.wrapper).button({
 				icons: {
 					primary: "ui-icon-triangle-1-s"
 				},
 				text: false
-			}).removeClass("ui-corner-all").addClass("custom-combobox-toggle ui-corner-right").on("mousedown", function() {
+			}).removeClass("ui-corner-all").addClass("custom-combobox-toggle ui-corner-right").on("mousedown", function () {
 				wasOpen = input.autocomplete("widget").is(":visible");
-			}).on("click", function() {
+			}).on("click", function () {
 				input.trigger("focus");
 
 				// Close if already visible
@@ -125,9 +125,9 @@ DEMO.loadCustomComboboxes = function() {
 				input.autocomplete("search", "");
 			});
 		},
-		_source: function(request, response) {
-			var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term),"i");
-			response(this.element.children("option").map(function() {
+		_source: function (request, response) {
+			var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+			response(this.element.children("option").map(function () {
 				const text = $(this).text();
 				if (this.value && (!request.term || matcher.test(text))) {
 					return {
@@ -139,7 +139,7 @@ DEMO.loadCustomComboboxes = function() {
 				return {};
 			}));
 		},
-		_destroy: function() {
+		_destroy: function () {
 			this.wrapper.remove();
 			this.element.show();
 		}
@@ -157,31 +157,107 @@ DEMO.loadCustomComboboxes = function() {
 // -------------------------------------------------------------------------------------------
 // Returns an indication as to whether the specified event code is an enter key.
 // -------------------------------------------------------------------------------------------
-DEMO.isEnterkey = function(e) {
+DEMO.isEnterkey = function (e) {
 	return e.keyCode === 13 || e.charCode === 13;
 }
 
-DEMO.doGet = function(url, isAsync) {
-	console.log("");
-	$.ajax({
-		type: "GET",
-		url: url,
-		dataType: null,
-		async: isAsync | true,
-		cache: false,
-		success: function(data) {
-			console.log(data);
-		},
-		error: function(jqXHR) {
-			console.log(jqXHR.status);
-		}
+const urlRoot = "http://localhost:3000";
+
+/**
+ * Does a GET to the server.
+ *
+ * @param {String} route The route (minus the URL root).
+ * @param {JSON} jsonData The JSON string.
+ * @param {function} callback The function callback.
+*/
+DEMO.doGet = function (route, callback, msTimeout) {
+	// Create a new AbortController instance.
+	const controller = new AbortController();
+	const signal = controller.signal;
+
+	// Make the fetch request with the signal.
+	const fetchPromise = fetch(urlRoot + route, {
+		signal
 	});
+
+	// Timeout after specified number of milliseconds.
+	const timeoutId = setTimeout(() => {
+		controller.abort();
+		// Abort the fetch request.
+		if (callback) 
+			callback("Fetch request timed out.");
+	}
+		, msTimeout || 5000);
+
+	// Handle the fetch request
+	fetchPromise.then(response => {
+		// Check if the request was successful.
+		if (!response.ok) {
+			throw new Error(response.statusText);
+		}
+		// Parse the response as JSON
+		return response.json();
+	}
+	).then(data => {
+		// Handle the JSON data.
+		if (callback)
+			callback(data);
+	}
+	).catch(error => {
+		// Handle any errors that occurred during the fetch.
+		console.error(error);
+	}
+	).finally(() => {
+		// Clear the timeout.
+		clearTimeout(timeoutId);
+	}
+	);
 }
+
+/**
+ * Does a PUT to the server.
+ *
+ * @param {String} route The route (minus the URL root).
+ * @param {JSON} jsonData The JSON string.
+ * @param {function} callback The function callback.
+*/
+DEMO.doPut = function (route, jsonData, callback) {
+	// Set up options for the fetch request.
+	const options = {
+		method: "PUT",
+		headers: {
+			// Set content type to JSON.
+			"Content-Type": "application/json"
+		},
+		// Convert JSON data to a string and set it as the request body.
+		body: JSON.stringify(jsonData)
+	};
+	// Make the fetch request using the provided options.
+	fetch(urlRoot + route, options).then(response => {
+		// Check if the request was successful.
+		if (!response.ok) {
+			throw new Error(response.statusText);
+		}
+		// Parse the response as JSON.
+		return response.json();
+	}
+	).then(data => {
+		// Handle the JSON data.
+		if (callback)
+			callback(data);
+	}
+	).catch(error => {
+		// Handle any errors that occurred during the fetch.
+		console.error(error);
+	}
+	);
+}
+
 
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when one of the hyperlinks is clicked.
 // -------------------------------------------------------------------------------------------
-DEMO.doClick = function() {
+DEMO.doClick = function () {
 	if ($("#demo_rdoWeb").is(":checked")) {
 		const urlRoot = DEMO.getUrlRoot();
 		DEMO.showBusy(`Connecting to: '${urlRoot}'...<br/>Please wait.`);
@@ -197,7 +273,7 @@ DEMO.doClick = function() {
 		const ext = arguments[0].split("/").reverse()[0].split(".").reverse()[0];
 		if (!(ext === "htm" || ext === "html")) {
 			$.unblockUI({
-				onUnblock: function() {
+				onUnblock: function () {
 					DEMO.showDialog('Sorry... only raw "html" pages can be opened from the desktop!');
 				}
 			});
@@ -215,14 +291,14 @@ DEMO.doClick = function() {
 // -------------------------------------------------------------------------------------------
 // Returns the currently selected protocol (i.e., 'Http:' or 'Https:').
 // -------------------------------------------------------------------------------------------
-DEMO.getProtocol = function() {
+DEMO.getProtocol = function () {
 	return $("#demo_rdoHttp").is(":checked") ? "http:" : "https:";
 }
 
 // -------------------------------------------------------------------------------------------
 // Selects the last octet of the ip address.
 // -------------------------------------------------------------------------------------------
-DEMO.selectIpAddress = function() {
+DEMO.selectIpAddress = function () {
 	const sel = $("#demo_cboIpAddress");
 	const len = sel.val().length;
 	const idx = sel.val().lastIndexOf(".");
@@ -234,7 +310,7 @@ DEMO.selectIpAddress = function() {
 // Sets the window location to the specified document unless 'Simulation Mode' has been
 // checkmarked in which case it opens the document directly from the PC running the browser.
 // -------------------------------------------------------------------------------------------
-DEMO.openDoc = function(doc) {
+DEMO.openDoc = function (doc) {
 	var path;
 	if ($("#demo_rdoWeb").prop("checked")) {
 		// Open the document located on the web.
@@ -253,7 +329,7 @@ DEMO.openDoc = function(doc) {
 // -------------------------------------------------------------------------------------------
 // Gets the web address with the port number appended to it (if it has been specified).
 // -------------------------------------------------------------------------------------------
-DEMO.getUrlRoot = function() {
+DEMO.getUrlRoot = function () {
 	const addr = $("#demo_cboIpAddress").val();
 	const port = $("#demo_cboPort").val();
 	const urlRoot = (addr + ((port) ? `:${port}` : ""));
@@ -263,7 +339,7 @@ DEMO.getUrlRoot = function() {
 // -------------------------------------------------------------------------------------------
 // Sets the page to busy mode displaying the specified message in the center of the screen.
 // -------------------------------------------------------------------------------------------
-DEMO.showBusy = function(msg) {
+DEMO.showBusy = function (msg) {
 	jQuery.blockUI.defaults.css = {};
 	jQuery.blockUI({
 		message: `<img src="themes/base/images/busy.gif"/> ${msg}`,
@@ -278,7 +354,7 @@ DEMO.showBusy = function(msg) {
 // Checks whether this web page can be connected to the Padarn Server on the CE using the
 // current IP Address and if so goes to the page.
 // -------------------------------------------------------------------------------------------
-DEMO.goToPage = function(doc, urlRoot, page, numAttempt) {
+DEMO.goToPage = function (doc, urlRoot, page, numAttempt) {
 	const protocol = DEMO.getProtocol();
 	if (!numAttempt)
 		numAttempt = 1;
@@ -293,11 +369,11 @@ DEMO.goToPage = function(doc, urlRoot, page, numAttempt) {
 	var port = "";
 	const itms = urlRoot.split(":");
 	if (itms.length > 1) {
-		[address,port] = itms;
+		[address, port] = itms;
 	}
 	const isweb = $("#demo_rdoWeb").is(":checked");
 	const isssl = $("#demo_rdoHttps").is(":checked");
-	
+
 	DEMO.setCookie(doc, "isssl", isssl, 14);
 	DEMO.setCookie(doc, "address", address, 14);
 	DEMO.setCookie(doc, "port", port, 14);
@@ -320,18 +396,18 @@ DEMO.goToPage = function(doc, urlRoot, page, numAttempt) {
 // -------------------------------------------------------------------------------------------
 // Shows a modal dialog.
 // -------------------------------------------------------------------------------------------
-DEMO.showDialog = function(message, title) {
+DEMO.showDialog = function (message, title) {
 	$("<div>").dialog({
 		modal: true,
 		autoOpen: true,
-		open: function() {
+		open: function () {
 			$(this).html(message);
 		},
-		close: function() {
+		close: function () {
 			$(this).dialog("close");
 		},
 		buttons: {
-			'OK': function() {
+			'OK': function () {
 				$(this).dialog("close");
 			}
 		},
@@ -344,7 +420,7 @@ DEMO.showDialog = function(message, title) {
 // -------------------------------------------------------------------------------------------
 // Gets a cookie value corresponding to the specified document and cookie name.
 // -------------------------------------------------------------------------------------------
-DEMO.getCookie = function(doc, name, deflt) {
+DEMO.getCookie = function (doc, name, deflt) {
 	const nameEq = name + "=";
 	const ca = doc.cookie.split(";");
 	for (let i = 0; i < ca.length; i++) {
@@ -360,7 +436,7 @@ DEMO.getCookie = function(doc, name, deflt) {
 // -------------------------------------------------------------------------------------------
 // Sets the specified cookie value corresponding to the specified cookie name.
 // -------------------------------------------------------------------------------------------
-DEMO.setCookie = function(doc, name, value, expdays) {
+DEMO.setCookie = function (doc, name, value, expdays) {
 	const exdate = new Date();
 	exdate.setDate(exdate.getDate() + expdays);
 	const cvalue = `${name}=${encodeURI(value)}${(expdays == null) ? "" : `; expires=${exdate.toUTCString()}`}`;
@@ -370,7 +446,7 @@ DEMO.setCookie = function(doc, name, value, expdays) {
 // -------------------------------------------------------------------------------------------
 // Returns the value corresponding to the specified query string name part of the current URL.
 // -------------------------------------------------------------------------------------------
-DEMO.getQueryStringByName = function(name) {
+DEMO.getQueryStringByName = function (name) {
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 	const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 	const results = regex.exec(location.search);
@@ -380,7 +456,7 @@ DEMO.getQueryStringByName = function(name) {
 // -------------------------------------------------------------------------------------------
 // Utility function for writing the specified message to the developer console window.
 // -------------------------------------------------------------------------------------------
-DEMO.debugLog = function(message) {
+DEMO.debugLog = function (message) {
 	if (!(typeof window.console === "undefined"))
 		window.console.log(new Date().toLocaleTimeString() + " -- " + message);
 }
@@ -389,7 +465,7 @@ DEMO.debugLog = function(message) {
 // Extension method used for selecting the last two digits of the IP Address enabling quick
 // editing of the IP Address.
 // -------------------------------------------------------------------------------------------
-jQuery.fn.setSelection = function(selectionStart, selectionEnd) {
+jQuery.fn.setSelection = function (selectionStart, selectionEnd) {
 	if (this.length === 0)
 		return this;
 	const input2 = this[0];
