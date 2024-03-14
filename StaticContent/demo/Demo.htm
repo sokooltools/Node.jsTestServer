@@ -3,14 +3,15 @@
 <!--=================================================================================================-->
 <!DOCTYPE html>
 <html lang="en">
+
 	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<meta http-equiv="pragma" content="no-cache, no-store"/>
-		<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate"/>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="pragma" content="no-cache, no-store" />
+		<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate" />
 		<title>Demo Home</title>
-		<link rel="stylesheet" type="text/css" href="../themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="./themes/demo.css"/>
+		<link rel="stylesheet" type="text/css" href="../themes/base/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="./themes/demo.css" />
 		<script type="text/javascript" src="../scripts/jquery.js"></script>
 		<script type="text/javascript" src="../scripts/jquery-migrate.js"></script>
 		<script type="text/javascript" src="../scripts/ui/jquery-ui.js"></script>
@@ -18,43 +19,41 @@
 		<script type="text/javascript" src="../scripts/ui/jquery.blockUI.js"></script>
 		<script type="text/javascript" src="./scripts/demo.js"></script>
 		<script type="text/javascript">
-			$(document).ready(function() {
+			$(document).ready(function () {
 				window.DEMO.loadForm();
 			});
 		</script>
 	</head>
+
 	<body>
 		<form action="">
 			<div>
 				<h1>Demo Home</h1>
 				<table id="demo_main">
-					<tr>
-						<td rowspan="3">
-							<fieldset id="demo_fsWeb">
-								<div class="demo_divWeb">
-									<input id="demo_rdoWeb" type="radio" name="nwConnGroup" value="demo_rdoWeb" title="Open From Web Server" checked="checked"/>
-									<label class="demo_rdoLabel" for="demo_rdoWeb" title="Open From CE Web Server">Web Server:</label>
-								</div>
-								<div class="demo_divWeb">
-									<input id="demo_rdoDesktop" type="radio" name="nwConnGroup" value="demo_rdoDesktop" title="Open From Desktop"/>
-									<label class="demo_rdoLabel" for="demo_rdoDesktop" title="Open From Desktop">Desktop</label>
-								</div>
-							</fieldset>
-						</td>
+					<tr id="demo_webGroup" class="">
+						<td></td>
 						<td id="demo_lblProtocol">*Protocol:</td>
 						<td id="demo_lblIpAddress">*IP Address:</td>
 						<td id="demo_lblPort">*Port:</td>
 					</tr>
 					<tr>
 						<td>
-							<fieldset id="fsProtocol">
-								<input type="radio" id="demo_rdoHttp" name="protocol" value="http" style="width:12pt;" placeholder="" title="Http" checked="checked"/>
+							<input type="radio" id="demo_rdoWeb" class="chngRadio" name="nwConnGroup"
+								value="demo_rdoWeb" title="Open From Web Server" checked="checked" />
+							<label class="demo_rdoLabel" for="demo_rdoWeb" title="Open From CE Web Server">Web
+								Server:</label>
+						</td>
+						<td>
+							<fieldset id="fsProtocol" class="">
+								<input type="radio" id="demo_rdoHttp" name="protocol" value="http" style="width:12pt;"
+									placeholder="" title="Http" checked="checked" disabled />
 								<label for="demo_rdoHttp">Http</label>
-								<input type="radio" id="demo_rdoHttps" name="protocol" value="https" style="width:12pt;" placeholder="" title="Https"/>
+								<input type="radio" id="demo_rdoHttps" name="protocol" value="https" style="width:12pt;"
+									placeholder="" title="Https" disabled/>
 								<label for="demo_rdoHttps">Https</label>
 							</fieldset>
 						</td>
-						<td id="test1" class="ui-widget" style="padding-right:30px;" placeholder="">
+						<td id="test1" class="ui-widget " style="padding-right:30px;" placeholder="">
 							<select id="combobox1" title="Select IP Address">
 								<option value="LocalHost">LocalHost</option>
 								<option value="192.168.10.50">192.168.10.50</option>
@@ -66,7 +65,7 @@
 								<option value="172.25.8.47">172.25.8.47</option>
 							</select>
 						</td>
-						<td id="test2" class="ui-widget" style="padding-right:60px;" placeholder="">
+						<td id="test2" class="ui-widget " style="padding-right:60px;" placeholder="">
 							<select id="combobox2" title="Select Port">
 								<option value="81">81</option>
 								<option value="52330">52330</option>
@@ -76,94 +75,127 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="4" style="font-size:7pt;text-align:right;padding:10px 22px 6px 0;">* To persist this data between sessions requires this page be added to your Favorites...
-					</td>
+						<td>
+							<input type="radio" id="demo_rdoDesktop" class="chngRadio" name="nwConnGroup"
+								value="demo_rdoDesktop" title="Open From Desktop" />
+							<label for="demo_rdoDesktop" class="demo_rdoLabel" title="Open From Desktop">Desktop</label>
+						</td>
+						<td colspan="3" style="font-size:7pt;">
+							* To persist this data between sessions requires this page be added to your Favorites...
+						</td>
 					</tr>
 				</table>
-				<br/>
+				<br />
 			</div>
 			<div id="desktopDiv" style="text-align:left;">
-				<hr/>
+				<hr />
 				<div id="webDiv" style="text-align:left;display:none;"></div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('../ConfigTool.htm');" title="Opens the PAC Configuration Tool.">PAC Configuration Tool
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('../ConfigTool.htm');"
+						title="Opens the PAC Configuration Tool.">PAC Configuration Tool
+					</a>
 				</div>
-				<hr/>
+				<hr />
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('ColorTest.htm');" title="Opens ['ColorTest.htm'] to demo changing colors using 'jQuery-UI.js'.">jQuery UI Color Test
-				</a>
-				</div>
-				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('StandardDialog.htm');" title="Opens ['StandardDialog.htm'] to demo a standard dialog using 'jQuery-UI.js'.">jQuery UI Standard dialog
-				</a>
-				</div>
-				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('UserEntryDialog.htm');" title="Opens ['UserEntryDialog.htm'] to demo a user-entry dialog using 'jQuery-UI.js'.">jQuery UI User-Entry dialog
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('ColorTest.htm');"
+						title="Opens ['ColorTest.htm'] to demo changing colors using 'jQuery-UI.js'.">jQuery UI Color
+						Test
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('ErrorDialog.htm');" title="Opens ['ErrorDialog.htm'] to demo error dialog using 'jQuery-UI.js'.">jQuery UI Error dialog
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('StandardDialog.htm');"
+						title="Opens ['StandardDialog.htm'] to demo a standard dialog using 'jQuery-UI.js'.">jQuery UI
+						Standard dialog
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl1.htm');" title="Opens ['TabControl1.htm'] to demo a tab control using 'jQuery-UI.js'.">jQuery UI Tabs 1
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('UserEntryDialog.htm');"
+						title="Opens ['UserEntryDialog.htm'] to demo a user-entry dialog using 'jQuery-UI.js'.">jQuery
+						UI User-Entry dialog
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl2.htm');" title="Opens ['TabControl2.htm'] to demo a tab control using 'jQuery.tools.min.js'.">jQuery UI Tabs 2
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('ErrorDialog.htm');"
+						title="Opens ['ErrorDialog.htm'] to demo error dialog using 'jQuery-UI.js'.">jQuery UI Error
+						dialog
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('AjaxTest.htm');" title="Opens ['AjaxTest.htm'] to demo loading the DOM using AJAX in 'jQuery-UI.js'.">jQuery AJAX Loading
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl1.htm');"
+						title="Opens ['TabControl1.htm'] to demo a tab control using 'jQuery-UI.js'.">jQuery UI Tabs 1
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('JsonTest.htm');" title="Opens ['JsonTest.htm'] to demo loading the DOM using JSON in 'jQuery-UI.js'.">jQuery JSON Loading
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TabControl2.htm');"
+						title="Opens ['TabControl2.htm'] to demo a tab control using 'jQuery.tools.min.js'.">jQuery UI
+						Tabs 2
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('DateTimePicker.htm');" title="Opens ['DateTimePicker.htm'] to demo the DateTimePicker using 'jquery-ui-timepicker-addon.js'.">jQuery DateTime Picker
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('AjaxTest.htm');"
+						title="Opens ['AjaxTest.htm'] to demo loading the DOM using AJAX in 'jQuery-UI.js'.">jQuery AJAX
+						Loading
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('CustomCombo.htm');" title="Opens ['CustomCombo.htm'] to demo the CustomCombo using 'jQuery-UI.js'.">jQuery Custom Combobox
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('JsonTest.htm');"
+						title="Opens ['JsonTest.htm'] to demo loading the DOM using JSON in 'jQuery-UI.js'.">jQuery JSON
+						Loading
+					</a>
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('DateTimePicker.htm');"
+						title="Opens ['DateTimePicker.htm'] to demo the DateTimePicker using 'jquery-ui-timepicker-addon.js'.">jQuery
+						DateTime Picker
+					</a>
+				</div>
+				<div class="row">
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('CustomCombo.htm');"
+						title="Opens ['CustomCombo.htm'] to demo the CustomCombo using 'jQuery-UI.js'.">jQuery Custom
+						Combobox
+					</a>
 				</div>
 			</div>
-			<hr/>
+			<hr />
 			<div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('upload.htm');" title="Opens ['upload.htm'] to demo uploading a file to the server.">Upload File
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('upload.htm');"
+						title="Opens ['upload.htm'] to demo uploading a file to the server.">Upload File
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('fineuploader.htm');" title="Opens ['fineuploader.htm'] to demo fine-uploading a file to the server.">Fine-Upload File
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('fineuploader.htm');"
+						title="Opens ['fineuploader.htm'] to demo fine-uploading a file to the server.">Fine-Upload File
+					</a>
 				</div>
 			</div>
-			<hr/>
+			<hr />
 			<div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.ini.docx');" title="Click to demo downloading a document.">WebServer.exe.ini.docx
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.ini.docx');"
+						title="Click to demo downloading a document.">WebServer.exe.ini.docx
+					</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.log.docx');" title="Click to demo downloading a document.">WebServer.exe.log.docx
-				</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.openDoc('WebServer.exe.log.docx');"
+						title="Click to demo downloading a document.">WebServer.exe.log.docx
+					</a>
 				</div>
 			</div>
-			<hr/>
+			<hr />
 			<div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TestServer-Admin.htm');" title="Click to go to Test Server admin page.">Test Server Administration</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doClick('TestServer-Admin.htm');"
+						title="Click to go to Test Server admin page.">Test Server Administration</a>
 				</div>
 				<div class="row">
-					<a href="javascript:;" class="cell" onclick="DEMO.doGet('/test/clear');" title="Click to clear the Test Server console.">Clear Test Server Console</a>
+					<a href="javascript:;" class="cell" onclick="DEMO.doGet('/test/clear');"
+						title="Click to clear the Test Server console.">Clear Test Server Console</a>
 				</div>
 			</div>
-			<hr/>
+			<hr />
 			<div id="errordialog"></div>
 		</form>
 	</body>
+
 </html>

@@ -52,3 +52,14 @@ function foo(data) {
 	$("textarea#responseText").val(data);
 }
 
+// Select all div elements 
+const divElements = document.querySelectorAll('div'); 
+ 
+// Function to disable div content 
+function disableDivContent() { 
+  divElements.forEach((div) => { 
+    div.style.pointerEvents = 'none'; // Disable pointer events 
+    div.style.opacity = '0.5'; // Reduce opacity to visually disable the content 
+    div.setAttribute('disabled', true); // Set disabled attribute 
+  }); 
+} 

@@ -6,7 +6,7 @@ body {
 }
 #demo_main {
 	border: 1px solid black;
-	padding-top: 4px;
+	padding: 0.5em;
 	border-collapse: inherit;
 }
 input {
@@ -165,11 +165,16 @@ fieldset#fsProtocol {
 	border: thin solid gray;
 }
 
+tr.demo_webGroup{
+	margin: 0;
+}
+
 div.demo_divWeb {
 	margin: 0.25em 0;
 	display: flex;
 	flex-direction: row;
 }
+
 
 input#demo_rdoDesktop, input#demo_rdoWeb {
 	width: 1em;
@@ -177,9 +182,13 @@ input#demo_rdoDesktop, input#demo_rdoWeb {
 
 #demo_rdoWeb, #demo_rdoDesktop, .demo_rdoLabel {
 	margin: 0;
-	padding: 0.5em;
+	/* padding: 0.5em; */
 }
 
 #demo_lblProtocol, #demo_lblIpAddress, #demo_lblPort {
 	margin-top: 5px;
+}
+.demo-disabled{
+	opacity:0.5;
+	pointer-events:'none';
 }

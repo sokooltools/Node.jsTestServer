@@ -48,6 +48,12 @@ DEMO.loadForm = function (ipAddress, port) {
 	$("#demo_rdoWeb").prop("checked", isWeb === "true");
 	$("#demo_rdoDesktop").prop("checked", isWeb === "false");
 
+	if (isWeb === "true"){
+		setDisabled("demo_rdoWeb");
+	} else {
+		setDisabled("demo_rdoDesktop");
+	}
+
 	$("#demo_rdoHttp").prop("checked", isSsl === "false");
 	$("#demo_rdoHttps").prop("checked", isSsl === "true");
 
@@ -55,6 +61,28 @@ DEMO.loadForm = function (ipAddress, port) {
 	$("#demo_cboPort").val(port);
 
 	DEMO.selectIpAddress();
+
+	// Returns a NodeList representing a list of the document's 
+	// elements that match the specified group of selectors.
+	const matches = document.querySelectorAll('.chngRadio');
+
+	function setDisabled(rdoBtnValue){
+		if (rdoBtnValue === "demo_rdoWeb") {
+			$("#demo_webGroup, #fsProtocol, #test1, #test2").removeClass("demo-disabled");
+			$("#demo_rdoHttp, #demo_rdoHttps, #demo_cboIpAddress, #demo_cboPort").prop('disabled',false);
+		} else if (rdoBtnValue === "demo_rdoDesktop") {
+			$("#demo_webGroup, #fsProtocol, #test1, #test2").addClass("demo-disabled");
+			$("#demo_rdoHttp, #demo_rdoHttps, #demo_cboIpAddress, #demo_cboPort").prop('disabled',true);
+		}
+	}
+
+	// Iterate through the nodeList using .forEach() method.
+	// Attach an eventListener with a callback function.
+	matches.forEach(match => {
+		match.addEventListener('change', (e) => {
+			setDisabled(e.target.value);
+		});
+	})
 }
 
 // -------------------------------------------------------------------------------------------
@@ -184,7 +212,7 @@ DEMO.doGet = function (route, callback, msTimeout) {
 	const timeoutId = setTimeout(() => {
 		controller.abort();
 		// Abort the fetch request.
-		if (callback) 
+		if (callback)
 			callback("Fetch request timed out.");
 	}
 		, msTimeout || 5000);
