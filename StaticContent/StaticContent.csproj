@@ -826,34 +826,34 @@
     <Content Include="demo\themes\base\images\eye192.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\continue.gif">
+    <Content Include="demo\themes\fine-uploader\continue.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\edit.gif">
+    <Content Include="demo\themes\fine-uploader\edit.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\fine-uploader-new.css">
+    <Content Include="demo\themes\fine-uploader\fine-uploader-new.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\fine-uploader-new.min.css">
+    <Content Include="demo\themes\fine-uploader\fine-uploader-new.min.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\loading.gif">
+    <Content Include="demo\themes\fine-uploader\loading.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\pause.gif">
+    <Content Include="demo\themes\fine-uploader\pause.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\processing.gif">
+    <Content Include="demo\themes\fine-uploader\processing.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\retry.gif">
+    <Content Include="demo\themes\fine-uploader\retry.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\source\placeholders\not_available-generic.png">
+    <Content Include="demo\themes\fine-uploader\not_available-generic.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="demo\themes\source\placeholders\waiting-generic.png">
+    <Content Include="demo\themes\fine-uploader\waiting-generic.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="demo\themes\standalone.css">
@@ -876,7 +876,7 @@
     </Content>
     <None Include="demo\docs\Sessions.json" />
     <None Include="docs\error.htm" />
-    <Content Include="demo\themes\trash.gif">
+    <Content Include="demo\themes\fine-uploader\trash.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="help\common.htm">

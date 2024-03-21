@@ -1,54 +1,56 @@
 button#back {
-    width: 15em;
+	width: 15em;
 }
 
 button#clearscreen {
-    width: 15em;
+	width: 15em;
 }
 
-div#resizeGifDiv {
-    margin: 0.5em 0;
-    border: black thin solid;
-    margin-bottom: 2em;
-    display: flex;
-    flex-direction: column;
-    padding: 0.75em;
+div#sampleDiv,
+div#responseDiv {
+	margin: 0.5em 0;
+	border: black thin solid;
+	margin-bottom: 2em;
+	display: flex;
+	flex-direction: column;
+	padding: 0.75em;
 }
 
 p#sampleLabel,
 p#responseLabel {
-    margin: 0;
-    font-weight: 600;
+	margin: 0;
+	font-weight: 600;
 }
 
 div#sampleLinks {
-    margin-top: 0.75em;
-    margin-bottom: 0.25em;
+	margin-top: 0.75em;
+	margin-bottom: 0.25em;
 }
 
 textarea {
-    font-size: small;
+	font-size: small;
 }
 
 textarea#sampleText {
-    width: 99.5%;
-    margin-top: 0.75em;
-    height: 3.5em;
-    /* Prevent resizing horizontally */
-    resize: vertical;
+	width: 99.5%;
+	margin-top: 0.75em;
+	height: 3.5em;
+	/* Prevent resizing horizontally */
+	resize: vertical;
 }
 
 textarea#responseText {
-    width: 99.5%;
-    margin-top: 0.75em;
-    flex-wrap: nowrap;
-    height: 10.5em;
-    margin-right: 0;
-    /* Prevent resizing horizontally */
-    resize: vertical;
+	width: 99.5%;
+	margin-top: 0.75em;
+	flex-wrap: nowrap;
+	height: 10.5em;
+	margin-right: 0;
+	/* Prevent resizing horizontally */
+	resize: vertical;
 }
 
-div.container {
-    padding: 0.75em;
-    border: black thin solid;
+div#sampleDiv,
+div#responseDiv {
+	padding: 0.75em;
+	border: black thin solid;
 }

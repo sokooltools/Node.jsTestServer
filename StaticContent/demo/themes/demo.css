@@ -4,11 +4,13 @@ body {
 	font-size: 72%;
 	background-color: beige;
 }
+
 #demo_main {
 	border: 1px solid black;
 	padding: 0.5em;
 	border-collapse: inherit;
 }
+
 input {
 	font-size: 12pt;
 	font-weight: bold;
@@ -63,8 +65,8 @@ div.blockMsg {
 	text-align: center;
 	border: solid 2px #303030;
 	padding: 15px;
-	opacity: .9;
-	background-color: #FFFFFF;
+	opacity: 0.9;
+	background-color: #ffffff;
 	top: 33%;
 	width: 40%;
 	left: 30%;
@@ -97,11 +99,6 @@ input.ipv4mask {
 input[type="text"]::-ms-clear {
 	display: none;
 }
-
-/* label.demo_rdoLabel { */
-	/* width: 80%; */
-	/* height: 25px; */
-/* } */
 
 .demo {
 	width: 100px;
@@ -165,7 +162,7 @@ fieldset#fsProtocol {
 	border: thin solid gray;
 }
 
-tr.demo_webGroup{
+tr.demo_webGroup {
 	margin: 0;
 }
 
@@ -175,20 +172,28 @@ div.demo_divWeb {
 	flex-direction: row;
 }
 
-
-input#demo_rdoDesktop, input#demo_rdoWeb {
+input#demo_rdoDesktop,
+input#demo_rdoWeb {
 	width: 1em;
 }
 
-#demo_rdoWeb, #demo_rdoDesktop, .demo_rdoLabel {
+#demo_rdoWeb,
+#demo_rdoDesktop,
+#demo_rdoLabel {
 	margin: 0;
-	/* padding: 0.5em; */
 }
 
-#demo_lblProtocol, #demo_lblIpAddress, #demo_lblPort {
+#demo_rdoLabel {
+	padding-right: 1em;
+}
+
+#demo_lblProtocol,
+#demo_lblIpAddress,
+#demo_lblPort {
 	margin-top: 5px;
 }
-.demo-disabled{
-	opacity:0.5;
-	pointer-events:'none';
+
+.demo-disabled {
+	opacity: 0.5;
+	pointer-events: none;
 }

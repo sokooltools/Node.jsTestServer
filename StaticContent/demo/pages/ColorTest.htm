@@ -3,50 +3,39 @@
 <!--=================================================================================================-->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="pragma" content="no-cache, no-store" />
-	<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate" />
-	<title>Color Test</title>
-	<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
-	<link rel="stylesheet" href="../themes/demo.css" />
-	<style type="text/css">
-		.block
-		{
-			background-color: blue;
-			width: 150px;
-			height: 70px;
-			margin: 10px;
-		}
-	</style>
-	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
-	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
-	<script type="text/javascript" src="../../scripts/ui/jquery.color.js"> </script>
-	<script type="text/javascript" src="../scripts/demo.js"> </script>
-</head>
-<body>
-	<div>
-		<h1>jQuery UI Color Test</h1>
-		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
-		<button type="button" id="run"  class="demo ui-button ui-corner-all ui-widget">Run </button>
-		<p>
-			This demo uses '<i><b>jquery.color.js</b></i>' to animate the two blocks below 
-			by slowly changing their color from blue to yellow and then back to blue.
-		</p>
-		<div class="block">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="pragma" content="no-cache, no-store" />
+		<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate" />
+		<title>Color Test</title>
+		<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
+		<link rel="stylesheet" href="../themes/demo.css" />
+		<style type="text/css">
+			.block {
+				background-color: blue;
+				width: 150px;
+				height: 70px;
+				margin: 10px;
+			}
+		</style>
+		<script type="text/javascript" src="../../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery.color.js"></script>
+		<script type="text/javascript" src="../scripts/demo.js"></script>
+		<script type="text/javascript" src="../scripts/colortest.js" defer></script>
+	</head>
+
+	<body>
+		<div>
+			<h1>jQuery UI Color Test</h1>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+			<button type="button" id="run" class="demo ui-button ui-corner-all ui-widget">Run</button>
+			<p>
+				This demo uses '<i><b>jquery.color.js</b></i
+				>' to animate the two blocks below by slowly changing their color from blue to yellow and then back to blue.
+			</p>
+			<div class="block"></div>
+			<div class="block"></div>
 		</div>
-		<div class="block">
-		</div>
-	</div>
-	<script>
-        window.DEMO.loadCommon();
-		$("#run").on("click", function() {
-			$(".block").animate({ backgroundColor: "yellow" }, 1000)
-				.delay(200)
-				.animate({ backgroundColor: "transparent" }, 500)
-				.delay(200)
-				.animate({backgroundColor: "blue"}, 1000);
-		});
-	</script>
-</body>
+	</body>
 </html>

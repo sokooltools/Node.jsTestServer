@@ -3,16 +3,14 @@
 <!--=================================================================================================-->
 <!DOCTYPE html>
 <html lang="en-US">
-
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 		<meta http-equiv="pragma" content="no-cache, no-store" />
 		<meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate" />
 		<title>Test Server Admin</title>
 		<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
 		<link rel="stylesheet" href="../themes/demo.css" />
 		<link rel="stylesheet" href="../themes/testserver-admin.css" />
-		<style type="text/css"></style>
 		<script type="text/javascript" src="../../scripts/jquery.js"></script>
 		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
 		<script type="text/javascript" src="../scripts/demo.js"></script>
@@ -24,47 +22,68 @@
 		<div>
 			<h1>Test Server Administration</h1>
 			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
-			<button type="button" id="clearscreen" class="demo ui-button ui-corner-all ui-widget"
-				title="Clear Test Server Console">Clear Test Server Console</button>
+			<button type="button" id="clearscreen" class="demo ui-button ui-corner-all ui-widget" title="Clear Test Server Console">
+				Clear Test Server Console
+			</button>
 			<p>This page is used for providing some Test Server Administration features.</p>
 		</div>
 		<div class="row2">
-			<a id="getAbout" href="javascript:;" class="cell"
-				title="Gets 'About' html data from the Test Server ['/test/about']">Get About Html</a>
+			<a id="getAbout" href="javascript:;" class="cell" title="Gets 'About' html data from the Test Server ['/test/about']"
+				>Get About Html</a
+			>
 		</div>
 		<div class="row2">
-			<a id="getJson" href="javascript:;" class="cell"
-				title="Gets some JSON data from the Test Server ['/test/json].">Get JSON</a>
+			<a id="getJson" href="javascript:;" class="cell" title="Gets some JSON data from the Test Server ['/test/json]."
+				>Get JSON</a
+			>
 		</div>
 		<div class="row2">
-			<a id="getArray" href="javascript:;" class="cell"
-				title="Gets an Array from the Test Server ['/test/array'].">Get Array</a>
+			<a id="getArray" href="javascript:;" class="cell" title="Gets an Array from the Test Server ['/test/array']."
+				>Get Array</a
+			>
 		</div>
 		<div class="row2">
-			<a id="getVersion" href="javascript:;" class="cell"
-				title="Gets the version of each module referenced in the Test Server's NodeJS package.json file  ['/test/version'].">Get
-				Module Versions</a>
+			<a
+				id="getVersion"
+				href="javascript:;"
+				class="cell"
+				title="Gets the version of each module referenced in the Test Server's NodeJS package.json file ['/test/version']."
+				>Get Module Versions</a
+			>
 		</div>
-		<div class="row2">
-		</div>
-		<div class="row2" id="resizeGifDiv">
+		<div class="row2"></div>
+		<div class="row2" id="sampleDiv">
 			<p id="sampleLabel">Sample:</p>
-			<textarea id="sampleText" rows="5" spellcheck="false"
+			<textarea
+				id="sampleText"
+				rows="5"
+				spellcheck="false"
 				title="Contains the base64string used for testing the gif-resize route">
 			</textarea>
 			<div id="sampleLinks">
-				<a id="resizeGif" href="javascript:;" class="cell"
-					title="Resizes the image (i.e., scales it by 50%), represented by the base64string below ['/test/resize-gif'].">Resize
-					GIF</a>
-				<a id="uploadGif" href="javascript:;" class="cell"
-					title="Uploads the GIF data (Base64String) to the Test Server ['/test/upload-gif'].">Upload GIF</a>
+				<a
+					id="resizeGif"
+					href="javascript:;"
+					class="cell"
+					title="Resizes the image (i.e., scales it by 50%), represented by the base64string below ['/test/resize-gif']."
+					>Resize GIF</a
+				>
+				<a
+					id="uploadGif"
+					href="javascript:;"
+					class="cell"
+					title="Uploads the GIF data (Base64String) to the Test Server ['/test/upload-gif']."
+					>Upload GIF</a
+				>
 			</div>
 		</div>
-		<div class="container" class="row2">
+		<div id="responseDiv" class="row2">
 			<p id="responseLabel">Response:</p>
-			<textarea id="responseText" spellcheck="false"
-				title="Shows the response received from the NodeJS Test Server"></textarea>
+			<textarea
+				id="responseText"
+				spellcheck="false"
+				title="Shows the response received from the NodeJS Test Server">
+			</textarea>
 		</div>
 	</body>
-
 </html>

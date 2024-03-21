@@ -3,67 +3,43 @@
 <!--=================================================================================================-->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>jQuery UI Tabs 2</title>
-	<link rel="shortcut icon" href="../../favicon.ico">
-	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="../../themes/tucson/tabs-no-images.css">
-	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
-	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
-	<script type="text/javascript" src="../../scripts/detect.js"></script>
-	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
-	<!-- The following script must be specified after the preceding script -->
-	<script type="text/javascript" src="../../scripts/jquery.tools.min.js"></script>
-	<script type="text/javascript" src="../scripts/demo.js"> </script>
-	<script type="text/javascript">
-		$(function() {
-			$("ul.css-tabs").tabs("div.css-panes > div", {
-				effect: "fade",
-				history: false,
-				onBeforeClick: function(event, i) {
-					const pane = this.getPanes().eq(i);
-					if(pane[0].children.length === 0) {
-                        const sel = this.getTabs().eq(i);
-                        pane.load(sel.attr("href"));
-                    }
-                    return true;
-				},
-				onClick: (function(event, i) {
-					$("ul.css-tabs").trigger("tabChanged", i);
-					return true;
-				})
-			});
-			$("body").show();
-            window.DEMO.loadCommon();
-		});
-	</script>
-</head>
-<body style="display: none;">
-	<div>
-		<h1>jQuery UI Tabs 2</h1>
-		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
-		<p>
-			This particular demo uses '<i><b>jquery.tools.min.js</b></i>' to generate the tabs (as opposed to using '<i><b>jquery-ui.js</b></i>)'.
-		</p>
-	</div>
-	<ul class="css-tabs">
-		<li id="T1"><a id="TB1" href="../data/tabpages/content1.htm" class="current">Tab 1</a></li>
-		<li id="T2"><a id="TB2" href="../data/tabpages/content2.htm" class="">Tab 2</a></li>
-		<li id="T3"><a id="TB3" href="../data/tabpages/content3.htm" class="">Tab 3</a></li>
-	</ul>
-	<div class="css-panes">
-		<div style="display: block;">
-		</div>
+	<head>
+		<meta charset="utf-8" />
+		<title>jQuery UI Tabs 2</title>
+		<link rel="shortcut icon" href="../../favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="../../themes/tucson/tabs-no-images.css" />
+		<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+		<script type="text/javascript" src="../../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../../scripts/detect.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+		<!-- The jquery.tools.min.js must be loaded after jquery-ui.js -->
+		<script type="text/javascript" src="../../scripts/jquery.tools.min.js"></script>
+		<script type="text/javascript" src="../scripts/demo.js"></script>
+		<script type="text/javascript" src="../scripts/tabcontrol2.js" defer></script>
+	</head>
+	<body style="display: none">
 		<div>
+			<h1>jQuery UI Tabs 2</h1>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+			<p>
+				This particular demo uses '<i><b>jquery.tools.min.js</b></i
+				>' to generate the tabs (as opposed to using '<i><b>jquery-ui.js</b></i
+				>)'.
+			</p>
 		</div>
-		<div>
+		<ul class="css-tabs">
+			<li id="T1"><a id="TB1" href="../data/tabpages/content1.htm" class="current">Tab 1</a></li>
+			<li id="T2"><a id="TB2" href="../data/tabpages/content2.htm" class="">Tab 2</a></li>
+			<li id="T3"><a id="TB3" href="../data/tabpages/content3.htm" class="">Tab 3</a></li>
+		</ul>
+		<div class="css-panes">
+			<div style="display: block"></div>
+			<div></div>
+			<div></div>
 		</div>
-	</div>
-	<div style="clear: both;">
-		<p>
-			Fetch external content via Ajax for the tabs by setting an href value in the tab links.
-		</p>
-	</div>
-</body>
+		<div style="clear: both">
+			<p>Fetch external content via Ajax for the tabs by setting an href value in the tab links.</p>
+		</div>
+	</body>
 </html>
