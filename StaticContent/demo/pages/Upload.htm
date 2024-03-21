@@ -1,124 +1,90 @@
 <!--=================================================================================================-->
 <!--	Upload.htm                                                                                -->
 <!--=================================================================================================-->
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>Upload</title>
-	<meta charset="utf-8">
-	<meta id="GENERATOR" content="?" />
-	<meta id="Author" content="rasokol" />
-	<meta id="Description" content="description" />
-	<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
-	<style type="text/css">
-		table{
-			padding: 0 5px; 
-			margin-top: 22px; 
-			width: 90%;
-		}
+	<head>
+		<title>Upload</title>
+		<meta charset="utf-8" />
+		<meta id="GENERATOR" content="?" />
+		<meta id="Author" content="rasokol" />
+		<meta id="Description" content="description" />
+		<link rel="stylesheet" type="text/css" href="../../themes/base/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="../themes/demo.css" />
+		<style type="text/css">
+			table {
+				padding: 0 5px;
+				margin-top: 22px;
+				width: 90%;
+			}
 
-		legend {
-			font-weight: bold;
-			font-size: 12pt;
-			margin: 0 5px 0 3px;
-			padding: 0 5px;
-		}
+			legend {
+				font-weight: bold;
+				font-size: 12pt;
+				margin: 0 5px 0 3px;
+				padding: 0 5px;
+			}
 
-		.btnWide {
-			width: 96px !important;
-			font-size: 8pt;
-			height: 20px;
-			cursor: pointer;
-		}
+			.btnWide {
+				width: 96px !important;
+				font-size: 8pt;
+				height: 20px;
+				cursor: pointer;
+			}
 
-		input#demo_inputFile{
-			font-size: 10pt; 
-			padding: 10px; 
-			width: 100%;
-		}
-		
-		legend#demo_lblFile{
-			font-size: 10pt; 
-			padding: 10px;
-		}
-	</style>
-	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
-	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
-	<script type="text/javascript" src="../scripts/demo.js"> </script>
-	<script type="text/javascript">
-		$(function() {
+			input#demo_inputFile {
+				font-size: 10pt;
+				padding: 10px;
+				width: 100%;
+			}
 
-            window.DEMO.loadCommon();
-			
-			// -------------------------------------------------------------------------------------------
-			// Handles the event raised when the 'File to Upload' input box value changes.
-			// (Used for enabling the 'Upload' button).
-			// -------------------------------------------------------------------------------------------
-			$("#demo_inputFile").on("change", function() {
-				window.setTimeout(function() {
-					$("#demo_btnUpload").prop("disabled", ($("#demo_inputFile").val() === ""));
-				}, 10);
-			});
-
-			// -------------------------------------------------------------------------------------------
-			// Handles the event raised when the form is submitted by clicking the 'Send' button.
-			// (NOTE: The nodeJs file 'upload.js' is called upon to actually perform the upload since
-			// AJAX methods to upload files do not work with browsers prior to IE 10!)
-			// -------------------------------------------------------------------------------------------
-			$("#demo_frmUpload").submit(function(e) {
-				const theFile = $("#demo_inputFile").val();
-				if(theFile.length > 0) {
-					//window.DEMO.setCookie(document, "upload", "", 1);
-					e.target.submit();
-				}
-				return false;
-			});
-
-			//window.setTimeout(function() {
-			//	//var theFile = window.DEMO.getCookie(document, "upload", "");
-			//	if(theFile) {
-			//		if(DEMO.getQueryStringByName("uploaded") === "true") {
-			//			alert("Uploaded: '" + theFile + "'.");
-			//			//window.DEMO.setCookie(document, "upload", "", 1);
-			//		}
-			//		theFile = null;
-			//	}
-			//}, 10);
-		});
-	</script>
-</head>
-<body>
-	<div>
-		<h1>Upload File Demo</h1>
-		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
-	</div>
-	<div class="demo-description">
-		<p>
-			This page is used for demonstrating the uploading of a file to the nodeJs server.
-		</p>
-	</div>
-	<form id="demo_frmUpload" action="/upload" enctype="multipart/form-data" method="post">
-		<table >
-			<tr>
-				<td>
-					<fieldset style="padding: 2px 8px 8px 8px;">
-						<legend id="demo_lblFile">File To Upload:</legend>
-						<table style="padding: 5px;">
-							<tr>
-								<td style="width: 100%;">
-									<input type="file" id="demo_inputFile" name="demo_inputFile" title="title"  tabindex="1">
-								</td>
-								<td>
-									<input type="submit" id="demo_btnUpload" name="demo_btnUpload" value="Upload" style="margin-left: 8px;" class="btnWide" disabled="" tabindex="2" />
-								</td>
-							</tr>
-						</table>
-					</fieldset>
-				</td>
-			</tr>
-		</table>
-		<!-- <textarea id="base64StringTextArea" rows="15" title="This is the 'Base64String' representation." spellcheck="false"style="width: 90%;"></textarea> -->
-	</form>
-</body>
+			legend#demo_lblFile {
+				font-size: 10pt;
+				padding: 10px;
+			}
+		</style>
+		<script type="text/javascript" src="../../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/demo.js"></script>
+		<script type="text/javascript" src="../scripts/upload.js" defer></script>
+	</head>
+	<body>
+		<div>
+			<h1>Upload File Demo</h1>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
+		</div>
+		<div class="demo-description">
+			<p>This page is used for demonstrating the uploading of a file to the nodeJs server.</p>
+		</div>
+		<form id="demo_frmUpload" action="/upload" enctype="multipart/form-data" method="post">
+			<table>
+				<tr>
+					<td>
+						<fieldset style="padding: 2px 8px 8px 8px">
+							<legend id="demo_lblFile">File To Upload:</legend>
+							<table style="padding: 5px">
+								<tr>
+									<td style="width: 100%">
+										<input type="file" id="demo_inputFile" name="demo_inputFile" title="title" tabindex="1" />
+									</td>
+									<td>
+										<input
+											type="submit"
+											id="demo_btnUpload"
+											name="demo_btnUpload"
+											value="Upload"
+											style="margin-left: 8px"
+											class="btnWide"
+											disabled=""
+											tabindex="2" />
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+					</td>
+				</tr>
+			</table>
+			<!-- <textarea id="base64StringTextArea" rows="15" title="This is the 'Base64String' representation." spellcheck="false"style="width: 90%;"></textarea> -->
+		</form>
+	</body>
 </html>

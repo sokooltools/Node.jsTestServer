@@ -1,78 +1,56 @@
 <!--=================================================================================================-->
-<!--	TabControl1.htm                                                                              -->                    
+<!--	TabControl1.htm                                                                              -->
 <!--=================================================================================================-->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>jQuery UI Tabs 1</title>
-	<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
-	<link rel="stylesheet" href="../themes/demo.css" />
-	<script type="text/javascript" src="../../scripts/jquery.js"> </script>
-	<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"> </script>
-	<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
-	<script type="text/javascript" src="../scripts/demo.js"> </script>
-	<script type="text/javascript">
-			$(function() {
-				$("#css-tabs").tabs({
-					heightStyle: "auto",
-					beforeLoad: function(event, ui) {
-						ui.jqXHR.fail(function() {
-							ui.panel.html("Couldn't load this tab. We'll try to fix this as soon as possible. If this wouldn't be a demo.");
-						});
-					},
-					load: function (event, ui) {
-						switch (ui.tab[0].id) {
-						case 't0':
-							break;
-						case 't1':
-							break;
-						case 't2':
-							break;
-						case 't3':
-							break;
-						case 't4':
-							break;
-						default:
-						}
-					}
-				});
-                window.DEMO.loadCommon();
-			});
-	</script>
-</head>
-<body>
-	<div>
-		<h1>jQuery UI Tabs 1</h1>
-		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
-		<p>
-			This particular demo uses '<i><b>jquery-ui.js</b></i>' to generate the tabs (as opposed to using '<i><b>jquery.tools.min.js</b></i>)'
-		</p>
-	</div>
-	<div id="css-tabs" class="css-tabs" style="height: 350px;">
-		<ul>
-			<li id="t0"><a id="LGN" href="#tabs-1">Preloaded</a></li>
-			<li id="t1"><a id="SYS" href="../data/tabpages/content1.htm">Tab 1</a></li>
-			<li id="t2"><a id="NET" href="../data/tabpages/content2.htm">Tab 2</a></li>
-			<li id="t3"><a id="SEC" href="../data/tabpages/content3-slow.php">Tab 3 (slow)</a></li>
-			<li id="t4"><a id="XPS" href="../data/tabpages/content4-broken.php">Tab 4 (broken)</a></li>
-		</ul>
-		<div id="tabs-1">
+	<head>
+		<meta charset="utf-8" />
+		<title>jQuery UI Tabs 1</title>
+		<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
+		<link rel="stylesheet" href="../themes/demo.css" />
+		<script type="text/javascript" src="../../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery.blockUI.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/demo.js"></script>
+		<script type="text/javascript" src="../scripts/tabcontrol1.js" defer></script>
+	</head>
+	<body>
+		<div>
+			<h1>jQuery UI Tabs 1</h1>
+			<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
 			<p>
-				Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris.
-				Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper
-				leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis
-				aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum.
-				Nunc tristique tempus lectus.</p>
+				This particular demo uses '<i><b>jquery-ui.js</b></i
+				>' to generate the tabs (as opposed to using '<i><b>jquery.tools.min.js</b></i
+				>)'
+			</p>
 		</div>
-	</div>
-	<div>
-		<p>
-			Fetch external content via Ajax for the tabs by setting an href value in the tab links. While the Ajax request is waiting
-			for a response, the tab label changes to say "Loading...", then returns to the normal label once loaded.</p>
-		<p>
-			Tabs 3 and 4 demonstrate slow-loading and broken AJAX tabs, and how to handle serverside errors in those cases. Note: These
-			two require a webserver to interpret PHP. They won't work from the filesystem.</p>
-	</div>
-</body>
+		<div id="css-tabs" class="css-tabs" style="height: 350px">
+			<ul>
+				<li id="t0"><a id="LGN" href="#tabs-1">Preloaded</a></li>
+				<li id="t1"><a id="SYS" href="../data/tabpages/content1.htm">Tab 1</a></li>
+				<li id="t2"><a id="NET" href="../data/tabpages/content2.htm">Tab 2</a></li>
+				<li id="t3"><a id="SEC" href="../data/tabpages/content3-slow.php">Tab 3 (slow)</a></li>
+				<li id="t4"><a id="XPS" href="../data/tabpages/content4-broken.php">Tab 4 (broken)</a></li>
+			</ul>
+			<div id="tabs-1">
+				<p>
+					Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi
+					sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor
+					risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam
+					sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius
+					sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.
+				</p>
+			</div>
+		</div>
+		<div>
+			<p>
+				Fetch external content via Ajax for the tabs by setting an href value in the tab links. While the Ajax request is
+				waiting for a response, the tab label changes to say "Loading...", then returns to the normal label once loaded.
+			</p>
+			<p>
+				Tabs 3 and 4 demonstrate slow-loading and broken AJAX tabs, and how to handle serverside errors in those cases.
+				Note: These two require a webserver to interpret PHP. They won't work from the filesystem.
+			</p>
+		</div>
+	</body>
 </html>

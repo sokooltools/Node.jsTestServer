@@ -13,42 +13,41 @@ DEMO.loadCommon = function () {
 			$("#back").attr("title", "Click to go back to the Demo Home page...");
 			$("#back").html("« Go Back");
 		}
-		$("#back").button().on("click", function () {
-			DEMO.goHome();
-		});
+		$("#back")
+			.button()
+			.on("click", function () {
+				DEMO.goHome();
+			});
 	}
-}
+};
 
 DEMO.getPathRoot = function () {
 	if (window.location.pathname.startsWith("/StaticContent")) {
 		return `${window.location.origin}/StaticContent`;
 	}
 	return window.location.origin;
-}
+};
 
 // -------------------------------------------------------------------------------------------
-// Sets the Protocol, the Port, and the specified IP Address. 
+// Sets the Protocol, the Port, and the specified IP Address.
 // If the specified ip address is null or empty and a cookie containing the ip address exists
-// then its value will be used. 
+// then its value will be used.
 // -------------------------------------------------------------------------------------------
 DEMO.loadForm = function (ipAddress, port) {
-
 	DEMO.loadCustomComboboxes();
 
 	const isSsl = DEMO.getCookie(document, "isssl", "false");
 
 	const isWeb = DEMO.getCookie(document, "isweb", "false");
 
-	if (!ipAddress)
-		ipAddress = DEMO.getCookie(document, "address", "LocalHost");
+	if (!ipAddress) ipAddress = DEMO.getCookie(document, "address", "LocalHost");
 
-	if (!port)
-		port = DEMO.getCookie(document, "port", "3000");
+	if (!port) port = DEMO.getCookie(document, "port", "3000");
 
 	$("#demo_rdoWeb").prop("checked", isWeb === "true");
 	$("#demo_rdoDesktop").prop("checked", isWeb === "false");
 
-	if (isWeb === "true"){
+	if (isWeb === "true") {
 		setDisabled("demo_rdoWeb");
 	} else {
 		setDisabled("demo_rdoDesktop");
@@ -62,35 +61,35 @@ DEMO.loadForm = function (ipAddress, port) {
 
 	DEMO.selectIpAddress();
 
-	// Returns a NodeList representing a list of the document's 
+	// Returns a NodeList representing a list of the document's
 	// elements that match the specified group of selectors.
-	const matches = document.querySelectorAll('.chngRadio');
+	const matches = document.querySelectorAll(".chngRadio");
 
-	function setDisabled(rdoBtnValue){
+	function setDisabled(rdoBtnValue) {
 		if (rdoBtnValue === "demo_rdoWeb") {
 			$("#demo_webGroup, #fsProtocol, #test1, #test2").removeClass("demo-disabled");
-			$("#demo_rdoHttp, #demo_rdoHttps, #demo_cboIpAddress, #demo_cboPort").prop('disabled',false);
+			$("#demo_rdoHttp, #demo_rdoHttps, #demo_cboIpAddress, #demo_cboPort").prop("disabled", false);
 		} else if (rdoBtnValue === "demo_rdoDesktop") {
 			$("#demo_webGroup, #fsProtocol, #test1, #test2").addClass("demo-disabled");
-			$("#demo_rdoHttp, #demo_rdoHttps, #demo_cboIpAddress, #demo_cboPort").prop('disabled',true);
+			$("#demo_rdoHttp, #demo_rdoHttps, #demo_cboIpAddress, #demo_cboPort").prop("disabled", true);
 		}
 	}
 
 	// Iterate through the nodeList using .forEach() method.
 	// Attach an eventListener with a callback function.
-	matches.forEach(match => {
-		match.addEventListener('change', (e) => {
+	matches.forEach((match) => {
+		match.addEventListener("change", (e) => {
 			setDisabled(e.target.value);
 		});
-	})
-}
+	});
+};
 
 // -------------------------------------------------------------------------------------------
 // Goes back to the Demo home page.
 // -------------------------------------------------------------------------------------------
 DEMO.goHome = function () {
 	window.location.href = "../demo.htm";
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Loads the two custom comboboxes.
@@ -108,69 +107,88 @@ DEMO.loadCustomComboboxes = function () {
 			const selected = this.element.children(":selected");
 			const value = selected.val() ? selected.text() : "";
 
-			this.input = $("<input>").appendTo(this.wrapper).val(value).attr("title", "").attr("spellcheck", "false").on("keydown", function () {
-				if (DEMO.isEnterkey(event)) {
-					DEMO.doClick();
-				}
-			}).addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left").autocomplete({
-				delay: 0,
-				minLength: 0,
-				source: $.proxy(this, "_source")
-			}).tooltip({
-				classes: {
-					"ui-tooltip": "ui-state-highlight"
-				}
-			});
+			this.input = $("<input>")
+				.appendTo(this.wrapper)
+				.val(value)
+				.attr("title", "")
+				.attr("spellcheck", "false")
+				.on("keydown", function () {
+					if (DEMO.isEnterkey(event)) {
+						DEMO.doClick();
+					}
+				})
+				.addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
+				.autocomplete({
+					delay: 0,
+					minLength: 0,
+					source: $.proxy(this, "_source"),
+				})
+				.tooltip({
+					classes: {
+						"ui-tooltip": "ui-state-highlight",
+					},
+				});
 
 			this._on(this.input, {
 				autocompleteselect: function (event, ui) {
 					ui.item.option.selected = true;
 					this._trigger("select", event, {
-						item: ui.item.option
+						item: ui.item.option,
 					});
-				}
+				},
 			});
 		},
 		_createShowAllButton: function () {
-			var input = this.input
-				, wasOpen = false;
-			$("<a>").attr("tabIndex", -1).attr("title", "Show All Items").tooltip().appendTo(this.wrapper).button({
-				icons: {
-					primary: "ui-icon-triangle-1-s"
-				},
-				text: false
-			}).removeClass("ui-corner-all").addClass("custom-combobox-toggle ui-corner-right").on("mousedown", function () {
-				wasOpen = input.autocomplete("widget").is(":visible");
-			}).on("click", function () {
-				input.trigger("focus");
+			var input = this.input,
+				wasOpen = false;
+			$("<a>")
+				.attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.tooltip()
+				.appendTo(this.wrapper)
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s",
+					},
+					text: false,
+				})
+				.removeClass("ui-corner-all")
+				.addClass("custom-combobox-toggle ui-corner-right")
+				.on("mousedown", function () {
+					wasOpen = input.autocomplete("widget").is(":visible");
+				})
+				.on("click", function () {
+					input.trigger("focus");
 
-				// Close if already visible
-				if (wasOpen) {
-					return;
-				}
+					// Close if already visible
+					if (wasOpen) {
+						return;
+					}
 
-				// Pass empty string as value to search for, displaying all results
-				input.autocomplete("search", "");
-			});
+					// Pass empty string as value to search for, displaying all results
+					input.autocomplete("search", "");
+				});
 		},
 		_source: function (request, response) {
 			var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-			response(this.element.children("option").map(function () {
-				const text = $(this).text();
-				if (this.value && (!request.term || matcher.test(text))) {
-					return {
-						label: text,
-						value: text,
-						option: this
-					};
-				}
-				return {};
-			}));
+			response(
+				this.element.children("option").map(function () {
+					const text = $(this).text();
+					if (this.value && (!request.term || matcher.test(text))) {
+						return {
+							label: text,
+							value: text,
+							option: this,
+						};
+					}
+					return {};
+				})
+			);
 		},
 		_destroy: function () {
 			this.wrapper.remove();
 			this.element.show();
-		}
+		},
 	});
 
 	$("#combobox1").combobox();
@@ -180,67 +198,68 @@ DEMO.loadCustomComboboxes = function () {
 	$("#combobox2").combobox();
 	$("#test2 > span.custom-combobox > input.ui-autocomplete-input").attr("id", "demo_cboPort");
 	$("#demo_cboPort").css("width", "50px").css("font-size", "12pt").css("font-weight", "bold");
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Returns an indication as to whether the specified event code is an enter key.
 // -------------------------------------------------------------------------------------------
 DEMO.isEnterkey = function (e) {
 	return e.keyCode === 13 || e.charCode === 13;
-}
+};
 
-const urlRoot = "http://localhost:3000";
+const defaultRoot = "http://localhost:3000";
+
+DEMO.getFullRoute = function (route) {
+	return route.startsWith("http") ? route : defaultRoot + (route.startsWith("/") ? route : "/" + route);
+};
 
 /**
  * Does a GET to the server.
  *
- * @param {String} route The route (minus the URL root).
+ * @param {String} route The route.
  * @param {JSON} jsonData The JSON string.
  * @param {function} callback The function callback.
-*/
+ */
 DEMO.doGet = function (route, callback, msTimeout) {
 	// Create a new AbortController instance.
 	const controller = new AbortController();
 	const signal = controller.signal;
 
 	// Make the fetch request with the signal.
-	const fetchPromise = fetch(urlRoot + route, {
-		signal
+	const fetchPromise = fetch(DEMO.getFullRoute(route), {
+		signal,
 	});
 
 	// Timeout after specified number of milliseconds.
 	const timeoutId = setTimeout(() => {
 		controller.abort();
 		// Abort the fetch request.
-		if (callback)
-			callback("Fetch request timed out.");
-	}
-		, msTimeout || 5000);
+		if (callback) callback("Fetch request timed out.");
+	}, msTimeout || 5000);
 
 	// Handle the fetch request
-	fetchPromise.then(response => {
-		// Check if the request was successful.
-		if (!response.ok) {
-			throw new Error(response.statusText);
-		}
-		// Parse the response as JSON
-		return response.json();
-	}
-	).then(data => {
-		// Handle the JSON data.
-		if (callback)
-			callback(data);
-	}
-	).catch(error => {
-		// Handle any errors that occurred during the fetch.
-		console.error(error);
-	}
-	).finally(() => {
-		// Clear the timeout.
-		clearTimeout(timeoutId);
-	}
-	);
-}
+	fetchPromise
+		.then((response) => {
+			// Check if the request was successful.
+			if (!response.ok) {
+				throw new Error(response.statusText);
+			}
+			// Parse the response as JSON
+			return response.json();
+		})
+		.then((data) => {
+			// Handle the JSON data.
+			if (callback) callback(data);
+		})
+		.catch((error) => {
+			// Handle any errors that occurred during the fetch.
+			console.error(error);
+		})
+		.finally(() => {
+			// Clear the timeout.
+			clearTimeout(timeoutId);
+		});
+};
 
 /**
  * Does a PUT to the server.
@@ -248,39 +267,37 @@ DEMO.doGet = function (route, callback, msTimeout) {
  * @param {String} route The route (minus the URL root).
  * @param {JSON} jsonData The JSON string.
  * @param {function} callback The function callback.
-*/
+ */
 DEMO.doPut = function (route, jsonData, callback) {
 	// Set up options for the fetch request.
 	const options = {
 		method: "PUT",
 		headers: {
 			// Set content type to JSON.
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
 		},
 		// Convert JSON data to a string and set it as the request body.
-		body: JSON.stringify(jsonData)
+		body: JSON.stringify(jsonData),
 	};
 	// Make the fetch request using the provided options.
-	fetch(urlRoot + route, options).then(response => {
-		// Check if the request was successful.
-		if (!response.ok) {
-			throw new Error(response.statusText);
-		}
-		// Parse the response as JSON.
-		return response.json();
-	}
-	).then(data => {
-		// Handle the JSON data.
-		if (callback)
-			callback(data);
-	}
-	).catch(error => {
-		// Handle any errors that occurred during the fetch.
-		console.error(error);
-	}
-	);
-}
-
+	fetch(DEMO.getFullRoute(route), options)
+		.then((response) => {
+			// Check if the request was successful.
+			if (!response.ok) {
+				throw new Error(response.statusText);
+			}
+			// Parse the response as JSON.
+			return response.json();
+		})
+		.then((data) => {
+			// Handle the JSON data.
+			if (callback) callback(data);
+		})
+		.catch((error) => {
+			// Handle any errors that occurred during the fetch.
+			console.error(error);
+		});
+};
 
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when one of the hyperlinks is clicked.
@@ -303,7 +320,7 @@ DEMO.doClick = function () {
 			$.unblockUI({
 				onUnblock: function () {
 					DEMO.showDialog('Sorry... only raw "html" pages can be opened from the desktop!');
-				}
+				},
 			});
 			return false;
 		}
@@ -314,14 +331,14 @@ DEMO.doClick = function () {
 		window.location.href = url;
 	}
 	return false;
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Returns the currently selected protocol (i.e., 'Http:' or 'Https:').
 // -------------------------------------------------------------------------------------------
 DEMO.getProtocol = function () {
 	return $("#demo_rdoHttp").is(":checked") ? "http:" : "https:";
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Selects the last octet of the ip address.
@@ -330,9 +347,9 @@ DEMO.selectIpAddress = function () {
 	const sel = $("#demo_cboIpAddress");
 	const len = sel.val().length;
 	const idx = sel.val().lastIndexOf(".");
-	const start = (idx > -1) ? idx + 1 : len;
+	const start = idx > -1 ? idx + 1 : len;
 	sel.setSelection(start, len);
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Sets the window location to the specified document unless 'Simulation Mode' has been
@@ -352,7 +369,7 @@ DEMO.openDoc = function (doc) {
 		path = path.replace(searchValue, replaceValue);
 	}
 	window.location.href = path;
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Gets the web address with the port number appended to it (if it has been specified).
@@ -360,9 +377,9 @@ DEMO.openDoc = function (doc) {
 DEMO.getUrlRoot = function () {
 	const addr = $("#demo_cboIpAddress").val();
 	const port = $("#demo_cboPort").val();
-	const urlRoot = (addr + ((port) ? `:${port}` : ""));
+	const urlRoot = addr + (port ? `:${port}` : "");
 	return urlRoot;
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Sets the page to busy mode displaying the specified message in the center of the screen.
@@ -373,10 +390,10 @@ DEMO.showBusy = function (msg) {
 		message: `<img src="themes/base/images/busy.gif"/> ${msg}`,
 		//timeout: 15000,
 		overlayCSS: {
-			backgroundColor: "#A0A0A0"
-		}
+			backgroundColor: "#A0A0A0",
+		},
 	});
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Checks whether this web page can be connected to the Padarn Server on the CE using the
@@ -384,13 +401,12 @@ DEMO.showBusy = function (msg) {
 // -------------------------------------------------------------------------------------------
 DEMO.goToPage = function (doc, urlRoot, page, numAttempt) {
 	const protocol = DEMO.getProtocol();
-	if (!numAttempt)
-		numAttempt = 1;
+	if (!numAttempt) numAttempt = 1;
 	DEMO.debugLog(`Attempting to connect to: '${urlRoot}'... (${numAttempt})`);
 	//var img = new window.Image();  //document.createElement("img");
 	//img.onload = function()
 	//{
-	const url = protocol + "//" + urlRoot + ((page) ? `/${page}` : "");
+	const url = protocol + "//" + urlRoot + (page ? `/${page}` : "");
 	window.location.href = url;
 
 	var address = urlRoot;
@@ -419,7 +435,7 @@ DEMO.goToPage = function (doc, urlRoot, page, numAttempt) {
 	//};
 	//var gifPath = protocol +  "//" + urlRoot + "/themes/base/images/ping.png" + uniqueQueryString();
 	//img.src = gifPath;
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Shows a modal dialog.
@@ -435,15 +451,15 @@ DEMO.showDialog = function (message, title) {
 			$(this).dialog("close");
 		},
 		buttons: {
-			'OK': function () {
+			OK: function () {
 				$(this).dialog("close");
-			}
+			},
 		},
 		width: 400,
 		height: 200,
-		title: (title) ? title : "jQuery Demos"
+		title: title ? title : "jQuery Demos",
 	});
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Gets a cookie value corresponding to the specified document and cookie name.
@@ -453,13 +469,11 @@ DEMO.getCookie = function (doc, name, deflt) {
 	const ca = doc.cookie.split(";");
 	for (let i = 0; i < ca.length; i++) {
 		let c = ca[i];
-		while (c.charAt(0) === " ")
-			c = c.substring(1, c.length);
-		if (c.indexOf(nameEq) === 0)
-			return encodeURI(c.substring(nameEq.length, c.length));
+		while (c.charAt(0) === " ") c = c.substring(1, c.length);
+		if (c.indexOf(nameEq) === 0) return encodeURI(c.substring(nameEq.length, c.length));
 	}
 	return deflt;
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Sets the specified cookie value corresponding to the specified cookie name.
@@ -467,9 +481,9 @@ DEMO.getCookie = function (doc, name, deflt) {
 DEMO.setCookie = function (doc, name, value, expdays) {
 	const exdate = new Date();
 	exdate.setDate(exdate.getDate() + expdays);
-	const cvalue = `${name}=${encodeURI(value)}${(expdays == null) ? "" : `; expires=${exdate.toUTCString()}`}`;
+	const cvalue = `${name}=${encodeURI(value)}${expdays == null ? "" : `; expires=${exdate.toUTCString()}`}`;
 	doc.cookie = cvalue;
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Returns the value corresponding to the specified query string name part of the current URL.
@@ -479,23 +493,21 @@ DEMO.getQueryStringByName = function (name) {
 	const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 	const results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
+};
 
 // -------------------------------------------------------------------------------------------
 // Utility function for writing the specified message to the developer console window.
 // -------------------------------------------------------------------------------------------
 DEMO.debugLog = function (message) {
-	if (!(typeof window.console === "undefined"))
-		window.console.log(new Date().toLocaleTimeString() + " -- " + message);
-}
+	if (!(typeof window.console === "undefined")) window.console.log(new Date().toLocaleTimeString() + " -- " + message);
+};
 
 // -------------------------------------------------------------------------------------------
 // Extension method used for selecting the last two digits of the IP Address enabling quick
 // editing of the IP Address.
 // -------------------------------------------------------------------------------------------
 jQuery.fn.setSelection = function (selectionStart, selectionEnd) {
-	if (this.length === 0)
-		return this;
+	if (this.length === 0) return this;
 	const input2 = this[0];
 	if (input2.createTextRange) {
 		const range = input2.createTextRange();
@@ -508,5 +520,4 @@ jQuery.fn.setSelection = function (selectionStart, selectionEnd) {
 		input2.setSelectionRange(selectionStart, selectionEnd);
 	}
 	return this;
-}
-
+};

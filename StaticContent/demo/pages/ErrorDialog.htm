@@ -3,63 +3,27 @@
 <!--=================================================================================================-->
 <!DOCTYPE html>
 <html lang="en">
-
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 		<title>Load Page Dynamically inside a jQuery UI Dialog</title>
-		<link rel="stylesheet" href="../../themes/base/jquery-ui.css">
-		<link rel="stylesheet" href="../themes/demo.css">
-		<script type="text/javascript" src="../../scripts/jquery.js"> </script>
-		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"> </script>
-		<script type="text/javascript" src="../scripts/demo.js"> </script>
+		<link rel="stylesheet" href="../../themes/base/jquery-ui.css" />
+		<link rel="stylesheet" href="../themes/demo.css" />
+		<script type="text/javascript" src="../../scripts/jquery.js"></script>
+		<script type="text/javascript" src="../../scripts/ui/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/demo.js"></script>
+		<script type="text/javascript" src="../scripts/errordialog.js" defer></script>
 	</head>
-
 	<body>
 		<h1>jQuery UI Error Dialog</h1>
 		<button type="button" id="back" class="demo ui-button ui-corner-all ui-widget">Back</button>
 		<button type="button" id="run" class="demo ui-button ui-corner-all ui-widget">Show...</button>
 		<div class="demo-description">
+			<p>This demo displays a standard jQuery-UI modal dialog.</p>
+			<p>However the dialog's content is loaded from an external file containing a pre-formatted error message.</p>
 			<p>
-				This demo displays a standard jQuery-UI modal dialog.
+				Clicking the dialog's <b>OK</b>
+				button dismisses the dialog. (Note: You can optionally press the ESC key to dismiss the dialog)
 			</p>
-			<p>However the dialog's content is loaded from an external file containing a pre-formatted error message.
-			</p>
-			<p>Clicking the dialog's <b>OK</b> button dismisses the dialog. (Note: You can optionally press the ESC key
-				to dismiss the dialog)</p>
 		</div>
-		<script type="text/javascript">
-			$(function () {
-                window.DEMO.loadCommon();
-
-				$("#run").on("click", function () {
-					const fName = `${window.DEMO.getPathRoot()}/demo/data/ErrorDialog.txt`;
-					ShowInDialog(fName, 'Padarn Server Error');
-					return;
-				});
-			});
-
-			function ShowInDialog(filename, title) {
-				$('<div>').dialog({
-					modal: true,
-					dialogClass: "alert",
-					open: function () {
-						$(this).load(filename);
-					},
-					close: function () {
-						$(this).dialog('close');
-					},
-					buttons: {
-						'OK': function () {
-							$(this).dialog('close');
-						}
-					},
-					hide: true,
-					width: 600,
-					height: 400,
-					title: title
-				});
-			};
-		</script>
 	</body>
-
 </html>

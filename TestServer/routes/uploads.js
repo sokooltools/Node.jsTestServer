@@ -149,8 +149,7 @@ function onDeleteFile(req, res) {
  * @param {any} failure the failure callback
  */
 function moveUploadedFile(file, uuid, success, failure) {
-	//var destinationDir = uploadedFilesPath + uuid + "/"; // RAS
-	const destinationDir = uploadedFilesPath; // + "/"; // RAS 02/13/2024
+	const destinationDir = uploadedFilesPath;
 	const fileDestination = path.join(destinationDir, file.name);
 	moveFile(destinationDir, file.path, fileDestination, success, failure);
 }
@@ -180,7 +179,7 @@ function storeChunk(file, uuid, index, numChunks, success, failure) {
  */
 function combineChunks(file, uuid, success, failure) {
 	var chunksDir = path.join(uploadedFilesPath + uuid, chunkDirName);
-	const destinationDir = uploadedFilesPath + uuid ;
+	const destinationDir = uploadedFilesPath + uuid;
 	var fileDestination = path.join(destinationDir, file.name);
 	fs.readdir(chunksDir, function (err, fileNames) {
 		var destFileStream;
@@ -190,9 +189,7 @@ function combineChunks(file, uuid, success, failure) {
 		} else {
 			fileNames.sort();
 			destFileStream = fs.createWriteStream(fileDestination, { flags: "a" });
-
 			appendToStream(destFileStream, chunksDir, fileNames, 0, function () {
-				//rimraf(chunksDir, function(rimrafError) { // RAS
 				fs.unlink(chunksDir, function (rimrafError) {
 					if (rimrafError) {
 						console.log(`Problem deleting chunks dir! ${rimrafError}`);
@@ -231,7 +228,6 @@ function moveFile(destinationDir, sourceFile, destinationFile, success, failure)
 		} else {
 			sourceStream = fs.createReadStream(sourceFile);
 			destStream = fs.createWriteStream(destinationFile);
-
 			sourceStream
 				.on("error", function (err) {
 					console.error(`Problem copying file: ${err.stack}`);
