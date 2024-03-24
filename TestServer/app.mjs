@@ -17,8 +17,8 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 import * as url from 'url';
-//const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+//const __filename = url.fileURLToPath(import.meta.url);
 
 // This is the web framework.
 // see https://expressjs.com/
@@ -36,9 +36,9 @@ var cookieParser = require("cookie-parser");
 var debug = require("debug");
 
 //var common = require("./routes/common");
-var index = require("./routes/index");
+import index from "./routes/index.mjs";
 var download = require("./routes/download");
-var upload = require("./routes/upload");
+import upload from "./routes/upload.mjs";
 var uploads = require("./routes/uploads");
 import users from "./routes/users.mjs";
 var services = require("./routes/services");

@@ -3,13 +3,13 @@
 // -----------------------------------------------------------------------------------------------------
 
 // Dependencies.
-var express = require("express");
+import express, { Router } from "express";
 
-var formidable = require("formidable");
-var fs = require("fs");
-var path = require("path");
+import { IncomingForm } from "formidable";
+import { existsSync, mkdirSync, renameSync } from "fs";
+import { join } from "path";
 
-var router = express.Router();
+var router = Router();
 
 //const bodyParser = require("body-parser");
 
@@ -21,14 +21,17 @@ var app = express();
 
 //app.use(express.urlencoded({ extended: true }));
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 // Define upload route.
 router.post("/", function (req, res) {
 
     // const postData = req.body;
     // console.log(postData );
 
-    const form = new formidable.IncomingForm();
-    const uploadsDir = path.join(__dirname, "../../Uploaded/");
+    const form = new IncomingForm();
+    var uploadsDir = join(__dirname, "../../Uploaded/");
     form.uploadDir = uploadsDir;
     form.parse(req, function (err, fields, files) {
 
@@ -40,13 +43,13 @@ router.post("/", function (req, res) {
         //const xx = fields.base64StringTextArea.value;
 
         // Ensure new directory exists.
-        fs.existsSync(uploadsDir) || fs.mkdirSync(uploadsDir);
+        existsSync(uploadsDir) || mkdirSync(uploadsDir);
 
-        const newPath = path.join(uploadsDir, files.demo_inputFile.name);
+        const newPath = join(uploadsDir, files.demo_inputFile[0].originalFilename);
 
         // Move the file from the temp path to its final resting spot.
-        const oldPath = files.demo_inputFile.path;
-        fs.renameSync(oldPath, newPath);
+        const oldPath = files.demo_inputFile[0].filepath;
+        renameSync(oldPath, newPath);
 
         //res.status(200);
         //res.json({ 'success': true });
@@ -75,4 +78,4 @@ router.post("/", function (req, res) {
     });
 });
 
-module.exports = router;
+export default router;
