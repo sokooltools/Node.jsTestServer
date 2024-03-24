@@ -28,7 +28,7 @@
 	"program": "${workspaceRoot}/app.js",
 	"request": "launch",
 	"scripts": {
-		"start": "node testserver/app.js"
+		"start": "node testserver/app.mjs"
 	},
 	"title": "node",
 	"type": "commonjs",

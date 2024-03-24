@@ -13,6 +13,13 @@
 /*jslint node: true */
 "use strict";
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+import * as url from 'url';
+//const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 // This is the web framework.
 // see https://expressjs.com/
 var express = require("express");
@@ -53,17 +60,17 @@ if (app.get("env") === "development") {
 	app.use(morgan("dev"));
 	//app.use(morgan(":method :url :status :res[content-length] - :response-time ms", { immediate: function(){} }));
 } else {
-    // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
-	var logsDir = path.join(__dirname, "Logs"); 
+	// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
+	var logsDir = path.join(__dirname, "Logs");
 	// Ensure the "Logs" directory exists.
-	if (!fs.existsSync(logsDir)) 
+	if (!fs.existsSync(logsDir))
 		fs.mkdirSync(logsDir);
 	// Specify the log file.
 	var logFile = path.join(logsDir, "morgan.log");
 	// Create a write stream (in append mode).
 	var accessLogStream = fs.createWriteStream(logFile, { flags: "a" });
 	// Setup the logger to skip all but errors.
-	app.use(morgan("common", { skip: function(req, res) { return res.statusCode < 400; }, stream: accessLogStream }));
+	app.use(morgan("common", { skip: function (req, res) { return res.statusCode < 400; }, stream: accessLogStream }));
 }
 
 // Configure app to use bodyParser().
@@ -77,7 +84,7 @@ app.use(cookieParser());
 var rootFolder = path.dirname(__dirname);
 
 // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\StaticContent"
-var contentFldr = path.join(rootFolder, "StaticContent"); 
+var contentFldr = path.join(rootFolder, "StaticContent");
 
 app.use(favicon(path.join(contentFldr, "favicon.ico")));
 
@@ -131,8 +138,8 @@ app.use(function (err, req, res) {
 
 // -----------------------------------------------
 
-var server = app.listen(app.get("port"), function() {
+var server = app.listen(app.get("port"), function () {
 	debug.log(`Express (Test Server) listening on port ${server.address().port}`);
 });
 
-module.exports = app;
+export default app;

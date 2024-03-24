@@ -6,8 +6,8 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "npm start",
             "name": "Run npm start",
+            "command": "npm start",
             "request": "launch",
             "type": "node-terminal"
         },
@@ -45,7 +45,7 @@
             "name": "Launch TestServer",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/TestServer/app.js",
+            "program": "${workspaceRoot}/app.js",
             "skipFiles": [
                 "<node_internals/**>"
             ]
