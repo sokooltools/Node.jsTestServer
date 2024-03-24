@@ -36,11 +36,11 @@ var cookieParser = require("cookie-parser");
 var debug = require("debug");
 
 //var common = require("./routes/common");
-var download = require("./routes/download");
 var index = require("./routes/index");
+var download = require("./routes/download");
 var upload = require("./routes/upload");
 var uploads = require("./routes/uploads");
-var users = require("./routes/users");
+import users from "./routes/users.mjs";
 var services = require("./routes/services");
 var test = require("./routes/test");
 
