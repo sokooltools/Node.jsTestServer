@@ -22,29 +22,28 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 // This is the web framework.
 // see https://expressjs.com/
-var express = require("express");
+import express from "express";
 
 // This is the logger.
 // see https://github.com/expressjs/morgan
-var morgan = require("morgan");
+import morgan from "morgan";
 
-var fs = require("fs");
-var path = require("path");
-var favicon = require("serve-favicon");
-var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
-var debug = require("debug");
+import fs from "fs";
+import path from "path";
+import favicon from "serve-favicon";
+import cookieParser from "cookie-parser";
+import debug from "debug";
 
-//var common = require("./routes/common");
+//var common = require("./routes/common.js");
 import index from "./routes/index.mjs";
-var download = require("./routes/download");
 import upload from "./routes/upload.mjs";
-var uploads = require("./routes/uploads");
 import users from "./routes/users.mjs";
-var services = require("./routes/services");
-var test = require("./routes/test");
+import test from "./routes/test.mjs";
 
-//var inspect = debug("testserver");
+var download = require("./routes/download");
+var uploads = require("./routes/uploads");
+var services = require("./routes/services");
+var bodyParser = require("body-parser");
 
 var app = express();
 

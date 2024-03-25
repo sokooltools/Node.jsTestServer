@@ -2,18 +2,21 @@
 // test.js  ( e.g. http://localhost:3000/test/xxx )
 // -----------------------------------------------------------------------------------------------------
 
-var express = require("express");
-var router = express.Router();
-var path = require("path");
-var fs = require("fs");
-var gifResize = require("@gumlet/gif-resize");
-//var common = require("./common");
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
-const gifMetaString = "data:image/gif;base64,";
+import express, { Router } from "express";
+import path from "path";
+import fs from "fs";
+
+var router = Router();
+
+import gifResize from "@gumlet/gif-resize";
 
 // ----- Experimental ------------------------------
 const app = express();
-const helmet = require('helmet')
+
+import helmet from "helmet";
 
 //app.use(express.json({ limit: "25mb" }));
 //app.use(express.urlencoded({ limit: "25mb", extended: true, parameterLimit: 5000 }));
@@ -103,7 +106,7 @@ router.get("/versions", function (req, res) {
 				}
 			}
 		}
-		const json = `"versions": ${JSON.stringify(obj, null, 4)}`;
+		const json = `"dependencies": ${JSON.stringify(obj, null, 4)}`;
 		res.status(200).json(json);
 	});
 });
@@ -130,6 +133,7 @@ router.put("/upload-gif", function (req, res) {
 router.put("/resize-gif", function (req, res) {
 	try {
 		const bufferIn = getBufferFromBase64String(req.body.base64String);
+		const gifMetaString = "data:image/gif;base64,";
 		gifResize({
 			width: Math.trunc(req.body.width) // Make sure it's an int and not a float!
 		})(bufferIn).then(bufferOut => {
@@ -237,4 +241,4 @@ function getDownloadsFolder() {
 //    fileStream.pipe(res);
 //};
 
-module.exports = router;
+export default router;

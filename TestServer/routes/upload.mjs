@@ -1,20 +1,17 @@
 ﻿// -----------------------------------------------------------------------------------------------------
-// upload.js
+// upload.mjs
 // -----------------------------------------------------------------------------------------------------
 
 // Dependencies.
 import express, { Router } from "express";
-
 import { IncomingForm } from "formidable";
 import { existsSync, mkdirSync, renameSync } from "fs";
 import { join } from "path";
 
 var router = Router();
-
-//const bodyParser = require("body-parser");
-
 var app = express();
 
+//const bodyParser = require("body-parser");
 //app.use(bodyParser.urlencoded({
 //    extended: true
 //}));
