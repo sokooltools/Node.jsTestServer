@@ -10,7 +10,6 @@
 // NPM      10.2.4
 // Express  4.15.3
 
-/*jslint node: true */
 "use strict";
 
 import { createRequire } from 'module';
@@ -28,17 +27,18 @@ import express from "express";
 // see https://github.com/expressjs/morgan
 import morgan from "morgan";
 
-import fs from "fs";
-import path from "path";
+var fs = await import("fs");
+var path = await import( "path");
+
 import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
 import debug from "debug";
 
-//var common = require("./routes/common.js");
-var uploads = require("./routes/uploads");
-var services = require("./routes/services");
 var bodyParser = require("body-parser");
+var fineupload = require("./routes/fineupload.js");
 
+//var services  = await import( "./routes/services.mjs");
+import services from "./routes/services.mjs";
 import index from "./routes/index.mjs";
 import upload from "./routes/upload.mjs";
 import users from "./routes/users.mjs";
@@ -49,7 +49,7 @@ var app = express();
 
 app.set("port", process.env.PORT || 3000);
 
-// Uncomment the next line to set the environment to 'Production'.
+// Uncomment the next line to set the environment from 'development' to 'production'.
 //app.set("env", "production");
 
 // Setup morgan to log according to the environment.
@@ -99,7 +99,7 @@ app.use("/", index);
 app.use("/users", users);
 app.use("/download", download);
 app.use("/upload", upload);
-app.use("/uploads", uploads);
+app.use("/fineupload", fineupload);
 app.use("/services", services);
 app.use("/test", test);
 

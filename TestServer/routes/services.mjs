@@ -3,25 +3,31 @@
 // -----------------------------------------------------------------------------------------------------
 
 // See https://code.visualstudio.com/docs/languages/javascript for explanation of above.
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
-var express = require("express");
-var path = require("path");
-var util = require("util");
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-var url = require("url");
-var common = require("./common");
+import { Router } from "express";
+import { join } from "path";
+import { format } from "util";
+
+import { parse } from "url";
+
+var cmn = require(join(__dirname, "common.js"));
 
 //var errorhandler = require('errorhandler')
 //app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
-var router = express.Router();
+var router = Router();
 
 var emptyPasswordIndicator = "@@@@@@@@";
 
 var _machinename;
 
 var _dts = {
-  machinedatetime: common.dateToMillisecondsUtc(),
+  machinedatetime: cmn.dateToMillisecondsUtc(),
   machinetimezone: 89,
   isautodst: true,
 };
@@ -51,7 +57,7 @@ var _session = {
 // ----------------------------- PUT HANDLERS -----------------------------------
 
 router.put("/network/*", function (req, res, next) {
-  const lastseg = common.getLastSegment(req.url);
+  const lastseg = cmn.getLastSegment(req.url);
   switch (lastseg) {
     case "login":
       doPutLogin(req, res);
@@ -86,17 +92,17 @@ router.put("/network/*", function (req, res, next) {
 
 //The 404 Route (ALWAYS keep this as the last route should the put request not be handled)
 router.put("*", function (req, res) {
-  const fullUrl = url.parse(req.url, true);
+  const fullUrl = parse(req.url, true);
   res
     .status(404)
-    .send(util.format('Could not resolve "%s"!', fullUrl.pathname));
+    .send(format('Could not resolve "%s"!', fullUrl.pathname));
 });
 
 // ----------------------------------- GET HANDLERS ----------------------------------------
 
 router.get("/xpressshell", function (req, res) {
   const filename = "xpressshell.htm";
-  res.status(200).sendFile(path.join(common.demodata, filename));
+  res.status(200).sendFile(join(cmn.demodata, filename));
 });
 
 router.get(
@@ -130,8 +136,8 @@ router.get(
 
 router.get("/network/networkdata/:adapterid", function (req, res) {
   const filename = `networkinfo${req.params.adapterid}.json`;
-  const filepath = path.join(common.demodata, filename);
-  const data = common.readFileCache(filepath);
+  const filepath = join(cmn.demodata, filename);
+  const data = cmn.readFileCache(filepath);
   updateMachineName(data);
   res.set("Content-Type", "application/json");
   res.status(200).send(data).end();
@@ -140,18 +146,18 @@ router.get("/network/networkdata/:adapterid", function (req, res) {
 router.get("/network/demo/*", function (req, res) {
   var filepath;
   try {
-    const lastseg = common.getLastSegment(req.url);
+    const lastseg = getLastSegment(req.url);
     switch (lastseg) {
       case "aboutinfo":
       case "supportedlanguages":
       case "xpresssettings":
         res.set("Content-Type", "text/xml");
-        filepath = path.join(common.demodata, lastseg + ".xml");
+        filepath = join(cmn.demodata, lastseg + ".xml");
         break;
       default:
-        throw Error(util.format("Could not resolve '%s'!", req.url));
+        throw Error(format("Could not resolve '%s'!", req.url));
     }
-    const data = common.readFileCache(filepath);
+    const data = cmn.readFileCache(filepath);
     res.status(200).send(data).end();
   } catch (err) {
     console.log(err.message);
@@ -162,7 +168,7 @@ router.get("/network/demo/*", function (req, res) {
 router.get("/network/*", function (req, res, next) {
   var filepath;
   try {
-    const lastseg = common.getLastSegment(req.url);
+    const lastseg = cmn.getLastSegment(req.url);
     switch (lastseg) {
       case "datetimesettings":
         doGetDatetimeSettings(req, res);
@@ -183,8 +189,8 @@ router.get("/network/*", function (req, res, next) {
       case "systemsettings":
       case "xpresssettings":
         let lang = req.query.lang ? req.query.lang.toString() : "en";
-        filepath = path.join(
-          common.globalization,
+        filepath = join(
+          cmn.globalization,
           "languages",
           lang,
           lastseg + ".xml"
@@ -192,7 +198,7 @@ router.get("/network/*", function (req, res, next) {
         res.set("Content-Type", "text/xml");
         break;
       case "internettimeservers":
-        filepath = path.join(common.globalization, lastseg + ".json");
+        filepath = join(cmn.globalization, lastseg + ".json");
         res.set("Content-Type", "application/json");
         break;
       case "aboutdata":
@@ -201,14 +207,14 @@ router.get("/network/*", function (req, res, next) {
       case "timezonelist":
       case "userssessions":
       case "xpressdata":
-        filepath = path.join(common.demodata, lastseg + ".json");
+        filepath = join(cmn.demodata, lastseg + ".json");
         res.set("Content-Type", "application/json");
         break;
       default:
         next();
         return;
     }
-    const data = common.readFileCache(filepath);
+    const data = cmn.readFileCache(filepath);
     res.status(200).send(data).end();
   } catch (err) {
     console.log(err.message);
@@ -218,10 +224,10 @@ router.get("/network/*", function (req, res, next) {
 
 //The 404 Route (This is always the last route when the get request is not otherwise handled)
 router.get("*", function (req, res) {
-  const fullUrl = url.parse(req.url, true);
+  const fullUrl = parse(req.url, true);
   res
     .status(404)
-    .send(util.format('Could not resolve "%s"!', fullUrl.pathname));
+    .send(format('Could not resolve "%s"!', fullUrl.pathname));
 });
 
 // ----------------------------------- PRIVATE FUNCTIONS ----------------------------------------
@@ -233,9 +239,9 @@ router.get("*", function (req, res) {
  */
 function doGetLanguageData(req, res) {
   res.set("Content-Type", "application/json");
-  const filepath = path.join(common.globalization, "SupportedLanguages.json");
+  const filepath = join(cmn.globalization, "SupportedLanguages.json");
   const code = req.query.lang.toLowerCase();
-  const json = common.readFileCache(filepath);
+  const json = cmn.readFileCache(filepath);
   const langs = JSON.parse(json);
   for (let key in langs) {
     if (langs.hasOwnProperty(key)) {
@@ -266,7 +272,7 @@ function doGetDatetimeSettings(req, res) {
  */
 function doGetMemoryInfo(req, res) {
   const alloc = 839680;
-  const inuse = common.randomIntFromInterval(4700, 4800) * 10;
+  const inuse = cmn.randomIntFromInterval(4700, 4800) * 10;
   const obj = {
     allocated: alloc,
     inuse: inuse,
@@ -292,7 +298,7 @@ function doGetIsExisting(req, res) {
     "\r\nWeb Service checking for existence of '%s' on the network...",
     hostOrAddress
   );
-  common.isExisting(hostOrAddress, 80, attempts, timeout).then(
+  cmn.isExisting(hostOrAddress, 80, attempts, timeout).then(
     function (data) {
       console.log(
         'Web Service responded: status: [%s], isexisting: %s, message: "%s".\r\n',
@@ -317,7 +323,7 @@ function doGetIsExisting(req, res) {
  */
 function doPutLogin(req, res) {
   const json = req.body;
-  const username = common.toTitleCase(json.username);
+  const username = cmn.toTitleCase(json.username);
   const remember = json.remember;
   _user = getUser(username);
   if (_user.enabled === 0) {
@@ -339,7 +345,7 @@ function doPutLogin(req, res) {
     });
     // These other cookies expire when the session ends.
     res.cookie("userlevel", _user.userlevel);
-    const key = common.createGuid().replace(/\-/g, "").substring(0, 14);
+    const key = cmn.createGuid().replace(/\-/g, "").substring(0, 14);
     res.cookie("key", key);
     res.cookie("timeout", "300"); // 5 minutes
     res.status(200).json(json).end();
@@ -371,10 +377,10 @@ function doPutLogout(req, res) {
 function doPutNetworkData(req, res) {
   const json = req.body;
   const filename = `networkinfo${json.adapterid}.json`;
-  const filepath = path.join(common.demodata, filename);
-  const data = JSON.parse(common.readFileCache(filepath));
+  const filepath = join(cmn.demodata, filename);
+  const data = JSON.parse(cmn.readFileCache(filepath));
   updateDataWithJson(data, json);
-  common.writeFileCache(filepath, data, true);
+  cmn.writeFileCache(filepath, data, true);
   res.status(200).json(json).end();
 }
 
@@ -387,11 +393,11 @@ function doPutNetworkData(req, res) {
  */
 function doPutSystemData(req, res) {
   const json = req.body;
-  const filepath = path.join(common.demodata, "systemdata.json");
-  const data = JSON.parse(common.readFileCache(filepath));
+  const filepath = join(cmn.demodata, "systemdata.json");
+  const data = JSON.parse(cmn.readFileCache(filepath));
   _machinename = json.machinename;
   updateDataWithJson(data, json);
-  common.writeFileCache(filepath, data, true);
+  cmn.writeFileCache(filepath, data, true);
   res.status(200).json(json).end();
 }
 
@@ -404,15 +410,15 @@ function doPutSystemData(req, res) {
  */
 function doPutXpressData(req, res) {
   const json = req.body;
-  const filepath = path.join(common.demodata, "xpressdata.json");
-  const data = JSON.parse(common.readFileCache(filepath));
+  const filepath = join(cmn.demodata, "xpressdata.json");
+  const data = JSON.parse(cmn.readFileCache(filepath));
   updateDataWithJson(data, json);
   if (data.project.name === "") {
     data.project.name = "BlankProject";
     data.project.projectversion1 = 1;
     data.project.projectversion2 = 0;
   }
-  common.writeFileCache(filepath, data, true);
+  cmn.writeFileCache(filepath, data, true);
   res.status(200).json(json).end();
 }
 
@@ -425,7 +431,7 @@ function doPutXpressData(req, res) {
 function doPutSecurityData(req, res) {
   const json = req.body;
   updateDataWithJson(_user, json);
-  const dt = common.dateToMilliseconds(new Date());
+  const dt = cmn.dateToMilliseconds(new Date());
   _user.datecreated = dt;
   _user.datemodified = dt;
   if (_user.password === emptyPasswordIndicator) {
@@ -471,8 +477,8 @@ function doPutSyncTime(req, res) {
  * @returns A user object having the specified username or a new initialized user.
  */
 function getUser(username) {
-  const filepath = path.join(common.demodata, "users.json");
-  const data = common.readFileCache(filepath);
+  const filepath = join(cmn.demodata, "users.json");
+  const data = cmn.readFileCache(filepath);
   const users = JSON.parse(data);
   username = username.toLowerCase();
   for (let key in users) {
@@ -492,22 +498,22 @@ function getUser(username) {
  * @returns
  */
 function addOrUpdateUsers(user) {
-  const filepath = path.join(common.demodata, "users.json");
-  const data = common.readFileCache(filepath);
+  const filepath = join(cmn.demodata, "users.json");
+  const data = cmn.readFileCache(filepath);
   const users = JSON.parse(data);
   const username = user.username.toLowerCase();
   for (let key in users) {
     if (users.hasOwnProperty(key)) {
       if (users[key].username.toLowerCase() === username) {
         users[key] = user;
-        common.writeFileCache(filepath, users);
+        cmn.writeFileCache(filepath, users);
         return;
       }
     }
   }
   // If we got here then user didn't exist so we need to add it.
   users.push(user);
-  common.writeFileCache(filepath, users);
+  cmn.writeFileCache(filepath, users);
 }
 
 /**
@@ -517,8 +523,8 @@ function addOrUpdateUsers(user) {
  */
 function addOrUpdateSessions(user) {
   const username = user.username.toLowerCase(); // Compare using lowercase.
-  const filepath = path.join(common.demodata, "userssessions.json");
-  const data = common.readFileCache(filepath);
+  const filepath = join(cmn.demodata, "userssessions.json");
+  const data = cmn.readFileCache(filepath);
   const sessions = JSON.parse(data);
   var isExist = false;
   var maxId = 0;
@@ -542,7 +548,7 @@ function addOrUpdateSessions(user) {
   if (!isExist) {
     _session = {
       // @ts-ignore
-      username: common.toTitleCase(username),
+      username: cmn.toTitleCase(username),
       userlevel: user.userlevel,
       enabled: user.enabled,
       deleted: user.deleted,
@@ -555,7 +561,7 @@ function addOrUpdateSessions(user) {
     };
     sessions.push(_session);
   }
-  common.writeFileCache(filepath, sessions);
+  cmn.writeFileCache(filepath, sessions);
 }
 
 var updateMachineName = function (data) {
@@ -582,4 +588,4 @@ var updateDataWithJson = function (data, json) {
   }
 };
 
-module.exports = router;
+export default router;

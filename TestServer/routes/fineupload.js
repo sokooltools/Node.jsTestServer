@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------------------------------
-// uploads.js
+// fineupload.js
 // -----------------------------------------------------------------------------------------------------
 
 /**
@@ -23,11 +23,13 @@ var path = require("path");
 var mkdirp = require("mkdirp");
 var formidable = require("formidable");
 
-// Paths/constants
+// The name of the file input field from the body html in the browser.
 var fileInputName = process.env.FILE_INPUT_NAME || "qqfile";
-
+// The path where the uploaded file(s) will be saved.
 var uploadedFilesPath = process.env.UPLOADED_FILES_DIR || path.join(__dirname, "../../Uploaded/");
-var maxFileSize = process.env.MAX_FILE_SIZE || 0; // in bytes, 0 for unlimited
+// The max file size in bytes, (0 for 'unlimited').
+var maxFileSize = process.env.MAX_FILE_SIZE || 0; 
+// The name of the sub-folder where individual chunks will be stored.
 var chunkDirName = "chunks";
 
 var router = express.Router();
@@ -43,10 +45,8 @@ function onUpload(req, res) {
 	const form = new formidable.IncomingForm();
 	form.parse(req, function (err, fields, files) {
 		const partIndex = fields.qqpartindex;
-
 		// Requires "text/plain" to ensure support for IE9 and older.
 		res.set("Content-Type", "text/plain");
-
 		if (partIndex == null) {
 			onSimpleUpload(fields, files[fileInputName], res);
 		} else {
@@ -62,10 +62,11 @@ function onSimpleUpload(fields, file, res) {
 	const uuid = fields.qquuid;
 	var responseData = {
 		success: false,
-		filePath: file.path
+		filePath: file[0].filepath
 	};
+	// Set the new (edited) name.
 	file.name = fields.qqfilename;
-	if (isValid(file.size)) {
+	if (isValid(file[0].size)) {
 		moveUploadedFile(file, uuid, function () {
 			responseData.success = true;
 			res.send(responseData);
@@ -106,11 +107,10 @@ function onChunkedUpload(fields, file, res) {
 						res.send(responseData);
 					});
 			}
-		},
-			function () {
-				responseData.error = "Problem storing the chunk!";
-				res.send(responseData);
-			});
+		}, function () {
+			responseData.error = "Problem storing the chunk!";
+			res.send(responseData);
+		});
 	} else {
 		failWithTooBigFile(responseData, res);
 	}
@@ -143,15 +143,15 @@ function onDeleteFile(req, res) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Moves the specified uploaded file to its destination.
- * @param {object} the the uploaded file
+ * @param {object} file the file object
  * @param {string} uuid the uuid
  * @param {any} success the success callback
  * @param {any} failure the failure callback
  */
 function moveUploadedFile(file, uuid, success, failure) {
 	const destinationDir = uploadedFilesPath;
-	const fileDestination = path.join(destinationDir, file.name);
-	moveFile(destinationDir, file.path, fileDestination, success, failure);
+	const fileDestination = path.join(destinationDir, file[0].originalFilename);
+	moveFile(destinationDir, file[0].filepath, fileDestination, success, failure);
 }
 
 /* -------------------------------------------------------------------------------------------*/ /**
@@ -167,7 +167,7 @@ function storeChunk(file, uuid, index, numChunks, success, failure) {
 	const destinationDir = path.join(uploadedFilesPath + uuid, chunkDirName);
 	const chunkFilename = getChunkFilename(index, numChunks);
 	const fileDestination = path.join(destinationDir, chunkFilename);
-	moveFile(destinationDir, file.path, fileDestination, success, failure);
+	moveFile(destinationDir, file[0].filepath, fileDestination, success, failure);
 }
 
 /* -------------------------------------------------------------------------------------------*/ /**
@@ -180,7 +180,7 @@ function storeChunk(file, uuid, index, numChunks, success, failure) {
 function combineChunks(file, uuid, success, failure) {
 	var chunksDir = path.join(uploadedFilesPath + uuid, chunkDirName);
 	const destinationDir = uploadedFilesPath + uuid;
-	var fileDestination = path.join(destinationDir, file.name);
+	var fileDestination = path.join(destinationDir, file[0].originalFilename);
 	fs.readdir(chunksDir, function (err, fileNames) {
 		var destFileStream;
 		if (err) {
@@ -196,8 +196,7 @@ function combineChunks(file, uuid, success, failure) {
 					}
 				});
 				success();
-			},
-				failure);
+			}, failure);
 		}
 	});
 }

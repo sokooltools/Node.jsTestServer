@@ -1,18 +1,18 @@
 var uploader;
 createUploader = (function () {
 	uploader = new window.qq.FineUploader({
-		// Log messages are written to the window.console object when true.
-		debug: false,
+		// Log messages are written to the window.console when true.
+		debug: true,
 		element: $("#fine-uploader-manual-trigger")[0],
 		autoUpload: false,
 		template: "qq-template-manual-trigger",
 		request: {
 			// The endpoint (route) to send upload requests to.
-			endpoint: "/uploads",
+			endpoint: "/fineupload",
 		},
 		deleteFile: {
 			enabled: false,
-			endpoint: "/uploads",
+			endpoint: "/fineupload",
 		},
 		thumbnails: {
 			placeholders: {
