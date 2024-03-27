@@ -19,7 +19,7 @@ CMN.hideBusy();
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Username' textbox.
 // -------------------------------------------------------------------------------------------
-$("#lgn_txtUsername").bind("keypress", function(e) {
+$("#lgn_txtUsername").on("keypress", function(e) {
 	if (e.keyCode === 13 || e.charCode === 13) {
 		if ($(this).val() !== EMPTY) {
 			e.preventDefault();
@@ -34,7 +34,7 @@ $("#lgn_txtUsername").bind("keypress", function(e) {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Password' textbox.
 // -------------------------------------------------------------------------------------------
-$("#lgn_txtPassword").bind("keypress", function(e) {
+$("#lgn_txtPassword").on("keypress", function(e) {
 	if (e.keyCode === 13 || e.charCode === 13) {
 		e.preventDefault();
 		return LGN.login();
@@ -46,7 +46,7 @@ $("#lgn_txtPassword").bind("keypress", function(e) {
 // Handles the event raised when cutting/pasting text to/from the 'Proxy Host' textbox or the
 // 'Proxy Port' textbox (allowing only numbers to be pasted).
 // -------------------------------------------------------------------------------------------
-$("#lgn_txtUsername").bind("cut paste", function(e) {
+$("#lgn_txtUsername").on("cut paste", function(e) {
 	//if (CMN.processCutPaste(e, 'alphanumeric'))
 	LGN.enableLoginAndResetButtons(e);
 });

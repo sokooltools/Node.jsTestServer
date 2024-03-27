@@ -6,20 +6,32 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 import express, { Router } from "express";
-import path from "path";
-import fs from "fs";
+
+var path = await import("path");
+
+var fs = await import("fs");
 
 var router = Router();
 
-import gifResize from "@gumlet/gif-resize";
-
-// ----- Experimental ------------------------------
-const app = express();
+var gifResize = require("@gumlet/gif-resize");
 
 import helmet from "helmet";
 
-//app.use(express.json({ limit: "25mb" }));
-//app.use(express.urlencoded({ limit: "25mb", extended: true, parameterLimit: 5000 }));
+var app = express();
+
+// app.use(express.json({
+// 	//limit: "10mb", verify: (req, res, buf) => { req.rawBody = buf.toString() }
+// 	limit: "1000000"
+// }));
+
+// app.use(express.raw({
+// 	//limit: "10mb", verify: (req, res, buf) => { req.rawBody = buf.toString() }
+// 	limit: "1000000"
+// }));
+
+// app.use(express.urlencoded({
+// 	limit: "10mb", extended: true, parameterLimit: 50
+// }));
 
 app.use(helmet({
 	contentSecurityPolicy: {
@@ -29,6 +41,11 @@ app.use(helmet({
 		}
 	}
 }));
+
+var bodyParser = require("body-parser");
+app.use(bodyParser.json({ limit: "10mb" }));
+// app.use(bodyParser.raw({ limit: "10mb" }));
+// app.use(bodyParser.urlencoded({ imit: "10mb", extended: true, parameterLimit: 50 }));
 
 // ------------------------------------------------
 
@@ -50,7 +67,8 @@ router.use(function (req, res, next) {
 
 // Clears the Nodejs console window.
 router.get("/clear", function (req, res) {
-	console.log("\x1Bc");
+	//console.log("\x1Bc");
+	console.clear();
 	res.json("Test Server console was cleared!");
 });
 

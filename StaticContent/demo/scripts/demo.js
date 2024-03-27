@@ -270,14 +270,16 @@ DEMO.doGet = function (route, callback, msTimeout) {
  */
 DEMO.doPut = function (route, jsonData, callback) {
 	// Set up options for the fetch request.
+	let jsonBody = JSON.stringify(jsonData);
 	const options = {
 		method: "PUT",
 		headers: {
 			// Set content type to JSON.
 			"Content-Type": "application/json",
+			"Content-Length": jsonBody.length
 		},
 		// Convert JSON data to a string and set it as the request body.
-		body: JSON.stringify(jsonData),
+		body: jsonBody,
 	};
 	// Make the fetch request using the provided options.
 	fetch(DEMO.getFullRoute(route), options)

@@ -2,28 +2,14 @@
 // services.js
 // -----------------------------------------------------------------------------------------------------
 
-// @ts-check
 // See https://code.visualstudio.com/docs/languages/javascript for explanation of above.
 
+var express = require("express");
 var path = require("path");
 var util = require("util");
-var express = require("express");
-var bodyParser = require("body-parser");
+
 var url = require("url");
 var common = require("./common");
-
-var app = express();
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-
-app.use(
-  bodyParser.json({
-    type: "application/*+json",
-  })
-);
 
 //var errorhandler = require('errorhandler')
 //app.use(errorHandler({ dumpExceptions: true, showStack: true }));

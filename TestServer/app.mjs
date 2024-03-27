@@ -35,15 +35,15 @@ import cookieParser from "cookie-parser";
 import debug from "debug";
 
 //var common = require("./routes/common.js");
-import index from "./routes/index.mjs";
-import upload from "./routes/upload.mjs";
-import users from "./routes/users.mjs";
-import test from "./routes/test.mjs";
-
-var download = require("./routes/download");
 var uploads = require("./routes/uploads");
 var services = require("./routes/services");
 var bodyParser = require("body-parser");
+
+import index from "./routes/index.mjs";
+import upload from "./routes/upload.mjs";
+import users from "./routes/users.mjs";
+import download from "./routes/download.mjs";
+import test from "./routes/test.mjs";
 
 var app = express();
 
@@ -52,11 +52,11 @@ app.set("port", process.env.PORT || 3000);
 // Uncomment the next line to set the environment to 'Production'.
 //app.set("env", "production");
 
-// Setup morgan to log according to environment.
+// Setup morgan to log according to the environment.
 // https://github.com/expressjs/morgan/blob/master/README.md
 if (app.get("env") === "development") {
-	// Log everything to std console immediately.
 	app.use(morgan("dev"));
+	// Log everything to std console immediately.
 	//app.use(morgan(":method :url :status :res[content-length] - :response-time ms", { immediate: function(){} }));
 } else {
 	// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
@@ -75,7 +75,7 @@ if (app.get("env") === "development") {
 // Configure app to use bodyParser().
 // This will let us get the data from a POST.
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "10mb" }));
 
 app.use(cookieParser());
 
@@ -95,7 +95,6 @@ app.use(favicon(path.join(contentFldr, "favicon.ico")));
 app.use(express.static(contentFldr));
 
 // Only requests to the following (e.g. /download/*) paths will be sent to our "router"
-
 app.use("/", index);
 app.use("/users", users);
 app.use("/download", download);
@@ -104,33 +103,25 @@ app.use("/uploads", uploads);
 app.use("/services", services);
 app.use("/test", test);
 
-// Catch 404 and forward to error handler
+// // Configure app to use bodyParser().
+// // This will let us get the data from a POST.
+// app.use(bodyParser.json({ limit: "1000000" }));
+// app.use(bodyParser.raw({ limit: "1000000" }));
+// app.use(bodyParser.urlencoded({ limit: "1000000", extended: true, parameterLimit: 50 }));
+
+// Anything else causes 404 and forwards to error handler.
 app.use(function (req, res, next) {
 	const err = new Error("Not Found");
 	err.status = 404;
 	next(err);
 });
 
-// -- Error Handlers ------------------------------
-
-// Development error handler. (Prints stacktrace).
-if (app.get("env") === "development") {
-	app.use(function (err, req, res) {
-		res.status(err.status || 500);
-		res.render("error", {
-			message: err.message,
-			error: err
-		});
-		//next(); // RAS
-	});
-}
-
-// Production error handler. (No stacktraces leaked to user).
+// Error Handler - Development (prints a stacktrace);  Production just the message.
 app.use(function (err, req, res) {
 	res.status(err.status || 500);
 	res.render("error", {
 		message: err.message,
-		error: {}
+		error: app.get("env") === "development" ? err : {}
 	});
 	//next(); // RAS
 });

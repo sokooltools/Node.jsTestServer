@@ -19,7 +19,7 @@ ABT.msgs = {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when the "Help" button is clicked.
 // -------------------------------------------------------------------------------------------
-$("#abt_btnHelp").on("click", function() {
+$("#abt_btnHelp").on("click", function () {
 	window.open("help/aboutinfo.htm");
 	return false;
 });
@@ -27,7 +27,7 @@ $("#abt_btnHelp").on("click", function() {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when the "Refresh" button is clicked.
 // -------------------------------------------------------------------------------------------
-$("#abt_btnRefresh").on("click", function() {
+$("#abt_btnRefresh").on("click", function () {
 	CFG.performFunction(ABT.loadPage, CFG.getCaption(CMN.msgs.REFRESHING));
 	ABT.collapseTables();
 	return false;
@@ -36,7 +36,7 @@ $("#abt_btnRefresh").on("click", function() {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when the "Print" button is clicked.
 // -------------------------------------------------------------------------------------------
-$("#abt_btnPrint").on("click", function() {
+$("#abt_btnPrint").on("click", function () {
 	window.print();
 	return false;
 });
@@ -44,14 +44,14 @@ $("#abt_btnPrint").on("click", function() {
 // -------------------------------------------------------------------------------------------
 // Loads the "AboutInfo" xml object via AJAX call.
 // -------------------------------------------------------------------------------------------
-ABT.loadPage = function() {
+ABT.loadPage = function () {
 	$.ajax({
 		type: "GET",
 		url: "/services/network/aboutinfo?lang=" + CFG.getLanguage(),
 		dataType: "xml",
 		async: false,
 		cache: false,
-		success: function(xml) {
+		success: function (xml) {
 			if (CMN.isMockMode()) {
 				xml = ABT.addMockDataValuesToXml(xml);
 			}
@@ -59,7 +59,7 @@ ABT.loadPage = function() {
 			ABT.loadPageFromXml(xml);
 			ABT.loadPageData();
 		},
-		error: function(jqXHR) {
+		error: function (jqXHR) {
 			CFG.handleError(jqXHR);
 		}
 	});
@@ -68,7 +68,7 @@ ABT.loadPage = function() {
 // -------------------------------------------------------------------------------------------
 // Loads data into page using the specified "AboutInfo" xml object.
 // -------------------------------------------------------------------------------------------
-ABT.loadPageFromXml = function(xml) {
+ABT.loadPageFromXml = function (xml) {
 	var nodes = ["ModelNumber", "Memory", "Assemblies", "Download"];
 	for (var i in nodes) {
 		if (nodes.hasOwnProperty(i)) {
@@ -96,7 +96,7 @@ ABT.loadPageFromXml = function(xml) {
 			}
 		}
 	}
-	
+
 	ABT.clearFileInputs($("#frmAboutInfo"));
 	CFG.setLabelsAndTitles(xml);
 
@@ -111,17 +111,17 @@ ABT.loadPageFromXml = function(xml) {
 // -------------------------------------------------------------------------------------------
 // Gets the data to load into the page.
 // -------------------------------------------------------------------------------------------
-ABT.loadPageData = function() {
+ABT.loadPageData = function () {
 	$.ajax({
 		type: "GET",
 		url: "/services/network/aboutdata?lang=" + CFG.getLanguage(),
 		dataType: "json",
 		async: false,
 		cache: false,
-		success: function(json) {
+		success: function (json) {
 			ABT.loadPageFromJson(json);
 		},
-		error: function(jqXHR) {
+		error: function (jqXHR) {
 			CFG.handleError(jqXHR);
 		}
 	});
@@ -130,7 +130,7 @@ ABT.loadPageData = function() {
 // -------------------------------------------------------------------------------------------
 // Loads the data into page using the specified json object.
 // -------------------------------------------------------------------------------------------
-ABT.loadPageFromJson = function(json) {
+ABT.loadPageFromJson = function (json) {
 	$("#abt_txtModelNumber").text(ABT.TrimModelNumber(json.modelnumber));
 	$("#abt_txtSerialNumber").text(json.serialnumber);
 	$("#abt_txtWinCEVersion").text(json.winceversion);
@@ -144,8 +144,8 @@ ABT.loadPageFromJson = function(json) {
 // Handles the event raised when the 'Update License' input box value changes. (Used for
 // enabling the 'Update' button).
 // -------------------------------------------------------------------------------------------
-$("#abt_txtLicenseFile").on("change", function() {
-	window.setTimeout(function() {
+$("#abt_txtLicenseFile").on("change", function () {
+	window.setTimeout(function () {
 		$("#abt_btnLicenseFile").prop("disabled", ($("#abt_txtLicenseFile").val() === EMPTY));
 	}, 10);
 });
@@ -155,7 +155,7 @@ $("#abt_txtLicenseFile").on("change", function() {
 // (NOTE: 'UpdateLicense.aspx' file is actually called upon to perform the update since AJAX
 // methods to upload files does not work with versions prior to IE 10!)
 // -------------------------------------------------------------------------------------------
-$("#frmAboutInfo").submit(function(e) {
+$("#frmAboutInfo").submit(function (e) {
 	var licenseFile = $("#abt_txtLicenseFile").val();
 	if (licenseFile.length > 0) {
 		if (licenseFile.split('\\').pop().toLowerCase() === "license.xml") {
@@ -176,8 +176,8 @@ $("#frmAboutInfo").submit(function(e) {
 // -------------------------------------------------------------------------------------------
 //  Clears all file-based input fields on the specified form.
 // -------------------------------------------------------------------------------------------
-ABT.clearFileInputs = function($frm) {
-	$frm.find('input[type="file"]').each(function() {
+ABT.clearFileInputs = function ($frm) {
+	$frm.find('input[type="file"]').each(function () {
 		$(this).wrap("<form>").closest("form").get(0).reset();
 		$(this).unwrap();
 	});
@@ -186,7 +186,7 @@ ABT.clearFileInputs = function($frm) {
 // -------------------------------------------------------------------------------------------
 // Fixes a model number which is not extended by removing the last six characters.
 // -------------------------------------------------------------------------------------------
-ABT.TrimModelNumber = function(modelNumber) {
+ABT.TrimModelNumber = function (modelNumber) {
 	if (modelNumber.length === 21 && modelNumber.substr(14, 1) != "X")
 		modelNumber = modelNumber.substr(0, 15);
 	return modelNumber;
@@ -195,7 +195,7 @@ ABT.TrimModelNumber = function(modelNumber) {
 // -------------------------------------------------------------------------------------------
 // Gets the html for an expandable element.
 // -------------------------------------------------------------------------------------------
-ABT.getExpandElemHtml = function(tag, value) {
+ABT.getExpandElemHtml = function (tag, value) {
 	var str = "<tr>";
 	str += "<td id=\"abt_lnk" + tag + "\" class=\"abt_lnkAll\" onclick=\"ABT.toggleTable('" + tag + "');\">";
 	str += "<a  id=\"abt_lbl" + tag + "\"></a></td>";
@@ -207,13 +207,13 @@ ABT.getExpandElemHtml = function(tag, value) {
 // -------------------------------------------------------------------------------------------
 // Gets "Model Number" data html table from the xml attributes.
 // -------------------------------------------------------------------------------------------
-ABT.getModelNumberDataHtml = function(xml) {
+ABT.getModelNumberDataHtml = function (xml) {
 	var isExtended = false;
 	var str = "<table id=\"abt_tblModelNumber\">";
 	var nodes = $(xml).find("ModelNumberItems");
 	nodes = nodes.children();
 	$(nodes).each(
-		function() {
+		function () {
 			str += "<tr>";
 			str += "<td id=\"abt_lbl" + $(this).attr("Id") + "\" class=\"abt_modRowHeader\"";
 			str += " title=\"" + CFG.getToolTip($(this)) + "\">";
@@ -237,7 +237,7 @@ ABT.getModelNumberDataHtml = function(xml) {
 // -------------------------------------------------------------------------------------------
 // Gets "Extended Model Number" data link html table from the xml attributes.
 // -------------------------------------------------------------------------------------------
-ABT.getModelNumberExtDataLinkHtml = function() {
+ABT.getModelNumberExtDataLinkHtml = function () {
 	var str = "<tr id=\"abt_ModelNumberExt\" >";
 	str += "<td id=\"abt_lnkModelNumberExt\" class=\"abt_modRowHeader abt_lnkAll\"";
 	str += " onclick=\"ABT.toggleTable('ModelNumberExt');\"";
@@ -251,7 +251,7 @@ ABT.getModelNumberExtDataLinkHtml = function() {
 // -------------------------------------------------------------------------------------------
 // Gets "Extended Model Number" data html table from the xml attributes.
 // -------------------------------------------------------------------------------------------
-ABT.getModelNumberExtDataHtml = function(xml) {
+ABT.getModelNumberExtDataHtml = function (xml) {
 	var str = "<tr id=\"abt_ModelNumberExtData\" style=\"display: none;\">";
 	str += "<td colspan=\"2\">"; //
 	str += "<table id=\"abt_tblModelNumberExt\" cellspacing=\"0\" cellpadding=\"4\">";
@@ -288,7 +288,7 @@ ABT.getModelNumberExtDataHtml = function(xml) {
 // Returns the tooltip text for placing into a title attribute from the specified xml node.
 // (If the tooltip text is empty or missing then the label text is returned).
 // -------------------------------------------------------------------------------------------
-ABT.getToolTip = function(node) {
+ABT.getToolTip = function (node) {
 	if (!node) return "";
 	var title = node.getAttribute("ttp");
 	return title === "" ? node.getAttribute("lbl") : title;
@@ -297,7 +297,7 @@ ABT.getToolTip = function(node) {
 // -------------------------------------------------------------------------------------------
 // Gets "Assembly" data html table from the xml attributes.
 // -------------------------------------------------------------------------------------------
-ABT.getAssembliesDataHtml = function(xml) {
+ABT.getAssembliesDataHtml = function (xml) {
 	var str = "<table id=\"abt_tblAssembliesData\">";
 	str += "<thead>";
 	str += "<tr class=\"abt_tr1\">";
@@ -310,7 +310,7 @@ ABT.getAssembliesDataHtml = function(xml) {
 	str += "<tbody>";
 	nodes = $(xml).find("Assemblies").children();
 	$(nodes).each(
-		function() {
+		function () {
 			str += "</td><td class=\"abt_td2\" title=\"";
 			str += $(this).attr("Id") + "\">";
 			str += $(this).attr("lbl");
@@ -328,12 +328,12 @@ ABT.getAssembliesDataHtml = function(xml) {
 // -------------------------------------------------------------------------------------------
 // Gets "Memory" data html table from the xml attributes.
 // -------------------------------------------------------------------------------------------
-ABT.getMemoryDataHtml = function(xml) {
+ABT.getMemoryDataHtml = function (xml) {
 	var str = "<table id=\"abt_tblMemory\">";
 	var nodes = $(xml).find("MemoryItems");
 	nodes = nodes.children();
 	$(nodes).each(
-		function() {
+		function () {
 			str += "<tr>";
 			str += "<td id=\"abt_lblMemh" + $(this).attr("Id") + "\" class=\"abt_memRowHeader\"";
 			str += " title=\"" + CFG.getToolTip($(this)) + "\">";
@@ -351,12 +351,12 @@ ABT.getMemoryDataHtml = function(xml) {
 // -------------------------------------------------------------------------------------------
 // Gets the "Download" data html table from the xml attributes.
 // -------------------------------------------------------------------------------------------
-ABT.getDownloadDataHtml = function(xml) {
+ABT.getDownloadDataHtml = function (xml) {
 	var str = "<table id=\"abt_tblDownload\">";
 	var nodes = $(xml).find("DownloadItems");
 	nodes = nodes.children();
 	$(nodes).each(
-		function() {
+		function () {
 			str += "<tr>";
 			str += "<td class=\"abt_lnkDownloadData abt_lnkAll\">";
 			str += "<a onclick=\"ABT.download('" + $(this).attr("Id").replace(/\\/g, "\\\\") + "');\"";
@@ -373,7 +373,7 @@ ABT.getDownloadDataHtml = function(xml) {
 // -------------------------------------------------------------------------------------------
 // Toggles the display of a particular data table.
 // -------------------------------------------------------------------------------------------
-ABT.toggleTable = function(tag) {
+ABT.toggleTable = function (tag) {
 	var el = document.getElementById("abt_" + tag + "Data");
 	if (!el)
 		return;
@@ -394,7 +394,7 @@ ABT.toggleTable = function(tag) {
 // -------------------------------------------------------------------------------------------
 // Collapses the display of all data tables.
 // -------------------------------------------------------------------------------------------
-ABT.collapseTables = function() {
+ABT.collapseTables = function () {
 	var nodes = ["ModelNumber", "Assemblies", "Download", "Memory"];
 	for (var i in nodes) {
 		if (nodes.hasOwnProperty(i)) {
@@ -413,14 +413,15 @@ ABT.collapseTables = function() {
 // -------------------------------------------------------------------------------------------
 // Downloads the file corresponding to the specified file name to the user's computer.
 // -------------------------------------------------------------------------------------------
-ABT.download = function(fName) {
-	window.location.href = (CMN.isMockMode() ? "download?fn=" : "download.aspx?fn=") + fName;
+ABT.download = function (fName) {
+	let href = `${window.location.origin}${CMN.isMockMode() ? "/download?fn=" : "/download.aspx?fn="}${fName}`;
+	window.location.href = href;
 };
 
 // -------------------------------------------------------------------------------------------
 // Get specialized information for printing.
 // -------------------------------------------------------------------------------------------
-ABT.getHtmlForPrint = function() {
+ABT.getHtmlForPrint = function () {
 	var html = "<!DOCTYPE html>\r\n";
 	html += "<html>\r\n";
 	html += "<head>\r\n";
@@ -440,7 +441,7 @@ ABT.getHtmlForPrint = function() {
 // -------------------------------------------------------------------------------------------
 // Adds values to the about info xml and returns it.
 // -------------------------------------------------------------------------------------------
-ABT.addMockDataValuesToXml = function(xml1) {
+ABT.addMockDataValuesToXml = function (xml1) {
 	var xml2 = CMN.getXml("/services/network/demo/aboutinfo");
 	// Process Model Number Data.
 	var itms = $(xml1).find("ModelNumberItem");
@@ -468,10 +469,10 @@ ABT.addMockDataValuesToXml = function(xml1) {
 	return xml1;
 };
 
-ABT.addHoverToLinks = function() {
-	$("td.abt_lnkAll").hover(function() {
+ABT.addHoverToLinks = function () {
+	$("td.abt_lnkAll").hover(function () {
 		$(this).addClass("abt_lnkHover");
-	}, function() {
+	}, function () {
 		$(this).removeClass("abt_lnkHover");
 	});
 };
@@ -479,12 +480,10 @@ ABT.addHoverToLinks = function() {
 // -------------------------------------------------------------------------------------------
 // Loads the "About the PAC" page.
 // -------------------------------------------------------------------------------------------
-$(document).ready(function() {
-	CFG.performFunction(function() {
+$(document).ready(function () {
+	CFG.performFunction(function () {
 		CMN.loadScript("../scripts/tucson/memoryinfo.js", true, {});
 		ABT.loadPage();
 		ABT.addHoverToLinks();
 	}, CFG.getCaption(CMN.msgs.LOADING));
 });
-
-//# sourceURL=aboutinfo.js

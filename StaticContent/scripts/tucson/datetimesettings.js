@@ -117,7 +117,7 @@ DTS.dtpicker.prop("readOnly", true);
 // -------------------------------------------------------------------------------------------
 // Bind the keypress and keydown events for all but the TAB and ENTER keys.
 // -------------------------------------------------------------------------------------------
-DTS.dtpicker.bind("keypress keydown", function (e) {
+DTS.dtpicker.on("keypress keydown", function (e) {
 	if (e.keyCode !== 9 && e.keyCode !== 13) {
 		e.preventDefault();
 		e.stopImmediatePropagation();

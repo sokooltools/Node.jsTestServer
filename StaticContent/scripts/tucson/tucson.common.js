@@ -432,7 +432,7 @@ $.fn.getCursorPosition = function() {
 			'allContext': false
 		}, options);
 
-		$(window).bind({
+		$(window).on({
 			click: function() {
 				set.menu = false;
 			},
@@ -440,7 +440,7 @@ $.fn.getCursorPosition = function() {
 				set.menu = false;
 			}
 		});
-		set.obj.bind({
+		set.obj.on({
 			contextmenu: function() {
 				set.menu = true;
 				set.paste = false;

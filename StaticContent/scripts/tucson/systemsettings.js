@@ -65,7 +65,7 @@ SYS.$validator = $("#frmSystemSettings").validate(
 // Binds the mouseup event to input elements so as to enable save and reset buttons.
 // Mousedown and mouseup events are fired on input elements when the 'clear' button is clicked.
 // -------------------------------------------------------------------------------------------
-$("input").bind("mouseup", function(e) {
+$("input").on("mouseup", function(e) {
 	var $input = $(this),
 		oldValue = $input.val();
 	if (oldValue === "")
@@ -101,7 +101,7 @@ $("#sys_txtMachineName").contextDelete({
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Machine Name' textbox.
 // -------------------------------------------------------------------------------------------
-$("#sys_txtMachineName").bind("keypress keydown", function(e) {
+$("#sys_txtMachineName").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "alphanumeric"))
 		SYS.enableSaveAndResetButtons(e);
 });
@@ -109,7 +109,7 @@ $("#sys_txtMachineName").bind("keypress keydown", function(e) {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when cutting/pasting text to or from the 'Machine Name' textbox.
 // -------------------------------------------------------------------------------------------
-$("#sys_txtMachineName").bind("cut paste", function(e) {
+$("#sys_txtMachineName").on("cut paste", function(e) {
 	if (CMN.processCutPaste(e, "alphanumeric"))
 		SYS.enableSaveAndResetButtons(e);
 });
@@ -117,7 +117,7 @@ $("#sys_txtMachineName").bind("cut paste", function(e) {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Machine Desc' textbox.
 // -------------------------------------------------------------------------------------------
-$("#sys_txtMachineDesc").bind("keypress keydown", function(e) {
+$("#sys_txtMachineDesc").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "alphanumeric", true))
 		SYS.enableSaveAndResetButtons(e);
 });
@@ -125,7 +125,7 @@ $("#sys_txtMachineDesc").bind("keypress keydown", function(e) {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when cutting/pasting text to or from the 'Machine Desc' textbox.
 // -------------------------------------------------------------------------------------------
-$("#sys_txtMachineDesc").bind("cut paste", function(e) {
+$("#sys_txtMachineDesc").on("cut paste", function(e) {
 	if (CMN.processCutPaste(e, "alphanumeric", true))
 		SYS.enableSaveAndResetButtons(e);
 });
@@ -150,7 +150,7 @@ $("#sys_txtMachineDesc").contextDelete({
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Refresh Interval' textbox.
 // -------------------------------------------------------------------------------------------
-$("#sys_txtRefreshInterval").bind("keypress keydown", function(e) {
+$("#sys_txtRefreshInterval").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "numeric"))
 		SYS.enableSaveAndResetButtons(e);
 });
@@ -159,7 +159,7 @@ $("#sys_txtRefreshInterval").bind("keypress keydown", function(e) {
 // Handles the event raised when cutting/pasting text to or from the 'Refresh Interval' textbox 
 // (allowing only numbers to be pasted).
 // -------------------------------------------------------------------------------------------
-$("sys_txtRefreshInterval").bind("cut paste", function(e) {
+$("sys_txtRefreshInterval").on("cut paste", function(e) {
 	if (CMN.processCutPaste(e, "numeric"))
 		SYS.enableSaveAndResetButtons(e);
 });

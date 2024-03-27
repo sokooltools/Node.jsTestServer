@@ -105,7 +105,7 @@ $("#sec_txtPassword").contextDelete({
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Username' or a 'Password' textbox.
 // -------------------------------------------------------------------------------------------
-$("#sec_txtUsername, #sec_txtPassword, #sec_txtPasswrd2").bind("keypress keydown", function(e) {
+$("#sec_txtUsername, #sec_txtPassword, #sec_txtPasswrd2").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "alphanumeric"))
 		SEC.enableSaveAndResetButtons(e);
 });
@@ -114,7 +114,7 @@ $("#sec_txtUsername, #sec_txtPassword, #sec_txtPasswrd2").bind("keypress keydown
 // Handles the event raised when cutting/pasting text to/from the 'Username' or a 'Password'
 // textbox.
 // -------------------------------------------------------------------------------------------
-$("#sec_txtUsername, #sec_txtPassword, #sec_txtPasswrd2").bind("cut paste", function(e) {
+$("#sec_txtUsername, #sec_txtPassword, #sec_txtPasswrd2").on("cut paste", function(e) {
 	if (CMN.processCutPaste(e, "alphanumeric"))
 		SEC.enableSaveAndResetButtons(e);
 });

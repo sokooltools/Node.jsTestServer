@@ -76,7 +76,7 @@ $("#int_chkIsBypassLocal").on("click", function(e) {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Proxy Host' textbox.
 // -------------------------------------------------------------------------------------------
-$("#int_txtProxyHost").bind("keypress keydown", function(e) {
+$("#int_txtProxyHost").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "alphanumeric"))
 		INT.enableSaveAndResetButtons(e);
 });
@@ -84,7 +84,7 @@ $("#int_txtProxyHost").bind("keypress keydown", function(e) {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Proxy Port' textbox.
 // -------------------------------------------------------------------------------------------
-$("#int_txtProxyPort").bind("keypress keydown", function(e) {
+$("#int_txtProxyPort").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "numeric"))
 		INT.enableSaveAndResetButtons(e);
 });
@@ -93,7 +93,7 @@ $("#int_txtProxyPort").bind("keypress keydown", function(e) {
 // Handles the event raised when cutting/pasting text to/from the 'Proxy Host' textbox or the
 // 'Proxy Port' textbox (allowing only numbers to be pasted).
 // -------------------------------------------------------------------------------------------
-$("#int_txtProxyHost, #int_txtProxyPort").bind("cut paste", function(e) {
+$("#int_txtProxyHost, #int_txtProxyPort").on("cut paste", function(e) {
 	if (CMN.processCutPaste(e, e.target.id === "int_txtProxyHost" ? "alphanumeric" : "numeric"))
 		INT.enableSaveAndResetButtons(e);
 });

@@ -57,14 +57,14 @@ $(document).ready(function() {
 // -------------------------------------------------------------------------------------------
 // Subscribe to the Validate IP Address event of the IP Address control.
 // -------------------------------------------------------------------------------------------
-$(".ipv4mask").bind("validateIpAddress", function() {
+$(".ipv4mask").on("validateIpAddress", function() {
 	NET.validateIpAddress($(this));
 });
 
 // -------------------------------------------------------------------------------------------
 // Subscribe to  the value changed event of the IP Address control.
 // -------------------------------------------------------------------------------------------
-$(".ipv4mask").bind("valuechanged", function() {
+$(".ipv4mask").on("valuechanged", function() {
 	NET.enableSaveAndResetButtons();
 });
 

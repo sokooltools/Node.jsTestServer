@@ -114,7 +114,7 @@ $("#frmXpressSettings").submit(function(e) {
 // Binds the mouseup event to input elements so as to enable save and reset buttons.
 // Mousedown and mouseup events are fired on input elements when the 'clear' button is clicked.
 // -------------------------------------------------------------------------------------------
-$("input").bind("mouseup", function(e) {
+$("input").on("mouseup", function(e) {
 	var $input = $(this),
 		oldValue = $input.val();
 	if (oldValue === "")
@@ -149,7 +149,7 @@ $("#xps_txtProjName").contextDelete({
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in the 'Project Name' textbox.
 // -------------------------------------------------------------------------------------------
-$("#xps_txtProjName").bind("keypress keydown", function(e) {
+$("#xps_txtProjName").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "filepath", true))
 		XPS.enableSaveAndResetButtons(e);
 });
@@ -158,7 +158,7 @@ $("#xps_txtProjName").bind("keypress keydown", function(e) {
 // Handles the event raised when cutting/pasting text to/from the 'Project Name' textbox 
 // (allowing only certain alphanumerics to be pasted).
 // -------------------------------------------------------------------------------------------
-$("#xps_txtProjName").bind("cut paste", function(e) {
+$("#xps_txtProjName").on("cut paste", function(e) {
 	if (CMN.processCutPaste(e, "filepath", true))
 		XPS.enableSaveAndResetButtons(e);
 });
@@ -166,7 +166,7 @@ $("#xps_txtProjName").bind("cut paste", function(e) {
 // -------------------------------------------------------------------------------------------
 // Handles the event raised when a key is pressed in a 'Project Version' textbox.
 // -------------------------------------------------------------------------------------------
-$("#xps_txtProjVers1, #xps_txtProjVers2").bind("keypress keydown", function(e) {
+$("#xps_txtProjVers1, #xps_txtProjVers2").on("keypress keydown", function(e) {
 	if (CMN.processKey(e, "numeric"))
 		XPS.enableSaveAndResetButtons(e);
 });
@@ -175,7 +175,7 @@ $("#xps_txtProjVers1, #xps_txtProjVers2").bind("keypress keydown", function(e) {
 // Handles the event raised when cutting/pasting text to/from a 'Project Version' textbox 
 // (allowing only numbers to be pasted).
 // -------------------------------------------------------------------------------------------
-$("#xps_txtProjVers1, #xps_txtProjVers2").bind("cut paste", function(e) {
+$("#xps_txtProjVers1, #xps_txtProjVers2").on("cut paste", function(e) {
 	if (CMN.processCutPaste(e, "numeric"))
 		XPS.enableSaveAndResetButtons(e);
 });
