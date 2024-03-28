@@ -146,7 +146,7 @@ router.get("/network/networkdata/:adapterid", function (req, res) {
 router.get("/network/demo/*", function (req, res) {
   var filepath;
   try {
-    const lastseg = getLastSegment(req.url);
+    const lastseg = cmn.getLastSegment(req.url);
     switch (lastseg) {
       case "aboutinfo":
       case "supportedlanguages":

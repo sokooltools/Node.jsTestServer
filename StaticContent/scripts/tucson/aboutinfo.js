@@ -357,9 +357,11 @@ ABT.getDownloadDataHtml = function (xml) {
 	nodes = nodes.children();
 	$(nodes).each(
 		function () {
+			let fname = $(this).attr("Id").replace(/\\/g, "\\\\");
 			str += "<tr>";
 			str += "<td class=\"abt_lnkDownloadData abt_lnkAll\">";
-			str += "<a onclick=\"ABT.download('" + $(this).attr("Id").replace(/\\/g, "\\\\") + "');\"";
+			//str += "<a onclick=\"ABT.download('" + $(this).attr("Id").replace(/\\/g, "\\\\") + "');\"";
+			str += "<a href=\"download?fn="+ fname + "\"";
 			str += " title=\"" + CFG.getToolTip($(this)) + "\">";
 			str += "" + $(this).attr("lbl");
 			str += "</a>";
@@ -414,8 +416,8 @@ ABT.collapseTables = function () {
 // Downloads the file corresponding to the specified file name to the user's computer.
 // -------------------------------------------------------------------------------------------
 ABT.download = function (fName) {
-	let href = `${window.location.origin}${CMN.isMockMode() ? "/download?fn=" : "/download.aspx?fn="}${fName}`;
-	window.location.href = href;
+	let route = `${CMN.isMockMode() ? "/download?fn=" : "/download.aspx?fn="}${fName}`;
+	window.location.href = `${window.location.origin}${route}`;
 };
 
 // -------------------------------------------------------------------------------------------

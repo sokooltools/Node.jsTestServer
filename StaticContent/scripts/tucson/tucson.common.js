@@ -1084,6 +1084,54 @@ CMN.cloneXmlDoc = function(oldDoc) {
 	return newDoc;
 };
 
+const defaultRoot = "http://localhost:3000";
+
+CMN.getFullRoute = function (route) {
+	return route.startsWith("http") ? route : defaultRoot + (route.startsWith("/") ? route : "/" + route);
+};
+
+CMN.doGet = function (route, callback, msTimeout) {
+	// Create a new AbortController instance.
+	const controller = new AbortController();
+	const signal = controller.signal;
+
+	// Make the fetch request with the signal.
+	const fetchPromise = fetch(CMN.getFullRoute(route), {
+		signal,
+	});
+
+	// Timeout after specified number of milliseconds.
+	const timeoutId = setTimeout(() => {
+		controller.abort();
+		// Abort the fetch request.
+		if (callback) callback("Fetch request timed out.");
+	}, msTimeout || 5000);
+
+	// Handle the fetch request
+	fetchPromise
+		.then((response) => {
+			// Check if the request was successful.
+			if (!response.ok) {
+				throw new Error(response.statusText);
+			}
+			// Parse the response as JSON
+			//return response.json();
+			//return response.body;
+		})
+		.then((data) => {
+			// Handle the JSON data.
+			if (callback) callback(data);
+		})
+		.catch((error) => {
+			// Handle any errors that occurred during the fetch.
+			console.error(error);
+		})
+		.finally(() => {
+			// Clear the timeout.
+			clearTimeout(timeoutId);
+		});
+};
+
 ///* -------------------------------------------------------------------------------------------*/ /**
 // *  Another example of returning json data from the specified URL.
 // * @param {} url 
@@ -1111,4 +1159,3 @@ CMN.cloneXmlDoc = function(oldDoc) {
 //	return retVal;
 //};
 
-// sourceURL=tucson.common.js

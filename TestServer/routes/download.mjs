@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------------------------------------
-// download.mjs
+// downloadd.mjs
 // -----------------------------------------------------------------------------------------------------
 
 // Example URL: http://localhost:3000/download?fn=litesw.log
@@ -15,56 +15,54 @@ import path from "path";
 
 import url from "url";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-var staticContent = path.join(path.dirname(__dirname), "..\\StaticContent");
+const staticContent = path.join(path.dirname(__dirname), "..\\StaticContent");
 
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+//import { createRequire } from 'module';
+//const require = createRequire(import.meta.url);
 
-// https://www.iana.org/assignments/media-types/media-types.xhtml
-//var mime = require("mime");
-import mime from "mime";
+//import mime from "mime";
 
 // This gets invoked for all requests passed to this router.
-router.use(function (req, res, next) {
-  console.log("    Download requested: %s", new Date(Date.now()).toLocaleString());
-  next();
-});
+// router.use(function (req, res, next) {
+//   console.log("    Download requested: %s", new Date(Date.now()).toLocaleString());
+//   next();
+// });
 
 router.get("/", function (req, res) {
   const fullUrl = url.parse(req.url, true);
   const parspath = path.parse(fullUrl.query.fn);
-  var filename = parspath.base;
-  var filepath = getFullPathOfFileName(filename);
+  const filename = parspath.base;
+  const filepath = getFullPathForFilename(filename);
 
-  // Get the stats, (the 'size') related to the specified file.
-  fs.stat(filepath, function (err, stat) {
-    // An error is returned if the file does not exist.
-    if (err) {
-      let errorfile = path.join(staticContent, "docs", "error.htm");
-      res.status(err.status || 404).sendFile(errorfile);
-    } else {
-      if (!res.headersSent) {
-        const mimetype = mime.lookup(filepath);
-        res.setHeader("content-type", getContentType(mimetype));
-        res.setHeader("content-length", stat.size)
+  // The HTTP 200 : Server is sending the requested resource in the response.
+
+  // The HTTP 304 : Server found no changes in the requested page since your 
+  // last visit. After that, your browser will retrieve the cached version of 
+  // the web page in your local storage.
+
+  // The HTTP 206 : Partial content success, i.e., The  request has succeeded 
+  // and the body contains the requested ranges of data, as described in the 
+  // Range header of the request.
+
+  // if (!res.headersSent) {
+  //   const mimetype = mime.getType(filepath) || "text/plain";
+  //   res.setHeader("content-type", getContentType(mimetype));
+  //   res.setHeader("content-length", fs.statSync(filepath).size);
+  // }
+
+  if (fs.existsSync(filepath)) {
+    res.download(filepath, filename, function(ex) {
+      if (ex) {
+        if (res.headersSent)
+          //res.send({ error: ex, msg: "Problem downloading the file!" });
+        console.log("Problem downloading the file!");
       }
-      res.download(filepath, filename, function (ex) {
-        if (ex) {
-          // Keep in mind the response may be 'partially' sent so check res.headersSent
-          if (res.headersSent)
-            res.status(406).end();
-        } else {
-          if (res.headersSent)
-            res.status(200).end();
-        }
-      });
     }
-  });
-
-  req.on("error", function (err) {
-    // This prints the error message and stack trace to 'stderr'.
-    console.error(err.stack);
-  });
+    );
+  }
+  else {
+    res.status(404).send("Specified file does not exist!");
+  }
 });
 
 //The 404 Route (ALWAYS keep this as the last route in the event no other processes the request)
@@ -73,7 +71,7 @@ router.get("*", function (req, res) {
 });
 
 /** Returns the full path of the specified filename. */
-function getFullPathOfFileName(filename) {
+function getFullPathForFilename(filename) {
   switch (filename.toLowerCase()) {
     case "pacremotedesktop.exe":
       return path.join(staticContent, "..\\", "utilities", filename);
@@ -95,7 +93,7 @@ function getFullPathOfFileName(filename) {
   }
 }
 
-/** Returns the content-type string based on the mime type. */
+/** Returns the content-type + charset string based on the mime type. */
 function getContentType(mimeType) {
   const charsetUtf8 = "; charset=UTF-8";
   // Content types that do not start with text/.. but usually contain charset=utf-8
@@ -110,7 +108,7 @@ function getContentType(mimeType) {
     return;
   if (outputContentType.startsWith("text/") || specialCase.includes(outputContentType)) {
     // Combine Content-Type with charset=utf-8
-    outputContentType = outputContentType + charsetUtf8;
+    outputContentType += charsetUtf8;
     // Return combined.
     return outputContentType;
   } else {
