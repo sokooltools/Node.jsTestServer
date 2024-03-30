@@ -1084,10 +1084,10 @@ CMN.cloneXmlDoc = function(oldDoc) {
 	return newDoc;
 };
 
-const defaultRoot = "http://localhost:3000";
+CMN.defaultRoot = "http://localhost:3000";
 
 CMN.getFullRoute = function (route) {
-	return route.startsWith("http") ? route : defaultRoot + (route.startsWith("/") ? route : "/" + route);
+	return route.startsWith("http") ? route : CMN.defaultRoot + (route.startsWith("/") ? route : "/" + route);
 };
 
 CMN.doGet = function (route, callback, msTimeout) {

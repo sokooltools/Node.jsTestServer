@@ -36,7 +36,7 @@ var filecache = [];
  * otherwise reads the data from disk, adds it to the cache, then returns it.
  * @param {string | number | Buffer | import("url").URL} filepath
  */
-var readFileCache = function (filepath) {
+module.exports.readFileCache = function (filepath) {
   var retval = "";
   for (let index = 0; index < filecache.length; index++) {
     const element = filecache[index];
@@ -358,6 +358,6 @@ module.exports.isExisting = function (hostOrAddress, port, attempts, timeout) {
 //   });
 // return formatter.format((date) ? date : new Date());};
 
-module.exports.readFileCache = readFileCache;
+//module.exports.readFileCache = readFileCache;
 module.exports.demodata = demodata;
 module.exports.globalization = globalization;

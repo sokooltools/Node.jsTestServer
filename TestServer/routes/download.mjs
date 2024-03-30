@@ -28,34 +28,32 @@ const staticContent = path.join(path.dirname(__dirname), "..\\StaticContent");
 //   next();
 // });
 
+// The HTTP 200 : Server is sending the requested resource in the response.
+
+// The HTTP 304 : Server found no changes in the requested page since your 
+// last visit. After that, your browser will retrieve the cached version of 
+// the web page in your local storage.
+
+// The HTTP 206 : Partial content success, i.e., The  request has succeeded 
+// and the body contains the requested ranges of data, as described in the 
+// Range header of the request.
+
 router.get("/", function (req, res) {
   const fullUrl = url.parse(req.url, true);
   const parspath = path.parse(fullUrl.query.fn);
   const filename = parspath.base;
   const filepath = getFullPathForFilename(filename);
-
-  // The HTTP 200 : Server is sending the requested resource in the response.
-
-  // The HTTP 304 : Server found no changes in the requested page since your 
-  // last visit. After that, your browser will retrieve the cached version of 
-  // the web page in your local storage.
-
-  // The HTTP 206 : Partial content success, i.e., The  request has succeeded 
-  // and the body contains the requested ranges of data, as described in the 
-  // Range header of the request.
-
   // if (!res.headersSent) {
   //   const mimetype = mime.getType(filepath) || "text/plain";
   //   res.setHeader("content-type", getContentType(mimetype));
   //   res.setHeader("content-length", fs.statSync(filepath).size);
   // }
-
   if (fs.existsSync(filepath)) {
-    res.download(filepath, filename, function(ex) {
+    res.download(filepath, filename, function (ex) {
       if (ex) {
         if (res.headersSent)
           //res.send({ error: ex, msg: "Problem downloading the file!" });
-        console.log("Problem downloading the file!");
+          console.log("Problem downloading the file!");
       }
     }
     );

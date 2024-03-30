@@ -207,10 +207,10 @@ DEMO.isEnterkey = function (e) {
 	return e.keyCode === 13 || e.charCode === 13;
 };
 
-const defaultRoot = "http://localhost:3000";
+DEMO.defaultRoot = "http://localhost:3000";
 
 DEMO.getFullRoute = function (route) {
-	return route.startsWith("http") ? route : defaultRoot + (route.startsWith("/") ? route : "/" + route);
+	return route.startsWith("http") ? route : DEMO.defaultRoot + (route.startsWith("/") ? route : "/" + route);
 };
 
 /**
