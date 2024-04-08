@@ -4,6 +4,7 @@
 var CFG = window.CFG;
 var CMN = window.CMN;
 var MEM = window.MEM;
+var $ = window.$;
 
 var ABT = {};
 ABT.xml = null;

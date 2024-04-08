@@ -506,10 +506,10 @@ $.fn.getCursorPosition = function() {
  * Handles both "keydown" and "keypress" events allowing only certain characters to be entered.
  * If the character is legit, true is returned providing a mechanism for the calling of another
  * method on the page - for example, to enable its 'Save' and 'Reset' buttons.
- * @param {} e 
- * @param {} eventType The event type.
- * @param {} allowspace When set to true allows a space to be entered into the field.
- * @returns {} 
+ * @param {Object} e 
+ * @param {any} eventType The event type.
+ * @param {Boolean} allowspace When set to true allows a space to be entered into the field.
+ * @returns {Boolean} 
  */
 CMN.processKey = function(e, eventType, allowspace) {
 	var k = e.keyCode || e.charCode;
@@ -546,7 +546,7 @@ CMN.processKey = function(e, eventType, allowspace) {
 		return true;
 	} else if (e.type === "keypress" && eventType === "alphanumeric") {
 		// backspace or (space when allowspace is true)
-		if (k === 8 || (k === 32 && (allowspace) && allowspace !== "false")) {
+		if (k === 8 || (k === 32 && (allowspace) && allowspace)) {
 			return true;
 		}
 		// Firefox: tab, left arrow, right arrow, home, end.
@@ -675,12 +675,11 @@ CMN.showBusy = function(message) {
 CMN.hideBusy = function() { jQuery.unblockUI(); };
 
 /* -------------------------------------------------------------------------------------------*/ /**
- * Shows a modal dialog containing the specified text. (The title, height, and width are optional).
- * @param {} message Text to display in the dialog.
- * @param {} title Title displayed at the top of the dialog.
- * @param {} width Width of the dialog.
- * @param {} height Height of the dialog.
- * @returns {} 
+ * Shows a modal dialog containing the specified message. (The title, height, and width are optional).
+ * @param {String} message Text to display in the dialog.
+ * @param {String} title Title displayed in the dialog header.
+ * @param {Number} width Width of the dialog.
+ * @param {Number} height Height of the dialog.
  */
 CMN.showDialog = function(message, title, width, height) {
 	jQuery.unblockUI();
@@ -710,14 +709,14 @@ CMN.showDialog = function(message, title, width, height) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Shows a confirmation dialog (title, height, and width are optional)
- * @param {} message 
- * @param {} title 
- * @param {} icn 
- * @param {} btn1 
- * @param {} btn2 
- * @param {} width 
- * @param {} height 
- * @returns {} 
+ * @param {String} message 
+ * @param {String} title 
+ * @param {object} icn The icon
+ * @param {HTMLElement} btn1 The first button to display.
+ * @param {HTMLElement} btn2 The second button to display.
+ * @param {Number} width The width of the dialog in pixels
+ * @param {Number} height The height of the dialog in pixels
+ * @returns {Promise} Promise containing which button was clicked.
  */
 CMN.showConfirm = function(message, title, icn, btn1, btn2, width, height) {
 	var defer = $.Deferred();
@@ -760,11 +759,11 @@ CMN.showConfirm = function(message, title, icn, btn1, btn2, width, height) {
 /* -------------------------------------------------------------------------------------------*/ /**
  * Opens a new window using the specified url location. If the window is already open it just 
  * activates it and refreshes its content.
- * @param {} winUrl 
- * @param {} winName 
- * @param {} winFeatures 
- * @param {} winObj 
- * @returns {} 
+ * @param {string | URL} winUrl The window
+ * @param {string} winName The window name.
+ * @param {string} winFeatures The features
+ * @param {Object} winObj An existing window object
+ * @returns {Object} The window object
  */
 CMN.openWindow = function(winUrl, winName, winFeatures, winObj) {
 	// First check to see if the window already exists.
@@ -787,7 +786,7 @@ CMN.openWindow = function(winUrl, winName, winFeatures, winObj) {
 /* -------------------------------------------------------------------------------------------*/ /**
  * Dynamically loads the specified style sheet into the document header as long as it doesn't
  * already exist in the page.
- * @param href the stylesheet
+ * @param href The reference to the stylesheet
  * @returns {} 
  */
 CMN.loadStyle = function(href) {
@@ -815,11 +814,10 @@ CMN.loadStyle = function(href) {
  * Example usage:
  * CMN.loadScript('scripts/myscript.js', true, function(){window.alert('success!');});
  *
- * @param {} url The URL.
- * @param {} arg1 
- * @param {} arg2 
- * @returns {} 
- */
+ * @param {string | url} url The URL of the script to load.
+ * @param {string | function} arg1 
+ * @param {string | function} arg2 
+  */
 CMN.loadScript = function(url, arg1, arg2) {
 	var isCached;
 	var callback;
@@ -860,19 +858,18 @@ CMN.loadScript = function(url, arg1, arg2) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Pauses script execution for the specified number of milliseconds.
- * @param {} ms 
- * @returns {} 
+ * @param {} ms  
  */
 CMN.pause = function(ms) {
 	ms += new Date().getTime();
-	while (new Date() < ms) {
+	while (new Date().getMilliseconds() < ms) {
 	}
 };
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Returns the value corresponding to the specified query string name part of the current URL.
- * @param {} name 
- * @returns {} 
+ * @param {String} name The name of the query item 
+ * @returns {String} 
  */
 CMN.getQueryStringByName = function(name) {
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -962,8 +959,8 @@ CMN.fixResponseText = function(responseText) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Returns an indication as to whether the specifed filename exists.
- * @param {} filename 
- * @returns {} 
+ * @param {String} filename 
+ * @returns {Boolean} 
  */
 CMN.fileExists = function(filename) {
 	var response = jQuery.ajax(
@@ -977,15 +974,15 @@ CMN.fileExists = function(filename) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Returns the specified text after being trimmed of space characters from its left and right.
- * @param {} text 
- * @returns {} 
+ * @param {String} text 
+ * @returns {String} text with the white space removed from both of its sides.
  */
 CMN.trim = function(text) { return text.replace(/^\s+|\s+$/g, ""); };
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Extends the string class with formatting.
  * Note: the first argument must be the string containing the format items (e.g. '{0}').
- * @returns {} 
+ * @returns {String} formatted string
  */
 String.format = function() {
 	var theString = arguments[0];
@@ -1000,29 +997,29 @@ String.format = function() {
 };
 
 /* -------------------------------------------------------------------------------------------*/ /**
- * Returns a unique Query String for appending to the end of a Url.
- * @returns {} 
+ * Returns a unique Query String for appending to the end of a Url so it won't be cached by the browser.
+ * @returns {String} 
  */
 CMN.uniqueQueryString = function() { return "?_=" + new Date().getTime(); };
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Returns a random eight digit number.
- * @returns {} 
+ * @returns {Number} random eight digit number
  */
 CMN.getRandom = function() { return Math.floor(Math.random() * 101010101); };
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Returns indication as to whether the specified input box is actually empty.
  * @param {} sel The selector
- * @returns {} 
+ * @returns {Boolean} true or false
  */
 CMN.isReallyEmpty = function(sel) {
 	return (sel.val()) && sel.val().replace(/^\s+|\s+$/gm, EMPTY) === EMPTY;
 };
 
 /* -------------------------------------------------------------------------------------------*/ /**
- * Check whether there is an error value specified in the cookie.
- * @returns {} 
+ * Check whether there is an error value specified in the cookie and if so, displays it in a 
+ * dialog and then resets it in the cookie.
  */
 CMN.checkForError = function() {
 	var error = CMN.getCookie(document, "error");
@@ -1034,8 +1031,7 @@ CMN.checkForError = function() {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Writes information to the developer console window.
- * @param {} message 
- * @returns {} 
+ * @param {String} message 
  */
 CMN.debugLog = function(message) {
 	if (typeof window.console !== "undefined") {
@@ -1048,8 +1044,8 @@ CMN.debugLog = function(message) {
 
 ///* -------------------------------------------------------------------------------------------*/ /**
 // * Returns json string converted to an object.
-// * @param {} val 
-// * @returns {} 
+// * @param {String} val The value
+// * @returns {JSON} 
 // */
 //CMN.jsonToObject = function(val) { return CMN.getEval(val); };
 
@@ -1067,8 +1063,8 @@ CMN.debugLog = function(message) {
 
 /* -------------------------------------------------------------------------------------------*/ /**
  * Returns a clone of the specified XML document.
- * @param {} oldDoc The XML document to be cloned.
- * @returns {} 
+ * @param {XMLDocument} oldDoc The XML document to be cloned.
+ * @returns {XMLDocument} 
  */
 CMN.cloneXmlDoc = function(oldDoc) {
 	var newDoc = oldDoc.implementation.createDocument(
@@ -1086,10 +1082,21 @@ CMN.cloneXmlDoc = function(oldDoc) {
 
 CMN.defaultRoot = "http://localhost:3000";
 
+/* -------------------------------------------------------------------------------------------*/ /**
+ * Returns the original route if it begins with 'http'; otherwise returns the full path of the route.
+ * @param {String} route The route.
+ * @returns {String} fullpath of the route
+ */
 CMN.getFullRoute = function (route) {
-	return route.startsWith("http") ? route : CMN.defaultRoot + (route.startsWith("/") ? route : "/" + route);
+	return route.toLocaleLowerCase().startsWith("http") ? route : CMN.defaultRoot + (route.startsWith("/") ? route : "/" + route);
 };
 
+/* -------------------------------------------------------------------------------------------*/ /**
+ * Does a get to the server.
+ * @param {String} route The route.
+ * @param {Function} callback  The call back function.
+ * @param {Number} msTimeout The timeout in milliseconds.
+ */
 CMN.doGet = function (route, callback, msTimeout) {
 	// Create a new AbortController instance.
 	const controller = new AbortController();

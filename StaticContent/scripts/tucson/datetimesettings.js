@@ -296,7 +296,7 @@ DTS.getSyncDateTime = function () {
 		return CMN.dateToMillisecondsUtc(); 
 	var sOrg = document.getElementById("sys_cboMachineTimeZone")[idx1].value; // e.g. Eastern Time = "-300,1"
 	var iOrg = parseInt(sOrg.split(",")[0], 10); // e.g. Eastern Time = -300
-	var sNew = document.getElementById("sys_cboMachineTimeZone").value;
+	var sNew = document.getElementById("sys_cboMachineTimeZone")[0].value;
 	var iNew = parseInt(sNew.split(",")[0], 10);
 	var offset = (Math.max(iOrg, iNew) - Math.min(iOrg, iNew)) * 60 * 1000 * (iOrg < iNew ? -1 : 1);
 	var newDt = CMN.dateToMillisecondsUtc() + offset;
@@ -543,9 +543,9 @@ DTS.getBrowserTimeZoneIndex = function () {
 	var jan1 = new Date(rightNow.getFullYear(), 0, 1, 0, 0, 0, 0);
 	// June 1st
 	var june1 = new Date(rightNow.getFullYear(), 6, 1, 0, 0, 0, 0);
-	var temp = jan1.toGMTString();
+	var temp = jan1.toUTCString();
 	var jan2 = new Date(temp.substring(0, temp.lastIndexOf(" ") - 1));
-	temp = june1.toGMTString();
+	temp = june1.toUTCString();
 	var june2 = new Date(temp.substring(0, temp.lastIndexOf(" ") - 1));
 	var stdTimeOffset = (jan1 - jan2) / (1000 * 60);
 	var daylightTimeOffset = (june1 - june2) / (1000 * 60);
@@ -578,13 +578,13 @@ DTS.getBrowserTimeZoneIndex = function () {
 // Add the focus and blur events to the document or window object.
 // -------------------------------------------------------------------------------------------
 // Internet Explorer uses the 'document' object.
-if (CMN.isIE()) {
-	document.onfocusin = DTS.onFocus;
-	document.onfocusout = DTS.onBlur;
-} else {
+// if (CMN.isIE()) {
+// 	document.onfocusin = DTS.onFocus;
+// 	document.onfocusout = DTS.onBlur;
+// } else {
 	window.onfocus = DTS.onFocus;
 	window.onblur = DTS.onBlur;
-}
+// }
 
 // Load the comboboxes with data.
 DTS.loadTimeZoneListCombobox();

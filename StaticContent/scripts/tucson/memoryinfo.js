@@ -103,12 +103,12 @@ MEM.loadFromData = function(json) {
 // Add the focus and blur events to the document or window object.
 // -------------------------------------------------------------------------------------------
 // Internet Explorer uses document object.
-if (CMN.isIE()) {
-	document.onfocusin = MEM.onFocus;
-	document.onfocusout = MEM.onBlur;
-} else {
+// if (CMN.isIE()) {
+// 	document.onfocusin = MEM.onFocus;
+// 	document.onfocusout = MEM.onBlur;
+// } else {
 	window.onfocus = MEM.onFocus;
 	window.onblur = MEM.onBlur;
-}
+//}
 
 //# sourceURL=memoryinfo.js

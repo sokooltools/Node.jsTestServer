@@ -33,9 +33,8 @@ $("#cmn_btnLogout").on("click",
 // -------------------------------------------------------------------------------------------
 /**
 * Performs the specified function after confirming the connection to the Web Server.
-* @param {} fnc "function to be executed."
-* @param {} msg "message displayed on the screen while the function is being performed."
-* @returns {} 
+* @param {Function} fnc "function to be executed."
+* @param {String} msg "message displayed on the screen while the function is being performed."
 */
 CFG.performFunction = function (fnc, msg) {
     CMN.showBusy(msg);
@@ -105,7 +104,6 @@ CFG.lookup = function (msgObj) {
 /**
 * Shows the specified error text inside a modal dialog.
 * @param {} jqXHR The error text.
-* @returns {} 
 */
 CFG.showError = function (jqXHR) {
     var msg, w = 640, h = 480;
