@@ -93,6 +93,41 @@ router.get("/json", function (req, res) {
 	res.json(json);
 });
 
+// Returns the Snippets in Edge DevTools by reading the Preferences (json-based) file.
+router.get("/snippets", function (req, res) {
+	// Read the file asynchronously.
+	let prefFile =  String.raw`C:/Users/Ronn/AppData/Local/Microsoft/Edge/User Data/Default/Preferences`; // "snippets.json"
+	fs.readFile(prefFile, "utf8", (err, buf) => {
+		if (err) {
+			console.error(err);
+			res.status(401).send("Error reading snippets.json");
+			return;
+		}
+		const token1 = '"script-snippets":';
+		const token2 = '"script-snippets-last-identifier":';
+		let data = buf.toString();
+		let n = data.indexOf(token1);
+		if (n > -1) {
+			data = data.substring(n + token1.length);
+			n = data.indexOf(token2);
+			if (n > -1) {
+				data = data.substring(0, n);
+				if (data.charAt(data.length - 1) === ',') {
+					data = data.substring(0, data.length - 1);
+				}
+				data = data.trim();
+			}
+		}
+		let snippetsJson = JSON.parse(data);
+		if (!snippetsJson) {
+			console.error(err);
+			res.status(401).send("Could not process the 'snippets' data from the preferences file.");
+		} else {		
+			res.status(200).json(snippetsJson);
+		}
+	});
+});
+
 // Returns a simple Json Array.
 router.get("/array", function (req, res) {
 	res.json([1, 2, 3]);
@@ -110,7 +145,7 @@ router.get("/versions", function (req, res) {
 		const obj = {};
 		const packageJson = JSON.parse(data);
 		if (!packageJson) {
-			console.error("Could not load the dependencies data from 'package.json' file.");
+			console.error("Could not process the 'package.json' file.");
 		} else {
 			const keys = Object.keys(packageJson.dependencies);
 			for (const key of keys) {
