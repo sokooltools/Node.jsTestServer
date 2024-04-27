@@ -1,3 +1,8 @@
+body{
+	/* font-family: sans-serif, Palatino, Verdana; */
+	font-size: 0.8em;
+}
+
 button#back {
 	width: 15em;
 }
@@ -49,8 +54,38 @@ textarea#responseText {
 	resize: vertical;
 }
 
+p {
+	margin-block-start: 0.25em;
+	margin-block-end: 0.25em;
+	display: flex;
+}
+
+#sampleLabel,
+#responseLabel {
+	float: left;
+}
+
+.copyContent {
+	float: right;
+	/* margin-bottom: 0.7em; */
+}
+
+.clearfix {
+	clear: both;
+}
+
 div#sampleDiv,
 div#responseDiv {
 	padding: 0.75em;
 	border: black thin solid;
+	display: block;
+	margin: 1em 0 0.5em 0;
+}
+
+.ui-tooltip {
+    max-width: 550px;
+  }
+
+.small{
+	font-size: 0.85em;
 }

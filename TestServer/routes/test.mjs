@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------------------------------
-// test.js  ( e.g. http://localhost:3000/test/xxx )
+// test.mjs  ( e.g. http://localhost:3000/test/xxx )
 // -----------------------------------------------------------------------------------------------------
 
 import { createRequire } from 'module';
@@ -84,19 +84,23 @@ router.get("/about", function (req, res) {
 
 // Returns a simple Json object.
 router.get("/json", function (req, res) {
-	const json = "test: " + JSON.stringify(
+	let jsonL1 = {
+		"testdata": {}
+	}
+	let jsonL2 = 
 		{
-			key1: "value1",
-			key2: "value2",
-			key3: "value3"
-		}, null, 4);
-	res.json(json);
+			"key1":"value1",
+			"key2":"value2",
+			"key3":"value3"
+		};
+	jsonL1.testdata = jsonL2;
+	res.json(jsonL1);
 });
 
 // Returns the Snippets in Edge DevTools by reading the Preferences (json-based) file.
 router.get("/snippets", function (req, res) {
 	// Read the file asynchronously.
-	let prefFile =  String.raw`C:/Users/Ronn/AppData/Local/Microsoft/Edge/User Data/Default/Preferences`; // "snippets.json"
+	let prefFile = String.raw`C:/Users/Ronn/AppData/Local/Microsoft/Edge/User Data/Default/Preferences`;
 	fs.readFile(prefFile, "utf8", (err, buf) => {
 		if (err) {
 			console.error(err);
@@ -118,15 +122,25 @@ router.get("/snippets", function (req, res) {
 				data = data.trim();
 			}
 		}
-		let snippetsJson = JSON.parse(data);
-		if (!snippetsJson) {
-			console.error(err);
-			res.status(401).send("Could not process the 'snippets' data from the preferences file.");
-		} else {		
-			res.status(200).json(snippetsJson);
+		let jsonL1 = {
+			"scriptSnippets": {}
 		}
+		let jsonL2 = JSON.parse(data);
+		jsonL2 = JSON.parse(jsonL2).sort(sortByProperty("name"));
+		jsonL1.scriptSnippets = jsonL2;
+		res.status(200).json(jsonL1);
 	});
 });
+
+function sortByProperty(property){  
+	return function(a,b){  
+	   if(a[property] > b[property])  
+		  return 1;  
+	   else if(a[property] < b[property])  
+		  return -1;     
+	   return 0;  
+	}  
+}
 
 // Returns a simple Json Array.
 router.get("/array", function (req, res) {
@@ -159,8 +173,12 @@ router.get("/versions", function (req, res) {
 				}
 			}
 		}
-		const json = `"dependencies": ${JSON.stringify(obj, null, 4)}`;
-		res.status(200).json(json);
+		let jsonL1 = {
+			"dependencies": {}
+		}
+		//jsonL1.dependencies= JSON.stringify(obj, null, 4);
+		jsonL1.dependencies= obj;
+		res.status(200).json(jsonL1);
 	});
 });
 
