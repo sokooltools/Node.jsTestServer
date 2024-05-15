@@ -6,9 +6,9 @@ window.DEMO.loadCommon();
 // (Used for enabling the 'Upload' button).
 // -------------------------------------------------------------------------------------------
 $("#demo_inputFile").on("change", function () {
-    window.setTimeout(function () {
-        $("#demo_btnUpload").prop("disabled", ($("#demo_inputFile").val() === ""));
-    }, 10);
+	window.setTimeout(function () {
+		$("#demo_btnUpload").prop("disabled", ($("#demo_inputFile").val() === ""));
+	}, 10);
 });
 
 // -------------------------------------------------------------------------------------------
@@ -17,12 +17,12 @@ $("#demo_inputFile").on("change", function () {
 // AJAX methods to upload files do not work with browsers prior to IE 10!)
 // -------------------------------------------------------------------------------------------
 $("#demo_frmUpload").submit(function (e) {
-    const theFile = $("#demo_inputFile").val();
-    if (theFile.length > 0) {
-        //window.DEMO.setCookie(document, "upload", "", 1);
-        e.target.submit();
-    }
-    return false;
+	const theFile = $("#demo_inputFile").val();
+	if (theFile.length > 0) {
+		//window.DEMO.setCookie(document, "upload", "", 1);
+		e.target.submit();
+	}
+	return false;
 });
 
 //window.setTimeout(function() {

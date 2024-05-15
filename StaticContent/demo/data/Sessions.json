@@ -1,20 +1,20 @@
 [
-  {
-    "username": "Admin",
-    "ipaddress": "192.168.10.50",
-    "key": "4213c25084d64a",
-    "lastaccessed": 1502699808000.0
-  },
-  {
-    "username": "Admin",
-    "ipaddress": "192.168.10.60",
-    "key": "8dd123e7153a44",
-    "lastaccessed": 1502701781000.0
-  },
-  {
-    "username": "Brian",
-    "ipaddress": "172.25.8.54",
-    "key": "17828f49ff0848",
-    "lastaccessed": 1502701781000.0
-  }
+	{
+		"username": "Admin",
+		"ipaddress": "192.168.10.50",
+		"key": "4213c25084d64a",
+		"lastaccessed": 1502699808000.0
+	},
+	{
+		"username": "Admin",
+		"ipaddress": "192.168.10.60",
+		"key": "8dd123e7153a44",
+		"lastaccessed": 1502701781000.0
+	},
+	{
+		"username": "Brian",
+		"ipaddress": "172.25.8.54",
+		"key": "17828f49ff0848",
+		"lastaccessed": 1502701781000.0
+	}
 ]

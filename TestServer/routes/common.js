@@ -37,24 +37,24 @@ var filecache = [];
  * @param {string | number | Buffer | import("url").URL} filepath
  */
 module.exports.readFileCache = function (filepath) {
-  var retval = "";
-  for (let index = 0; index < filecache.length; index++) {
-    const element = filecache[index];
-    if (element.filepath === filepath) {
-      retval = element.data;
-      console.log('\rREAD (from cache): "%s"...', filepath);
-      break;
-    }
-  }
-  if (!retval) {
-    retval = fs.readFileSync(filepath, "utf8");
-    filecache.push({
-      filepath: filepath,
-      data: retval,
-    });
-    console.log('\rREAD (from disk): "%s"...', filepath);
-  }
-  return retval;
+	var retval = "";
+	for (let index = 0; index < filecache.length; index++) {
+		const element = filecache[index];
+		if (element.filepath === filepath) {
+			retval = element.data;
+			console.log('\rREAD (from cache): "%s"...', filepath);
+			break;
+		}
+	}
+	if (!retval) {
+		retval = fs.readFileSync(filepath, "utf8");
+		filecache.push({
+			filepath: filepath,
+			data: retval,
+		});
+		console.log('\rREAD (from disk): "%s"...', filepath);
+	}
+	return retval;
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -67,9 +67,9 @@ module.exports.readFileCache = function (filepath) {
  * @param {string} propValue the property value to look for
  */
 var findElement = function (arr, propName, propValue) {
-  for (let i = 0; i < arr.length; i++)
-    if (arr[i][propName] === propValue) return arr[i];
-  return undefined;
+	for (let i = 0; i < arr.length; i++)
+		if (arr[i][propName] === propValue) return arr[i];
+	return undefined;
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -79,8 +79,8 @@ var findElement = function (arr, propName, propValue) {
  * @returns {string}
  */
 module.exports.getLastSegment = function (requestUrl) {
-  const fullUrl = url.parse(requestUrl, true);
-  return path.parse(fullUrl.pathname).base.toLowerCase();
+	const fullUrl = url.parse(requestUrl, true);
+	return path.parse(fullUrl.pathname).base.toLowerCase();
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -91,11 +91,11 @@ module.exports.getLastSegment = function (requestUrl) {
  * @param {boolean} [islogged=false]
  */
 module.exports.writeFileCache = function (filepath, json, islogged) {
-  const element = findElement(filecache, "filepath", filepath);
-  if (element) {
-    element.data = JSON.stringify(json);
-    if (islogged) console.log("WRITE TO CACHE: %s", element.data);
-  }
+	const element = findElement(filecache, "filepath", filepath);
+	if (element) {
+		element.data = JSON.stringify(json);
+		if (islogged) console.log("WRITE TO CACHE: %s", element.data);
+	}
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -104,10 +104,10 @@ module.exports.writeFileCache = function (filepath, json, islogged) {
  * @param {string | number} index
  */
 module.exports.getTimeZone = function (index) {
-  const filepath = path.join(demodata, "timezonelist.json");
-  const data = readFileCache(filepath);
-  const json = JSON.parse(data);
-  return json[index];
+	const filepath = path.join(demodata, "timezonelist.json");
+	const data = readFileCache(filepath);
+	const json = JSON.parse(data);
+	return json[index];
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -116,10 +116,10 @@ module.exports.getTimeZone = function (index) {
  * @param {string | number} milliseconds
  */
 module.exports.millisecondsToDate = function (milliseconds) {
-  if (typeof milliseconds === "string") {
-    return new Date(parseFloat(milliseconds));
-  }
-  return new Date(milliseconds);
+	if (typeof milliseconds === "string") {
+		return new Date(parseFloat(milliseconds));
+	}
+	return new Date(milliseconds);
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -129,7 +129,7 @@ module.exports.millisecondsToDate = function (milliseconds) {
  *  @param {string | Date} [dt]
  */
 module.exports.dateToMilliseconds = function (dt) {
-  return Date.parse(!dt ? new Date().toString() : dt.toString());
+	return Date.parse(!dt ? new Date().toString() : dt.toString());
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -139,15 +139,15 @@ module.exports.dateToMilliseconds = function (dt) {
  *  @param {Date} [dt]
  */
 module.exports.dateToMillisecondsUtc = function (dt) {
-  if (!dt) dt = new Date();
-  return Date.UTC(
-    dt.getFullYear(),
-    dt.getMonth(),
-    dt.getDate(),
-    dt.getHours(),
-    dt.getMinutes(),
-    dt.getSeconds()
-  );
+	if (!dt) dt = new Date();
+	return Date.UTC(
+		dt.getFullYear(),
+		dt.getMonth(),
+		dt.getDate(),
+		dt.getHours(),
+		dt.getMinutes(),
+		dt.getSeconds()
+	);
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -157,8 +157,8 @@ module.exports.dateToMillisecondsUtc = function (dt) {
  * @param {string} milliseconds
  */
 module.exports.millisecondsUtcToDate = function (milliseconds) {
-  const millisecOffset = new Date().getTimezoneOffset() * 60000;
-  return new Date(parseFloat(milliseconds) + millisecOffset);
+	const millisecOffset = new Date().getTimezoneOffset() * 60000;
+	return new Date(parseFloat(milliseconds) + millisecOffset);
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -167,8 +167,8 @@ module.exports.millisecondsUtcToDate = function (milliseconds) {
  * (The current date is used when no date is specified).
  */
 module.exports.getFormattedDateTime = function (dt) {
-  if (!dt) dt = new Date();
-  return moment(dt).format("MM/DD/YYYY hh:mm:ss A");
+	if (!dt) dt = new Date();
+	return moment(dt).format("MM/DD/YYYY hh:mm:ss A");
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -178,7 +178,7 @@ module.exports.getFormattedDateTime = function (dt) {
  * @param {number} max
  */
 module.exports.randomIntFromInterval = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+	return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -186,11 +186,11 @@ module.exports.randomIntFromInterval = function (min, max) {
  * Returns a randomly generated GUID (e.g. "b9eabcc0-91bc-47c3-bf34-21867891d96a").
  */
 module.exports.createGuid = function () {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+		const r = (Math.random() * 16) | 0;
+		const v = c === "x" ? r : (r & 0x3) | 0x8;
+		return v.toString(16);
+	});
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -199,9 +199,9 @@ module.exports.createGuid = function () {
  * @param {{ replace: (arg0: RegExp, arg1: (txt: any) => any) => void; }} text
  */
 module.exports.toTitleCase = function (text) {
-  return text.replace(/\w\S*/g, function (txt) {
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
+	return text.replace(/\w\S*/g, function (txt) {
+		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	});
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -210,7 +210,7 @@ module.exports.toTitleCase = function (text) {
  * @param {string} ipAddress
  */
 module.exports.startsWithNumber = function (ipAddress) {
-  return ipAddress && /^[0-9]/.test(ipAddress);
+	return ipAddress && /^[0-9]/.test(ipAddress);
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -220,10 +220,10 @@ module.exports.startsWithNumber = function (ipAddress) {
  * @param {string} ipAddress
  */
 module.exports.isValidIpAddress = function (ipAddress) {
-  const pattern =
-    "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-  return new RegExp(pattern).test(ipAddress);
+	const pattern =
+		"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+		"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+	return new RegExp(pattern).test(ipAddress);
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -233,25 +233,25 @@ module.exports.isValidIpAddress = function (ipAddress) {
  * @param {string} ipAddress
  */
 module.exports.isLocalIpAddress = function (ipAddress) {
-  const interfaces = os.networkInterfaces();
-  for (let k in interfaces) {
-    if (interfaces.hasOwnProperty(k)) {
-      const intrface = interfaces[k];
-      for (let k2 in intrface) {
-        if (intrface.hasOwnProperty(k2)) {
-          const address = intrface[k2];
-          if (
-            address.family === "IPv4" &&
-            !address.internal &&
-            address.address === ipAddress
-          ) {
-            return true;
-          }
-        }
-      }
-    }
-  }
-  return false;
+	const interfaces = os.networkInterfaces();
+	for (let k in interfaces) {
+		if (interfaces.hasOwnProperty(k)) {
+			const intrface = interfaces[k];
+			for (let k2 in intrface) {
+				if (intrface.hasOwnProperty(k2)) {
+					const address = intrface[k2];
+					if (
+						address.family === "IPv4" &&
+						!address.internal &&
+						address.address === ipAddress
+					) {
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
 };
 
 /* -------------------------------------------------------------------------------------------*/
@@ -263,87 +263,87 @@ module.exports.isLocalIpAddress = function (ipAddress) {
  * @param {any} timeout
  */
 module.exports.isExisting = function (hostOrAddress, port, attempts, timeout) {
-  return new Promise(function (resolve, reject) {
-    // Is it an ip address or a host name?
-    if (module.exports.isValidIpAddress(hostOrAddress)) {
-      // Is it a local ip address?
-      if (module.exports.isLocalIpAddress(hostOrAddress)) {
-        return resolve(
-          newResponse(
-            200,
-            true,
-            "Specified ip address is same as issuing ip address"
-          )
-        );
-      }
-    } else {
-      // Does it start with a number?
-      if (module.exports.startsWithNumber(hostOrAddress)) {
-        return resolve(newResponse(400, false, "Bad IP Address"));
-      }
-      // Is it the name of this host?
-      if (hostOrAddress === os.hostname()) {
-        return resolve(
-          newResponse(
-            200,
-            true,
-            "Specified host name is same as issuing host name"
-          )
-        );
-      }
-      if (!attempts) {
-        // First try to look it up using DNS.
-        const result = dns.lookup(hostOrAddress);
-        if (result) {
-          return resolve(newResponse(200, true, ""));
-        } else {
-          return resolve(
-            newResponse(
-              200,
-              false,
-              "An ip address could not be obtained using specified host name"
-            )
-          );
-        }
-      }
-    }
-    // If all else fails, try pinging it.
-    (function () {
-      tcpp.ping(
-        {
-          address: hostOrAddress,
-          port: parseInt(port || 80),
-          attempts: parseInt(attempts || 3),
-          timeout: parseInt(timeout || 4000),
-        },
-        function (err, data) {
-          if (!err) {
-            return resolve(newResponse(200, !isNaN(data.avg), ""));
-          } else {
-            return resolve(newResponse(400, false, err.message));
-          }
-        }
-      );
-    })();
+	return new Promise(function (resolve, reject) {
+		// Is it an ip address or a host name?
+		if (module.exports.isValidIpAddress(hostOrAddress)) {
+			// Is it a local ip address?
+			if (module.exports.isLocalIpAddress(hostOrAddress)) {
+				return resolve(
+					newResponse(
+						200,
+						true,
+						"Specified ip address is same as issuing ip address"
+					)
+				);
+			}
+		} else {
+			// Does it start with a number?
+			if (module.exports.startsWithNumber(hostOrAddress)) {
+				return resolve(newResponse(400, false, "Bad IP Address"));
+			}
+			// Is it the name of this host?
+			if (hostOrAddress === os.hostname()) {
+				return resolve(
+					newResponse(
+						200,
+						true,
+						"Specified host name is same as issuing host name"
+					)
+				);
+			}
+			if (!attempts) {
+				// First try to look it up using DNS.
+				const result = dns.lookup(hostOrAddress);
+				if (result) {
+					return resolve(newResponse(200, true, ""));
+				} else {
+					return resolve(
+						newResponse(
+							200,
+							false,
+							"An ip address could not be obtained using specified host name"
+						)
+					);
+				}
+			}
+		}
+		// If all else fails, try pinging it.
+		(function () {
+			tcpp.ping(
+				{
+					address: hostOrAddress,
+					port: parseInt(port || 80),
+					attempts: parseInt(attempts || 3),
+					timeout: parseInt(timeout || 4000),
+				},
+				function (err, data) {
+					if (!err) {
+						return resolve(newResponse(200, !isNaN(data.avg), ""));
+					} else {
+						return resolve(newResponse(400, false, err.message));
+					}
+				}
+			);
+		})();
 
-    /* -------------------------------------------------------------------------------------------*/
-    /**
-     * Returns an anonymous JSON object used as part of the response.
-     *
-     * @param {any} status - A numerical status code.
-     * @param {any} isExisting - A boolean value that indicates whether it exists or not.
-     * @param {any} message - A string value describing the response.
-     * @returns
-     */
-    function newResponse(status, isExisting, message) {
-      return {
-        hostoraddress: hostOrAddress,
-        status: status,
-        isexisting: isExisting,
-        message: message,
-      };
-    }
-  });
+		/* -------------------------------------------------------------------------------------------*/
+		/**
+		 * Returns an anonymous JSON object used as part of the response.
+		 *
+		 * @param {any} status - A numerical status code.
+		 * @param {any} isExisting - A boolean value that indicates whether it exists or not.
+		 * @param {any} message - A string value describing the response.
+		 * @returns
+		 */
+		function newResponse(status, isExisting, message) {
+			return {
+				hostoraddress: hostOrAddress,
+				status: status,
+				isexisting: isExisting,
+				message: message,
+			};
+		}
+	});
 };
 
 // /* -------------------------------------------------------------------------------------------*/

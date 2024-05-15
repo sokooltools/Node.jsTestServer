@@ -1,5 +1,7 @@
 {
-    "eslint.enable": false,
-    "npm.enableScriptExplorer": true,
-    "docthis.includeDescriptionTag": true
+	"eslint.enable": false,
+	"docthis.includeDescriptionTag": true,
+		"files.associations": {
+			"*.njsproj": "xml"
+		}
 }

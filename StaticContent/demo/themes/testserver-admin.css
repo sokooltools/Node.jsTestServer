@@ -1,4 +1,4 @@
-body{
+body {
 	/* font-family: sans-serif, Palatino, Verdana; */
 	font-size: 0.8em;
 }
@@ -83,9 +83,9 @@ div#responseDiv {
 }
 
 .ui-tooltip {
-    max-width: 550px;
-  }
+	max-width: 550px;
+}
 
-.small{
+.small {
 	font-size: 0.85em;
 }

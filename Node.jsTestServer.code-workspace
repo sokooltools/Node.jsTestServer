@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../ConvertToBase64String"
+		}
+	],
+	"settings": {}
+}

@@ -87,12 +87,12 @@ router.get("/json", function (req, res) {
 	let jsonL1 = {
 		"testdata": {}
 	}
-	let jsonL2 = 
-		{
-			"key1":"value1",
-			"key2":"value2",
-			"key3":"value3"
-		};
+	let jsonL2 =
+	{
+		"key1": "value1",
+		"key2": "value2",
+		"key3": "value3"
+	};
 	jsonL1.testdata = jsonL2;
 	res.json(jsonL1);
 });
@@ -122,24 +122,24 @@ router.get("/snippets", function (req, res) {
 				data = data.trim();
 			}
 		}
-		let jsonL1 = {
-			"scriptSnippets": {}
-		}
+		// let jsonL1 = {
+		// 	"scriptSnippets": {}
+		// }
 		let jsonL2 = JSON.parse(data);
 		jsonL2 = JSON.parse(jsonL2).sort(sortByProperty("name"));
-		jsonL1.scriptSnippets = jsonL2;
-		res.status(200).json(jsonL1);
+		//jsonL1.scriptSnippets = jsonL2;
+		res.status(200).json(jsonL2);
 	});
 });
 
-function sortByProperty(property){  
-	return function(a,b){  
-	   if(a[property] > b[property])  
-		  return 1;  
-	   else if(a[property] < b[property])  
-		  return -1;     
-	   return 0;  
-	}  
+function sortByProperty(property) {
+	return function (a, b) {
+		if (a[property] > b[property])
+			return 1;
+		else if (a[property] < b[property])
+			return -1;
+		return 0;
+	}
 }
 
 // Returns a simple Json Array.
@@ -177,7 +177,7 @@ router.get("/versions", function (req, res) {
 			"dependencies": {}
 		}
 		//jsonL1.dependencies= JSON.stringify(obj, null, 4);
-		jsonL1.dependencies= obj;
+		jsonL1.dependencies = obj;
 		res.status(200).json(jsonL1);
 	});
 });
@@ -287,15 +287,16 @@ function getBase64StringMinusMeta(base64String) {
  */
 function getDownloadsFolder() {
 	const registry = require("registry-js");
-	const folder = `${process.env.USERPROFILE}\\Downloads`;
+	let folder = `${process.env.USERPROFILE}\\Downloads`;
 	const folders =
 		registry.enumerateValues(
 			registry.HKEY.HKEY_CURRENT_USER,
 			"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
 	for (const value of folders) {
 		if (value.name === "{374DE290-123F-4565-9164-39C4925E467B}") {
-			//folder = value.data.replace("%USERPROFILE%", process.env.USERPROFILE);
-			return value.data;
+			folder = value.data.replace("%USERPROFILE%", process.env.USERPROFILE);
+			//return value.data;
+			break;
 		}
 	}
 	return folder;

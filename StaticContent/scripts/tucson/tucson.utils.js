@@ -24,7 +24,7 @@ UTL.winDelta = null;
 // An object containing the current width and height are always returned (even when the width
 // and height arguments are not specified).
 // -------------------------------------------------------------------------------------------
-UTL.docSize = function(w, h) {
+UTL.docSize = function (w, h) {
 	if (typeof w == "number" && typeof h == "number") {
 		if (UTL.winDelta) {
 			window.resizeTo(w + UTL.winDelta.x, h + UTL.winDelta.y);
@@ -45,7 +45,7 @@ UTL.docSize = function(w, h) {
 // -------------------------------------------------------------------------------------------
 // Maximizes the current window.
 // -------------------------------------------------------------------------------------------
-UTL.maximize = function() {
+UTL.maximize = function () {
 	top.window.moveTo(0, 0);
 	if (document.all) {
 		top.window.resizeTo(screen.availWidth, screen.availHeight);
@@ -60,54 +60,54 @@ UTL.maximize = function() {
 // -------------------------------------------------------------------------------------------
 // Provides mechanism for calling back to the dot net hosted web browser.
 // -------------------------------------------------------------------------------------------
-UTL.cb = function(command, obj) {
+UTL.cb = function (command, obj) {
 	var cmd = command.substring(0, 3).toUpperCase();
 	var args = UTL.extractArgsFromCommand(command);
 	switch (cmd) {
 		case "CAP": // CAPture (async)
 		case "CAX": // CAPture (synch)
-        {
-            var rect =
-                document.parentWindow.screenLeft +
-                    "," +
-                    document.parentWindow.screenTop +
-                    "," +
-                    $(document).width() +
-                    "," +
-                    $(document).height();
-            var waitTime = 100;
-            var fileName = null;
-            if (args.length > 1) {
-                if (UTL.isNumber(args[1])) {
-                    waitTime = args[1];
-                } else {
-                    fileName = args[1];
-                }
-            }
-            if (args.length > 0) {
-                if (UTL.isNumber(args[0])) {
-                    waitTime = args[0];
-                } else {
-                    fileName = args[0];
-                }
-            }
-            obj = { Rect: rect, WaitTime: waitTime, Filename: fileName, IsAsync: (cmd === "CAP") };
-            break;
-        }
+			{
+				var rect =
+					document.parentWindow.screenLeft +
+					"," +
+					document.parentWindow.screenTop +
+					"," +
+					$(document).width() +
+					"," +
+					$(document).height();
+				var waitTime = 100;
+				var fileName = null;
+				if (args.length > 1) {
+					if (UTL.isNumber(args[1])) {
+						waitTime = args[1];
+					} else {
+						fileName = args[1];
+					}
+				}
+				if (args.length > 0) {
+					if (UTL.isNumber(args[0])) {
+						waitTime = args[0];
+					} else {
+						fileName = args[0];
+					}
+				}
+				obj = { Rect: rect, WaitTime: waitTime, Filename: fileName, IsAsync: (cmd === "CAP") };
+				break;
+			}
 		case "AUT": // AUTosize (default)
 		case "AUX": // AUTosize (optimal)
-        {
-            var dsz = (window.CFG) ?
-                window.CFG.defaultDocSize(cmd === "AUX") :
-                { width: $(document).width(), height: $(document).height() };
-            obj = {
-                Width: dsz.width,
-                Height: dsz.height,
-                UseOptimal: (cmd === "AUX"),
-                IsAsync: true
-            };
-            break;
-        }
+			{
+				var dsz = (window.CFG) ?
+					window.CFG.defaultDocSize(cmd === "AUX") :
+					{ width: $(document).width(), height: $(document).height() };
+				obj = {
+					Width: dsz.width,
+					Height: dsz.height,
+					UseOptimal: (cmd === "AUX"),
+					IsAsync: true
+				};
+				break;
+			}
 		case "EXE": // EXEcutes the specified script.
 			var script = (args.length > 0) ? args[0] : null; // e.g. 'help/scripts/lgn_images.js';
 			/*jslint evil: true */
@@ -170,7 +170,7 @@ UTL.cb = function(command, obj) {
 // Executes a script and returns the result as json.
 // @Example:  UTL.execScript('help/scripts/login/lgn_images.js');
 // -------------------------------------------------------------------------------------------
-UTL.getScript = function(fpath) {
+UTL.getScript = function (fpath) {
 	fpath = UTL.trim(fpath);
 	if (!fpath) {
 		return { Result: "Error: A script file must be provided as an argument." };
@@ -183,13 +183,13 @@ UTL.getScript = function(fpath) {
 		url: fpath,
 		dataType: "text",
 		async: false,
-		success: function(s) {
-            /*jslint evil: true */
-            const rslt = UTL.execScript(s);
-            /*jslint evil: false */
+		success: function (s) {
+			/*jslint evil: true */
+			const rslt = UTL.execScript(s);
+			/*jslint evil: false */
 			return rslt;
-        }
-    });
+		}
+	});
 	return {};
 };
 
@@ -216,7 +216,7 @@ UTL.getScript = function(fpath) {
 // Returns the specified string after converting 'WAIT nnnn' to window.setTimeout...
 // -------------------------------------------------------------------------------------------
 /*jslint evil: true */
-UTL.execScript = function(s) {
+UTL.execScript = function (s) {
 	s = UTL.convertString(s);
 	eval(s);
 };
@@ -231,7 +231,7 @@ function wait() { }
 // -------------------------------------------------------------------------------------------
 // Returns the specified string with the 'window.setTimeout' function interwoven.
 // -------------------------------------------------------------------------------------------
-UTL.convertString = function(tok) {
+UTL.convertString = function (tok) {
 	tok = tok.replace(/\/\/.*$/gm, "").replace(/(^\s+|\s+$)/gm, "").replace(/\r\n/gm, "");
 	tok = 'UTL.cb(\'msg \"Script started.\"\');' + tok;
 	tok += 'wait();UTL.cb(\'msg \"Script finished.\"\');';
@@ -248,14 +248,14 @@ UTL.convertString = function(tok) {
 // -------------------------------------------------------------------------------------------
 // Returns an indication as to whether the specified value is a number.
 // -------------------------------------------------------------------------------------------
-UTL.isNumber = function(n) {
+UTL.isNumber = function (n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
 // -------------------------------------------------------------------------------------------
 // Gets the arguments part of the command string.
 // -------------------------------------------------------------------------------------------
-UTL.extractArgsFromCommand = function(command) {
+UTL.extractArgsFromCommand = function (command) {
 	const idx = command.indexOf(" ");
 	if (idx < 0)
 		return [];
@@ -275,14 +275,14 @@ UTL.extractArgsFromCommand = function(command) {
 // Trims spaces, single-quotes and double-quotes from both sides of the specified text and
 // returns it.
 // -------------------------------------------------------------------------------------------
-UTL.trim = function(str) { return (str) ? str.replace(/^[\s''""]+|[\s''""]+$/gm, "") : null; };
+UTL.trim = function (str) { return (str) ? str.replace(/^[\s''""]+|[\s''""]+$/gm, "") : null; };
 
 // -------------------------------------------------------------------------------------------
 // Pauses script execution for the specified number of milliseconds.
 // -------------------------------------------------------------------------------------------
-UTL.sleep = function(milliseconds) {
-    const start = new Date().getTime();
-    for (let i = 0; i < 1e7; i++) {
+UTL.sleep = function (milliseconds) {
+	const start = new Date().getTime();
+	for (let i = 0; i < 1e7; i++) {
 		if ((new Date().getTime() - start) > milliseconds) {
 			break;
 		}
@@ -293,7 +293,7 @@ UTL.sleep = function(milliseconds) {
 // Convenience method for outputting multiple lines of text to the Developer Console.
 // -------------------------------------------------------------------------------------------
 // ReSharper disable once UnusedLocals
-var log = function(s) {
+var log = function (s) {
 	var arr;
 	if (s.mimeType && s.mimeType === "XML File" ||
 		s.contentType && s.contentType.endsWith("/xml")) {
@@ -324,7 +324,7 @@ var log = function(s) {
 // Note this is available on limited number of browsers.
 // Example: UTL.download("hello.txt", "This is the content of my file :)");
 // -------------------------------------------------------------------------------------------
-UTL.download = function(filename, text) {
+UTL.download = function (filename, text) {
 	const link = document.createElement('a');
 	link.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
 	link.setAttribute("download", filename);

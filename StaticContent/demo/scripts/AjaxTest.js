@@ -3,9 +3,9 @@
 // ====================================================================================================
 var CFG = window.CFG;
 
-$(function() {
+$(function () {
 	window.DEMO.loadCommon();
-	$("#run").button().on("click", function() {
+	$("#run").button().on("click", function () {
 		LoadXmlDoc();
 		return false;
 	});
@@ -31,14 +31,14 @@ function LoadXmlDoc() {
 	} else { // code for IE6, IE5
 		xhr = new window.ActiveXObject("Microsoft.XMLHTTP");
 	}
-	xhr.onreadystatechange = function() {
+	xhr.onreadystatechange = function () {
 		if (xhr.readyState === 4 && xhr.status === 200) {
-            //document.getElementById('myDiv').innerHTML = xhr.responseText;
-            const sel = $("div#myDiv");
-            sel.html($.parseHTML(xhr.responseText));
+			//document.getElementById('myDiv').innerHTML = xhr.responseText;
+			const sel = $("div#myDiv");
+			sel.html($.parseHTML(xhr.responseText));
 			//eval(sel.innerHTML);  // Doesn't work properly in IE
-        }
-    };
+		}
+	};
 	try {
 		// Note: The following only works when retrieving data from an actual web server!
 		xhr.open("GET", "../data/ajaxtest.txt", true);
@@ -56,14 +56,14 @@ function myShowDialog(message, title) {
 	$("<div>").dialog({
 		modal: true,
 		autoOpen: true,
-		open: function() {
+		open: function () {
 			$(this).html(message);
 		},
-		close: function() {
+		close: function () {
 			$(this).dialog("close");
 		},
 		buttons: {
-			'OK': function() {
+			'OK': function () {
 				$(this).dialog("close");
 			}
 		},

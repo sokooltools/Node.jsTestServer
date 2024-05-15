@@ -20,7 +20,7 @@
 		"**/bin": true,
 		"**/Thumbs.db": true,
 		"**/TestServer.sln": true,
-        "**/TestServer.sln.DotSettings.user": true,
+		"**/TestServer.sln.DotSettings.user": true,
 		"**/StaticContent.csproj": true,
 		"**/AssemblyVersion.cs": true,
 		"**/*.cmd": true,

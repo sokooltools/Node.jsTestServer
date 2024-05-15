@@ -1,22 +1,15 @@
 {
-  "extends": [
-    "development"
-  ],
-  "hints": {
-    "meta-viewport": "off",
-    "no-inline-styles": "off",
-    "axe/forms": [
-      "default",
-      {
-        "select-name": "off"
-      }
-    ],
-    "highest-available-document-mode": "off"
-  },
-  "browserslist": [
-    "defaults",
-    "not ie 11",
-    "not and_ff <= 122",
-    "not firefox <= 123"
-  ]
+	"extends": ["development"],
+	"hints": {
+		"meta-viewport": "off",
+		"no-inline-styles": "off",
+		"axe/forms": [
+			"default",
+			{
+				"select-name": "off"
+			}
+		],
+		"highest-available-document-mode": "off"
+	},
+	"browserslist": ["defaults", "not ie 11", "not and_ff <= 122", "not firefox <= 123"]
 }

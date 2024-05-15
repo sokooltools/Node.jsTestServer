@@ -1,11 +1,8 @@
 {
-    "compilerOptions": {
-        "target": "ES2018",
-        "checkJs": false,
-        "allowJs": true
-    },
-    "exclude": [
-        "node_modules",
-        "**/node_modules/*"
-    ]
+	"compilerOptions": {
+		"target": "ES2018",
+		"checkJs": false,
+		"allowJs": true
+	},
+	"exclude": ["node_modules", "**/node_modules/*"]
 }
