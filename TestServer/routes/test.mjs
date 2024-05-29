@@ -100,7 +100,8 @@ router.get("/json", function (req, res) {
 // Returns the Snippets in Edge DevTools by reading the Preferences (json-based) file.
 router.get("/snippets", function (req, res) {
 	// Read the file asynchronously.
-	let prefFile = String.raw`C:/Users/Ronn/AppData/Local/Microsoft/Edge/User Data/Default/Preferences`;
+	//let prefFile = String.raw`C:/Users/Ronn/AppData/Local/Microsoft/Edge/User Data/Default/Preferences`;
+	let prefFile = path.join(process.env.APPDATA.replace("Roaming", "Local"), String.raw`Microsoft\Edge\User Data\Default\Preferences`);
 	fs.readFile(prefFile, "utf8", (err, buf) => {
 		if (err) {
 			console.error(err);
@@ -122,13 +123,13 @@ router.get("/snippets", function (req, res) {
 				data = data.trim();
 			}
 		}
-		// let jsonL1 = {
-		// 	"scriptSnippets": {}
-		// }
+		let jsonL1 = {
+			"snippets": {}
+		}
 		let jsonL2 = JSON.parse(data);
 		jsonL2 = JSON.parse(jsonL2).sort(sortByProperty("name"));
-		//jsonL1.scriptSnippets = jsonL2;
-		res.status(200).json(jsonL2);
+		jsonL1.snippets = jsonL2;
+		res.status(200).json(jsonL1);
 	});
 });
 

@@ -16,7 +16,7 @@ $("#demo_inputFile").on("change", function () {
 // (NOTE: The nodeJs file 'upload.js' is called upon to actually perform the upload since
 // AJAX methods to upload files do not work with browsers prior to IE 10!)
 // -------------------------------------------------------------------------------------------
-$("#demo_frmUpload").submit(function (e) {
+$("#demo_frmUpload").on("submit", function (e) {
 	const theFile = $("#demo_inputFile").val();
 	if (theFile.length > 0) {
 		//window.DEMO.setCookie(document, "upload", "", 1);

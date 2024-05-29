@@ -68,7 +68,12 @@ router.get("*", function (req, res) {
 	res.status(404).send("<h2>Sorry... that address could not be found!</h2>");
 });
 
-/** Returns the full path of the specified filename. */
+/**
+ * Returns the full path of the specified filename.
+ * 
+ * @param {string} filename The filename to provide full path of.
+ * @returns the full path of the specified filename
+ */
 function getFullPathForFilename(filename) {
 	switch (filename.toLowerCase()) {
 		case "pacremotedesktop.exe":

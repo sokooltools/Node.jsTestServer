@@ -9,13 +9,12 @@ import { existsSync, mkdirSync, renameSync } from "fs";
 import { join } from "path";
 
 var router = Router();
-var app = express();
 
+//var app = express();
 //const bodyParser = require("body-parser");
 //app.use(bodyParser.urlencoded({
 //    extended: true
 //}));
-
 //app.use(express.urlencoded({ extended: true }));
 
 import * as url from 'url';
@@ -24,8 +23,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 // Define upload route.
 router.post("/", function (req, res) {
 
-	// const postData = req.body;
-	// console.log(postData );
+	// console.log(req.body);
 
 	const form = new IncomingForm();
 	var uploadsDir = join(__dirname, "../../Uploaded/");
@@ -42,24 +40,20 @@ router.post("/", function (req, res) {
 		// Ensure new directory exists.
 		existsSync(uploadsDir) || mkdirSync(uploadsDir);
 
-		const newPath = join(uploadsDir, files.demo_inputFile[0].originalFilename);
+		const newFilePath = join(uploadsDir, files.demo_inputFile[0].originalFilename);
 
-		// Move the file from the temp path to its final resting spot.
-		const oldPath = files.demo_inputFile[0].filepath;
-		renameSync(oldPath, newPath);
+		// Move the temporary file from the temp path to its final resting spot.
+		const oldFilePath = files.demo_inputFile[0].filepath;
+		renameSync(oldFilePath, newFilePath);
 
-		//res.status(200);
 		//res.json({ 'success': true });
-
 		//res.cookie("upload", path.basename(newPath), { maxAge: 600000 });
+		//const responseData = { success: true };
+		//res.status(200).send(responseData);
 
-		//var responseData = { success: false };
-		//responseData.success = true;
-		//res.send(responseData);
+		const referer = req.get("referer"); // + "?upload=true"; //+ path.basename(newPath);
 
-		const r = req.get("referer"); // + "?upload=true"; //+ path.basename(newPath);
-
-		res.redirect(r);
+		res.redirect(referer);
 
 		//res.writeHead(200, { 'content-type': "text/plain" });
 		//res.write("Received upload:\n\n");

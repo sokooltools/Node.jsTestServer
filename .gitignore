@@ -118,3 +118,5 @@ dist
 /ConfigToolWorkspace.code-workspace
 /.vs/TestServer/v16
 /bin
+/StaticContent/demo/scripts/importexport.js
+/StaticContent/demo/themes/importexport.css

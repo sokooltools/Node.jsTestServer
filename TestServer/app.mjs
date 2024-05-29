@@ -94,6 +94,11 @@ app.use(favicon(path.join(contentFldr, "favicon.ico")));
 //app.use("/static", express.static(path.join(__dirname, "StaticContent")));
 app.use(express.static(contentFldr));
 
+// app.use((req, res, next) => {
+//     res.setHeader('Content-Security-Policy', "script-src 'unsafe-eval' https://ajax.googleapis.com");
+//     next();
+// });
+
 // Only requests to the following (e.g. /download/*) paths will be sent to our "router"
 app.use("/", index);
 app.use("/users", users);
@@ -108,6 +113,7 @@ app.use("/test", test);
 // app.use(bodyParser.json({ limit: "1000000" }));
 // app.use(bodyParser.raw({ limit: "1000000" }));
 // app.use(bodyParser.urlencoded({ limit: "1000000", extended: true, parameterLimit: 50 }));
+
 
 // Anything else causes 404 and forwards to error handler.
 app.use(function (req, res, next) {

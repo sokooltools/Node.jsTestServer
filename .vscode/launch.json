@@ -45,7 +45,7 @@
             "name": "Launch TestServer",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/app.js",
+            "program": "${workspaceRoot}/testserver/app.mjs",
             "skipFiles": [
                 "<node_internals/**>"
             ]

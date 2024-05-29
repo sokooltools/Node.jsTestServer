@@ -92,7 +92,7 @@ DEMO.goHome = function () {
 };
 
 // -------------------------------------------------------------------------------------------
-// Loads the two custom comboboxes.
+// Loads two custom comboboxes.
 // -------------------------------------------------------------------------------------------
 DEMO.loadCustomComboboxes = function () {
 	$.widget("custom.combobox", {
@@ -316,7 +316,7 @@ DEMO.doClick = function () {
 		}
 		DEMO.goToPage(document, urlRoot, page);
 	} else {
-		// Get the extension to make sure it is html
+		// Get the extension to make sure it is html.
 		const ext = arguments[0].split("/").reverse()[0].split(".").reverse()[0];
 		if (!(ext === "htm" || ext === "html")) {
 			$.unblockUI({
@@ -336,14 +336,14 @@ DEMO.doClick = function () {
 };
 
 // -------------------------------------------------------------------------------------------
-// Returns the currently selected protocol (i.e., 'Http:' or 'Https:').
+// Returns the currently selected protocol (i.e., 'Http:' or 'Https:') in the GUI.
 // -------------------------------------------------------------------------------------------
 DEMO.getProtocol = function () {
 	return $("#demo_rdoHttp").is(":checked") ? "http:" : "https:";
 };
 
 // -------------------------------------------------------------------------------------------
-// Selects the last octet of the ip address.
+// Selects the last octet of the ip address specified in the combobox.
 // -------------------------------------------------------------------------------------------
 DEMO.selectIpAddress = function () {
 	const sel = $("#demo_cboIpAddress");
@@ -355,7 +355,7 @@ DEMO.selectIpAddress = function () {
 
 // -------------------------------------------------------------------------------------------
 // Sets the window location to the specified document unless 'Simulation Mode' has been
-// checkmarked in which case it opens the document directly from the PC running the browser.
+// checkmarked, in which case it opens the document directly from the PC running the browser.
 // -------------------------------------------------------------------------------------------
 DEMO.openDoc = function (doc) {
 	var path;
@@ -374,7 +374,8 @@ DEMO.openDoc = function (doc) {
 };
 
 // -------------------------------------------------------------------------------------------
-// Gets the web address with the port number appended to it (if it has been specified).
+// Gets the web address from the GUI with the port number appended to it (i.e., if it has been
+// specified).
 // -------------------------------------------------------------------------------------------
 DEMO.getUrlRoot = function () {
 	const addr = $("#demo_cboIpAddress").val();
