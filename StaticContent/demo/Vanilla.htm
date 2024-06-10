@@ -1,0 +1,51 @@
+<!--=================================================================================================-->
+<!--	Vanilla.htm  (Used for testing...)                                                           -->
+<!--=================================================================================================-->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vanilla HTML Page</title>
+		<style>
+			div {
+				margin-top: 1em;
+			}
+
+			textarea#responseText {
+				width: 500px;
+				margin-top: 0.75em;
+				flex-wrap: nowrap;
+				height: 8.5em;
+				margin-right: 0;
+				/* resize: vertical; */
+			}
+		</style>
+        <script type="text/javascript" src="scripts/vanilla.js"></script>
+		<!-- <script type="text/javascript" src="../scripts/jquery.js"></script> -->
+		<!-- <script type="text/javascript" src="../scripts/jszip.js"></script> -->
+        <script type="text/javascript">			   
+			Vanilla.loadScript("http://localhost:3000/scripts/jszip.js", "JSZip")
+				.then((script) => Vanilla.loadScript("http://localhost:3000/scripts/jszip.js", "JSZip"));
+		</script>
+	</head>
+	<body>
+		<div>
+			<h1>This is a vanilla html page</h1>
+			<button type="button" id="data_uri" class="btn btn-primary" onclick="Vanilla.downloadZip();" title="Click this button to download a sample zip file...">
+				Download Zip File
+			</button>
+			<button
+				type="button"
+				id="scriptExists"
+				class="btn btn-primary"
+				onclick="alert(`Does 'jquery.min.js' exist? ${Vanilla.isExistingScript('jquery.min.js', Vanilla.MatchPortion.INCLUDES)}`);"
+				title="Checks whether the page has a javascript tag with the specified portion of its 'src' attribute...">
+				Check Javascript Exists
+			</button>
+		</div>
+		<div>
+			<textarea id="responseText" wrap="off" spellcheck="false" title="This is where errors will appear."></textarea>
+		</div>
+	</body>
+</html>

@@ -120,3 +120,5 @@ dist
 /bin
 /StaticContent/demo/scripts/importexport.js
 /StaticContent/demo/themes/importexport.css
+TestServer/security/localhost.crt
+TestServer/security/localhost.key

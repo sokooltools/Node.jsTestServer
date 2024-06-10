@@ -19,6 +19,9 @@ import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 //const __filename = url.fileURLToPath(import.meta.url);
 
+import http from "http";
+import https from "https";
+
 // This is the web framework.
 // see https://expressjs.com/
 import express from "express";
@@ -28,7 +31,7 @@ import express from "express";
 import morgan from "morgan";
 
 var fs = await import("fs");
-var path = await import( "path");
+var path = await import("path");
 
 import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
@@ -48,6 +51,7 @@ import test from "./routes/test.mjs";
 var app = express();
 
 app.set("port", process.env.PORT || 3000);
+app.set("port_https", process.env.PORT_HTTPS || 443);
 
 // Uncomment the next line to set the environment from 'development' to 'production'.
 //app.set("env", "production");
@@ -134,8 +138,27 @@ app.use(function (err, req, res) {
 
 // -----------------------------------------------
 
-var server = app.listen(app.get("port"), function () {
-	debug.log(`Express (Test Server) listening on port ${server.address().port}`);
+const httpServer = http.createServer(app);
+// const httpServer = http.createServer((req, res) => {
+// 	res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
+// 	res.end();
+// });
+
+httpServer.listen(app.get("port"), function () {
+	debug.log(`Express (Test Server) listening on port ${app.get("port")}`);
 });
+
+const options = {
+	key: fs.readFileSync(path.join(__dirname, './Security/localhost.key')),
+	cert: fs.readFileSync(path.join(__dirname, './Security/localhost.crt')),
+};
+
+const httpsServer = https.createServer(options, app);
+
+httpsServer.listen(app.get("port_https"), () => {
+	debug.log(`Express (Test Server) listening on port ${app.get("port_https")} (secure)`);
+});
+
+//app.all('*', (req, res) => res.redirect(300, 'https://localhost'));
 
 export default app;
