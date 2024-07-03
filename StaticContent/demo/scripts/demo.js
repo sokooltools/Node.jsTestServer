@@ -22,10 +22,9 @@ DEMO.loadCommon = function () {
 };
 
 DEMO.getPathRoot = function () {
-	if (window.location.pathname.startsWith("/StaticContent")) {
-		return `${window.location.origin}/StaticContent`;
-	}
-	return window.location.origin;
+	return (window.location.pathname.startsWith("/StaticContent")) 
+		? `${window.location.origin}/StaticContent`
+		: window.location.origin;
 };
 
 // -------------------------------------------------------------------------------------------
