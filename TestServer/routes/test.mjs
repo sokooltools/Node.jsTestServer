@@ -122,13 +122,12 @@ router.get("/snippets", function (req, res) {
 				}
 				data = data.trim();
 			}
-		}
-		let jsonL1 = {
-			"snippets": {}
-		}
-		let jsonL2 = JSON.parse(data);
-		jsonL2 = JSON.parse(jsonL2).sort(sortByProperty("name"));
-		jsonL1.snippets = jsonL2;
+		}	
+		let jsonL1 = JSON.parse(data);
+		jsonL1 = JSON.parse(jsonL1).sort(sortByProperty("name"));
+		//let jsonL2 = {
+		//	"snippets": jsonL1
+		//}
 		res.status(200).json(jsonL1);
 	});
 });

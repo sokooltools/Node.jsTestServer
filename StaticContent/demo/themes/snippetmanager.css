@@ -1,0 +1,266 @@
+* {
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+	padding: 0px;
+	margin: 0px;
+}
+
+body {
+	align-items: center;
+	justify-content: center;
+	margin: 5px;
+}
+
+#page_header {
+	width: 98%;
+	padding: 6px;
+	background: tomato;
+	color: white;
+	font-weight: bold;
+	font-size: 24px;
+	text-align: center;
+}
+
+#drop_files {
+	opacity: 0;
+	width: 100%;
+	height: 20vh;
+	z-index: 1000;
+}
+
+.drop-zone {
+	height: 200px;
+	padding: 25px;
+	text-align: center;
+	font-weight: 500;
+	font-size: 20px;
+	cursor: pointer;
+	background-color: white;
+	border: 4px dashed #009578;
+	border-radius: 10px;
+	align-items: center;
+	margin: 8px;
+}
+
+.drop-zone--over {
+	border-style: solid;
+}
+
+.drop-zone__input {
+	display: none;
+}
+
+.drop-zone__prompt {
+	color: #cccccc;
+}
+
+ul {
+	font-size: 0.75em;
+	margin-top: 4px;
+}
+
+fieldset {
+	font-size: 0.85rem;
+	font-weight: 300;
+	margin: 8px;
+	padding: 8px;
+}
+
+legend,
+label {
+	cursor: pointer;
+}
+
+div.first_radio {
+	margin-bottom: 4px;
+}
+
+div.columnheader_div {
+	font-size: 0.8em;
+	margin: 0 0.5em;
+	background: tomato;
+	height: 2.5em;
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid green;
+}
+
+div#snippets_div {
+	border: 1px solid gray;
+	width: 96%;
+	height: 57vh;
+	overflow-y: scroll;
+	margin-top: 0.4em;
+	margin-left: 0.4em;
+}
+
+span.columnheader_span {
+	text-align: center;
+	width: 100%;
+	cursor: pointer;
+}
+
+div.flex-child-element {
+	background-color: #eee;
+}
+
+#snip_header {
+	font-weight: 600;
+	margin: 0.5em;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	text-align: center;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+#snip_container {
+	width: 100%;
+	height: 85vh;
+	background-color: #eee;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 444px;
+}
+
+#snip_list {
+	font-size: 8pt;
+	width: 90%;
+	height: 100%;
+	padding: 0 0 0 4px;
+	margin-bottom: 2px;
+	background-color: #fff;
+	overflow-y: scroll;
+}
+
+#snip_list label {
+	display: flex;
+	align-items: center;
+	margin: 1px 0;
+	padding: 2px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: 100ms;
+}
+
+#snip_list label:hover {
+	background-color: #c5cae9;
+}
+
+input.snip_input[type="checkbox"] {
+	display: none;
+}
+
+label .snip_custom_box {
+	width: 15px;
+	height: 15px;
+	background-color: #f2f2f2;
+	border-radius: 0.25em;
+}
+
+label .snip_custom_box .snip_custom_chk {
+	width: 1.5em;
+	height: 8px;
+	left: 2px;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	position: relative;
+}
+
+label .snip_custom_box .snip_custom_chk .snip_custom_chk_line1 {
+	position: absolute;
+	height: 0%;
+	width: 2px;
+	background-color: #1e88e5;
+	border-radius: 100px;
+	transition: 100ms;
+}
+
+label .active .snip_custom_chk .snip_custom_chk_line1 {
+	height: 100%;
+	transition: 100ms;
+	transition-delay: 100ms;
+}
+
+label .snip_custom_box .snip_custom_chk .snip_custom_chk_line2 {
+	position: absolute;
+	height: 2px;
+	width: 0%;
+	bottom: 0px;
+	background-color: #1e88e5;
+	border-radius: 100px;
+	transition: 100ms;
+}
+
+label .active .snip_custom_chk .snip_custom_chk_line2 {
+	width: 100%;
+	transition: 100ms;
+	transition-delay: 100ms;
+}
+
+label p {
+	font-size: 8pt;
+	margin-left: 8px;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+div.button_row {
+	display: flex;
+	flex-direction: row;
+}
+
+div.my_radio_div {
+	margin-bottom: 0.25em;
+}
+
+label.my_radio_label span:first-of-type {
+	margin-left: 0.25em;
+}
+
+button.snip_button {
+	margin: 4px;
+	padding: 2px 4px;
+	border-width: 1px;
+	border-radius: 4px;
+	height: 21px;
+}
+
+button.ml8 {
+	margin-left: 8px;
+}
+
+button.snip_button:hover {
+	background-color: rgb(207, 207, 207);
+}
+
+.flex-parent-element {
+	display: flex;
+	width: 70%;
+}
+
+.flex-child-element {
+	flex: 1;
+	border: 2px solid lightgray;
+	margin: 10px;
+	min-width: 334px;
+}
+
+.flex-child-element:first-child {
+	margin-right: 10px;
+}
+
+/* button[data-title]:hover::after {
+    content: attr(data-title);
+    position: relative;
+    top: -100%;
+    left: 0;
+	border: thin green solid;
+	background-color: white;
+	font-style: italic;
+  }
+*/
