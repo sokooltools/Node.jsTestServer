@@ -24,7 +24,7 @@ void function () {
         scriptSnippets: [],
         lastIdentifier: 0,
         thisSnippet: [],
-        thisSnippetName: "snippetmanager"
+        thisSnippetName: "SnippetManager"
     };
 
     /** -------------------------------------------------------------------------------------------
@@ -57,7 +57,8 @@ void function () {
         docx = app_window.document;
         docx.addEventListener("DOMContentLoaded", () => {
             initializePage();
-        });
+        }
+        );
     }
 
     /** -------------------------------------------------------------------------------------------
@@ -96,15 +97,20 @@ void function () {
         } else if (isLocalHost) {
             console.log("Loading snippets from DevTools (via 'LocalHost')...")
             doGet("/test/snippets", (snips) => {
-                state.scriptSnippets = snips;
+                if (typeof snips === "object") {
+                    state.scriptSnippets = snips;
+                } else {
+                    console.error(snips);
+                    state.scriptSnippets = [];
+                }
                 finishLoad();
-            });
+            }
+                , 1000);
         } else {
             console.log("Loading example snippets...")
             state.scriptSnippets = [];
             for (let index = 0; index < 30; index++) {
-                state.scriptSnippets.push(
-                    createSnippet(`example_snippet${index}`, `snippet${index} content`));
+                state.scriptSnippets.push(createSnippet(`example_snippet${index}`, `snippet${index} content`));
             }
             state.lastIdentifier = `${state.scriptSnippets.length}`;
             finishLoad();
@@ -115,8 +121,8 @@ void function () {
          */
         function finishLoad() {
             renderCurrentSnippets();
-            addChangeEventToSnippetCheckboxes();
-            addMouseEventsToSnippetCheckboxes();
+            addChangeEventToAllSnippetCheckboxes();
+            addMouseEventsToAllSnippetCheckboxes();
             updateCurrentSnippetsHeader();
             enableDisableButtons();
         }
@@ -127,9 +133,13 @@ void function () {
         checkboxes.forEach((checkbox, index) => {
             setTimeout(() => {
                 checkbox.checked = true;
-                addOrRemoveCustomCheckmark({ target: checkbox });
-            }, index * 10);
-        });
+                addOrRemoveCustomCheckmark({
+                    target: checkbox
+                });
+            }
+                , index * 10);
+        }
+        );
     }
 
     function uncheckAllCheckboxes() {
@@ -137,9 +147,13 @@ void function () {
         checkboxes.forEach((checkbox, index) => {
             setTimeout(() => {
                 checkbox.checked = false;
-                addOrRemoveCustomCheckmark({ target: checkbox });
-            }, index * 10);
-        });
+                addOrRemoveCustomCheckmark({
+                    target: checkbox
+                });
+            }
+                , index * 10);
+        }
+        );
     }
 
     function invertAllCheckboxes() {
@@ -147,9 +161,13 @@ void function () {
         checkboxes.forEach((checkbox, index) => {
             setTimeout(() => {
                 checkbox.checked = !checkbox.checked;
-                addOrRemoveCustomCheckmark({ target: checkbox });
-            }, index * 10);
-        });
+                addOrRemoveCustomCheckmark({
+                    target: checkbox
+                });
+            }
+                , index * 10);
+        }
+        );
     }
 
     function removeSnippets() {
@@ -182,15 +200,17 @@ void function () {
             app_window.alert(NO_CHECKMARKS_WARNING.format("'Save' snippets to DevTools"));
             return;
         }
-        let token = "";
+        let token = `\n\nNote that all existing snippets in 'DevTools' will be replaced by the`
+            + `selected snippets. (Have you created a backup?)`;
         // Make sure to add state.thisSnippet to the array if it's missing.
         let index = checkedSnippets.findIndex(s => s.name.toLowerCase() === state.thisSnippetName.toLowerCase());
         if (index < 0) {
             checkedSnippets.push(state.thisSnippet);
-            token = `\n(This snippet: "${state.thisSnippetName}" is always saved automatically)`;
+            token += `\n\nAlso note that the currently running snippet, ie., "${state.thisSnippetName}",`
+                + ` is always saved to DevTools even though it has not been selected.`;
         }
         let msg = (cnt < total)
-            ? `Sure you want to save only '${cnt}' of the '${total}' items in [Current Snippets] to DevTools?${token}`
+            ? `Sure you want to save '${cnt}' of '${total}' items in [Current Snippets] to DevTools?${token}`
             : `Sure you want to save all '${total}' items in [Current Snippets] to DevTools?${token}`;
         if (app_window.confirm(msg)) {
             saveSelectedSnippetsToDevTools(checkedSnippets);
@@ -251,7 +271,8 @@ void function () {
             xhrGetRequest(EXT_BGRINS + snippet + '/' + snippet + '.js', (request) => {
                 const snippetContentString = request.target.response;
                 addCurrentSnippet(snippet, snippetContentString);
-            });
+            }
+            );
         }
         );
     }
@@ -262,7 +283,8 @@ void function () {
             xhrGetRequest(EXT_BAHMUTOV + snippet + '.js', (request) => {
                 const snippetContentString = request.target.response;
                 addCurrentSnippet(snippet, snippetContentString);
-            });
+            }
+            );
         }
         );
     }
@@ -321,7 +343,8 @@ void function () {
             cont.innerHTML = "";
             state.scriptSnippets.forEach((snippet) => {
                 renderSnippet(snippet);
-            });
+            }
+            );
         }
         function renderSnippet(snippet) {
             const labl = docx.createElement("label");
@@ -354,12 +377,7 @@ void function () {
     function updateCurrentSnippetsHeader() {
         let cnt = state.scriptSnippets.length;
         const hdr = docx.getElementById("snip_header");
-        hdr.innerHTML = `${cnt} Current Snippets${(isDevToolsOfDevTools) 
-                       ? "" 
-                       : (isLocalHost) 
-                          ? " (Read-Only)" 
-                          : " (Examples)" 
-                      }`;
+        hdr.innerHTML = `${cnt} Current Snippets${(isDevToolsOfDevTools) ? "" : (isLocalHost) ? " (Read-Only)" : " (Examples)"}`;
     }
 
     /** -------------------------------------------------------------------------------------------
@@ -385,8 +403,8 @@ void function () {
             state.scriptSnippets.push(newSnippet);
             state.lastIdentifier = newSnippet.id;
             renderCurrentSnippets(newSnippet);
-            addChangeEventToSnippetCheckboxes(true);
-            addMouseEventsToSnippetCheckboxes(true);
+            addChangeEventToNewSnippetCheckbox();
+            addMouseEventsToNewSnippetCheckbox();
             updateCurrentSnippetsHeader();
             console.log(`Added snippet: '${name}'`);
         }
@@ -402,8 +420,7 @@ void function () {
     function createSnippet(name, content) {
         return {
             name: name,
-            content: content
-            //,id: serialize(parseInt(state.lastIdentifier) + 1)
+            content: content //,id: serialize(parseInt(state.lastIdentifier) + 1)
         }
     }
 
@@ -413,12 +430,11 @@ void function () {
     //async function saveSelectedSnippetsToDevTools(snippetArray) {
     function saveSelectedSnippetsToDevTools(snippetArray) {
 
-
         let snippets = serialize(snippetArray);
         let lastIdentifier = `"${snippetArray.length}"`;
 
-        console.log("\"script-snippets\":", snippets);
-        console.log("\"script-snippets-last-identifier\":", lastIdentifier);
+        //console.log("\"script-snippets\":", snippets);
+        //console.log("\"script-snippets-last-identifier\":", lastIdentifier);
 
         if (isDevToolsOfDevTools) {
             //InspectorFrontendHost.setPreference("script-snippets", snippets);
@@ -428,8 +444,9 @@ void function () {
         //await wait(100);
         setTimeout(() => {
             app_window.alert(`To see the changes in the 'Snippets' tab of 'DevTools',`
-                + ` close the current 'DevTools' windows, then re-open a new 'DevTools' window.`);
-        }, 100);
+                + ` close both 'DevTools' windows, then re-open to a new 'DevTools' window.`);
+        }
+            , 100);
     }
 
     /** -------------------------------------------------------------------------------------------
@@ -504,8 +521,7 @@ void function () {
 
     function debugMe() {
         debugger;
-        //letsTry(isAnyCheckedSnippets, "test message");
-        openAppWindow();
+        testLoadSnippetFromPreferences();
     }
 
     // Snippet List  //////////////////////////////////////////////////////////////////
@@ -528,7 +544,7 @@ void function () {
     function enableDisableButtons() {
         let isNoChecked = !isAnyCheckedSnippets();
         docx.getElementById("snip_remove_btn").disabled = isNoChecked;
-        docx.getElementById("snip_save_btn").disabled = isNoChecked;
+        docx.getElementById("snip_save_btn").disabled = isNoChecked || isLocalHost;
         docx.getElementById("snip_downloadSingleJson_btn").disabled = isNoChecked;
         docx.getElementById("snip_downloadMultipleJs_btn").disabled = isNoChecked;
     }
@@ -542,7 +558,8 @@ void function () {
         checkboxes.forEach((checkbox, index) => {
             if (checkbox.checked)
                 snippets.push(state.scriptSnippets[index]);
-        });
+        }
+        );
         return snippets;
     }
 
@@ -575,7 +592,9 @@ void function () {
             if (event.shiftKey) {
                 let checkbox = event.target.closest(".snip_row").firstElementChild;
                 checkbox.checked = event.ctrlKey === false;
-                addOrRemoveCustomCheckmark({ target: checkbox });
+                addOrRemoveCustomCheckmark({
+                    target: checkbox
+                });
             }
             _eventTargetInnerText = txt;
         }
@@ -591,12 +610,19 @@ void function () {
 
         setTitle("snip_checkall_btn", "Adds a checkmark to all the snippets in [Current Snippets].");
         setTitle("snip_uncheckall_btn", "Removes the checkmark from all the snippets in [Current Snippets].");
-        setTitle("snip_invert_btn", "Inverts the checkmark of all the snippets in [Current Snippets]\n(i.e., changes 'checked' to 'unchecked' and vice versa).");
+        setTitle("snip_invert_btn", "Inverts the checkmark of all the snippets in [Current Snippets]\n"
+            + "(i.e., switches currently 'checked' with 'unchecked').");
 
-        setTitle("snip_reload_btn", "Reloads (replaces) all snippets in [Current Snippets] with the snippets from DevTools.");
+        setTitle("snip_reload_btn", "Reloads all snippets in [Current Snippets] with the snippets from DevTools.");
         setTitle("snip_remove_btn", "Removes the selected snippets from [Current Snippets].");
-        setTitle("snip_save_btn", "Saves all selected snippets in [Current Snippets] to 'DevTools'.\n"
-            + "(Note: you will be prompted to confirm this action prior to all\nsnippets in 'DevTools' actually being replaced.)");
+
+        let save_msg = "Saves the selected snippets in [Current Snippets] to 'DevTools'.\n***\n";
+        save_msg += isDevToolsOfDevTools
+            ? "Note: Since all the snippets in 'DevTools' will actually be 'replaced' by the selected\n"
+            + "snippets, you will be prompted to confirm this action prior to it being performed."
+            : "Note: This action can only be performed when being run from a\n"
+            + "'DevTools' of 'DevTools' window.";
+        setTitle("snip_save_btn", save_msg);
 
         setTitle("snip_downloadSingleJson_btn", "Downloads the selected snippets in [Current Snippets] to a single unified '.json' file.");
         setTitle("snip_downloadMultipleJs_btn", "Downloads the selected snippets in [Current Snippets] to multiple '.js' files.");
@@ -608,13 +634,13 @@ void function () {
         setTitle("replace_it_radio", "When hilighted, the snippet will replace the existing snippet in [Current Snippets].");
 
         setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
-        setTitle("snip_header", "Shows a list of all snippets saved in 'DevTools (or just examples)'\ncombined with other snippets added during this session.");
+        setTitle("snip_header", "Shows a list of all snippets saved in 'DevTools' (or just examples)'\ncombined with other snippets added during this session.");
 
         setTitle("external_bgrins_button", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BGRINS}"`);
         setTitle("external_bahmutov_button", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BAHMUTOV}"`);
     }
 
-    // Drag/Drop Handler Stuff /////////////////////////////////////////////////////////
+    // Drag/Drop zone related stuff ---------------------------------------------------------------
 
     /** -------------------------------------------------------------------------------------------
      * Loads [Current Snippets] using the array of snippet objects read from a '.json' file.
@@ -650,11 +676,12 @@ void function () {
     }
 
     /** -------------------------------------------------------------------------------------------
-     * Called whenever a file is loaded. Used to separate a file into its name, i.e, filename minus  
-     * its extension, and its content. Determines whether to add the file as a single snippet or  
-     * as a file containing an array of snippets.
+     * Called whenever a file is loaded. Used to extract the 'name', (i.e., filename minus 
+     * extension), and 'content' from the file. Determines whether to add the file as a single 
+     * snippet or as a file containing multiple snippets (i.e., an array of snippets).
      * 
-     * @param {any} event The event containing the name of the file and its content.
+     * @param {any} event The event whose target object contains a 'filename' property and 
+     * a 'content' property.
      */
     function fileLoaded(event) {
         const contentString = event.target.result;
@@ -669,6 +696,11 @@ void function () {
         updateCurrentSnippetsHeader();
     }
 
+    /** -------------------------------------------------------------------------------------------
+     * Adds multiple events ('change', 'click', 'drag', 'drop', etc.) to the elements composing a 
+     * drop zone.
+     * 
+     */
     function addEventsToDropZone() {
         // Loads all events used by the drop zone input class.
         docx.querySelectorAll(".drop-zone__input").forEach((elem) => {
@@ -678,32 +710,38 @@ void function () {
             // Handles the 'click' event of the drop zone 'input' element.
             elem.addEventListener("click", () => {
                 elem.value = null;
-            });
+            }
+            );
 
             // Handles the 'change' event of the drop zone 'input' element.
             elem.addEventListener("change", (e) => {
                 if (elem.files.length) {
                     loadFiles(elem.files);
                 }
-            });
+            }
+            );
 
             // Handles the 'click' event of the drop zone element.
             _dropZoneElement.addEventListener("click", () => {
                 elem.click();
-            });
+            }
+            );
 
             // Handles the 'dragover' event.
             _dropZoneElement.addEventListener("dragover", (e) => {
                 e.preventDefault();
                 _dropZoneElement.classList.add("drop-zone--over");
-            });
+            }
+            );
 
             // Handles both the 'dragleave' and 'dragend' events.
             ["dragleave", "dragend"].forEach((type) => {
                 _dropZoneElement.addEventListener(type, () => {
                     _dropZoneElement.classList.remove("drop-zone--over");
-                });
-            });
+                }
+                );
+            }
+            );
 
             // Handles the 'drop' event.
             _dropZoneElement.addEventListener("drop", (e) => {
@@ -713,50 +751,62 @@ void function () {
                     loadFiles(elem.files);
                 }
                 _dropZoneElement.classList.remove("drop-zone--over");
-            });
-        });
+            }
+            );
+        }
+        );
     }
 
     /** -------------------------------------------------------------------------------------------
-     * Adds a 'change' event listener to the checkbox of all snippets in [Current Snippets] (or  
-     * optionally to just the checkbox of the new snippet).
-     * 
-     * @param {boolean} isNewSnippet Normally an event listener is added to all the checkboxes in 
-     * [Current Snippets]; however providing a 'true' value to this optional argument, indicates 
-     * that the event listener should only be added to the new snippet (i.e., the 'last' checkbox 
-     * in [Current Snippets]);
+     * Adds a 'change' event listener to the checkbox of all snippets in [Current Snippets].
      */
-    function addChangeEventToSnippetCheckboxes(isNewSnippet) {
+    function addChangeEventToAllSnippetCheckboxes() {
         const checkboxes = docx.querySelectorAll(".snip_row input");
-        if (!isNewSnippet) {
-            checkboxes.forEach((checkbox) => {
-                checkbox.addEventListener("change", addOrRemoveCustomCheckmark);
-            });
-        } else {
-            let lastCheckbox = checkboxes[checkboxes.length - 1];
-            lastCheckbox.addEventListener("change", addOrRemoveCustomCheckmark);
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", addOrRemoveCustomCheckmark);
         }
+        );
+
+    }
+    /** -------------------------------------------------------------------------------------------
+    * Adds a 'change' event listener to the checkbox of a new snippet, (i.e., the 'last' snippet)
+    * added to [Current Snippets].
+    */
+    function addChangeEventToNewSnippetCheckbox() {
+        const checkboxes = docx.querySelectorAll(".snip_row input");
+        let lastCheckbox = checkboxes[checkboxes.length - 1];
+        lastCheckbox.addEventListener("change", addOrRemoveCustomCheckmark);
     }
 
-    function addMouseEventsToSnippetCheckboxes(isNewSnippet) {
+    /** -------------------------------------------------------------------------------------------
+     * Adds various mouse events (such as 'mousedown', 'mouseup', 'mouseenter', 'mouseleave') to the 
+     * checkbox of all snippets in [Current Snippets].
+     */
+    function addMouseEventsToAllSnippetCheckboxes() {
         const snipRows = docx.querySelectorAll(".snip_row");
-        if (!isNewSnippet) {
-            snipRows.forEach((snipRow) => {
-                snipRow.addEventListener("mousedown", processMouseDown);
-                snipRow.addEventListener("mouseenter", processMouseEnter);
-            });
-            const snipList = docx.querySelector("#snip_list");
-            snipList.addEventListener("mouseup", processMouseUp);
-            snipList.addEventListener("mouseleave", processMouseLeave);
-        } else {
-            const snipRow = snipRows[snipRows.length - 1];
+        snipRows.forEach((snipRow) => {
             snipRow.addEventListener("mousedown", processMouseDown);
             snipRow.addEventListener("mouseenter", processMouseEnter);
         }
+        );
+        const snipList = docx.querySelector("#snip_list");
+        snipList.addEventListener("mouseup", processMouseUp);
+        snipList.addEventListener("mouseleave", processMouseLeave);
     }
 
     /** -------------------------------------------------------------------------------------------
-     * Adds a 'click' event handler to the buttons in the UI.
+     * Adds a 'MouseDown' and a 'MouseEnter' event listener to the checkbox of a new snippet (i.e.,  
+     * the 'last' snippet) added to [Current Snippets].
+     */
+    function addMouseEventsToNewSnippetCheckbox() {
+        const snipRows = docx.querySelectorAll(".snip_row");
+        const snipRow = snipRows[snipRows.length - 1];
+        snipRow.addEventListener("mousedown", processMouseDown);
+        snipRow.addEventListener("mouseenter", processMouseEnter);
+    }
+
+    /** -------------------------------------------------------------------------------------------
+     * Adds a 'click' event listener to all the buttons in the UI.
      */
     function addClickEventToButtons() {
         addEventToAnElement("external_bgrins_button").on("click", addSnippets_bgrins);
@@ -774,7 +824,7 @@ void function () {
 
     /** -------------------------------------------------------------------------------------------
      * Attaches an event (defined by its 'name' and callback 'function') to an element having the 
-     * specified ID.
+     * specified id.
      * 
      * @param {string} id The element identifier.
      * @returns The element having the specified id.
@@ -798,8 +848,7 @@ void function () {
     //     }
     // });
 
-
-    // Utility Functions ///////////////////////////////////////////////////////////////////////
+    // Utility methods ----------------------------------------------------------------------------
 
     /** -------------------------------------------------------------------------------------------
      * Returns a promise which waits the specified number of milliseconds before execution is 
@@ -879,23 +928,23 @@ void function () {
 
     /** -------------------------------------------------------------------------------------------
      * Gets a tokenized version of the current 'Date' and 'Time' useful for constructing a unique 
-     * filename. (For example: "[2024-06-21][11-16_35]" )
+     * filename. (For example: "_20240621_091635" )
      * 
      * @returns A tokenized version of the current 'Date' and 'Time'.
      */
     function getDateTimeToken() {
         let d = new Date();
-        var fileName = "-" + d.getFullYear();
+        var fileName = "_" + d.getFullYear();
         let month = d.getMonth() + 1;
-        fileName += "-" + ((month < 10) ? "0" + month : month);
+        fileName += "" + ((month < 10) ? "0" + month : month);
         let day = d.getDate();
-        fileName += "-" + ((day < 10) ? "0" + day : day);
+        fileName += "" + ((day < 10) ? "0" + day : day);
         let hours = d.getHours();
-        fileName += "-" + ((hours < 10) ? "0" + hours : hours);
+        fileName += "_" + ((hours < 10) ? "0" + hours : hours);
         let minutes = d.getMinutes();
-        fileName += "-" + ((minutes < 10) ? "0" + minutes : minutes);
+        fileName += "" + ((minutes < 10) ? "0" + minutes : minutes);
         let seconds = d.getSeconds();
-        fileName += "-" + ((seconds < 10) ? "0" + seconds : seconds);
+        fileName += "" + ((seconds < 10) ? "0" + seconds : seconds);
         return fileName;
     }
 
@@ -908,30 +957,24 @@ void function () {
         }
     }
 
-    // Extends the javascript string class with a method similar to the C# 'String.Format'.
+    /** -------------------------------------------------------------------------------------------
+    *  Extends the javascript string class with a method similar to 'String.Format' in C#.
+    */
     if (!String.prototype.format) {
         String.prototype.format = function () {
             var args = arguments;
             return this.replace(/{(\d+)}/g, function (match, number) {
-                return typeof args[number] != 'undefined'
-                    ? args[number]
-                    : match
-                    ;
+                return typeof args[number] != 'undefined' ? args[number] : match;
             });
-        };
+        }
+            ;
     }
+
+    // NodeJS methods ---------------------------------------------------------------------------
 
     const defaultRoot = "http://localhost:3000";
 
-    function getFullRoute(route) {
-        return route.startsWith("http")
-            ? route
-            : defaultRoot + (route.startsWith("/")
-                ? route
-                : "/" + route);
-    }
-
-    /**
+    /** -------------------------------------------------------------------------------------------
      * Performs a GET to the server.
      *
      * @param {string} route The route.
@@ -954,89 +997,98 @@ void function () {
             // Abort the fetch request.
             if (callback)
                 callback("Fetch request timed out.");
-        }, msTimeout || 5000);
+        }
+            , msTimeout || 5000);
 
-        // Handle the fetch request
-        fetchPromise
-            .then((response) => {
-                // Check if the request was successful.
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                // Parse the response as JSON
-                return response.json();
-            })
-            .then((data) => {
-                // Handle the JSON data.
-                if (callback)
-                    callback(data);
-            })
-            .catch((error) => {
-                // Handle any errors that occurred during the fetch.
-                console.error(error);
-            })
-            .finally(() => {
-                // Clear the timeout.
-                clearTimeout(timeoutId);
-            });
+        // Handle the fetch request.
+        fetchPromise.then((response) => {
+            // Check if the request was successful.
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            // Parse the response as JSON.
+            return response.json();
+        }
+        ).then((data) => {
+            // Handle the JSON data.
+            if (callback)
+                callback(data);
+        }
+        ).catch((error) => {
+            // Handle any errors that occurred during the fetch.
+            //console.error(error);
+        }
+        ).finally(() => {
+            // Clear the timeout.
+            clearTimeout(timeoutId);
+        }
+        );
+        function getFullRoute(route) {
+            return route.startsWith("http") ? route : defaultRoot + (route.startsWith("/") ? route : "/" + route);
+        }
+    }
+
+    // Testing functions --------------------------------------------------------------------------
+
+    function testSaveSnippetToPreferences() {
+        const snippetName = 'myCodeSnippet';
+        const snippetCode = `function helloWorld() {console.log("Hello, world!");}`;
+        testSaveSnippetToDevTools(snippetName, snippetCode);
+    }
+
+    function testLoadSnippetFromPreferences() {
+        const snippetName = 'myCodeSnippet';
+        testLoadSnippetFromDevTools(snippetName, loadedSnippet => {
+            if (loadedSnippet !== null) {
+                console.log(`Loaded snippet: ${loadedSnippet}`);
+            }
+        }
+        );
     }
 
     /** -------------------------------------------------------------------------------------------
-     *  Saves a code snippet to DevTools preferences.
-     * 
-     * @param {string} snippetName 
-     * @param {string} snippetCode 
-     */
-    function saveSnippetToPreferences(snippetName, snippetCode) {
+    *  Test save a code snippet to 'DevTools'.
+    * 
+    * @param {string} snippetName The name of the snippet to save.
+    * @param {string} snippetCode 
+    */
+    function testSaveSnippetToDevTools(snippetName, snippetCode) {
         if (!isDevToolsOfDevTools)
             return;
         // Convert the code snippet to a Base64 encoded string.
-        const base64Snippet = btoa(snippetCode);
-        // Use InspectorFrontendHost to save the preference.
-        InspectorFrontendHost.setPreference(snippetName, base64Snippet, success => {
-            if (success) {
-                console.log(`Successfully saved snippet with name: ${snippetName}`);
-            } else {
-                console.error(`Failed to save snippet with name: ${snippetName}`);
-            }
-        });
+        //const base64Snippet = btoa(snippetCode);
+        let scriptSnippet = createSnippet(snippetName, snippetCode);
+        // InspectorFrontendHost.setPreference("script-snippets", scriptSnippet, success => {
+        //     if (success) {
+        //         console.log(`Successfully saved snippet with name: ${snippetName}`);
+        //     } else {
+        //         console.error(`Failed to save snippet with name: ${snippetName}`);
+        //     }
+        // }
+        // );
     }
 
     /** -------------------------------------------------------------------------------------------
-     * Loads a code snippet from DevTools preferences.
+     * Test load a code snippet from 'DevTools'.
      * 
-     * @param {string} snippetName The name of the snippet.
+     * @param {string} snippetName The name of the snippet to load.
      * @param {Function} callback The name of the callback function.
      */
-    function loadSnippetFromPreferences(snippetName, callback) {
+    function testLoadSnippetFromDevTools(snippetName, callback) {
         if (!isDevToolsOfDevTools)
             return;
         // Use InspectorFrontendHost to retrieve the preference.
         InspectorFrontendHost.getPreference(snippetName, base64Snippet => {
             if (base64Snippet !== null) {
                 // Convert the Base64 encoded string back to a code snippet.
-                const codeSnippet = atob(base64Snippet);
-                callback(codeSnippet);
+                const snippetCode = atob(base64Snippet);
+                callback(snippetCode);
             } else {
                 console.error(`No snippet found with name: ${snippetName}`);
                 callback(null);
             }
-        });
-    }
-
-    function testSaveSnippetToPreferences() {
-        const snippetName = 'myCodeSnippet';
-        const snippetCode = `function helloWorld() {console.log("Hello, world!");}`;
-        saveSnippetToPreferences(snippetName, snippetCode);
-    }
-
-    function testLoadSnippetFromPreferences() {
-        const snippetName = 'myCodeSnippet';
-        loadSnippetFromPreferences(snippetName, loadedSnippet => {
-            if (loadedSnippet !== null) {
-                console.log(`Loaded snippet: ${loadedSnippet}`);
-            }
-        });
+        }
+        );
     }
 
     const META = `
@@ -1311,8 +1363,7 @@ void function () {
     
     </style>`;
 
-    const HTML =
-        `<html lang="en">
+    const HTML = `<html lang="en">
         <head>
         </head>
         <body>
@@ -1378,6 +1429,7 @@ void function () {
         openThisWindow();
     } else {
         openAppWindow();
-    };
+    }
+    ;
 
 }();

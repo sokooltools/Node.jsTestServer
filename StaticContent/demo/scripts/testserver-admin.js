@@ -33,6 +33,10 @@ $(function () {
 		DEMO.doGet("/test/versions", showResponse);
 	});
 
+	$("#getPing").on("click", function () {
+		DEMO.doGet("/test/ping", showResponse, 50);
+	});
+
 	$("#resizeGif").on("click", function () {
 		const json = {
 			"base64String": sampleText.val(),
@@ -67,7 +71,7 @@ $(function () {
 });
 
 function showResponse(json) {
-	console.log(json);
+	//console.log(json);
 	responseText.val(JSON.stringify(json, null, 2));
 }
 

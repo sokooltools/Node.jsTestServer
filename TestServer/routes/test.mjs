@@ -77,6 +77,11 @@ router.get("/", function (req, res) {
 	res.json("You've reached the home page of the 'Test' routes.");
 });
 
+// Returns info pertaining to the root route
+router.get("/ping", function (req, res) {
+	res.status(200).json("{success}");
+});
+
 // Returns About info.
 router.get("/about", function (req, res) {
 	res.json("Test Route About Html");
