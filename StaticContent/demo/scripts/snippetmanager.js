@@ -208,11 +208,11 @@ void function () {
             token += `\n\n(Note the currently running snippet: "${state.thisSnippetName}",`
                 + ` will always be saved in 'DevTools' no matter whether it is selected in [Current Snippets] or not).`;
         }
-        token += `\n\nPlease be aware that SAVE results in all snippets in 'DevTools' being replaced by the selected`
-                      + ` snippets from [Current Snippets].`;
+        token += `\n\nPlease be aware that performing SAVE results in all snippets in 'DevTools' being replaced by the selected`
+                      + ` snippets in [Current Snippets].`;
         let msg = (cnt < total)
-            ? `Ok to save '${cnt}' of '${total}' items in [Current Snippets] to DevTools?${token}`
-            : `Ok to save all '${total}' items in [Current Snippets] to DevTools?${token}`;
+            ? `Ok to save the ${cnt} selected items in [Current Snippets] to DevTools?${token}`
+            : `Ok to save all the items in [Current Snippets] to DevTools?${token}`;
         if (app_window.confirm(msg)) {
             saveSelectedSnippetsToDevTools(checkedSnippets);
         }
@@ -444,9 +444,9 @@ void function () {
 
         //await wait(100);
         setTimeout(() => {
-            app_window.alert(`You can continue to manage [Current Snippets] before closing the 'DevTools' windows.\n\n`
-                + `To see the changes reflected in the 'Snippets' tab of 'DevTools' itself,`
-                + `you will need to close both 'DevTools' windows, then re-open a new 'DevTools' window.`);
+            app_window.alert(`To see the changes reflected in the 'Snippets' tab of 'DevTools',`
+                + `you will need to close both 'DevTools' windows, then re-open to a new 'DevTools' window.\n\n`
+                + `In the meantime, before you close the 'DevTools' windows, you can continue to manage the [Current Snippets]...`);
         }, 500);
     }
 
