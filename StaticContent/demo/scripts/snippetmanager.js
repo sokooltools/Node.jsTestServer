@@ -212,7 +212,7 @@ void function () {
                       + ` snippets in [Current Snippets].`;
         let msg = (cnt < total)
             ? `Ok to save the ${cnt} selected items in [Current Snippets] to DevTools?${token}`
-            : `Ok to save all the items in [Current Snippets] to DevTools?${token}`;
+            : `Ok to save all ${cnt} items in [Current Snippets] to DevTools?${token}`;
         if (app_window.confirm(msg)) {
             saveSelectedSnippetsToDevTools(checkedSnippets);
         }
@@ -233,8 +233,8 @@ void function () {
         let total = state.scriptSnippets.length;
         let fname = `edge-snippets${getDateTimeToken()}.json`;
         const json_data = serialize({
-            'snippets': snippets
-        }, ['snippets', 'name', 'content'], 2);
+            'script-snippets': snippets
+        }, ['script-snippets', 'name', 'content'], 2);
         download(json_data, fname);
         console.log(`Downloaded file "${fname}" containing ${cnt} out of the ${total} items in [Current Snippets].`);
     }
@@ -428,21 +428,19 @@ void function () {
     /** -------------------------------------------------------------------------------------------
      * Saves the selected snippets from [Current Snippets] to DevTools.
      */
-    //async function saveSelectedSnippetsToDevTools(snippetArray) {
-    function saveSelectedSnippetsToDevTools(snippetArray) {
-
+     function saveSelectedSnippetsToDevTools(snippetArray) {
+        
         let snippets = serialize(snippetArray);
-        let lastIdentifier = `"${snippetArray.length}"`;
+        let lastIdentifier = serialize(`${snippetArray.length}`);
 
-        //console.log("\"script-snippets\":", snippets);
-        //console.log("\"script-snippets-last-identifier\":", lastIdentifier);
+        console.log("\"script-snippets\":", snippets);
+        console.log("\"script-snippets-last-identifier\":", lastIdentifier);
 
         if (isDevToolsOfDevTools) {
             //InspectorFrontendHost.setPreference("script-snippets", snippets);
             //InspectorFrontendHost.setPreference("script-snippets-last-identifier", lastIdentifier);
         }
 
-        //await wait(100);
         setTimeout(() => {
             app_window.alert(`To see the changes reflected in the 'Snippets' tab of 'DevTools',`
                 + `you will need to close both 'DevTools' windows, then re-open to a new 'DevTools' window.\n\n`
@@ -660,7 +658,7 @@ void function () {
      */
     function loadSnippetsFromJsonFile(contentString) {
         let jsonData = deserialize(contentString);
-        jsonData.snippets.forEach(snippet => {
+        jsonData["script-snippets"].forEach(snippet => {
             addCurrentSnippet(snippet.name, snippet.content);
         }
         );
