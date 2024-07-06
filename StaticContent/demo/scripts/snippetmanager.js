@@ -24,7 +24,7 @@ void function () {
         scriptSnippets: [],
         lastIdentifier: 0,
         thisSnippet: [],
-        thisSnippetName: "SnippetManager"
+        thisSnippetName: "DevToolsSnippetManager"
     };
 
     /** -------------------------------------------------------------------------------------------
@@ -200,18 +200,19 @@ void function () {
             app_window.alert(NO_CHECKMARKS_WARNING.format("'Save' snippets to DevTools"));
             return;
         }
-        let token = `\n\nNote that all existing snippets in 'DevTools' will be replaced by the`
-            + `selected snippets. (Have you created a backup?)`;
+        let token = "";
         // Make sure to add state.thisSnippet to the array if it's missing.
         let index = checkedSnippets.findIndex(s => s.name.toLowerCase() === state.thisSnippetName.toLowerCase());
         if (index < 0) {
             checkedSnippets.push(state.thisSnippet);
-            token += `\n\nAlso note that the currently running snippet, ie., "${state.thisSnippetName}",`
-                + ` is always saved to DevTools even though it has not been selected.`;
+            token += `\n\n(Note the currently running snippet: "${state.thisSnippetName}",`
+                + ` will always be saved in 'DevTools' no matter whether it is selected in [Current Snippets] or not).`;
         }
+        token += `\n\nPlease be aware that SAVE results in all snippets in 'DevTools' being replaced by the selected`
+                      + ` snippets from [Current Snippets].`;
         let msg = (cnt < total)
-            ? `Sure you want to save '${cnt}' of '${total}' items in [Current Snippets] to DevTools?${token}`
-            : `Sure you want to save all '${total}' items in [Current Snippets] to DevTools?${token}`;
+            ? `Ok to save '${cnt}' of '${total}' items in [Current Snippets] to DevTools?${token}`
+            : `Ok to save all '${total}' items in [Current Snippets] to DevTools?${token}`;
         if (app_window.confirm(msg)) {
             saveSelectedSnippetsToDevTools(checkedSnippets);
         }
@@ -396,7 +397,7 @@ void function () {
                 addCurrentSnippet(name + "_copy", content);
             else {
                 state.scriptSnippets[index].content = content;
-                console.log(`Replaced snippet: '${name}'`);
+                //console.log(`Replaced snippet: '${name}'`);
             }
         } else {
             let newSnippet = createSnippet(name, content);
@@ -406,7 +407,7 @@ void function () {
             addChangeEventToNewSnippetCheckbox();
             addMouseEventsToNewSnippetCheckbox();
             updateCurrentSnippetsHeader();
-            console.log(`Added snippet: '${name}'`);
+            //console.log(`Added snippet: '${name}'`);
         }
     }
 
@@ -443,10 +444,10 @@ void function () {
 
         //await wait(100);
         setTimeout(() => {
-            app_window.alert(`To see the changes in the 'Snippets' tab of 'DevTools',`
-                + ` close both 'DevTools' windows, then re-open to a new 'DevTools' window.`);
-        }
-            , 100);
+            app_window.alert(`You can continue to manage [Current Snippets] before closing the 'DevTools' windows.\n\n`
+                + `To see the changes reflected in the 'Snippets' tab of 'DevTools' itself,`
+                + `you will need to close both 'DevTools' windows, then re-open a new 'DevTools' window.`);
+        }, 500);
     }
 
     /** -------------------------------------------------------------------------------------------
@@ -614,27 +615,36 @@ void function () {
             + "(i.e., switches currently 'checked' with 'unchecked').");
 
         setTitle("snip_reload_btn", "Reloads all snippets in [Current Snippets] with the snippets from DevTools.");
-        setTitle("snip_remove_btn", "Removes the selected snippets from [Current Snippets].");
+        setTitle("snip_remove_btn", "Removes the selected items from [Current Snippets].");
 
-        let save_msg = "Saves the selected snippets in [Current Snippets] to 'DevTools'.\n***\n";
+        let save_msg = `Saves the selected items in [Current Snippets] to 'DevTools'.\n` 
+                        + `*******\n`;
         save_msg += isDevToolsOfDevTools
-            ? "Note: Since all the snippets in 'DevTools' will actually be 'replaced' by the selected\n"
-            + "snippets, you will be prompted to confirm this action prior to it being performed."
+            ? "Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n"
+            + "[Current Snippets], you will be prompted to confirm this action prior to it being performed."
             : "Note: This action can only be performed when being run from a\n"
             + "'DevTools' of 'DevTools' window.";
         setTitle("snip_save_btn", save_msg);
 
-        setTitle("snip_downloadSingleJson_btn", "Downloads the selected snippets in [Current Snippets] to a single unified '.json' file.");
-        setTitle("snip_downloadMultipleJs_btn", "Downloads the selected snippets in [Current Snippets] to multiple '.js' files.");
+        setTitle("snip_downloadSingleJson_btn", "Downloads the selected items in [Current Snippets] to a single unified '.json' file.");
+        setTitle("snip_downloadMultipleJs_btn", "Downloads the selected items in [Current Snippets] to multiple '.js' files.");
 
-        setTitle("enter_debug_button", "Enters directly into the window debugger.");
+        setTitle("enter_debug_button", "Opens this snippet's code window in debug mode.");
 
         setTitle("add_or_replace_it", "Indicates what should happen when adding a snippet which already exists in [Current Snippets].");
-        setTitle("add_it_radio", "When hilighted, the snippet will be added to [Current Snippets]\nas a new snippet with '_copy' appended to its name.");
-        setTitle("replace_it_radio", "When hilighted, the snippet will replace the existing snippet in [Current Snippets].");
+        setTitle("add_it_radio", `When hilighted, the snippet will be ADDED to [Current Snippets]\n` 
+            + `as a new snippet with '_copy' appended to its name.`);
+        setTitle("replace_it_radio", "When hilighted, the snippet will REPLACE the existing snippet in [Current Snippets].");
 
         setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
-        setTitle("snip_header", "Shows a list of all snippets saved in 'DevTools' (or just examples)'\ncombined with other snippets added during this session.");
+
+        setTitle("snip_header", `Initially shows a list of all snippets saved in 'DevTools' when this window is opened from 'DevTools' of 'DevTools'.\n`
+            + `Snippets added, replaced, or removed during the current session will also be reflected in this list.\n`
+            + `*******\n`
+            + `Click anywhere on a row in the list to select or deselect the snippet;\n`
+            + `Hold down the SHIFT key while dragging to select multiple snippets;\n`
+            + `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`
+        );
 
         setTitle("external_bgrins_button", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BGRINS}"`);
         setTitle("external_bahmutov_button", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BAHMUTOV}"`);
@@ -1026,69 +1036,6 @@ void function () {
         function getFullRoute(route) {
             return route.startsWith("http") ? route : defaultRoot + (route.startsWith("/") ? route : "/" + route);
         }
-    }
-
-    // Testing functions --------------------------------------------------------------------------
-
-    function testSaveSnippetToPreferences() {
-        const snippetName = 'myCodeSnippet';
-        const snippetCode = `function helloWorld() {console.log("Hello, world!");}`;
-        testSaveSnippetToDevTools(snippetName, snippetCode);
-    }
-
-    function testLoadSnippetFromPreferences() {
-        const snippetName = 'myCodeSnippet';
-        testLoadSnippetFromDevTools(snippetName, loadedSnippet => {
-            if (loadedSnippet !== null) {
-                console.log(`Loaded snippet: ${loadedSnippet}`);
-            }
-        }
-        );
-    }
-
-    /** -------------------------------------------------------------------------------------------
-    *  Test save a code snippet to 'DevTools'.
-    * 
-    * @param {string} snippetName The name of the snippet to save.
-    * @param {string} snippetCode 
-    */
-    function testSaveSnippetToDevTools(snippetName, snippetCode) {
-        if (!isDevToolsOfDevTools)
-            return;
-        // Convert the code snippet to a Base64 encoded string.
-        //const base64Snippet = btoa(snippetCode);
-        let scriptSnippet = createSnippet(snippetName, snippetCode);
-        // InspectorFrontendHost.setPreference("script-snippets", scriptSnippet, success => {
-        //     if (success) {
-        //         console.log(`Successfully saved snippet with name: ${snippetName}`);
-        //     } else {
-        //         console.error(`Failed to save snippet with name: ${snippetName}`);
-        //     }
-        // }
-        // );
-    }
-
-    /** -------------------------------------------------------------------------------------------
-     * Test load a code snippet from 'DevTools'.
-     * 
-     * @param {string} snippetName The name of the snippet to load.
-     * @param {Function} callback The name of the callback function.
-     */
-    function testLoadSnippetFromDevTools(snippetName, callback) {
-        if (!isDevToolsOfDevTools)
-            return;
-        // Use InspectorFrontendHost to retrieve the preference.
-        InspectorFrontendHost.getPreference(snippetName, base64Snippet => {
-            if (base64Snippet !== null) {
-                // Convert the Base64 encoded string back to a code snippet.
-                const snippetCode = atob(base64Snippet);
-                callback(snippetCode);
-            } else {
-                console.error(`No snippet found with name: ${snippetName}`);
-                callback(null);
-            }
-        }
-        );
     }
 
     const META = `
