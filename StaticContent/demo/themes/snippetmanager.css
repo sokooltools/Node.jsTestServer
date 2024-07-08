@@ -141,7 +141,7 @@ div.flex-child-element {
 	padding: 2px;
 	border-radius: 5px;
 	cursor: pointer;
-	transition: 100ms;
+	transition: 50ms;
 }
 
 #snip_list label:hover {
@@ -176,14 +176,14 @@ label .snip_custom_box .snip_custom_chk .snip_custom_chk_line1 {
 	height: 0%;
 	width: 2px;
 	background-color: #1e88e5;
-	border-radius: 100px;
-	transition: 100ms;
+	border-radius: 50px;
+	transition: 50ms;
 }
 
 label .active .snip_custom_chk .snip_custom_chk_line1 {
 	height: 100%;
-	transition: 100ms;
-	transition-delay: 100ms;
+	transition: 50ms;
+	transition-delay: 50ms;
 }
 
 label .snip_custom_box .snip_custom_chk .snip_custom_chk_line2 {
@@ -193,15 +193,15 @@ label .snip_custom_box .snip_custom_chk .snip_custom_chk_line2 {
 	bottom: 0px;
 	background-color: #1e88e5;
 	border-radius: 100px;
-	transition: 100ms;
+	transition: 50ms;
 }
 
 label .active .snip_custom_chk .snip_custom_chk_line2 {
 	width: 100%;
-	transition: 100ms;
-	transition-delay: 100ms;
+	transition: 50ms;
+	transition-delay: 50ms;
 }
-
+	
 label p {
 	font-size: 8pt;
 	margin-left: 8px;
@@ -255,12 +255,12 @@ button.snip_button:hover {
 }
 
 /* button[data-title]:hover::after {
-    content: attr(data-title);
-    position: relative;
-    top: -100%;
-    left: 0;
+	content: attr(data-title);
+	position: relative;
+	top: -100%;
+	left: 0;
 	border: thin green solid;
 	background-color: white;
 	font-style: italic;
-  }
+}
 */

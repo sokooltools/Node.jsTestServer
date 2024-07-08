@@ -32,7 +32,7 @@ void function () {
     */
     function openAppWindow() {
         //closeAppWindow();
-        console.log("Opening app window...");
+        console.log("Opening new app_window…");
         let deltaW = Math.abs(window.outerWidth - window.innerWidth);
         let deltaH = Math.abs(window.outerHeight - window.innerHeight);
         let winWth = 738 + (isDevToolsOfDevTools ? 16 : 0);
@@ -40,7 +40,7 @@ void function () {
         let winLft = (window.screen.width - winWth) / 2;
         let winTop = (window.screen.height - winHgt) / 2;
         const windowFeatures = `popup, menubar=no, left=${winLft}, top=${winTop}, width=${winWth}, height=${winHgt}`;
-        console.log(`${windowFeatures}, deltaW=${deltaW}, deltaH=${deltaH}`);
+        //console.log(`${windowFeatures}, deltaW=${deltaW}, deltaH=${deltaH}`);
         app_window = window.open("", "", windowFeatures);
         docx = app_window.document;
         docx.head.innerHTML = META + TITLE + STYLE + SCRIPT;
@@ -52,7 +52,7 @@ void function () {
     * Opens this window.
     */
     function openThisWindow() {
-        console.log("Opening this window...");
+        console.log("Opening this window…");
         app_window = window;
         docx = app_window.document;
         docx.addEventListener("DOMContentLoaded", () => {
@@ -65,7 +65,7 @@ void function () {
      * Performs multiple steps needed to initialize this page.
      */
     function initializePage() {
-        console.log("Initializing Page...")
+        console.log("Initializing Page…")
         docx.querySelector("title").textContent = WIN_TITLE;
         docx.getElementById("page_header").innerHTML = WIN_TITLE;
         docx.getElementById("drop-zone__prompt").innerHTML = DROP_ZONE_PROMPT;
@@ -84,7 +84,7 @@ void function () {
     */
     function loadCurrentSnippets() {
         if (isDevToolsOfDevTools) {
-            console.log("Loading snippets from DevTools...")
+            console.log("Loading snippets from DevTools…")
             getSnippetsFromDevTools().then((snips) => {
                 state.scriptSnippets = snips;
                 getLastIdentifierFromDevTools().then((id) => {
@@ -95,7 +95,7 @@ void function () {
             }
             );
         } else if (isLocalHost) {
-            console.log("Loading snippets from DevTools (via 'LocalHost')...")
+            console.log("Loading snippets from DevTools (via 'LocalHost')…")
             doGet("/test/snippets", (snips) => {
                 if (typeof snips === "object") {
                     state.scriptSnippets = snips;
@@ -107,7 +107,7 @@ void function () {
             }
                 , 1000);
         } else {
-            console.log("Loading example snippets...")
+            console.log("Loading 'example' snippets…")
             state.scriptSnippets = [];
             for (let index = 0; index < 30; index++) {
                 state.scriptSnippets.push(createSnippet(`example_snippet${index}`, `snippet${index} content`));
@@ -131,29 +131,29 @@ void function () {
     function checkAllCheckboxes() {
         const checkboxes = docx.querySelectorAll(".snip_row input");
         checkboxes.forEach((checkbox, index) => {
-            setTimeout(() => {
-                checkbox.checked = true;
-                addOrRemoveCustomCheckmark({
-                    target: checkbox
-                });
+            if (!checkbox.checked) {
+                setTimeout(() => {
+                    checkbox.checked = true;
+                    addOrRemoveCustomCheckmark({
+                        target: checkbox
+                    });
+                }, index * 2);
             }
-                , index * 10);
-        }
-        );
+        });
     }
 
     function uncheckAllCheckboxes() {
         const checkboxes = docx.querySelectorAll(".snip_row input");
         checkboxes.forEach((checkbox, index) => {
-            setTimeout(() => {
-                checkbox.checked = false;
-                addOrRemoveCustomCheckmark({
-                    target: checkbox
-                });
+            if (checkbox.checked) {
+                setTimeout(() => {
+                    checkbox.checked = false;
+                    addOrRemoveCustomCheckmark({
+                        target: checkbox
+                    });
+                }, index * 2);
             }
-                , index * 10);
-        }
-        );
+        });
     }
 
     function invertAllCheckboxes() {
@@ -164,8 +164,7 @@ void function () {
                 addOrRemoveCustomCheckmark({
                     target: checkbox
                 });
-            }
-                , index * 10);
+            }, index * 2);
         }
         );
     }
@@ -180,7 +179,7 @@ void function () {
         for (let index = checkboxes.length - 1; index >= 0; index--) {
             const checkbox = checkboxes[index];
             if (checkbox.classList.contains("active")) {
-                //console.debug(`Removing: "${checkbox.nextElementSibling.innerHTML}".`);
+                //console.log(`Removing: "${checkbox.nextElementSibling.innerHTML}".`);
                 checkbox.parentElement.remove();
                 state.scriptSnippets.splice(index, 1);
             }
@@ -209,7 +208,7 @@ void function () {
                 + ` will always be saved in 'DevTools' no matter whether it is selected in [Current Snippets] or not).`;
         }
         token += `\n\nPlease be aware that performing SAVE results in all snippets in 'DevTools' being replaced by the selected`
-                      + ` snippets in [Current Snippets].`;
+            + ` snippets in [Current Snippets].`;
         let msg = (cnt < total)
             ? `Ok to save the ${cnt} selected items in [Current Snippets] to DevTools?${token}`
             : `Ok to save all ${cnt} items in [Current Snippets] to DevTools?${token}`;
@@ -236,7 +235,7 @@ void function () {
             'script-snippets': snippets
         }, ['script-snippets', 'name', 'content'], 2);
         download(json_data, fname);
-        console.log(`Downloaded file "${fname}" containing ${cnt} out of the ${total} items in [Current Snippets].`);
+        console.log(`Downloaded file "${fname}" containing ${cnt} of ${total} items in [Current Snippets].`);
     }
 
     /** -------------------------------------------------------------------------------------------
@@ -312,7 +311,7 @@ void function () {
     */
     function closeAppWindow() {
         if (app_window && !app_window.closed) {
-            console.log(`Closing '${WIN_TITLE}' window...`);
+            console.log(`Closing '${WIN_TITLE}' window…`);
             app_window.close();
             app_window = undefined;
         }
@@ -428,8 +427,8 @@ void function () {
     /** -------------------------------------------------------------------------------------------
      * Saves the selected snippets from [Current Snippets] to DevTools.
      */
-     function saveSelectedSnippetsToDevTools(snippetArray) {
-        
+    function saveSelectedSnippetsToDevTools(snippetArray) {
+
         let snippets = serialize(snippetArray);
         let lastIdentifier = serialize(`${snippetArray.length}`);
 
@@ -444,7 +443,7 @@ void function () {
         setTimeout(() => {
             app_window.alert(`To see the changes reflected in the 'Snippets' tab of 'DevTools',`
                 + `you will need to close both 'DevTools' windows, then re-open to a new 'DevTools' window.\n\n`
-                + `In the meantime, before you close the 'DevTools' windows, you can continue to manage the [Current Snippets]...`);
+                + `In the meantime, before you close the 'DevTools' windows, you can continue to manage the [Current Snippets]…`);
         }, 500);
     }
 
@@ -543,7 +542,7 @@ void function () {
     function enableDisableButtons() {
         let isNoChecked = !isAnyCheckedSnippets();
         docx.getElementById("snip_remove_btn").disabled = isNoChecked;
-        docx.getElementById("snip_save_btn").disabled = isNoChecked || isLocalHost;
+        docx.getElementById("snip_save_btn").disabled = isNoChecked || !isDevToolsOfDevTools;
         docx.getElementById("snip_downloadSingleJson_btn").disabled = isNoChecked;
         docx.getElementById("snip_downloadMultipleJs_btn").disabled = isNoChecked;
     }
@@ -615,13 +614,13 @@ void function () {
         setTitle("snip_reload_btn", "Reloads all snippets in [Current Snippets] with the snippets from DevTools.");
         setTitle("snip_remove_btn", "Removes the selected items from [Current Snippets].");
 
-        let save_msg = `Saves the selected items in [Current Snippets] to 'DevTools'.\n` 
-                        + `*******\n`;
+        let save_msg = `Saves the selected items in [Current Snippets] to 'DevTools'.\n`
+            + `*******\n`;
         save_msg += isDevToolsOfDevTools
-            ? "Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n"
-            + "[Current Snippets], you will be prompted to confirm this action prior to it being performed."
-            : "Note: This action can only be performed when being run from a\n"
-            + "'DevTools' of 'DevTools' window.";
+            ? `Note: Since all the snippets in 'DevTools' are actually REPLACED by the selected items in\n`
+            + `[Current Snippets], you will be prompted to confirm this action prior to it being performed.`
+            : `Note: This action can only be performed when this window is opened in 'DevTools' of 'DevTools'.\n`
+            + `(Close this window; Press CTRL+SHIFT+I; Run the '${state.thisSnippetName}' snippet again… )`;
         setTitle("snip_save_btn", save_msg);
 
         setTitle("snip_downloadSingleJson_btn", "Downloads the selected items in [Current Snippets] to a single unified '.json' file.");
@@ -630,16 +629,22 @@ void function () {
         setTitle("enter_debug_button", "Opens this snippet's code window in debug mode.");
 
         setTitle("add_or_replace_it", "Indicates what should happen when adding a snippet which already exists in [Current Snippets].");
-        setTitle("add_it_radio", `When hilighted, the snippet will be ADDED to [Current Snippets]\n` 
+        setTitle("add_it_radio", `When hilighted, the snippet will be ADDED to [Current Snippets]\n`
             + `as a new snippet with '_copy' appended to its name.`);
         setTitle("replace_it_radio", "When hilighted, the snippet will REPLACE the existing snippet in [Current Snippets].");
 
         setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
 
-        setTitle("snip_header", `Initially shows a list of all snippets saved in 'DevTools' when this window is opened from 'DevTools' of 'DevTools'.\n`
-            + `Snippets added, replaced, or removed during the current session will also be reflected in this list.\n`
+        setTitle("snip_header",
+            `Initially shows a list of all snippets saved in 'DevTools' i.e., when this snippet is run\n`
+            + `from a 'DevTools' window of 'DevTools' (by pressing CTRL+SHIFT+I). Also this list shown \n`
+            + `when run from any 'DevTools' window opened from a web page served up by 'LocalHost'.\n`
+            + `In all other cases, this list is shown using auto-generated "example" snippets.\n`
             + `*******\n`
-            + `Click anywhere on a row in the list to select or deselect the snippet;\n`
+            + `Subsequent snippets added, replaced, or removed during the current session will\n`
+            + `also be reflected in this list.\n`
+            + `*******\n`
+            + `Click anywhere on a row in this list to select or deselect the snippet;\n`
             + `Hold down the SHIFT key while dragging to select multiple snippets;\n`
             + `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`
         );
@@ -658,11 +663,13 @@ void function () {
      */
     function loadSnippetsFromJsonFile(contentString) {
         let jsonData = deserialize(contentString);
-        jsonData["script-snippets"].forEach(snippet => {
+        let jsonDataSorted = sortSnippets(jsonData["script-snippets"]);
+        jsonDataSorted.forEach(snippet => {
             addCurrentSnippet(snippet.name, snippet.content);
         }
         );
     }
+
 
     function loadFiles(files) {
         const stack = Object.keys(files).forEach((key) => {
@@ -956,8 +963,8 @@ void function () {
         return fileName;
     }
 
-    function letsTry(fn) {
-        console.log("Trying: " + fn.name)
+    function tryFunction(fn) {
+        console.log("Tring function: " + fn.name)
         try {
             fn();
         } catch (exception) {
@@ -1050,18 +1057,19 @@ void function () {
 
     const STYLE = `
     <style>
+
     * {
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
         padding: 0px;
         margin: 0px;
     }
-    
+
     body {
         align-items: center;
         justify-content: center;
         margin: 5px;
     }
-    
+
     #page_header {
         width: 98%;
         padding: 6px;
@@ -1071,14 +1079,14 @@ void function () {
         font-size: 24px;
         text-align: center;
     }
-    
+
     #drop_files {
         opacity: 0;
         width: 100%;
         height: 20vh;
         z-index: 1000;
     }
-    
+
     .drop-zone {
         height: 200px;
         padding: 25px;
@@ -1092,40 +1100,40 @@ void function () {
         align-items: center;
         margin: 8px;
     }
-    
+
     .drop-zone--over {
         border-style: solid;
     }
-    
+
     .drop-zone__input {
         display: none;
     }
-    
+
     .drop-zone__prompt {
         color: #cccccc;
     }
-    
+
     ul {
         font-size: 0.75em;
         margin-top: 4px;
     }
-    
+
     fieldset {
         font-size: 0.85rem;
         font-weight: 300;
         margin: 8px;
         padding: 8px;
     }
-    
+
     legend,
     label {
         cursor: pointer;
     }
-    
+
     div.first_radio {
         margin-bottom: 4px;
     }
-    
+
     div.columnheader_div {
         font-size: 0.8em;
         margin: 0 0.5em;
@@ -1135,7 +1143,7 @@ void function () {
         align-items: center;
         border: 1px solid green;
     }
-    
+
     div#snippets_div {
         border: 1px solid gray;
         width: 96%;
@@ -1144,17 +1152,17 @@ void function () {
         margin-top: 0.4em;
         margin-left: 0.4em;
     }
-    
+
     span.columnheader_span {
         text-align: center;
         width: 100%;
         cursor: pointer;
     }
-    
+
     div.flex-child-element {
         background-color: #eee;
     }
-    
+
     #snip_header {
         font-weight: 600;
         margin: 0.5em;
@@ -1164,7 +1172,7 @@ void function () {
         -webkit-user-select: none;
         user-select: none;
     }
-    
+
     #snip_container {
         width: 100%;
         height: 85vh;
@@ -1175,7 +1183,7 @@ void function () {
         justify-content: center;
         min-height: 444px;
     }
-    
+
     #snip_list {
         font-size: 8pt;
         width: 90%;
@@ -1185,7 +1193,7 @@ void function () {
         background-color: #fff;
         overflow-y: scroll;
     }
-    
+
     #snip_list label {
         display: flex;
         align-items: center;
@@ -1195,22 +1203,22 @@ void function () {
         cursor: pointer;
         transition: 100ms;
     }
-    
+
     #snip_list label:hover {
         background-color: #c5cae9;
     }
-    
+
     input.snip_input[type="checkbox"] {
         display: none;
     }
-    
+
     label .snip_custom_box {
         width: 15px;
         height: 15px;
         background-color: #f2f2f2;
         border-radius: 0.25em;
     }
-    
+
     label .snip_custom_box .snip_custom_chk {
         width: 1.5em;
         height: 8px;
@@ -1222,22 +1230,22 @@ void function () {
         transform: rotate(-45deg);
         position: relative;
     }
-    
+
     label .snip_custom_box .snip_custom_chk .snip_custom_chk_line1 {
         position: absolute;
         height: 0%;
         width: 2px;
         background-color: #1e88e5;
         border-radius: 100px;
-        transition: 100ms;
+        transition: 50ms;
     }
-    
+
     label .active .snip_custom_chk .snip_custom_chk_line1 {
         height: 100%;
-        transition: 100ms;
-        transition-delay: 100ms;
+        transition: 50ms;
+        transition-delay: 50ms;
     }
-    
+
     label .snip_custom_box .snip_custom_chk .snip_custom_chk_line2 {
         position: absolute;
         height: 2px;
@@ -1247,33 +1255,33 @@ void function () {
         border-radius: 100px;
         transition: 100ms;
     }
-    
+
     label .active .snip_custom_chk .snip_custom_chk_line2 {
         width: 100%;
         transition: 100ms;
         transition-delay: 100ms;
     }
-    
+        
     label p {
         font-size: 8pt;
         margin-left: 8px;
         -webkit-user-select: none;
         user-select: none;
     }
-    
+
     div.button_row {
         display: flex;
         flex-direction: row;
     }
-    
+
     div.my_radio_div {
         margin-bottom: 0.25em;
     }
-    
+
     label.my_radio_label span:first-of-type {
         margin-left: 0.25em;
     }
-    
+
     button.snip_button {
         margin: 4px;
         padding: 2px 4px;
@@ -1281,31 +1289,31 @@ void function () {
         border-radius: 4px;
         height: 21px;
     }
-    
+
     button.ml8 {
         margin-left: 8px;
     }
-    
+
     button.snip_button:hover {
         background-color: rgb(207, 207, 207);
     }
-    
+
     .flex-parent-element {
         display: flex;
         width: 70%;
     }
-    
+
     .flex-child-element {
         flex: 1;
         border: 2px solid lightgray;
         margin: 10px;
         min-width: 334px;
     }
-    
+
     .flex-child-element:first-child {
         margin-right: 10px;
     }
-    
+
     </style>`;
 
     const HTML = `<html lang="en">
@@ -1358,7 +1366,7 @@ void function () {
                         <div class="button_row">
                             <button type="button" class="snip_button" id="snip_reload_btn">Reload</button>
                             <button type="button" class="snip_button" id="snip_remove_btn">Remove</button>
-                            <button type="button" class="snip_button" id="snip_save_btn">Save...</button>
+                            <button type="button" class="snip_button" id="snip_save_btn">Save…</button>
                         </div>
                         <div class="button_row">
                             <button type="button" class="snip_button" id="snip_downloadSingleJson_btn">Download single 'json' file</button>
@@ -1370,11 +1378,14 @@ void function () {
         </body>
     </html>`;
 
-    if (location.href.includes(state.thisSnippetName.toLowerCase())) {
+    if (location.href.toLowerCase().includes("snippetmanager.htm")) {
+        app_window = this;
+        docx = app_window.document;
+        initializePage();
+    } else if (location.href.toLowerCase().includes(state.thisSnippetName.toLowerCase())) {
         openThisWindow();
     } else {
         openAppWindow();
     }
-    ;
 
 }();
