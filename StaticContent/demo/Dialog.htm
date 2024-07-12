@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			dialog.bdrp::backdrop {
+				background: repeating-linear-gradient(60deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, rgba(0, 0, 0, 0.3) 1px, rgba(0, 0, 0, 0.3) 20px);
+				backdrop-filter: blur(1px);
+			}
+
+			@keyframes animate-top {
+				from {
+					top: -300px;
+					opacity: 0;
+				}
+				to {
+					top: 0;
+					opacity: 1;
+				}
+			}
+
+			.animate {
+				animation-name: animate-top;
+				animation-duration: 0.4s;
+			}
+
+			.bcgrnd {
+				position: fixed; /* Stay in place */
+				z-index: 1; /* Sit on top */
+				left: 0;
+				top: 0;
+				width: 100%; /* Full width */
+				height: 100%; /* Full height */
+				overflow: auto; /* Enable scroll if needed */
+				background-color: rgb(0, 0, 0); /* Fallback color */
+				background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+			}
+
+			.modal-content {
+				position: relative;
+				background-color: #fefefe;
+				margin: auto;
+				padding: 0;
+				border: 1px solid #888;
+				width: 80%;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			}
+
+			.modal-header {
+				padding: 2px 16px;
+				background-color: #000;
+				color: #fff;
+			}
+
+			.close {
+				color: #fff;
+				float: right;
+				font-size: 28px;
+				font-weight: bold;
+				cursor: pointer;
+				color: gray;
+			}
+
+			.modal-body {
+				padding: 2px 16px;
+			}
+
+			.container {
+				display: grid;
+				gap: 1rem;
+				grid-template-columns: repeat(4, 1fr);
+				margin-top: 3rem;
+			}
+
+			button {
+				border: 0;
+				display: inline-block;
+				padding: 12px 24px;
+				font-size: 14px;
+				border-radius: 4px;
+				margin-top: 5px;
+				cursor: pointer;
+				background-color: #1064ea;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			const show = (id) => {
+				const dialog = document.getElementById(id);
+				//dialogPolyfill.registerDialog(dialog);
+				dialog.showModal();
+			};
+			const closeDialog = (id) => {
+				const dialog = document.getElementById(id);
+				dialog.close();
+			};
+			const doOk = (id) => {
+				closeDialog(id);
+				alert("doOk fired!");
+			};
+
+			async function showOneThenOther() {
+				// show("simple");
+				// show("background");
+				console.log("Before Hello there");
+				await myAlert("Hello there!");
+				console.log("After Hello there");
+				console.log("Before Bye there");
+				await myAlert("Bye there!");
+				console.log("After Bye there");
+			}
+
+			async function myAlert(message) {
+				return new Promise((resolve) => {
+					var modal = document.createElement("div");
+					modal.classList.add("modal");
+					modal.innerHTML = `
+						<div class="modal-content">
+						<span class="close">&times;</span>
+						<p>${message}</p>
+						</div>
+					`;
+					modal.querySelector(".close").addEventListener("click", function () {
+						modal.remove();
+						resolve();
+					});
+					document.body.append(modal);
+				});
+			};
+			
+			// function showDialog(options) {
+			// 	document.querySelector("#dialog .title").innerText = options.title;
+			// 	document.querySelector("#dialog .text").innerText = options.text;
+			// 	document.querySelectorAll(".button").hide();
+			// 	for (var i = 0; i < options.buttons.length; i++) {
+			// 		document
+			// 			.querySelector(".button:nth-child(" + i + ")")
+			// 			.show()
+			// 			.innerText(options.buttons[i])
+			// 			.click(() => {
+			// 				document.querySelector("#dialog").hide();
+			// 				options.onClose(options.buttons[0]); // Perform the callback
+			// 			});
+			// 	}
+			// 	document.querySelector("#dialog").show();
+			// }
+
+			// function doShow() {
+			// 	showDialog({
+			// 		title: "Warning",
+			// 		text: "Do you want to continue?",
+			// 		buttons: ["OK", "Cancel"],
+			// 		onClose: function (result) {
+			// 			if (result == "OK") {
+			// 				performAction1();
+			// 			} else {
+			// 				console.log("Cancelled");
+			// 			}
+			// 		},
+			// 	});
+			// }
+			
+
+		</script>
+	</head>
+	<body>
+		<div>
+			<button type="button" onclick="show('simple')">Simple Dialog</button>
+			<button type="button" onclick="show('backdrop')">Dialog with Backdrop</button>
+			<button type="button" onclick="show('animate')">Dialog with Animation</button>
+			<button type="button" onclick="show('background')">Dialog with Background Color</button>
+			<button type="button" onclick="showOneThenOther()">Show one then other</button>
+		</div>
+
+		<!-- Simple Dialog: Begin -->
+		<dialog id="simple">
+			<p>I'm a Simple Dialog.</p>
+			<form method="dialog">
+				<button type="submit">Close</button>
+			</form>
+		</dialog>
+		<!-- Simple Dialog: End -->
+
+		<!-- Dialog with Backdrop: Begin -->
+		<dialog class="bdrp" id="backdrop" style="width: 500px; height: 500px">
+			<p>I'm a Dialog with the Backdrop Style.</p>
+			<form method="dialog">
+				<img src="https://res.cloudinary.com/atapas/image/upload/v1602138198/sample.jpg" width="500px" height="400px" alt="flower" />
+				<br />
+				<button type="submit">Close</button>
+			</form>
+		</dialog>
+		<!-- Dialog with Backdrop: End -->
+
+		<!-- Dialog with Animation: Begin -->
+		<dialog class="bdrp animate" id="animate">
+			<p>I'm an Animated Dialog .</p>
+			<form method="dialog">
+				<img src="https://res.cloudinary.com/atapas/image/upload/v1602138198/sample.jpg" alt="flower" />
+				<br />
+				<button type="submit">Close</button>
+			</form>
+		</dialog>
+		<!-- Dialog with Animation: End -->
+
+		<!-- Dialog with Background: Begin -->
+		<dialog class="bcgrnd animate" id="background">
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="close" onClick="closeDialog('background')">&times;</span>
+					<h2>This is a Header</h2>
+				</div>
+				<div class="modal-body">
+					<form method="dialog">
+						<img src="https://res.cloudinary.com/atapas/image/upload/v1602138198/sample.jpg" width="90%" alt="flower" />
+						<br />
+						<button type="submit">Close</button>
+						<button type="button" onclick="doOk('background');">OK</button>
+					</form>
+				</div>
+			</div>
+		</dialog>
+	</body>
+</html>

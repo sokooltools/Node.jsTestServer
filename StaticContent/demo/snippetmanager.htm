@@ -44,7 +44,13 @@
 			</div>
 			<div class="flex-child-element">
 				<div id="snip_container">
-					<span id="snip_header">Current Snippets</span>
+					<div id="snip_header">
+						<span id="snip_cnt">44</span>
+						<span class="bracket">[</span>
+						<span id="snip_desc">Current Snippets</span>
+						<span class="bracket">]</span>
+						<span id="snip_mode"></span>
+					</div>
 					<div id="snip_list"></div>
 					<div class="button_row">
 						<button type="button" class="snip_button" id="snip_checkall_btn">Check All</button>
@@ -60,6 +66,20 @@
 						<button type="button" class="snip_button" id="snip_downloadSingleJson_btn">Download single 'json' file</button>
 						<button type="button" class="snip_button" id="snip_downloadMultipleJs_btn">Download multiple 'js' files</button>
 					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal Dialog -->
+		<div id="modal_dialog" class="modal_background">
+			<div class="modal_content">
+				<div id="modal_title_bar">
+					<span>DevTools Snippet Manager</span>
+					<span id="button_close">&times;</span>
+				</div>
+				<div id="modal_text"></div>
+				<div id="modal_buttons">
+					<button type="button" class="modal_button" id="button_ok">OK</button>
+					<button type="button" class="modal_button" id="button_cancel">Cancel</button>
 				</div>
 			</div>
 		</div>
