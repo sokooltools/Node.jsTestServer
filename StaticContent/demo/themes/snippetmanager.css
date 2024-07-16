@@ -99,11 +99,6 @@ span.columnheader_span {
 	cursor: pointer;
 }
 
-.bracket {
-	font-size: 1.25em;
-	color: #c6c3c3;
-}
-
 div.flex-child-element {
 	background-color: #eee;
 }
@@ -114,17 +109,20 @@ div.flex-child-element {
 	user-select: none;
 }
 
-#snip_cnt {
-	font-size: 1rem;
-	margin-right: 6px;
+.snip_cnt {
 	font-family: monospace;
-	border: thin #c6c3c3 solid;
-	padding: 0 4px;
+	font-size: 1rem;
+	color: white;
+	background-color: #cccccc;
+	padding: 0 5px 2px 5px;
+	border: thin #aaaaaa solid;
+	margin: 0px;
 }
 
 #snip_desc {
 	font-weight: 600;
 	text-align: center;
+	font-style: italic;
 }
 
 #snip_mode {
@@ -233,6 +231,10 @@ div.button_row {
 	flex-direction: row;
 }
 
+div.button_row_block {
+	display: float;
+}
+
 div.my_radio_div {
 	margin-bottom: 0.25em;
 }
@@ -251,6 +253,11 @@ label.my_radio_label span:first-of-type {
 
 .snip_button:hover {
 	background-color: rgb(207, 207, 207);
+}
+
+#snip_dotest_btn{
+	float: right;
+    margin-right: 10px;
 }
 
 button.ml8 {
@@ -288,7 +295,7 @@ button.ml8 {
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-.modal_content {
+.modal_dialog {
 	background-color: #fefefe;
 	margin: auto;
 	border: 1px solid #888;
@@ -315,7 +322,7 @@ button.ml8 {
 }
 
 #modal_buttons {
-	margin: 20px;
+	margin: 10px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -332,7 +339,7 @@ button.ml8 {
 }
 
 #button_close {
-	color: #aaaaaa;
+	color: rgb(134, 134, 134);
 	font-size: 28px;
 	font-weight: bold;
 	position: absolute;
@@ -347,91 +354,47 @@ button.ml8 {
 	cursor: pointer;
 }
 
-nn {
-	font-family: 'Lucida Sans';
-	font-weight: 700;
+button:focus {
+	border-color: #86b7fe;
+	outline: 0;
+	box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+#timeto_autoclose {
+	color: rgb(134, 134, 134);
+	font-family: monospace;
+	font-size: 0.6rem;
+	float: right;
+	margin-top: 14px;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+#timeto_autoclose:hover,
+#timeto_autoclose:focus {
+	color: black;
+	text-decoration: none;
+}
+
+.bracket {
+	color: #c6c3c3;
+	font-size: 1.25em;
+	font-weight: 100;
+}
+
+.current_snippets {
+	color: gray;
 	font-size: 0.9em;
-}
-
-/* button[data-title]:hover::after {
-	content: attr(data-title);
-	position: relative;
-	top: -100%;
-	left: 0;
-	border: thin green solid;
-	background-color: white;
 	font-style: italic;
-}
-*/
-
-/* 
-#snackbar {
-	font-family: system-ui;
-	font-size: 10pt;
-	visibility: hidden;
-	min-width: 250px;
-	max-width: 50%;;
-	margin-left: -125px;
-	background-color: #009578;
-	color: #fff;
-	text-align: left;
-	border-radius: 2px;
-	padding: 16px;
-	position: fixed;
-	z-index: 1;
-	left: 50%;
-	top: 30px;
-	-webkit-user-select: none;
-	user-select: none;
+	font-weight: 600;
 }
 
-#snackbar.show {
-	visibility: visible;
-	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+cnt {
+	font-family: monospace;
+	font-size: 0.8rem;
+	color: white;
+	background-color: #cccccc;
+	padding: 0 5px 2px 5px;
+	border: thin #aaaaaa solid;
+	margin: 0px;
 }
-
-@-webkit-keyframes fadein {
-	from {
-		bottom: 0;
-		opacity: 0;
-	}
-	to {
-		bottom: 30px;
-		opacity: 1;
-	}
-}
-
-@keyframes fadein {
-	from {
-		bottom: 0;
-		opacity: 0;
-	}
-	to {
-		bottom: 30px;
-		opacity: 1;
-	}
-}
-
-@-webkit-keyframes fadeout {
-	from {
-		bottom: 30px;
-		opacity: 1;
-	}
-	to {
-		bottom: 0;
-		opacity: 0;
-	}
-}
-
-@keyframes fadeout {
-	from {
-		bottom: 30px;
-		opacity: 1;
-	}
-	to {
-		bottom: 0;
-		opacity: 0;
-	}
-} 
-*/

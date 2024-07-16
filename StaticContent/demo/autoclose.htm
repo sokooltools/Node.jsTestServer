@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Test Auto Close</title>
+		<style>
+			* {
+				font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+				padding: 0px;
+				margin: 0px;
+			}
+			#dialog-background{
+				width:99%;
+				height:99%;
+				background-color: #cccccc;
+			}
+
+			#modal-body {
+				padding: 10px;
+			}
+
+			#modal-dialog {
+				border: thin solid black;
+				width: 50%;
+				max-width: auto;
+			}
+
+			#modal-header {
+				background-color: #cccccc;
+				padding: 10px;
+			}
+
+			#header_title {
+				text-align: left;
+			}
+
+			#header_combo {
+				float: right;
+				vertical-align: middle;
+				/* align-items: start; */
+				/* display: block; */
+			}
+
+			#header_time {
+				font-family: monospace;
+				font-size: 0.75rem;
+				font-style: italic;
+				color: black;
+				padding: 0 5px 2px 5px;
+				cursor: pointer;
+			}
+
+			#btnClose {
+				font-size: 1.25em;
+				width: 1em;
+				height: 1em;
+				cursor: pointer;
+				text-align: center;
+			}
+
+			#modal-footer {
+				padding: 10px;
+				text-align: right;
+			}
+
+			.bottom_button {
+				width: 80px;
+				margin-left: 4px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="dialog-background" tabindex="-1">
+			<div id="modal-dialog">
+				<div id="modal-header">
+					<span id="header_title">Popup Header</span>
+					<span id="header_combo">
+						<span id="header_time" onclick="clickToStop();">15</span>
+						<span id="btnClose">&times;</span>
+					</span>
+				</div>
+				<div id="modal-body">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, quas.</p>
+				</div>
+				<div id="modal-footer">
+					<button id="btnOk" class="bottom_button" type="button">OK</button>
+					<button id="btnCancel" class="bottom_button" type="button">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		let secsTilClose = 30;
+		let interval;
+		const dialogBkgd = document.querySelector("#dialog-background");
+		const btnClose = document.querySelector("#btnClose");
+		const btnCancel = document.querySelector("#btnCancel");
+
+		const header_time = document.querySelector("#header_time");
+		header_time.setAttribute("title", `Click to stop this dialog from automatically closing.`);
+		header_time.innerHTML = `This dialog will close in ${secsTilClose} seconds...`;
+		header_time.hidden = false;
+
+		function clickToStop() {
+			clearInterval(interval);
+			header_time.innerHTML = "";
+		}
+
+		function close() {
+			clickToStop();
+			dialogBkgd.hidden = true;
+		}
+
+		header_time.addEventListener("click", clickToStop);
+		btnClose.addEventListener("click", close);
+		btnCancel.addEventListener("click", close);
+
+		dialogBkgd.hidden = false;
+		interval = setInterval(() => {
+			if (--secsTilClose < 1) {
+				close();
+			}
+			header_time.innerHTML = `This dialog will close in ${secsTilClose} seconds...`;
+		}, 1000);
+	</script>
+</html>

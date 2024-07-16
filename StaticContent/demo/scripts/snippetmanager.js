@@ -6,28 +6,9 @@ console.clear();
 
 let _app_window;
 let _docx;
-
 let _dropZoneElement;
-
 let _isSelecting = false;
 let _eventTargetInnerText;
-
-const msg = {
-    HTML_FILENAME: "snippetmanager.htm",
-    WIN_TITLE: "DevTools Snippet Manager",
-    EXT_BGRINS: "https://raw.githubusercontent.com/bgrins/devtools-snippets/master/snippets/",
-    EXT_BAHMUTOV: "https://raw.githubusercontent.com/bahmutov/code-snippets/master/",
-    DROP_ZONE_PROMPT: "Drop a '.json' file or multiple '.js' files here (or click here to select the files) to add to [Current Snippets]…",
-    NO_CHECKMARKS_WARNING: `To {0}, requires at least one item to be selected in [Current Snippets].`,
-    SAVE_SUCCESS: `<p>The selected snippets were successfully saved to <i>DevTools</i>.</p>`
-        + `<p>Note:&nbsp;You can continue to manage [Current Snippets] using this <i>DevTools Snippet Manager</i>.</p>`
-        + `<p>To actually see the changes reflected in the <b>Snippets</b> tab of <i>DevTools</i>, `
-        + `you will need to close this window and all <i>DevTools</i> windows; then open a new `
-        + `<i>DevTools</i> window.<p>`,
-    CONFIRM_DOWNLOAD: `<p>Ok to download <nn>{0}</nn> of <nn>{1}</nn> snippets in [Current Snippets]?<p/>`
-        + `<p>(Note: To circumvent multiple security confirmations, the files will be downloaded`
-        + ` with a "<i>.txt</i>" extension instead of a "<i>.js</i>" extension).</p>`
-}
 
 const state = {
     scriptSnippets: [],
@@ -35,6 +16,31 @@ const state = {
     thisSnippet: [],
     thisSnippetName: "DevToolsSnippetManager"
 };
+const DEVTOOLS = `<i>DevTools</i>`;
+const CURRENT_SNIPPETS = `<span class='bracket'>[</span><span class='current_snippets'>Current Snippets</span>
+<span class='bracket'>]</span>`;
+
+const HTML_FILENAME = `snippetmanager.htm`;
+const WIN_TITLE = `DevTools Snippet Manager`;
+const EXT_BGRINS = `https://raw.githubusercontent.com/bgrins/devtools-snippets/master/snippets/`;
+const EXT_BAHMUTOV = `https://raw.githubusercontent.com/bahmutov/code-snippets/master/`;
+const DROP_ZONE_PROMPT = `Drop a '.json' file or multiple '.js' files here (or click here to select the files) to add to ${CURRENT_SNIPPETS}…`;
+const NO_CHECKMARKS_WARNING = `To {0}, requires at least one item to be selected in ${CURRENT_SNIPPETS}.`;
+
+const SAVE_SUCCESS = `<p>The selected snippets were successfully saved to ${DEVTOOLS}.</p>
+<p>Note:&nbsp;You can continue to manage ${CURRENT_SNIPPETS} using this <i>DevTools Snippet Manager</i>.</p>
+<p>To actually see the changes reflected in the <b>Snippets</b> tab of ${DEVTOOLS}, 
+you will need to close this window and all ${DEVTOOLS} windows; then open a new ${DEVTOOLS} window.<p>`;
+
+const CONFIRM_DOWNLOAD = `<p>Ok to download <cnt>{0}</cnt> of <cnt>{1}</cnt> snippets in ${CURRENT_SNIPPETS}?<p/>
+<p>(Note:&nbsp;To circumvent multiple security confirmations, the files will be downloaded with a "<i>.txt</i>" 
+extension instead of a "<i>.js</i>" extension).</p>`;
+
+const SAVE_TOKEN_MSG1 = `<p>(Note the currently running snippet: "${state.thisSnippetName}", 
+will always be saved in ${DEVTOOLS} no matter whether it is selected in ${CURRENT_SNIPPETS} or not).</p>`;
+
+const SAVE_TOKEN_MSG2 = `<p>Please be aware that performing a <i>Save</i> results in all the snippets in ${DEVTOOLS} 
+being overwritten by the selected snippets in ${CURRENT_SNIPPETS}.</p>`;
 
 const DialogButton = Object.freeze({
     CANCEL: 0,
@@ -42,7 +48,7 @@ const DialogButton = Object.freeze({
     OK: 2
 });
 
-function debugMe() {
+function doTest() {
     //debugger;
     //openAppWindow();
     console.log(DialogButton.OK);
@@ -51,14 +57,19 @@ function debugMe() {
 
 async function doTest1() {
     console.clear();
-    console.log("start test");
-    let result = await showMsg(msg.CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK", "Cancel"]);
+    console.log("Test started...");
+    let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK", "Cancel"], false);
     console.log(result);
     if (result.toUpperCase() === "OK") {
-        result = await showMsg(msg.SAVE_SUCCESS, ["OK"], 4000);
+        result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel*"], false, 10);
         console.log(result);
+        if (result.toUpperCase() === "OK") {
+            result = await showMsg(SAVE_TOKEN_MSG1, ["OK"], true, 10);
+            console.log(result);
+        }
+
     }
-    console.log("finish test");
+    console.log("Test finished.");
 }
 
 function decode(msg) {
@@ -80,7 +91,7 @@ const isLocalHost = location.hostname === "localhost";
 * Opens a new window as _app_window.
 */
 function openAppWindow() {
-    console.log(`Opening '${msg.WIN_TITLE}' window…`);
+    console.log(`Opening '${WIN_TITLE}' window…`);
     let deltaW = Math.abs(window.outerWidth - window.innerWidth);
     let deltaH = Math.abs(window.outerHeight - window.innerHeight);
     let winWth = 738 + (isDevToolsOfDevTools ? 16 : 0);
@@ -91,7 +102,7 @@ function openAppWindow() {
     //console.log(`${windowFeatures}, deltaW=${deltaW}, deltaH=${deltaH}`);
     _app_window = window.open("", "", windowFeatures);
     _app_window.addEventListener('beforeunload', () => {
-        console.log(`Closing '${msg.WIN_TITLE}' window…`);
+        console.log(`Closing '${WIN_TITLE}' window…`);
     });
     window.addEventListener('beforeunload', () => {
         console.log(`Closing main window…`);
@@ -109,7 +120,7 @@ function openThisWindow(winName) {
     console.log(`Opening "${winName}"…`);
     _app_window = window;
     _app_window.addEventListener('beforeunload', () => {
-        console.log(`Closing '${msg.WIN_TITLE}' window…`);
+        console.log(`Closing '${WIN_TITLE}' window…`);
     });
     _docx = _app_window.document;
     _docx.addEventListener("DOMContentLoaded", () => {
@@ -122,9 +133,9 @@ function openThisWindow(winName) {
  */
 function initializePage() {
     console.log("Initializing Page…")
-    _docx.querySelector("title").textContent = msg.WIN_TITLE;
-    _docx.getElementById("page_header").innerHTML = msg.WIN_TITLE;
-    _docx.getElementById("drop-zone__prompt").innerHTML = msg.DROP_ZONE_PROMPT;
+    _docx.querySelector("title").textContent = WIN_TITLE;
+    _docx.getElementById("page_header").innerHTML = WIN_TITLE;
+    _docx.getElementById("drop-zone__prompt").innerHTML = DROP_ZONE_PROMPT;
     loadCurrentSnippets();
     preserveThisSnippet();
     setElementTitles();
@@ -137,22 +148,52 @@ function initializePage() {
  * 
  * @param {string} message The message to display in the dialog.
  * @param {array} buttons An array of buttons to be displayed in the dialog.
- * @param {number | undefined} msTimeout The millisecond timeout before the message is automatically 
- * closed. When no amount is specified there is no timeout.
- * @returns {string} A dialog result
+ * @param {bool} clickOutsideToCancel Clicking outside this dialog will close it when true is specified. 
+ * @param {number? } secsUntilClose The number of seconds to wait before this dialog is auto-
+ * closed. When a value for this argument is not specified. there is no timeout.
+ * @returns {string} The dialog result ("OK", "Cancel", etc.).
  */
-async function showMsg(message, buttons, msTimeout) {
-    let result = "dismissed";
+async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
+    let result;
     return new Promise((resolve) => {
-        let modalTimeoutId;
+        let modalIntervalId;
+
+        const modal_background = _docx.getElementById("modal_background");
 
         _docx.getElementById("modal_text").innerHTML = message || "message missing";
 
-        if (buttons.length == 0)
-            buttons = ["OK", "Cancel"];
+        // Use a default 'buttons' array when not otherwise specified.
+        if (!buttons || buttons.length == 0)
+            buttons = ["OK*", "Cancel"];
 
-        const modal_dialog = _docx.getElementById("modal_dialog");
-        modal_dialog.style.display = "block";
+        // Button with an astersisk ('*') appended to its name is default button;
+        // otherwise the default button is the first button in the 'buttons' array.
+        let defaultButton = buttons[0];
+        for (let index = 0; index < buttons.length; index++) {
+            const btn = String(buttons[index]);
+            if (btn.endsWith("*")) {
+                buttons[index] = btn.replace("*","");
+                defaultButton = buttons[index];
+            }
+        }
+        
+        modal_background.style.display = "block";
+
+        // Always make sure to reference the '_docx' object and not 'document'!
+
+        const header_time = _docx.querySelector("#timeto_autoclose");
+        header_time.setAttribute("title", `Click to stop this dialog from auto-closing.`);
+
+        function getFocusable(context = '_docx') { 
+            return Array.from(context.querySelectorAll('button, [href], input:not([type="hidden"]),'
+                + ' textarea, select, [tabindex]:not([tabindex="-1"])'))
+                .filter(function (el) { return !el.closest('[hidden]'); });
+        }
+
+        // Get a list of the items in this window which are focusable so we can control tabbing.
+        const focusableItems = getFocusable(modal_background);
+
+        // TODO: Create the elements dynamically according to the 'buttons' array.
 
         const btnOk = _docx.getElementById("button_ok");
         if (buttons.contains("OK")) {
@@ -161,6 +202,8 @@ async function showMsg(message, buttons, msTimeout) {
                 event.stopPropagation();
                 doResolve("OK");
             });
+            if (defaultButton==="OK")
+                btnOk.focus();
         } else {
             btnOk.hidden = true;
         }
@@ -172,35 +215,131 @@ async function showMsg(message, buttons, msTimeout) {
                 event.stopPropagation();
                 doResolve("Cancel");
             });
+            if (defaultButton==="Cancel")
+                btnCancel.focus();
         } else {
             btnCancel.hidden = true;
         }
 
         _docx.getElementById("button_close").addEventListener("click", (event) => {
             event.stopPropagation();
-            doResolve("Close");
+            doResolve("Cancel");
         });
 
-        _app_window.addEventListener("click", (event) => {
-            if (event.target == modal_dialog) {
-                doResolve("Close");
-            }
-        });
-        if (msTimeout) {
-            modalTimeoutId = setTimeout(() => {
-                doResolve("auto-closed");
-            }, msTimeout);
+        if (clickOutsideToCancel == true) {
+            _app_window.addEventListener("click", clickToCancelHandler);
         }
-        function doResolve(res) {
-            result = res;
-            clearTimeout(modalTimeoutId);
-            modal_dialog.style.display = "none";
+
+        _app_window.addEventListener("keydown", keydownHandler);
+
+        if (!isNaN(secsUntilClose) && secsUntilClose > 0) {
+            let numZeros = String(secsUntilClose).match(/\d/g).length;
+            header_time.innerHTML = getHeaderMessage(secsUntilClose, numZeros);;
+            header_time.addEventListener("click", clickToStop);
+            modalIntervalId = setInterval(() => {
+                if (--secsUntilClose < 1) {
+                    doResolve("Cancel");
+                }
+                header_time.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
+            }, 1000);
+        } else {
+            header_time.innerHTML = "";
+        }
+
+        function getHeaderMessage(secsUntilClose, numZeros) {
+            return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
+        }
+
+        function clickToStop() {
+            clearInterval(modalIntervalId);
+            header_time.innerHTML = "This window will no longer auto-close.";
+            focusableItems[0].focus();
+            setTimeout(() => {
+                header_time.innerHTML = "";
+            }, 3000);
+        }
+
+        function clickToCancelHandler(e) {
+            if (e.target === modal_background) {
+                doResolve("Cancel");
+            }
+        }
+
+        function keydownHandler(e) {
+            if (e.key === 'Escape') {
+                doResolve("Cancel");
+            } else if (e.keyCode === 9) {
+                // Tab & Shift+Tab
+                const focusedItem = e.target;
+                const focusedItemIndex = focusableItems.indexOf(focusedItem);
+                if (e.shiftKey) {
+                    if (!modal_background.contains(e.target) || focusedItemIndex === 0) {
+                        focusableItems[focusableItems.length - 1].focus();
+                        e.preventDefault();
+                    }
+                } else {
+                    if (!modal_background.contains(e.target) || focusedItemIndex == focusableItems.length - 1) {
+                        focusableItems[0].focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        }
+
+        function doResolve(rslt) {
+            result = rslt;
+            clearTimeout(modalIntervalId);
+            _app_window.removeEventListener("click", clickToCancelHandler);
+            _app_window.removeEventListener("keydown", keydownHandler);
+            modal_background.style.display = "none";
             resolve();
         }
-
     }).then(() => { return result; });
 }
 
+// Make the DIV element draggagle:
+//dragElement(_docx.getElementById("modal_dialog"));
+
+function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (_docx.getElementById(elmnt.id + "header")) {
+        /* if present, the header is where you move the DIV from:*/
+        _docx.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+        /* otherwise, move the DIV from anywhere inside the DIV:*/
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // Get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        _docx.onmouseup = closeDragElement;
+        // Call a function whenever the cursor moves:
+        _docx.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // Calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // Set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        /* Stop moving when mouse button is released:*/
+        _docx.onmouseup = null;
+        _docx.onmousemove = null;
+    }
+}
 
 /** -------------------------------------------------------------------------------------------
  * Loads or reloads the snippets from DevTools to [Current Snippets] when this code 
@@ -294,7 +433,7 @@ function invertAllCheckboxes() {
 async function removeSnippets() {
     let cnt = getCheckedSnippets().length;
     if (!cnt) {
-        showMsg(msg.NO_CHECKMARKS_WARNING.format("'Remove' snippets"), ["OK"]);
+        showMsg(NO_CHECKMARKS_WARNING.format("<i>Remove</i> snippets"), ["OK"], true, 15);
         return;
     }
     const checkboxes = _docx.querySelectorAll("div.snip_custom_box");
@@ -318,7 +457,7 @@ async function saveSnippets() {
     let checkedSnippets = getCheckedSnippets();
     let cnt = checkedSnippets.length;
     if (!cnt) {
-        showMsg(msg.NO_CHECKMARKS_WARNING.format("'Save' snippets to DevTools"), ["OK"]);
+        showMsg(NO_CHECKMARKS_WARNING.format(`<i>Save</i> snippets to ${DEVTOOLS}`), ["OK"], true, 15);
         return;
     }
     let token = "";
@@ -326,15 +465,12 @@ async function saveSnippets() {
     let index = checkedSnippets.findIndex(s => s.name.toLowerCase() === state.thisSnippetName.toLowerCase());
     if (index < 0) {
         checkedSnippets.push(state.thisSnippet);
-        token += `<p>(Note the currently running snippet: "${state.thisSnippetName}", `
-            + `will always be saved in <b>DevTools</b> no matter whether it is selected in [<i>Current Snippets</i>] or not).</p>`;
+        token += SAVE_TOKEN_MSG1;
     }
-    token += `<p>Please be aware that performing a 'Save' results in all the snippets in <b>DevTools</b> `
-        + `being replaced by the selected snippets in [<i>Current Snippets</i>].</p>`;
-
+    token += SAVE_TOKEN_MSG2;
     let msg = (cnt < total)
-        ? `Ok to save just ${cnt} of the ${total} items in [<i>Current Snippets</i>] to <b>DevTools</b>?${token}`
-        : `Ok to save all ${total} items in [<i>Current Snippets</i>] to <b>DevTools</b>?${token}`;
+        ? `Ok to save just ${cnt} of the ${total} items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`
+        : `Ok to save all ${total} items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`;
     let result = showMsg(msg, ["OK", "Cancel"]);
     if (result === "OK") {
         saveSelectedSnippetsToDevTools(checkedSnippets);
@@ -350,7 +486,7 @@ async function downloadSingleJsonFile() {
     let snippets = getCheckedSnippets();
     let cnt = snippets.length;
     if (!cnt) {
-        showMsg(msg.NO_CHECKMARKS_WARNING.format("'Download' a single '.json' file"), ["OK"]);
+        showMsg(NO_CHECKMARKS_WARNING.format("'Download' a single '.json' file"), ["OK"]);
         return;
     }
     let total = state.scriptSnippets.length;
@@ -371,11 +507,11 @@ async function downloadMultipleJsFiles() {
     let snippets = getCheckedSnippets();
     let cnt = snippets.length;
     if (!cnt) {
-        showMsg(msg.NO_CHECKMARKS_WARNING.format("'Download' multiple '.js' files"), ["OK"]);
+        showMsg(NO_CHECKMARKS_WARNING.format("'Download' multiple '.js' files"), ["OK"]);
         return;
     }
     let total = state.scriptSnippets.length;
-    let result = await showMsg(msg.CONFIRM_DOWNLOAD.format(cnt, total));
+    let result = await showMsg(CONFIRM_DOWNLOAD.format(cnt, total));
     if (result === "OK") {
         console.clear();
         for (let i = 0; i < cnt; i++) {
@@ -386,30 +522,6 @@ async function downloadMultipleJsFiles() {
             await wait(100);
         }
     }
-}
-
-async function addSnippets_bgrins() {
-    const bgrins_snippets = ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']
-    bgrins_snippets.forEach((snippet) => {
-        xhrGetRequest(msg.EXT_BGRINS + snippet + '/' + snippet + '.js', (request) => {
-            const snippetContentString = request.target.response;
-            addCurrentSnippet(snippet, snippetContentString);
-        });
-    });
-    showMsg(`</b>${bgrins_snippets.length}</b> snippets from the "<b>bgrins/devtools-snippets</b>" repository`
-        + ` were successfully added to [<i>Current Snippets</i>].`, ["OK"]);
-}
-
-async function addSnippets_bahmutov() {
-    const bahmutov_snippets = ['timing', 'profile-method-call', 'time-method-call']
-    bahmutov_snippets.forEach((snippet) => {
-        xhrGetRequest(msg.EXT_BAHMUTOV + snippet + '.js', (request) => {
-            const snippetContentString = request.target.response;
-            addCurrentSnippet(snippet, snippetContentString);
-        });
-    });
-    showMsg(`<b>${bahmutov_snippets.length}</b> snippets from the "<b>bahmutov/code-snippets</b>" repository`
-        + ` were successfully added to [<i>Current Snippets</i>].`, ["OK"]);
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -426,7 +538,7 @@ function snippetExists(snippetName) {
 
 function findSnippetIndex(snippetName) {
     let index = state.scriptSnippets.findIndex(s => s.name === snippetName);
-    return index ? index : -1;
+    return index;// ? index : -1;
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -434,7 +546,7 @@ function findSnippetIndex(snippetName) {
 */
 function closeAppWindow() {
     if (_app_window && !_app_window.closed) {
-        console.log(`Closing '${msg.WIN_TITLE}' window…`);
+        console.log(`Closing '${WIN_TITLE}' window…`);
         _app_window.close();
         _app_window = undefined;
     }
@@ -507,20 +619,23 @@ function updateCurrentSnippetsHeader() {
 /** -------------------------------------------------------------------------------------------
  * Adds the specified snippet to the state.scriptSnippets array as long as it does not exist;  
  * otherwise it replaces the contents of the existing snippet or adds the snippet with "_copy" 
- * appended (depending on settings in the UI).
+ * appended (depending on the radio button setting in the UI).
  * 
  * @param {string} name The name of the snippet.
  * @param {string} content The content of the snippet.
+ * @returns 1 indicating the snippet was added; 2 indicating an existing snippet was replaced.
  */
 function addCurrentSnippet(name, content) {
     let index = findSnippetIndex(name);
-    if (index > 0) {
+    if (index >= 0) {
         let addItRadioButton = _docx.querySelector('label#add_it_radio input');
-        if (addItRadioButton.checked)
+        if (addItRadioButton.checked) {
             addCurrentSnippet(name + "_copy", content);
-        else {
+            return 1;
+        } else {
             state.scriptSnippets[index].content = content;
             //console.log(`Replaced snippet: '${name}'`);
+            return 2;
         }
     } else {
         let newSnippet = createSnippet(name, content);
@@ -531,6 +646,7 @@ function addCurrentSnippet(name, content) {
         addMouseEventsToNewSnippetCheckbox();
         updateCurrentSnippetsHeader();
         //console.log(`Added snippet: '${name}'`);
+        return 1;
     }
 }
 
@@ -561,7 +677,7 @@ async function saveSelectedSnippetsToDevTools(snippetArray) {
         //InspectorFrontendHost.setPreference("script-snippets", snippets);
         //InspectorFrontendHost.setPreference("script-snippets-last-identifier", lastIdentifier);
     }
-    await showMsg(msg.SAVE_SUCCESS, ["OK"], 4000);
+    showMsg(SAVE_SUCCESS, ["OK"], true, 15);
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -742,7 +858,7 @@ function setElementTitles() {
     setTitle("snip_downloadSingleJson_btn", "Downloads the selected items in [Current Snippets] to a single unified '.json' file.");
     setTitle("snip_downloadMultipleJs_btn", "Downloads the selected items in [Current Snippets] to multiple '.js' files.");
 
-    setTitle("enter_debug_button", "Opens this snippet's code window in debug mode.");
+    setTitle("snip_dotest_btn", "Opens this snippet's code window in debug mode.");
 
     setTitle("add_or_replace_it", "Indicates what should happen when adding a snippet which already exists in [Current Snippets].");
     setTitle("add_it_radio", `When hilighted, the snippet will be ADDED to [Current Snippets]\n`
@@ -765,8 +881,8 @@ function setElementTitles() {
         + `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`
     );
 
-    setTitle("external_bgrins_button", `Adds snippets to [Current Snippets] from the following repository:\n   "${msg.EXT_BGRINS}"`);
-    setTitle("external_bahmutov_button", `Adds snippets to [Current Snippets] from the following repository:\n   "${msg.EXT_BAHMUTOV}"`);
+    setTitle("snip_loadbgrins_btn", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BGRINS}"`);
+    setTitle("snip_loadbahmutov_btn", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BAHMUTOV}"`);
 }
 
 // Drag/Drop zone related stuff ---------------------------------------------------------------
@@ -780,10 +896,66 @@ function setElementTitles() {
 function loadSnippetsFromJsonFile(contentString) {
     let jsonData = deserialize(contentString);
     let jsonDataSorted = sortSnippets(jsonData["script-snippets"]);
+    let cntAdded = 0, cntReplaced = 0, cntTotal = 0;
     jsonDataSorted.forEach(snippet => {
-        addCurrentSnippet(snippet.name, snippet.content);
+        cntTotal++;
+        if (addCurrentSnippet(snippet.name, snippet.content) === 1)
+            cntAdded++;
+        else
+            cntReplaced++;
     }
     );
+    showRollup(cntTotal, cntAdded, cntReplaced);
+}
+
+function loadSnippetsFromBgrins() {
+    const bgrins_snippets = ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']
+    let cntAdded = 0, cntReplaced = 0, cntTotal = bgrins_snippets.length;
+    bgrins_snippets.forEach((snippet) => {
+        xhrGetRequest(EXT_BGRINS + snippet + '/' + snippet + '.js', (request) => {
+            const snippetContentString = request.target.response;
+            if (addCurrentSnippet(snippet, snippetContentString) === 1)
+                cntAdded++;
+            else
+                cntReplaced++;
+        });
+    });
+    showRollup(cntTotal, cntAdded, cntReplaced);
+}
+
+function loadSnippetsFromBahmutov() {
+    const bahmutov_snippets = ['timing', 'profile-method-call', 'time-method-call']
+    let cntAdded = 0, cntReplaced = 0, cntTotal = bahmutov_snippets.length;
+    bahmutov_snippets.forEach((snippet) => {
+        xhrGetRequest(EXT_BAHMUTOV + snippet + '.js', (request) => {
+            const snippetContentString = request.target.response;
+            if (addCurrentSnippet(snippet, snippetContentString) === 1)
+                cntAdded++;
+            else
+                cntReplaced++;
+        });
+    });
+    showRollup(cntTotal, cntAdded, cntReplaced);
+}
+
+/** -------------------------------------------------------------------------------------------
+ * Shows a rollup message containing the overall count of snippets added and/or snippets 
+ * replaced in [Current Snippets].
+ * 
+ * @param {number} cntTotal The total number of snippets either added or replaced.
+ * @param {number} cntAdded The number of snippets added to [Current Snippets].
+ * @param {number} cntReplaced The number of snippets replaced in [Current Snippets].
+ */
+function showRollup(cntTotal, cntAdded, cntReplaced) {
+    let msg;
+    if (cntTotal === cntAdded)
+        msg = `<cnt>${cntTotal}</cnt> snippets were <b>added</b> to ${CURRENT_SNIPPETS}.`;
+    else if (cntTotal === cntReplaced)
+        msg = `<cnt>${cntTotal}</cnt> snippets were <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
+    else
+        msg = `<cnt>${cntAdded}</cnt> snippets were <b>added</b>; <cnt>${cntReplaced}</cnt> `
+            + `snippets were <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
+    showMsg(msg, ["OK"], true, 15);
 }
 
 function loadFiles(files) {
@@ -939,9 +1111,9 @@ function addMouseEventsToNewSnippetCheckbox() {
  * Adds a 'click' event listener to all the buttons in the UI.
  */
 function addClickEventToButtons() {
-    addEventToAnElement("external_bgrins_button").on("click", addSnippets_bgrins);
-    addEventToAnElement("external_bahmutov_button").on("click", addSnippets_bahmutov);
-    addEventToAnElement("enter_debug_button").on("click", debugMe);
+    addEventToAnElement("snip_loadbgrins_btn").on("click", loadSnippetsFromBgrins);
+    addEventToAnElement("snip_loadbahmutov_btn").on("click", loadSnippetsFromBahmutov);
+    addEventToAnElement("snip_dotest_btn").on("click", doTest);
     addEventToAnElement("snip_checkall_btn").on("click", checkAllCheckboxes);
     addEventToAnElement("snip_uncheckall_btn").on("click", uncheckAllCheckboxes);
     addEventToAnElement("snip_invert_btn").on("click", invertAllCheckboxes);
@@ -973,7 +1145,7 @@ function addEventToAnElement(id) {
 */
 // window.parent.addEventListener('unload', function () {
 //     if (_app_window && !_app_window.closed) {
-//         console.log(`Closing '${msg.WIN_TITLE}' window…`);
+//         console.log(`Closing '${WIN_TITLE}' window…`);
 //         _app_window.close();
 //     }
 // });
@@ -998,16 +1170,25 @@ function wait(milliseconds) {
  * Sends an XML Http Get Request to the server.
  * 
  * @param {string} url The URL (Uniform Resource Locater).
- * @param {any} success The callback function.
+ * @param {any} callback The callback function.
  * @returns 
  */
-function xhrGetRequest(url, success) {
+function xhrGetRequest(url, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.onload = success;
-    xhr.onerror = function (err) {
-        console.error(err);
-    }
+    xhr.open('GET', url, false);
+    xhr.onload = callback;
+    // xhr.onload = (e) => {
+    //     if (xhr.readyState === 4) {
+    //         if (xhr.status === 200) {
+    //             callback;
+    //         } else {
+    //             console.error(xhr.statusText);
+    //         }
+    //     }
+    // };
+    xhr.onerror = (err) => {
+        console.error(xhr.statusText);
+    };
     xhr.send();
     return xhr;
 }
@@ -1288,11 +1469,6 @@ span.columnheader_span {
 	cursor: pointer;
 }
 
-.bracket {
-	font-size: 1.25em;
-	color: #c6c3c3;
-}
-
 div.flex-child-element {
 	background-color: #eee;
 }
@@ -1303,17 +1479,20 @@ div.flex-child-element {
 	user-select: none;
 }
 
-#snip_cnt {
-	font-size: 1rem;
-	margin-right: 6px;
+.snip_cnt {
 	font-family: monospace;
-	border: thin #c6c3c3 solid;
-	padding: 0 4px;
+	font-size: 1rem;
+	color: white;
+	background-color: #cccccc;
+	padding: 0 5px 2px 5px;
+	border: thin #aaaaaa solid;
+	margin: 0px;
 }
 
 #snip_desc {
 	font-weight: 600;
 	text-align: center;
+	font-style: italic;
 }
 
 #snip_mode {
@@ -1422,6 +1601,10 @@ div.button_row {
 	flex-direction: row;
 }
 
+div.button_row_block {
+	display: float;
+}
+
 div.my_radio_div {
 	margin-bottom: 0.25em;
 }
@@ -1440,6 +1623,11 @@ label.my_radio_label span:first-of-type {
 
 .snip_button:hover {
 	background-color: rgb(207, 207, 207);
+}
+
+#snip_dotest_btn{
+	float: right;
+    margin-right: 10px;
 }
 
 button.ml8 {
@@ -1477,7 +1665,7 @@ button.ml8 {
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-.modal_content {
+.modal_dialog {
 	background-color: #fefefe;
 	margin: auto;
 	border: 1px solid #888;
@@ -1504,7 +1692,7 @@ button.ml8 {
 }
 
 #modal_buttons {
-	margin: 20px;
+	margin: 10px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -1521,7 +1709,7 @@ button.ml8 {
 }
 
 #button_close {
-	color: #aaaaaa;
+	color: rgb(134, 134, 134);
 	font-size: 28px;
 	font-weight: bold;
 	position: absolute;
@@ -1536,10 +1724,49 @@ button.ml8 {
 	cursor: pointer;
 }
 
-nn {
-	font-family: 'Lucida Sans';
-	font-weight: 700;
+button:focus {
+	border-color: #86b7fe;
+	outline: 0;
+	box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+#timeto_autoclose {
+	color: rgb(134, 134, 134);
+	font-family: monospace;
+	font-size: 0.6rem;
+	float: right;
+	margin-top: 14px;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+#timeto_autoclose:hover,
+#timeto_autoclose:focus {
+	color: black;
+	text-decoration: none;
+}
+
+.bracket {
+	color: #c6c3c3;
+	font-size: 1.25em;
+	font-weight: 100;
+}
+
+.current_snippets {
+	color: gray;
 	font-size: 0.9em;
+	font-style: italic;
+	font-weight: 600;
+}
+
+cnt {
+	font-family: monospace;
+	font-size: 0.8rem;
+	color: white;
+	background-color: #cccccc;
+	padding: 0 5px 2px 5px;
+	border: thin #aaaaaa solid;
+	margin: 0px;
 }
 
 </style>`;
@@ -1564,7 +1791,7 @@ const HTML =
 					<input id="drop_files" class="drop-zone__input" type="file" multiple="true" accept=".js,.json" title="." />
 				</div>
 				<fieldset id="add_or_replace">
-					<legend id="add_or_replace_it">If adding a snippet that already exists:</legend>
+					<legend id="add_or_replace_it">&nbsp;If adding a snippet that already exists:&nbsp;</legend>
 					<div class="my_radio_div">
 						<label id="add_it_radio" class="my_radio_label">
 							<input type="radio" name="add_or_replace" value="true" checked="true" />
@@ -1580,18 +1807,18 @@ const HTML =
 				</fieldset>
 				<div>
 					<div class="button_row">
-						<button type="button" class="snip_button ml8" id="external_bgrins_button">Add from 'bgrins/devtools-snippets repo'</button>
+						<button type="button" class="snip_button ml8" id="snip_loadbgrins_btn">Add from 'bgrins/devtools-snippets repo'</button>
 					</div>
-					<div class="button_row">
-						<button type="button" class="snip_button ml8" id="external_bahmutov_button">Add from 'bahmutov/code-snippets repo'</button>
-						<button type="button" class="snip_button" id="enter_debug_button">Debug…</button>
+					<div class="button_row_block">
+						<button type="button" class="snip_button ml8" id="snip_loadbahmutov_btn">Add from 'bahmutov/code-snippets repo'</button>
+						<button type="button" class="snip_button" id="snip_dotest_btn">Perform Test…</button>
 					</div>
 				</div>
 			</div>
 			<div class="flex-child-element">
 				<div id="snip_container">
 					<div id="snip_header">
-						<span id="snip_cnt">44</span>
+						<span class="snip_cnt">44</span>
 						<span class="bracket">[</span>
 						<span id="snip_desc">Current Snippets</span>
 						<span class="bracket">]</span>
@@ -1616,16 +1843,17 @@ const HTML =
 			</div>
 		</div>
 		<!-- Modal Dialog -->
-		<div id="modal_dialog" class="modal_background">
-			<div class="modal_content">
+		<div id="modal_background" class="modal_background">
+			<div class="modal_dialog" role="dialog" aria-modal="true">
 				<div id="modal_title_bar">
 					<span>DevTools Snippet Manager</span>
 					<span id="button_close">&times;</span>
 				</div>
 				<div id="modal_text"></div>
 				<div id="modal_buttons">
-					<button type="button" class="modal_button" id="button_ok">OK</button>
-					<button type="button" class="modal_button" id="button_cancel">Cancel</button>
+					<span id="timeto_autoclose"></span>
+					<button type="button" class="snip_button modal_button" id="button_ok">OK</button>
+					<button type="button" class="snip_button modal_button" id="button_cancel">Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -1633,8 +1861,8 @@ const HTML =
 </html>
 `;
 
-if (location.href.toLowerCase().includes(msg.HTML_FILENAME.toLowerCase())) {
-    openThisWindow(msg.HTML_FILENAME);
+if (location.href.toLowerCase().includes(HTML_FILENAME.toLowerCase())) {
+    openThisWindow(HTML_FILENAME);
 } else if (location.href.toLowerCase().includes(state.thisSnippetName.toLowerCase())) {
     openThisWindow(state.thisSnippetName);
 } else {

@@ -18,7 +18,7 @@
 					<input id="drop_files" class="drop-zone__input" type="file" multiple="true" accept=".js,.json" title="." />
 				</div>
 				<fieldset id="add_or_replace">
-					<legend id="add_or_replace_it">If adding a snippet that already exists:</legend>
+					<legend id="add_or_replace_it">&nbsp;If adding a snippet that already exists:&nbsp;</legend>
 					<div class="my_radio_div">
 						<label id="add_it_radio" class="my_radio_label">
 							<input type="radio" name="add_or_replace" value="true" checked="true" />
@@ -34,18 +34,18 @@
 				</fieldset>
 				<div>
 					<div class="button_row">
-						<button type="button" class="snip_button ml8" id="external_bgrins_button">Add from 'bgrins/devtools-snippets repo'</button>
+						<button type="button" class="snip_button ml8" id="snip_loadbgrins_btn">Add from 'bgrins/devtools-snippets repo'</button>
 					</div>
-					<div class="button_row">
-						<button type="button" class="snip_button ml8" id="external_bahmutov_button">Add from 'bahmutov/code-snippets repo'</button>
-						<button type="button" class="snip_button" id="enter_debug_button">Debug…</button>
+					<div class="button_row_block">
+						<button type="button" class="snip_button ml8" id="snip_loadbahmutov_btn">Add from 'bahmutov/code-snippets repo'</button>
+						<button type="button" class="snip_button" id="snip_dotest_btn">Perform Test…</button>
 					</div>
 				</div>
 			</div>
 			<div class="flex-child-element">
 				<div id="snip_container">
 					<div id="snip_header">
-						<span id="snip_cnt">44</span>
+						<span class="snip_cnt">44</span>
 						<span class="bracket">[</span>
 						<span id="snip_desc">Current Snippets</span>
 						<span class="bracket">]</span>
@@ -70,16 +70,17 @@
 			</div>
 		</div>
 		<!-- Modal Dialog -->
-		<div id="modal_dialog" class="modal_background">
-			<div class="modal_content">
+		<div id="modal_background" class="modal_background">
+			<div class="modal_dialog" role="dialog" aria-modal="true">
 				<div id="modal_title_bar">
 					<span>DevTools Snippet Manager</span>
 					<span id="button_close">&times;</span>
 				</div>
 				<div id="modal_text"></div>
 				<div id="modal_buttons">
-					<button type="button" class="modal_button" id="button_ok">OK</button>
-					<button type="button" class="modal_button" id="button_cancel">Cancel</button>
+					<span id="timeto_autoclose"></span>
+					<button type="button" class="snip_button modal_button" id="button_ok">OK</button>
+					<button type="button" class="snip_button modal_button" id="button_cancel">Cancel</button>
 				</div>
 			</div>
 		</div>
