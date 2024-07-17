@@ -155,10 +155,13 @@ function initializePage() {
  */
 async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
     let result;
+    let modal_dialog;
     return new Promise((resolve) => {
         let modalIntervalId;
 
         const modal_background = _docx.getElementById("modal_background");
+
+        modal_dialog = _docx.getElementById("modal_dialog")
 
         _docx.getElementById("modal_text").innerHTML = message || "message missing";
 
@@ -172,11 +175,11 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
         for (let index = 0; index < buttons.length; index++) {
             const btn = String(buttons[index]);
             if (btn.endsWith("*")) {
-                buttons[index] = btn.replace("*","");
+                buttons[index] = btn.replace("*", "");
                 defaultButton = buttons[index];
             }
         }
-        
+
         modal_background.style.display = "block";
 
         // Always make sure to reference the '_docx' object and not 'document'!
@@ -184,14 +187,12 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
         const header_time = _docx.querySelector("#timeto_autoclose");
         header_time.setAttribute("title", `Click to stop this dialog from auto-closing.`);
 
-        function getFocusable(context = '_docx') { 
+        function getFocusable(context = '_docx') {
             return Array.from(context.querySelectorAll('button, [href], input:not([type="hidden"]),'
-                + ' textarea, select, [tabindex]:not([tabindex="-1"])'))
-                .filter(function (el) { return !el.closest('[hidden]'); });
+                + ' textarea, select, [tabindex]:not([tabindex="-1"])')).filter(function (el) {
+                    return !el.closest('[hidden]');
+                });
         }
-
-        // Get a list of the items in this window which are focusable so we can control tabbing.
-        const focusableItems = getFocusable(modal_background);
 
         // TODO: Create the elements dynamically according to the 'buttons' array.
 
@@ -202,7 +203,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
                 event.stopPropagation();
                 doResolve("OK");
             });
-            if (defaultButton==="OK")
+            if (defaultButton === "OK")
                 btnOk.focus();
         } else {
             btnOk.hidden = true;
@@ -215,7 +216,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
                 event.stopPropagation();
                 doResolve("Cancel");
             });
-            if (defaultButton==="Cancel")
+            if (defaultButton === "Cancel")
                 btnCancel.focus();
         } else {
             btnCancel.hidden = true;
@@ -226,15 +227,13 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
             doResolve("Cancel");
         });
 
-        if (clickOutsideToCancel == true) {
-            _app_window.addEventListener("click", clickToCancelHandler);
-        }
+        _app_window.addEventListener("click", appWindow_Click);
 
-        _app_window.addEventListener("keydown", keydownHandler);
+        _app_window.addEventListener("keydown", appWindow_Keydown);
 
         if (!isNaN(secsUntilClose) && secsUntilClose > 0) {
             let numZeros = String(secsUntilClose).match(/\d/g).length;
-            header_time.innerHTML = getHeaderMessage(secsUntilClose, numZeros);;
+            header_time.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
             header_time.addEventListener("click", clickToStop);
             modalIntervalId = setInterval(() => {
                 if (--secsUntilClose < 1) {
@@ -250,63 +249,78 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
             return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
         }
 
+        // Get a list of the items in this window which are focusable so we can control tabbing.
+        let focusableItems = getFocusable(modal_background);
+
         function clickToStop() {
             clearInterval(modalIntervalId);
             header_time.innerHTML = "This window will no longer auto-close.";
-            focusableItems[0].focus();
             setTimeout(() => {
                 header_time.innerHTML = "";
             }, 3000);
         }
 
-        function clickToCancelHandler(e) {
-            if (e.target === modal_background) {
+        function appWindow_Click(e) {
+            if (clickOutsideToCancel && e.target === modal_background) {
                 doResolve("Cancel");
+                e.preventDefault();
+            } else if (focusableItems.indexOf(e.target) < 0) {
+                focusableItems[0].focus();
             }
         }
 
-        function keydownHandler(e) {
-            if (e.key === 'Escape') {
+        function appWindow_Keydown(e) {
+            if (e.keyCode === 27) { // Escape
                 doResolve("Cancel");
-            } else if (e.keyCode === 9) {
-                // Tab & Shift+Tab
+            } else if (e.keyCode === 9) { // Tab or Shift+Tab
                 const focusedItem = e.target;
                 const focusedItemIndex = focusableItems.indexOf(focusedItem);
                 if (e.shiftKey) {
                     if (!modal_background.contains(e.target) || focusedItemIndex === 0) {
                         focusableItems[focusableItems.length - 1].focus();
-                        e.preventDefault();
+                    } else {
+                        focusableItems[focusedItemIndex - 1].focus();
                     }
                 } else {
-                    if (!modal_background.contains(e.target) || focusedItemIndex == focusableItems.length - 1) {
+                    if (!modal_background.contains(e.target) || focusedItemIndex === focusableItems.length - 1) {
                         focusableItems[0].focus();
-                        e.preventDefault();
+                    } else {
+                        focusableItems[focusedItemIndex + 1].focus();
                     }
                 }
+                e.preventDefault();
             }
         }
+
+        // Make the DIV element draggagle:
+        // Does not currently work with moveable modal dialog!
+        //dragElement(modal_dialog);
 
         function doResolve(rslt) {
             result = rslt;
             clearTimeout(modalIntervalId);
-            _app_window.removeEventListener("click", clickToCancelHandler);
-            _app_window.removeEventListener("keydown", keydownHandler);
+            _app_window.removeEventListener("click", appWindow_Click);
+            _app_window.removeEventListener("keydown", appWindow_Keydown);
             modal_background.style.display = "none";
             resolve();
         }
-    }).then(() => { return result; });
+    }
+    ).then(() => {
+        return result;
+    }
+    );
 }
 
-// Make the DIV element draggagle:
-//dragElement(_docx.getElementById("modal_dialog"));
-
 function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    var pos1 = 0
+        , pos2 = 0
+        , pos3 = 0
+        , pos4 = 0;
     if (_docx.getElementById(elmnt.id + "header")) {
-        /* if present, the header is where you move the DIV from:*/
+        /* if present, the header is where you move the DIV from: */
         _docx.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
     } else {
-        /* otherwise, move the DIV from anywhere inside the DIV:*/
+        /* otherwise, move the DIV from anywhere inside the DIV: */
         elmnt.onmousedown = dragMouseDown;
     }
 
@@ -538,7 +552,7 @@ function snippetExists(snippetName) {
 
 function findSnippetIndex(snippetName) {
     let index = state.scriptSnippets.findIndex(s => s.name === snippetName);
-    return index;// ? index : -1;
+    return index;
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -728,10 +742,8 @@ function getLastIdentifierFromDevTools() {
         InspectorFrontendHost.getPreferences(prefs => {
             const data = (prefs["script-snippets-last-identifier"]);
             resolve(data);
-        }
-        );
-    }
-    );
+        });
+    });
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -867,8 +879,8 @@ function setElementTitles() {
 
     setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
 
-    setTitle("snip_header",
-        `Initially shows a list of all snippets saved in 'DevTools'.\n`
+    setTitle("snip_header", 
+          `Initially shows a list of all snippets saved in 'DevTools'.\n`
         + `That is, when this snippet is run from 'DevTools' of 'DevTools' by pressing Ctrl+Shft+I,\n`
         + `or when run in 'DevTools' opened from a web page served up from 'LocalHost'.\n`
         + `In all other cases, this list is shown using auto-generated "example" snippets.\n`
@@ -878,8 +890,7 @@ function setElementTitles() {
         + `*******\n`
         + `Click anywhere on a row in this list to select or deselect the snippet;\n`
         + `Hold down the SHIFT key while dragging to select multiple snippets;\n`
-        + `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`
-    );
+        + `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`);
 
     setTitle("snip_loadbgrins_btn", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BGRINS}"`);
     setTitle("snip_loadbahmutov_btn", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BAHMUTOV}"`);
@@ -949,12 +960,12 @@ function loadSnippetsFromBahmutov() {
 function showRollup(cntTotal, cntAdded, cntReplaced) {
     let msg;
     if (cntTotal === cntAdded)
-        msg = `<cnt>${cntTotal}</cnt> snippets were <b>added</b> to ${CURRENT_SNIPPETS}.`;
+        msg = `<cnt>${cntTotal}</cnt> Snippet${cntTotal === 1 ? ' was' : 's were'} <b>added</b> to ${CURRENT_SNIPPETS}.`;
     else if (cntTotal === cntReplaced)
-        msg = `<cnt>${cntTotal}</cnt> snippets were <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
+        msg = `<cnt>${cntTotal}</cnt> Snippet${cntTotal === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
     else
-        msg = `<cnt>${cntAdded}</cnt> snippets were <b>added</b>; <cnt>${cntReplaced}</cnt> `
-            + `snippets were <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
+        msg = `<cnt>${cntAdded}</cnt> Snippet${cntAdded === 1 ? ' was' : 's were'} <b>added</b>;&nbsp;&nbsp;<cnt>${cntReplaced}</cnt>`
+            + ` Snippet${cntReplaced === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
     showMsg(msg, ["OK"], true, 15);
 }
 
@@ -1177,15 +1188,7 @@ function xhrGetRequest(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
     xhr.onload = callback;
-    // xhr.onload = (e) => {
-    //     if (xhr.readyState === 4) {
-    //         if (xhr.status === 200) {
-    //             callback;
-    //         } else {
-    //             console.error(xhr.statusText);
-    //         }
-    //     }
-    // };
+    
     xhr.onerror = (err) => {
         console.error(xhr.statusText);
     };
@@ -1665,7 +1668,7 @@ button.ml8 {
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-.modal_dialog {
+#modal_dialog {
 	background-color: #fefefe;
 	margin: auto;
 	border: 1px solid #888;
@@ -1771,7 +1774,7 @@ cnt {
 
 </style>`;
 
-const HTML =
+const HTML = 
     `<html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -1844,7 +1847,7 @@ const HTML =
 		</div>
 		<!-- Modal Dialog -->
 		<div id="modal_background" class="modal_background">
-			<div class="modal_dialog" role="dialog" aria-modal="true">
+			<div id="modal_dialog" role="dialog" aria-modal="true">
 				<div id="modal_title_bar">
 					<span>DevTools Snippet Manager</span>
 					<span id="button_close">&times;</span>
@@ -1868,4 +1871,3 @@ if (location.href.toLowerCase().includes(HTML_FILENAME.toLowerCase())) {
 } else {
     openAppWindow();
 }
-
