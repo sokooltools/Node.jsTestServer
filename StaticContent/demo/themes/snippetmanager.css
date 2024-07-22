@@ -289,18 +289,19 @@ button.ml8 {
 	top: 0;
 	width: 100%; /* Full width */
 	height: 100%; /* Full height */
-	padding-top: 100px; /* Location of the box */
+	padding: 10px; 
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0, 0, 0); /* Fallback color */
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 #modal_dialog {
+	display: none;
+	z-index: 2; /* Sit on top */
 	background-color: #fefefe;
-	margin: auto;
 	border: 1px solid #888;
 	width: 60%;
-	position: relative;
+	position: fixed;
 	-webkit-user-select: none;
 	user-select: none;
 }
@@ -309,6 +310,7 @@ button.ml8 {
 	background-color: lightgray;
 	padding: 6px 8px 6px 20px;
 	font-weight: 700;
+	cursor: move;
 }
 
 #modal_text {

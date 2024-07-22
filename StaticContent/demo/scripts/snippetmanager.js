@@ -156,8 +156,12 @@ function initializePage() {
 async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 	let result;
 	let modalIntervalId;
+	let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 	return new Promise((resolve) => {
-		const modal_background = _docx.getElementById("modal_background");
+
+		const modal_background = _docx.getElementById("modal_background");	
+		const modal_dialog = _docx.getElementById("modal_dialog");
+
 		_docx.getElementById("modal_text").innerHTML = message || "message missing";
 
 		// Use a default 'buttons' array when not otherwise specified.
@@ -173,20 +177,6 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 				buttons[index] = btn.replace("*", "");
 				defaultButton = buttons[index];
 			}
-		}
-
-		modal_background.style.display = "block";
-
-		// Always make sure to reference the '_docx' object and not 'document'!
-
-		const header_time = _docx.querySelector("#timeto_autoclose");
-		header_time.setAttribute("title", `Click to stop this dialog from auto-closing.`);
-
-		function getFocusable(context = '_docx') {
-			return Array.from(context.querySelectorAll('button, [href], input:not([type="hidden"]),'
-				+ ' textarea, select, [tabindex]:not([tabindex="-1"])')).filter(function (el) {
-					return !el.closest('[hidden]');
-				});
 		}
 
 		// TODO: Create the elements dynamically according to the 'buttons' array.
@@ -217,6 +207,16 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			btnCancel.hidden = true;
 		}
 
+		modal_background.style.display = "block";
+		modal_dialog.style.display = "block";
+		modal_dialog.style.top = "150px";
+		modal_dialog.style.left = "200px";
+
+		// Always make sure to reference the '_docx' object and not 'document'!
+
+		const header_time = _docx.querySelector("#timeto_autoclose");
+		header_time.setAttribute("title", `Click to stop this dialog from auto-closing.`);
+
 		_docx.getElementById("button_close").addEventListener("click", (event) => {
 			event.stopPropagation();
 			doResolve("Cancel");
@@ -244,8 +244,15 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
 		}
 
-		// Get a list of the items in this window which are focusable so we can control tabbing.
-		let focusableItems = getFocusable(modal_background);
+		function getFocusable(context = '_docx') {
+			return Array.from(context.querySelectorAll('button, [href], input:not([type="hidden"]),'
+				+ ' textarea, select, [tabindex]:not([tabindex="-1"])')).filter(function (el) {
+					return !el.closest('[hidden]');
+				});
+		}
+
+		// Get a list of the items in this dialog which are focusable so we can control tabbing.
+		let focusableItems = getFocusable(modal_dialog);
 
 		function clickToStop() {
 			clearInterval(modalIntervalId);
@@ -271,13 +278,13 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 				const focusedItem = e.target;
 				const focusedItemIndex = focusableItems.indexOf(focusedItem);
 				if (e.shiftKey) {
-					if (!modal_background.contains(e.target) || focusedItemIndex === 0) {
+					if (!modal_dialog.contains(e.target) || focusedItemIndex === 0) {
 						focusableItems[focusableItems.length - 1].focus();
 					} else {
 						focusableItems[focusedItemIndex - 1].focus();
 					}
 				} else {
-					if (!modal_background.contains(e.target) || focusedItemIndex === focusableItems.length - 1) {
+					if (!modal_dialog.contains(e.target) || focusedItemIndex === focusableItems.length - 1) {
 						focusableItems[0].focus();
 					} else {
 						focusableItems[focusedItemIndex + 1].focus();
@@ -287,26 +294,33 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			}
 		}
 
-		// Make the DIV element draggagle:
-		// Does not currently work with moveable modal dialog!
-		var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-		var elem = _docx.getElementById("modal_title_bar");
+		function doResolve(rslt) {
+			result = rslt;
+			clearTimeout(modalIntervalId);
+			_app_window.removeEventListener("click", appWindow_Click);
+			_app_window.removeEventListener("keydown", appWindow_Keydown);
+			modal_background.style.display = "none";
+			modal_dialog.style.display = "none";
+			resolve();
+		}
 
-		elem.onmousedown = dragMouseDown;
+		dragElement();
+
+		function dragElement() {
+			_docx.getElementById("modal_title_bar").onmousedown = dragMouseDown;
+		}
 
 		function dragMouseDown(e) {
-			e = e || window.event;
 			e.preventDefault();
 			// Get the mouse cursor position at startup:
 			pos3 = e.clientX;
 			pos4 = e.clientY;
-			elem.onmouseup = closeDragElement;
 			// Call a function whenever the cursor moves:
-			elem.onmousemove = elementDrag;
+			_docx.onmousemove = elementDrag;
+			_docx.onmouseup = closeDragElement;
 		}
 
 		function elementDrag(e) {
-			e = e || window.event;
 			e.preventDefault();
 			// Calculate the new cursor position:
 			pos1 = pos3 - e.clientX;
@@ -314,23 +328,14 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			pos3 = e.clientX;
 			pos4 = e.clientY;
 			// Set the element's new position:
-			elem.style.top = (elem.offsetTop - pos2) + "px";
-			elem.style.left = (elem.offsetLeft - pos1) + "px";
+			modal_dialog.style.left = (modal_dialog.offsetLeft - pos1) + "px";
+			modal_dialog.style.top = (modal_dialog.offsetTop - pos2) + "px";
 		}
 
 		function closeDragElement() {
-			/* Stop moving when mouse button is released:*/
-			elem.onmouseup = null;
-			elem.onmousemove = null;
-		}
-
-		function doResolve(rslt) {
-			result = rslt;
-			clearTimeout(modalIntervalId);
-			_app_window.removeEventListener("click", appWindow_Click);
-			_app_window.removeEventListener("keydown", appWindow_Keydown);
-			modal_background.style.display = "none";
-			resolve();
+			// Stop moving when mouse button is released.
+			_docx.onmousemove = null;
+			_docx.onmouseup = null;
 		}
 	}
 	).then(() => {
