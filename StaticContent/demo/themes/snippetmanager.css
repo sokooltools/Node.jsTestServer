@@ -50,7 +50,7 @@ body {
 }
 
 .drop-zone__prompt {
-	color: #cccccc;
+	color:  #cccccc !important;
 }
 
 ul {
@@ -383,10 +383,10 @@ button:focus {
 }
 
 .current_snippets {
-	color: black!;
 	font-size: 0.9em;
 	font-style: italic;
 	font-weight: 600;
+	padding: 2px;
 }
 
 cnt {

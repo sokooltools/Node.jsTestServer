@@ -169,7 +169,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
         if (!buttons || buttons.length == 0)
             buttons = ["OK*", "Cancel"];
 
-        // Button with an astersisk ('*') appended to its name is default button;
+        // Button with an astersisk ('*') appended to its name is the default button;
         // otherwise the default button is the first button in the 'buttons' array.
         let defaultButton = buttons[0];
         for (let index = 0; index < buttons.length; index++) {
@@ -1423,7 +1423,7 @@ body {
 }
 
 .drop-zone__prompt {
-	color: #cccccc;
+	color:  #cccccc !important;
 }
 
 ul {
@@ -1482,11 +1482,12 @@ div.flex-child-element {
 	user-select: none;
 }
 
-.snip_cnt {
+#snip_cnt {
 	font-family: monospace;
 	font-size: 1rem;
-	color: white;
-	background-color: #cccccc;
+	font-weight: 700;
+	color: rgb(0, 0, 0);
+	background-color: #c5cae9;
 	padding: 0 5px 2px 5px;
 	border: thin #aaaaaa solid;
 	margin: 0px;
@@ -1653,7 +1654,6 @@ button.ml8 {
 	margin-right: 10px;
 }
 
-/* The Modal (background) */
 .modal_background {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
@@ -1750,28 +1750,28 @@ button:focus {
 }
 
 .bracket {
-	color: #c6c3c3;
+	color: #c5cae9;
 	font-size: 1.25em;
 	font-weight: 100;
 }
 
 .current_snippets {
-	color: gray;
 	font-size: 0.9em;
 	font-style: italic;
 	font-weight: 600;
+	padding: 2px;
 }
 
 cnt {
 	font-family: monospace;
+	font-weight: 700;
 	font-size: 0.8rem;
-	color: white;
-	background-color: #cccccc;
+	color: #000;
+	background-color: #c5cae9;
 	padding: 0 5px 2px 5px;
 	border: thin #aaaaaa solid;
 	margin: 0px;
 }
-
 </style>`;
 
 const HTML = 
@@ -1821,7 +1821,7 @@ const HTML =
 			<div class="flex-child-element">
 				<div id="snip_container">
 					<div id="snip_header">
-						<span class="snip_cnt">44</span>
+						<span id="snip_cnt">0</span>
 						<span class="bracket">[</span>
 						<span id="snip_desc">Current Snippets</span>
 						<span class="bracket">]</span>
