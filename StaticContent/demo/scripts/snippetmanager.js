@@ -60,13 +60,15 @@ async function doTest1() {
 	console.log("Test started...");
 	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK*", "Cancel"], false);
 	console.log(result);
-	if (result.toUpperCase() === "OK") {
-		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel*"], false, 10);
+	if (result === "OK") {
+		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel*", "Other..."], false, 10);
 		console.log(result);
-		if (result.toUpperCase() === "OK") {
+		if (result==="Other...")
+			alert("You picked 'Other' button");
+		if (result === "OK") {
 			result = await showMsg(SAVE_TOKEN_MSG1, ["OK"]);
 			console.log(result);
-			if (result.toUpperCase() === "OK") {
+			if (result === "OK") {
 				result = await showMsg(SAVE_TOKEN_MSG2, [], true, 10);
 				console.log(result);
 			}
@@ -175,22 +177,23 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 
 		// Button with an astersisk ('*') appended to its name is default button;
 		// otherwise the default button is the first button in the 'buttons' array.
-		let defaultButton = buttons[0];
+		let defaultBtnNum = 1;
 		for (let index = 0; index < buttons.length; index++) {
 			const btn = String(buttons[index]);
 			if (btn.endsWith("*")) {
 				buttons[index] = btn.replace("*", "");
-				defaultButton = buttons[index];
+				defaultBtnNum = index + 1;
 			}
 		}
 
+		let btnNum = 0;
 		// Create the elements dynamically based on the 'buttons' array.
 		buttons.forEach(btn => {
 			let button = document.createElement('button');
 			button.textContent = btn;
 			button.type = "button";
 			button.classList = "snip_button modal_button";
-			button.id = 'button_' + btn.toLowerCase();
+			button.id = `button_${++btnNum}`;
 			button.addEventListener("click", (event) => {
 				event.stopPropagation();
 				doResolve(btn);
@@ -205,10 +208,10 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 
 		// Always make sure to reference the '_docx' object and not 'document'!
 
-		_docx.getElementById('button_' + defaultButton.toLowerCase()).focus();
+		_docx.getElementById(`button_${defaultBtnNum}`).focus();
 
-		const header_time = _docx.querySelector("#timeto_autoclose");
-		header_time.setAttribute("title", `Click to stop this dialog from auto-closing.`);
+		const time_until_autoclose = _docx.querySelector("#time_until_autoclose");
+		time_until_autoclose.setAttribute("title", `Click to stop this dialog from auto-closing.`);
 
 		_docx.getElementById("button_close").addEventListener("click", (event) => {
 			event.stopPropagation();
@@ -221,37 +224,37 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 
 		if (!isNaN(secsUntilClose) && secsUntilClose > 0) {
 			let numZeros = String(secsUntilClose).match(/\d/g).length;
-			header_time.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
-			header_time.addEventListener("click", clickToStop);
+			time_until_autoclose.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
+			time_until_autoclose.addEventListener("click", timeto_autoclose_click);
 			modalIntervalId = setInterval(() => {
 				if (--secsUntilClose <= 0) {
 					doResolve("Cancel");
 				}
-				header_time.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
+				time_until_autoclose.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
 			}, 1000);
 		} else {
-			header_time.innerHTML = "";
+			time_until_autoclose.innerHTML = "";
 		}
 
 		function getHeaderMessage(secsUntilClose, numZeros) {
 			return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
 		}
 
-		function getFocusable(context = '_docx') {
+		function getFocusable(context = "_docx") {
 			return Array.from(context.querySelectorAll('button, [href], input:not([type="hidden"]),'
 				+ ' textarea, select, [tabindex]:not([tabindex="-1"])')).filter(function (el) {
-					return !el.closest('[hidden]');
+					return !el.closest("[hidden]");
 				});
 		}
 
 		// Get a list of the items in this dialog which are focusable so we can control tabbing.
 		let focusableItems = getFocusable(modal_dialog);
 
-		function clickToStop() {
+		function timeto_autoclose_click() {
 			clearInterval(modalIntervalId);
-			header_time.innerHTML = "This window will no longer auto-close.";
+			time_until_autoclose.innerHTML = "This window will no longer auto-close.";
 			setTimeout(() => {
-				header_time.innerHTML = "";
+				time_until_autoclose.innerHTML = "";
 			}, 3000);
 		}
 
@@ -321,6 +324,12 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			_docx.onmouseup = null;
 		}
 
+		function removeButtons(){
+			for (let index = 0; index < buttons.length; index++) {		
+				_docx.getElementById(`button_${index + 1}`).remove();
+			};
+		}
+
 		function doResolve(rslt) {
 			result = rslt;
 			clearTimeout(modalIntervalId);
@@ -328,9 +337,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			modal_dialog.style.display = "none";
 			_app_window.removeEventListener("click", appWindow_Click);
 			_app_window.removeEventListener("keydown", appWindow_Keydown);
-			buttons.forEach(btn => {
-				_docx.getElementById('button_' + btn.toLowerCase()).remove();
-			});
+			removeButtons();
 			resolve();
 		}
 	}
@@ -491,8 +498,8 @@ async function downloadSingleJsonFile() {
 	let total = state.scriptSnippets.length;
 	let fname = `edge-snippets${getDateTimeToken()}.json`;
 	const json_data = serialize({
-		'script-snippets': snippets
-	}, ['script-snippets', 'name', 'content'], 2);
+		"script-snippets": snippets
+	}, ["script-snippets", "name", "content"], 2);
 	download(json_data, fname);
 	console.log(`Downloaded file "${fname}" containing ${cnt} of ${total} items in [Current Snippets].`);
 }
@@ -515,7 +522,7 @@ async function downloadMultipleJsFiles() {
 		console.clear();
 		for (let i = 0; i < cnt; i++) {
 			let snippet = snippets[i];
-			let fname = snippet.name + '.txt';
+			let fname = snippet.name + ".txt";
 			download(snippet.content, fname);
 			console.log(`Downloaded (${i + 1} of ${cnt}) files: "${fname}".`);
 			await wait(100);
@@ -627,7 +634,7 @@ function updateCurrentSnippetsHeader() {
 function addCurrentSnippet(name, content) {
 	let index = findSnippetIndex(name);
 	if (index >= 0) {
-		let addItRadioButton = _docx.querySelector('label#add_it_radio input');
+		let addItRadioButton = _docx.querySelector("label#add_it_radio input");
 		if (addItRadioButton.checked) {
 			addCurrentSnippet(name + "_copy", content);
 			return 1;
@@ -1733,7 +1740,7 @@ button:focus {
 	box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
 }
 
-#timeto_autoclose {
+#time_until_autoclose {
 	color: rgb(134, 134, 134);
 	font-family: monospace;
 	font-size: 0.6rem;
@@ -1743,8 +1750,8 @@ button:focus {
 	cursor: pointer;
 }
 
-#timeto_autoclose:hover,
-#timeto_autoclose:focus {
+#time_until_autoclose:hover,
+#time_until_autoclose:focus {
 	color: black;
 	text-decoration: none;
 }
@@ -1854,7 +1861,7 @@ const HTML =
 			</div>
 			<div id="modal_text"></div>
 			<div id="modal_buttons">
-				<span id="timeto_autoclose"></span>
+				<span id="time_until_autoclose"></span>
 				<!-- <button type="button" class="snip_button modal_button" id="button_ok">OK</button> -->
 				<!-- <button type="button" class="snip_button modal_button" id="button_cancel">Cancel</button> -->
 			</div>
