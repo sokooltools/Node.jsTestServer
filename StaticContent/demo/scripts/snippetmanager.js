@@ -58,14 +58,18 @@ function doTest() {
 async function doTest1() {
 	console.clear();
 	console.log("Test started...");
-	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK", "Cancel"], false);
+	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK*", "Cancel"], false);
 	console.log(result);
 	if (result.toUpperCase() === "OK") {
 		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel*"], false, 10);
 		console.log(result);
 		if (result.toUpperCase() === "OK") {
-			result = await showMsg(SAVE_TOKEN_MSG1, ["OK"], true, 10);
+			result = await showMsg(SAVE_TOKEN_MSG1, ["OK"]);
 			console.log(result);
+			if (result.toUpperCase() === "OK") {
+				result = await showMsg(SAVE_TOKEN_MSG2, [], true, 10);
+				console.log(result);
+			}
 		}
 
 	}
@@ -159,14 +163,15 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 	let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 	return new Promise((resolve) => {
 
-		const modal_background = _docx.getElementById("modal_background");	
+		const modal_background = _docx.getElementById("modal_background");
 		const modal_dialog = _docx.getElementById("modal_dialog");
+		const modal_buttons = _docx.getElementById("modal_buttons");
 
 		_docx.getElementById("modal_text").innerHTML = message || "message missing";
 
 		// Use a default 'buttons' array when not otherwise specified.
 		if (!buttons || buttons.length == 0)
-			buttons = ["OK*", "Cancel"];
+			buttons = ["OK", "Cancel"];
 
 		// Button with an astersisk ('*') appended to its name is default button;
 		// otherwise the default button is the first button in the 'buttons' array.
@@ -179,33 +184,19 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			}
 		}
 
-		// TODO: Create the elements dynamically according to the 'buttons' array.
-
-		const btnOk = _docx.getElementById("button_ok");
-		if (buttons.contains("OK")) {
-			btnOk.hidden = false;
-			btnOk.addEventListener("click", (event) => {
+		// Create the elements dynamically based on the 'buttons' array.
+		buttons.forEach(btn => {
+			let button = document.createElement('button');
+			button.textContent = btn;
+			button.type = "button";
+			button.classList = "snip_button modal_button";
+			button.id = 'button_' + btn.toLowerCase();
+			button.addEventListener("click", (event) => {
 				event.stopPropagation();
-				doResolve("OK");
+				doResolve(btn);
 			});
-			if (defaultButton === "OK")
-				btnOk.focus();
-		} else {
-			btnOk.hidden = true;
-		}
-
-		const btnCancel = _docx.getElementById("button_cancel");
-		if (buttons.contains("Cancel")) {
-			btnCancel.hidden = false;
-			btnCancel.addEventListener("click", (event) => {
-				event.stopPropagation();
-				doResolve("Cancel");
-			});
-			if (defaultButton === "Cancel")
-				btnCancel.focus();
-		} else {
-			btnCancel.hidden = true;
-		}
+			modal_buttons.appendChild(button);
+		});
 
 		modal_background.style.display = "block";
 		modal_dialog.style.display = "block";
@@ -213,6 +204,8 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		modal_dialog.style.left = "200px";
 
 		// Always make sure to reference the '_docx' object and not 'document'!
+
+		_docx.getElementById('button_' + defaultButton.toLowerCase()).focus();
 
 		const header_time = _docx.querySelector("#timeto_autoclose");
 		header_time.setAttribute("title", `Click to stop this dialog from auto-closing.`);
@@ -294,16 +287,6 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			}
 		}
 
-		function doResolve(rslt) {
-			result = rslt;
-			clearTimeout(modalIntervalId);
-			_app_window.removeEventListener("click", appWindow_Click);
-			_app_window.removeEventListener("keydown", appWindow_Keydown);
-			modal_background.style.display = "none";
-			modal_dialog.style.display = "none";
-			resolve();
-		}
-
 		dragElement();
 
 		function dragElement() {
@@ -336,6 +319,19 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			// Stop moving when mouse button is released.
 			_docx.onmousemove = null;
 			_docx.onmouseup = null;
+		}
+
+		function doResolve(rslt) {
+			result = rslt;
+			clearTimeout(modalIntervalId);
+			modal_background.style.display = "none";
+			modal_dialog.style.display = "none";
+			_app_window.removeEventListener("click", appWindow_Click);
+			_app_window.removeEventListener("keydown", appWindow_Keydown);
+			buttons.forEach(btn => {
+				_docx.getElementById('button_' + btn.toLowerCase()).remove();
+			});
+			resolve();
 		}
 	}
 	).then(() => {
@@ -887,6 +883,8 @@ function setElementTitles() {
 
 // Drag/Drop zone related stuff ---------------------------------------------------------------
 
+let _cntFilesProcessed, _cntAdded, _cntReplaced, _cntTotal;
+
 /** -------------------------------------------------------------------------------------------
  * Loads [Current Snippets] using the array of snippet objects read from a '.json' file.
  *
@@ -896,85 +894,94 @@ function setElementTitles() {
 function loadSnippetsFromJsonFile(contentString) {
 	let jsonData = deserialize(contentString);
 	let jsonDataSorted = sortSnippets(jsonData["script-snippets"]);
-	let cntAdded = 0, cntReplaced = 0, cntTotal = 0;
 	jsonDataSorted.forEach(snippet => {
-		cntTotal++;
-		if (addCurrentSnippet(snippet.name, snippet.content) === 1)
-			cntAdded++;
-		else
-			cntReplaced++;
+		if (addCurrentSnippet(snippet.name, snippet.content) === 1) {
+			 _cntAdded++; 
+		} else { 
+			_cntReplaced++; 
+		}
+		_cntTotal++;
 	}
 	);
-	showRollup(cntTotal, cntAdded, cntReplaced);
 }
 
 function loadSnippetsFromBgrins() {
 	const bgrins_snippets = ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']
-	let cntAdded = 0, cntReplaced = 0, cntTotal = bgrins_snippets.length;
+	_cntAdded = 0; _cntReplaced = 0; _cntTotal = bgrins_snippets.length;
 	bgrins_snippets.forEach((snippet) => {
 		xhrGetRequest(EXT_BGRINS + snippet + '/' + snippet + '.js', (request) => {
 			const snippetContentString = request.target.response;
 			if (addCurrentSnippet(snippet, snippetContentString) === 1)
-				cntAdded++;
+				_cntAdded++;
 			else
-				cntReplaced++;
+				_cntReplaced++;
 		});
 	});
-	showRollup(cntTotal, cntAdded, cntReplaced);
+	showRollup();
 }
 
 function loadSnippetsFromBahmutov() {
 	const bahmutov_snippets = ['timing', 'profile-method-call', 'time-method-call']
-	let cntAdded = 0, cntReplaced = 0, cntTotal = bahmutov_snippets.length;
+	_cntAdded = 0; _cntReplaced = 0; _cntTotal = bahmutov_snippets.length;
 	bahmutov_snippets.forEach((snippet) => {
 		xhrGetRequest(EXT_BAHMUTOV + snippet + '.js', (request) => {
 			const snippetContentString = request.target.response;
 			if (addCurrentSnippet(snippet, snippetContentString) === 1)
-				cntAdded++;
+				_cntAdded++;
 			else
-				cntReplaced++;
+				_cntReplaced++;
 		});
 	});
-	showRollup(cntTotal, cntAdded, cntReplaced);
+	showRollup();
 }
 
 /** -------------------------------------------------------------------------------------------
  * Shows a rollup message containing the overall count of snippets added and/or snippets
  * replaced in [Current Snippets].
  *
- * @param {number} cntTotal The total number of snippets either added or replaced.
- * @param {number} cntAdded The number of snippets added to [Current Snippets].
- * @param {number} cntReplaced The number of snippets replaced in [Current Snippets].
+ * @ _cntTotal The total number of snippets added or replaced.
+ * @ _cntAdded The number of snippets added to [Current Snippets].
+ * @ _cntReplaced The number of snippets replaced in [Current Snippets].
  */
-function showRollup(cntTotal, cntAdded, cntReplaced) {
+function showRollup() {
 	let msg;
-	if (cntTotal === cntAdded)
-		msg = `<cnt>${cntTotal}</cnt> Snippet${cntTotal === 1 ? ' was' : 's were'} <b>added</b> to ${CURRENT_SNIPPETS}.`;
-	else if (cntTotal === cntReplaced)
-		msg = `<cnt>${cntTotal}</cnt> Snippet${cntTotal === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
+	if (_cntTotal === _cntAdded)
+		msg = `<cnt>${_cntTotal}</cnt> Snippet${_cntTotal === 1 ? ' was' : 's were'} <b>added</b> to ${CURRENT_SNIPPETS}.`;
+	else if (_cntTotal === _cntReplaced)
+		msg = `<cnt>${_cntTotal}</cnt> Snippet${_cntTotal === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
 	else
-		msg = `<cnt>${cntAdded}</cnt> Snippet${cntAdded === 1 ? ' was' : 's were'} <b>added</b>;&nbsp;&nbsp;<cnt>${cntReplaced}</cnt>`
-			+ ` Snippet${cntReplaced === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
+		msg = `<cnt>${_cntAdded}</cnt> Snippet${_cntAdded === 1 ? ' was' : 's were'} <b>added</b>;&nbsp;&nbsp;<cnt>${_cntReplaced}</cnt>`
+			+ ` Snippet${_cntReplaced === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
 	showMsg(msg, ["OK"], true, 15);
 }
 
 function loadFiles(files) {
+	_cntFiles = files.length;
+	_cntFilesProcessed = 0;
+	_cntTotal = 0;
+	_cntAdded = 0;
+	_cntReplaced = 0;
 	const stack = Object.keys(files).forEach((key) => {
 		const file = files[key];
 		const reader = new FileReader();
 		reader.fileName = file.name;
 		reader.onerror = (() => {
 			throw Error;
-		}
-		)
+		})
 		reader.onabort = (() => {
 			throw Error;
-		}
-		)
+		})
 		reader.onload = fileLoaded;
+		reader.onloadend = fileLoadedEnd;
 		reader.readAsText(file);
+	});
+}
+
+function fileLoadedEnd(e) {
+	if (++_cntFilesProcessed >= _cntFiles) {
+		updateCurrentSnippetsHeader();
+		showRollup();
 	}
-	);
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -993,9 +1000,12 @@ function fileLoaded(event) {
 	if (extension === ".json") {
 		loadSnippetsFromJsonFile(contentString);
 	} else {
-		addCurrentSnippet(fileNameMinusExt, contentString);
+		if (addCurrentSnippet(fileNameMinusExt, contentString) === 1)
+			_cntAdded++;
+		else
+			_cntReplaced++;
 	}
-	updateCurrentSnippetsHeader();
+	_cntTotal++;
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -1315,8 +1325,7 @@ function doGet(route, callback, msTimeout) {
 		// Abort the fetch request.
 		if (callback)
 			callback("Fetch request timed out.");
-	}
-		, msTimeout || 5000);
+	}, msTimeout || 5000);
 
 	// Handle the fetch request.
 	fetchPromise.then((response) => {
@@ -1651,18 +1660,19 @@ button.ml8 {
 	top: 0;
 	width: 100%; /* Full width */
 	height: 100%; /* Full height */
-	padding-top: 100px; /* Location of the box */
+	padding: 10px; 
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0, 0, 0); /* Fallback color */
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 #modal_dialog {
+	display: none;
+	z-index: 2; /* Sit on top */
 	background-color: #fefefe;
-	margin: auto;
 	border: 1px solid #888;
 	width: 60%;
-	position: relative;
+	position: fixed;
 	-webkit-user-select: none;
 	user-select: none;
 }
@@ -1671,6 +1681,7 @@ button.ml8 {
 	background-color: lightgray;
 	padding: 6px 8px 6px 20px;
 	font-weight: 700;
+	cursor: move;
 }
 
 #modal_text {
@@ -1764,13 +1775,12 @@ cnt {
 </style>`;
 
 const HTML =
-	`<html lang="en">
+	`<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Snippet Manager</title>
-		<link rel="stylesheet" href="./themes/snippetmanager.css" />
-		<script type="text/javascript" src="./scripts/snippetmanager.js" defer></script>
+		<title>DevTools Snippet Manager</title>
 	</head>
 	<body>
 		<div id="page_header">
@@ -1835,18 +1845,18 @@ const HTML =
 			</div>
 		</div>
 		<!-- Modal Dialog -->
-		<div id="modal_background" class="modal_background">
-			<div id="modal_dialog" role="dialog" aria-modal="true">
-				<div id="modal_title_bar">
-					<span>DevTools Snippet Manager</span>
-					<span id="button_close">&times;</span>
-				</div>
-				<div id="modal_text"></div>
-				<div id="modal_buttons">
-					<span id="timeto_autoclose"></span>
-					<button type="button" class="snip_button modal_button" id="button_ok">OK</button>
-					<button type="button" class="snip_button modal_button" id="button_cancel">Cancel</button>
-				</div>
+		<div id="modal_background" class="modal_background">			
+		</div>
+		<div id="modal_dialog" role="dialog" aria-modal="true">
+			<div id="modal_title_bar">
+				<span>DevTools Snippet Manager</span>
+				<span id="button_close">&times;</span>
+			</div>
+			<div id="modal_text"></div>
+			<div id="modal_buttons">
+				<span id="timeto_autoclose"></span>
+				<!-- <button type="button" class="snip_button modal_button" id="button_ok">OK</button> -->
+				<!-- <button type="button" class="snip_button modal_button" id="button_cancel">Cancel</button> -->
 			</div>
 		</div>
 	</body>
