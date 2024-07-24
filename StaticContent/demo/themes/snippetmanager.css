@@ -362,7 +362,7 @@ button:focus {
 	box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
 }
 
-#timeto_autoclose {
+#time_until_autoclose {
 	color: rgb(134, 134, 134);
 	font-family: monospace;
 	font-size: 0.6rem;
@@ -372,8 +372,8 @@ button:focus {
 	cursor: pointer;
 }
 
-#timeto_autoclose:hover,
-#timeto_autoclose:focus {
+#time_until_autoclose:hover,
+#time_until_autoclose:focus {
 	color: black;
 	text-decoration: none;
 }

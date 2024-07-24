@@ -10,12 +10,28 @@ let _dropZoneElement;
 let _isSelecting = false;
 let _eventTargetInnerText;
 
+let count = new class counters {
+	filesToProcess = 0;
+	filesProcessed = 0;
+	added = 0;
+	replaced = 0;
+	total = 0;
+	initialize() {
+		this.filesToProcess = 0;
+		this.filesProcessed = 0;
+		this.added = 0;
+		this.replaced = 0;
+		this.total = 0;
+	}
+}
+
 const state = {
 	scriptSnippets: [],
 	lastIdentifier: 0,
 	thisSnippet: [],
 	thisSnippetName: "DevToolsSnippetManager"
 };
+
 const DEVTOOLS = `<i>DevTools</i>`;
 const CURRENT_SNIPPETS = `<span class='bracket'>[</span><span class='current_snippets'>Current Snippets</span>
 <span class='bracket'>]</span>`;
@@ -61,19 +77,18 @@ async function doTest1() {
 	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK*", "Cancel"], false);
 	console.log(result);
 	if (result === "OK") {
-		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel*", "Other..."], false, 10);
+		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel", "Other...*"], false, 10);
 		console.log(result);
-		if (result==="Other...")
+		if (result === "Other...")
 			alert("You picked 'Other' button");
 		if (result === "OK") {
-			result = await showMsg(SAVE_TOKEN_MSG1, ["OK"]);
+			result = await showMsg(SAVE_TOKEN_MSG1, []);
 			console.log(result);
 			if (result === "OK") {
-				result = await showMsg(SAVE_TOKEN_MSG2, [], true, 10);
+				result = await showMsg(SAVE_TOKEN_MSG2, ["OK"], true, 10);
 				console.log(result);
 			}
 		}
-
 	}
 	console.log("Test finished.");
 }
@@ -171,11 +186,11 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 
 		_docx.getElementById("modal_text").innerHTML = message || "message missing";
 
-		// Use a default 'buttons' array when not otherwise specified.
+		// Use default 'buttons' when 'buttons' array not specified.
 		if (!buttons || buttons.length == 0)
 			buttons = ["OK", "Cancel"];
 
-		// Button with an astersisk ('*') appended to its name is default button;
+		// Button with an asterisk ('*') appended to its name is default button;
 		// otherwise the default button is the first button in the 'buttons' array.
 		let defaultBtnNum = 1;
 		for (let index = 0; index < buttons.length; index++) {
@@ -186,8 +201,8 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			}
 		}
 
-		let btnNum = 0;
 		// Create the elements dynamically based on the 'buttons' array.
+		let btnNum = 0;
 		buttons.forEach(btn => {
 			let button = document.createElement('button');
 			button.textContent = btn;
@@ -214,8 +229,9 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		time_until_autoclose.setAttribute("title", `Click to stop this dialog from auto-closing.`);
 
 		_docx.getElementById("button_close").addEventListener("click", (event) => {
-			event.stopPropagation();
+			//event.stopPropagation();
 			doResolve("Cancel");
+			event.preventDefault();
 		});
 
 		_app_window.addEventListener("click", appWindow_Click);
@@ -225,7 +241,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		if (!isNaN(secsUntilClose) && secsUntilClose > 0) {
 			let numZeros = String(secsUntilClose).match(/\d/g).length;
 			time_until_autoclose.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
-			time_until_autoclose.addEventListener("click", timeto_autoclose_click);
+			time_until_autoclose.addEventListener("click", time_until_autoclose_click);
 			modalIntervalId = setInterval(() => {
 				if (--secsUntilClose <= 0) {
 					doResolve("Cancel");
@@ -250,7 +266,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		// Get a list of the items in this dialog which are focusable so we can control tabbing.
 		let focusableItems = getFocusable(modal_dialog);
 
-		function timeto_autoclose_click() {
+		function time_until_autoclose_click() {
 			clearInterval(modalIntervalId);
 			time_until_autoclose.innerHTML = "This window will no longer auto-close.";
 			setTimeout(() => {
@@ -324,20 +340,22 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			_docx.onmouseup = null;
 		}
 
-		function removeButtons(){
-			for (let index = 0; index < buttons.length; index++) {		
-				_docx.getElementById(`button_${index + 1}`).remove();
+		function removeButtons() {
+			for (let index = 0; index < buttons.length; index++) {
+				let elem = _docx.getElementById(`button_${index + 1}`);
+				if (elem)
+					elem.remove();
 			};
 		}
 
 		function doResolve(rslt) {
 			result = rslt;
+			removeButtons();
 			clearTimeout(modalIntervalId);
 			modal_background.style.display = "none";
 			modal_dialog.style.display = "none";
 			_app_window.removeEventListener("click", appWindow_Click);
 			_app_window.removeEventListener("keydown", appWindow_Keydown);
-			removeButtons();
 			resolve();
 		}
 	}
@@ -375,8 +393,7 @@ function loadCurrentSnippets() {
 				state.scriptSnippets = [];
 			}
 			finishLoad();
-		}
-			, 1000);
+		}, 1000);
 	} else {
 		console.log("Loading [Current Snippet] with samples…")
 		state.scriptSnippets = [];
@@ -403,12 +420,10 @@ function checkAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
 	checkboxes.forEach((checkbox, index) => {
 		if (!checkbox.checked) {
-			//setTimeout(() => {
 			checkbox.checked = true;
 			addOrRemoveCustomCheckmark({
 				target: checkbox
 			});
-			//}, index * 20);
 		}
 	});
 }
@@ -629,7 +644,6 @@ function updateCurrentSnippetsHeader() {
  *
  * @param {string} name The name of the snippet.
  * @param {string} content The content of the snippet.
- * @returns 1 indicating the snippet was added; 2 indicating an existing snippet was replaced.
  */
 function addCurrentSnippet(name, content) {
 	let index = findSnippetIndex(name);
@@ -637,11 +651,10 @@ function addCurrentSnippet(name, content) {
 		let addItRadioButton = _docx.querySelector("label#add_it_radio input");
 		if (addItRadioButton.checked) {
 			addCurrentSnippet(name + "_copy", content);
-			return 1;
 		} else {
 			state.scriptSnippets[index].content = content;
-			//console.log(`Replaced snippet: '${name}'`);
-			return 2;
+			count.replaced++;
+			count.total++;
 		}
 	} else {
 		let newSnippet = createSnippet(name, content);
@@ -651,8 +664,8 @@ function addCurrentSnippet(name, content) {
 		addChangeEventToNewSnippetCheckbox();
 		addMouseEventsToNewSnippetCheckbox();
 		updateCurrentSnippetsHeader();
-		//console.log(`Added snippet: '${name}'`);
-		return 1;
+		count.added++;
+		count.total++;
 	}
 }
 
@@ -890,7 +903,28 @@ function setElementTitles() {
 
 // Drag/Drop zone related stuff ---------------------------------------------------------------
 
-let _cntFilesProcessed, _cntAdded, _cntReplaced, _cntTotal;
+/** -------------------------------------------------------------------------------------------
+ * Shows a rollup message containing the overall count of snippets added and/or snippets
+ * replaced in [Current Snippets].
+ *
+ * @ count.total The total number of snippets added or replaced.
+ * @ count.added The number of snippets added to [Current Snippets].
+ * @ count.replaced The number of snippets replaced in [Current Snippets].
+ */
+function showRollup() {
+	let msg;
+	if (count.total === count.added)
+		msg = `${getToken(count.total, 'added')} to ${CURRENT_SNIPPETS}.`;
+	else if (count.total === count.replaced)
+		msg = `${getToken(count.total, 'replaced')} in ${CURRENT_SNIPPETS}.`;
+	else
+		msg = `${getToken(count.added, 'added')};&nbsp;&nbsp;`
+			+ `${getToken(count.replaced, 'replaced')} in ${CURRENT_SNIPPETS}.`;
+	showMsg(msg, ["OK"], true, 15);
+	function getToken(cnt, txt) {
+		return `<cnt>${cnt}</cnt> Snippet${cnt === 1 ? ' was' : 's were'} <b>${txt}</b>`;
+	}
+}
 
 /** -------------------------------------------------------------------------------------------
  * Loads [Current Snippets] using the array of snippet objects read from a '.json' file.
@@ -902,26 +936,17 @@ function loadSnippetsFromJsonFile(contentString) {
 	let jsonData = deserialize(contentString);
 	let jsonDataSorted = sortSnippets(jsonData["script-snippets"]);
 	jsonDataSorted.forEach(snippet => {
-		if (addCurrentSnippet(snippet.name, snippet.content) === 1) {
-			 _cntAdded++; 
-		} else { 
-			_cntReplaced++; 
-		}
-		_cntTotal++;
-	}
-	);
+		addCurrentSnippet(snippet.name, snippet.content);
+	});
 }
 
 function loadSnippetsFromBgrins() {
 	const bgrins_snippets = ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']
-	_cntAdded = 0; _cntReplaced = 0; _cntTotal = bgrins_snippets.length;
+	count.initialize();
 	bgrins_snippets.forEach((snippet) => {
 		xhrGetRequest(EXT_BGRINS + snippet + '/' + snippet + '.js', (request) => {
 			const snippetContentString = request.target.response;
-			if (addCurrentSnippet(snippet, snippetContentString) === 1)
-				_cntAdded++;
-			else
-				_cntReplaced++;
+			addCurrentSnippet(snippet, snippetContentString);
 		});
 	});
 	showRollup();
@@ -929,45 +954,19 @@ function loadSnippetsFromBgrins() {
 
 function loadSnippetsFromBahmutov() {
 	const bahmutov_snippets = ['timing', 'profile-method-call', 'time-method-call']
-	_cntAdded = 0; _cntReplaced = 0; _cntTotal = bahmutov_snippets.length;
+	count.initialize();
 	bahmutov_snippets.forEach((snippet) => {
 		xhrGetRequest(EXT_BAHMUTOV + snippet + '.js', (request) => {
 			const snippetContentString = request.target.response;
-			if (addCurrentSnippet(snippet, snippetContentString) === 1)
-				_cntAdded++;
-			else
-				_cntReplaced++;
+			addCurrentSnippet(snippet, snippetContentString);
 		});
 	});
 	showRollup();
 }
 
-/** -------------------------------------------------------------------------------------------
- * Shows a rollup message containing the overall count of snippets added and/or snippets
- * replaced in [Current Snippets].
- *
- * @ _cntTotal The total number of snippets added or replaced.
- * @ _cntAdded The number of snippets added to [Current Snippets].
- * @ _cntReplaced The number of snippets replaced in [Current Snippets].
- */
-function showRollup() {
-	let msg;
-	if (_cntTotal === _cntAdded)
-		msg = `<cnt>${_cntTotal}</cnt> Snippet${_cntTotal === 1 ? ' was' : 's were'} <b>added</b> to ${CURRENT_SNIPPETS}.`;
-	else if (_cntTotal === _cntReplaced)
-		msg = `<cnt>${_cntTotal}</cnt> Snippet${_cntTotal === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
-	else
-		msg = `<cnt>${_cntAdded}</cnt> Snippet${_cntAdded === 1 ? ' was' : 's were'} <b>added</b>;&nbsp;&nbsp;<cnt>${_cntReplaced}</cnt>`
-			+ ` Snippet${_cntReplaced === 1 ? ' was' : 's were'} <b>replaced</b> in ${CURRENT_SNIPPETS}.`;
-	showMsg(msg, ["OK"], true, 15);
-}
-
 function loadFiles(files) {
-	_cntFiles = files.length;
-	_cntFilesProcessed = 0;
-	_cntTotal = 0;
-	_cntAdded = 0;
-	_cntReplaced = 0;
+	count.initialize();
+	count.filesToProcess = files.length;
 	const stack = Object.keys(files).forEach((key) => {
 		const file = files[key];
 		const reader = new FileReader();
@@ -982,13 +981,6 @@ function loadFiles(files) {
 		reader.onloadend = fileLoadedEnd;
 		reader.readAsText(file);
 	});
-}
-
-function fileLoadedEnd(e) {
-	if (++_cntFilesProcessed >= _cntFiles) {
-		updateCurrentSnippetsHeader();
-		showRollup();
-	}
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -1007,12 +999,15 @@ function fileLoaded(event) {
 	if (extension === ".json") {
 		loadSnippetsFromJsonFile(contentString);
 	} else {
-		if (addCurrentSnippet(fileNameMinusExt, contentString) === 1)
-			_cntAdded++;
-		else
-			_cntReplaced++;
+		addCurrentSnippet(fileNameMinusExt, contentString);
 	}
-	_cntTotal++;
+}
+
+function fileLoadedEnd() {
+	if (++count.filesProcessed >= count.filesToProcess) {
+		updateCurrentSnippetsHeader();
+		showRollup();
+	}
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -1779,19 +1774,22 @@ cnt {
 	border: thin #aaaaaa solid;
 	margin: 0px;
 }
+
 </style>`;
 
 const HTML =
-	`<!DOCTYPE html>
+`<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>DevTools Snippet Manager</title>
+		<link rel="stylesheet" href="./themes/snippetmanager.css" />
+		<script type="text/javascript" src="./scripts/snippetmanager.js" defer></script>
 	</head>
 	<body>
 		<div id="page_header">
-			<span>Snippet Manager</span>
+			<span>DevTools Snippet Manager</span>
 		</div>
 		<div class="flex-parent-element">
 			<div class="flex-child-element">
@@ -1862,8 +1860,6 @@ const HTML =
 			<div id="modal_text"></div>
 			<div id="modal_buttons">
 				<span id="time_until_autoclose"></span>
-				<!-- <button type="button" class="snip_button modal_button" id="button_ok">OK</button> -->
-				<!-- <button type="button" class="snip_button modal_button" id="button_cancel">Cancel</button> -->
 			</div>
 		</div>
 	</body>
