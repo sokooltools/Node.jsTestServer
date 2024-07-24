@@ -129,8 +129,12 @@ function openAppWindow() {
 		console.log(`Closing main window…`);
 	});
 	_docx = _app_window.document;
-	_docx.head.innerHTML = META + TITLE + STYLE + SCRIPT;
-	_docx.body.innerHTML = HTML;
+	_docx.head.innerHTML = `
+	${META}
+	<title>${TITLE}</title>
+	<style>${STYLE}</style>
+	<script>${SCRIPT}</script>`;
+	_docx.body.innerHTML = BODY_HTML;
 	initializePage();
 }
 
@@ -1358,19 +1362,17 @@ function doGet(route, callback, msTimeout) {
 }
 
 const META = `
-    <meta http-equiv="Content-Security-Policy" content="script-src-elem https://ajax.googleapis.com">
+    <meta http-equiv="Content-Security-Policy" content="script-src-elem https://ajax.googleapis.com" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    `;
+`;
 
-const TITLE = `
-    <title>DevTools Snippet Manager</title>`;
+const TITLE = `DevTools Snippet Manager`;
 
-const SCRIPT = `
-    <script></script>`;
+const SCRIPT = `<script></script>`;
 
 const STYLE = `
-<style>
+
 * {
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 	padding: 0px;
@@ -1775,95 +1777,85 @@ cnt {
 	margin: 0px;
 }
 
-</style>`;
+`;
 
-const HTML =
-`<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>DevTools Snippet Manager</title>
-		<link rel="stylesheet" href="./themes/snippetmanager.css" />
-		<script type="text/javascript" src="./scripts/snippetmanager.js" defer></script>
-	</head>
-	<body>
-		<div id="page_header">
+// Remember to paste in only the body portion of the HTML!
+const BODY_HTML =
+`
+	<div id="page_header">
+		<span>DevTools Snippet Manager</span>
+	</div>
+	<div class="flex-parent-element">
+		<div class="flex-child-element">
+			<div class="drop-zone">
+				<span id="drop-zone__prompt" class="drop-zone__prompt"></span>
+				<input id="drop_files" class="drop-zone__input" type="file" multiple="true" accept=".js,.json" title="." />
+			</div>
+			<fieldset id="add_or_replace">
+				<legend id="add_or_replace_it">&nbsp;If adding a snippet that already exists:&nbsp;</legend>
+				<div class="my_radio_div">
+					<label id="add_it_radio" class="my_radio_label">
+						<input type="radio" name="add_or_replace" value="true" checked="true" />
+						<span>Add as new snippet with '_copy' appended</span>
+					</label>
+				</div>
+				<div class="my_radio_div">
+					<label id="replace_it_radio" class="my_radio_label">
+						<input type="radio" name="add_or_replace" value="false" />
+						<span>Replace existing snippet</span>
+					</label>
+				</div>
+			</fieldset>
+			<div>
+				<div class="button_row">
+					<button type="button" class="snip_button ml8" id="snip_loadbgrins_btn">Add from 'bgrins/devtools-snippets repo'</button>
+				</div>
+				<div class="button_row_block">
+					<button type="button" class="snip_button ml8" id="snip_loadbahmutov_btn">Add from 'bahmutov/code-snippets repo'</button>
+					<button type="button" class="snip_button" id="snip_dotest_btn">Perform Test…</button>
+				</div>
+			</div>
+		</div>
+		<div class="flex-child-element">
+			<div id="snip_container">
+				<div id="snip_header">
+					<span id="snip_cnt">0</span>
+					<span class="bracket">[</span>
+					<span id="snip_desc">Current Snippets</span>
+					<span class="bracket">]</span>
+					<span id="snip_mode"></span>
+				</div>
+				<div id="snip_list"></div>
+				<div class="button_row">
+					<button type="button" class="snip_button" id="snip_checkall_btn">Check All</button>
+					<button type="button" class="snip_button" id="snip_uncheckall_btn">Uncheck All</button>
+					<button type="button" class="snip_button" id="snip_invert_btn">Invert</button>
+				</div>
+				<div class="button_row">
+					<button type="button" class="snip_button" id="snip_reload_btn">Reload</button>
+					<button type="button" class="snip_button" id="snip_remove_btn">Remove</button>
+					<button type="button" class="snip_button" id="snip_save_btn">Save...</button>
+				</div>
+				<div class="button_row">
+					<button type="button" class="snip_button" id="snip_downloadSingleJson_btn">Download single 'json' file</button>
+					<button type="button" class="snip_button" id="snip_downloadMultipleJs_btn">Download multiple 'js' files</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Dialog -->
+	<div id="modal_background" class="modal_background">			
+	</div>
+	<div id="modal_dialog" role="dialog" aria-modal="true">
+		<div id="modal_title_bar">
 			<span>DevTools Snippet Manager</span>
+			<span id="button_close">&times;</span>
 		</div>
-		<div class="flex-parent-element">
-			<div class="flex-child-element">
-				<div class="drop-zone">
-					<span id="drop-zone__prompt" class="drop-zone__prompt"></span>
-					<input id="drop_files" class="drop-zone__input" type="file" multiple="true" accept=".js,.json" title="." />
-				</div>
-				<fieldset id="add_or_replace">
-					<legend id="add_or_replace_it">&nbsp;If adding a snippet that already exists:&nbsp;</legend>
-					<div class="my_radio_div">
-						<label id="add_it_radio" class="my_radio_label">
-							<input type="radio" name="add_or_replace" value="true" checked="true" />
-							<span>Add as new snippet with '_copy' appended</span>
-						</label>
-					</div>
-					<div class="my_radio_div">
-						<label id="replace_it_radio" class="my_radio_label">
-							<input type="radio" name="add_or_replace" value="false" />
-							<span>Replace existing snippet</span>
-						</label>
-					</div>
-				</fieldset>
-				<div>
-					<div class="button_row">
-						<button type="button" class="snip_button ml8" id="snip_loadbgrins_btn">Add from 'bgrins/devtools-snippets repo'</button>
-					</div>
-					<div class="button_row_block">
-						<button type="button" class="snip_button ml8" id="snip_loadbahmutov_btn">Add from 'bahmutov/code-snippets repo'</button>
-						<button type="button" class="snip_button" id="snip_dotest_btn">Perform Test…</button>
-					</div>
-				</div>
-			</div>
-			<div class="flex-child-element">
-				<div id="snip_container">
-					<div id="snip_header">
-						<span id="snip_cnt">0</span>
-						<span class="bracket">[</span>
-						<span id="snip_desc">Current Snippets</span>
-						<span class="bracket">]</span>
-						<span id="snip_mode"></span>
-					</div>
-					<div id="snip_list"></div>
-					<div class="button_row">
-						<button type="button" class="snip_button" id="snip_checkall_btn">Check All</button>
-						<button type="button" class="snip_button" id="snip_uncheckall_btn">Uncheck All</button>
-						<button type="button" class="snip_button" id="snip_invert_btn">Invert</button>
-					</div>
-					<div class="button_row">
-						<button type="button" class="snip_button" id="snip_reload_btn">Reload</button>
-						<button type="button" class="snip_button" id="snip_remove_btn">Remove</button>
-						<button type="button" class="snip_button" id="snip_save_btn">Save...</button>
-					</div>
-					<div class="button_row">
-						<button type="button" class="snip_button" id="snip_downloadSingleJson_btn">Download single 'json' file</button>
-						<button type="button" class="snip_button" id="snip_downloadMultipleJs_btn">Download multiple 'js' files</button>
-					</div>
-				</div>
-			</div>
+		<div id="modal_text"></div>
+		<div id="modal_buttons">
+			<span id="time_until_autoclose"></span>
 		</div>
-		<!-- Modal Dialog -->
-		<div id="modal_background" class="modal_background">			
-		</div>
-		<div id="modal_dialog" role="dialog" aria-modal="true">
-			<div id="modal_title_bar">
-				<span>DevTools Snippet Manager</span>
-				<span id="button_close">&times;</span>
-			</div>
-			<div id="modal_text"></div>
-			<div id="modal_buttons">
-				<span id="time_until_autoclose"></span>
-			</div>
-		</div>
-	</body>
-</html>
+	</div>
 `;
 
 if (location.href.toLowerCase().includes(HTML_FILENAME.toLowerCase())) {
