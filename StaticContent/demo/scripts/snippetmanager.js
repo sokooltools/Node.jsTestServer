@@ -33,8 +33,7 @@ const state = {
 };
 
 const DEVTOOLS = `<i>DevTools</i>`;
-const CURRENT_SNIPPETS = `<span class='bracket'>[</span><span class='current_snippets'>Current Snippets</span>
-<span class='bracket'>]</span>`;
+const CURRENT_SNIPPETS = `<span class='bracket left'>[</span><span class='current_snippets'>Current Snippets</span><span class='bracket right'>]</span>`;
 
 const HTML_FILENAME = `snippetmanager.htm`;
 const WIN_TITLE = `DevTools Snippet Manager`;
@@ -80,7 +79,7 @@ async function doTest1() {
 		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel", "Other...*"], false, 10);
 		console.log(result);
 		if (result === "Other...")
-			alert("You picked 'Other' button");
+			result = await showMsg("You picked 'Other' button");
 		if (result === "OK") {
 			result = await showMsg(SAVE_TOKEN_MSG1, []);
 			console.log(result);
@@ -172,7 +171,8 @@ function initializePage() {
  * Shows a message dialog.
  *
  * @param {string} message The message to display in the dialog.
- * @param {array} buttons An array of buttons to be displayed in the dialog.
+ * @param {[string]} buttons The array of button names to be displayed in the dialog. (Note: 
+ * An asterisk appended to the name indicates it is the default button).
  * @param {bool} clickOutsideToCancel Clicking outside this dialog will close it when true is specified.
  * @param {number? } secsUntilClose The number of seconds to wait before this dialog is auto-
  * closed. When a value for this argument is not specified. there is no timeout.
@@ -194,14 +194,14 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		if (!buttons || buttons.length == 0)
 			buttons = ["OK", "Cancel"];
 
-		// Button with an asterisk ('*') appended to its name is default button;
-		// otherwise the default button is the first button in the 'buttons' array.
-		let defaultBtnNum = 1;
+		// Button with an asterisk ('*') appended to its name is the 'default' button;
+		// otherwise the 'default' button is the first button in the 'buttons' array.
+		let defaultButtonId = "button_1";
 		for (let index = 0; index < buttons.length; index++) {
 			const btn = String(buttons[index]);
 			if (btn.endsWith("*")) {
 				buttons[index] = btn.replace("*", "");
-				defaultBtnNum = index + 1;
+				defaultButtonId = `button_${index + 1}`;
 			}
 		}
 
@@ -227,7 +227,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 
 		// Always make sure to reference the '_docx' object and not 'document'!
 
-		_docx.getElementById(`button_${defaultBtnNum}`).focus();
+		_docx.getElementById(defaultButtonId).focus();
 
 		const time_until_autoclose = _docx.querySelector("#time_until_autoclose");
 		time_until_autoclose.setAttribute("title", `Click to stop this dialog from auto-closing.`);
@@ -238,10 +238,10 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			event.preventDefault();
 		});
 
-		_app_window.addEventListener("click", appWindow_Click);
-
-		_app_window.addEventListener("keydown", appWindow_Keydown);
-
+		_app_window.addEventListener("keydown", app_window_keydown);
+		_app_window.addEventListener("mousedown", app_window_mousedown);
+		_app_window.addEventListener("click", app_window_click);
+	
 		if (!isNaN(secsUntilClose) && secsUntilClose > 0) {
 			let numZeros = String(secsUntilClose).match(/\d/g).length;
 			time_until_autoclose.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
@@ -278,16 +278,22 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			}, 3000);
 		}
 
-		function appWindow_Click(e) {
+		function app_window_click(e) {
 			if (clickOutsideToCancel && e.target === modal_background) {
 				doResolve("Cancel");
 				e.preventDefault();
-			} else if (focusableItems.indexOf(e.target) < 0) {
-				focusableItems[0].focus();
 			}
 		}
 
-		function appWindow_Keydown(e) {
+		function app_window_mousedown(e) {
+			if (focusableItems.indexOf(e.target) < 0) {
+				//focusableItems[0].focus();
+				_docx.getElementById(defaultButtonId).focus();
+				e.preventDefault();
+			}
+		}
+
+		function app_window_keydown(e) {
 			if (e.keyCode === 27) { // Escape
 				doResolve("Cancel");
 			} else if (e.keyCode === 9) { // Tab or Shift+Tab
@@ -358,8 +364,9 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			clearTimeout(modalIntervalId);
 			modal_background.style.display = "none";
 			modal_dialog.style.display = "none";
-			_app_window.removeEventListener("click", appWindow_Click);
-			_app_window.removeEventListener("keydown", appWindow_Keydown);
+			_app_window.removeEventListener("click", app_window_click);
+			_app_window.removeEventListener("mousedown", app_window_mousedown);
+			_app_window.removeEventListener("keydown", app_window_keydown);
 			resolve();
 		}
 	}
@@ -367,6 +374,14 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		return result;
 	}
 	);
+}
+
+/** -------------------------------------------------------------------------------------------
+ * Sorts the [Current Snippets].
+ */
+function sortCurrentSnippets() {
+	state.scriptSnippets = sortSnippets(state.scriptSnippets);
+	finishLoad();
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -407,17 +422,17 @@ function loadCurrentSnippets() {
 		state.lastIdentifier = `${state.scriptSnippets.length}`;
 		finishLoad();
 	}
+}
 
-	/**
-	 * Local callback function used to finish the load process.
-	 */
-	function finishLoad() {
-		renderCurrentSnippets();
-		addChangeEventToAllSnippetCheckboxes();
-		addMouseEventsToAllSnippetCheckboxes();
-		updateCurrentSnippetsHeader();
-		enableDisableButtons();
-	}
+/** -------------------------------------------------------------------------------------------
+ * Finishes (i.e., performs the last step of) the load process.
+*/
+function finishLoad() {
+	renderCurrentSnippets();
+	addChangeEventToAllSnippetCheckboxes();
+	addMouseEventsToAllSnippetCheckboxes();
+	updateCurrentSnippetsHeader();
+	enableDisableButtons();
 }
 
 function checkAllCheckboxes() {
@@ -726,19 +741,15 @@ function getSnippetsFromDevTools(snippetName) {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Gets the specified array of snippet objects back in ascending order by snippet name.
+ * Sorts the array of snippet objects in ascending order by snippet name and returns it.
  *
  * @param {object} snippets The array of snippets.
  * @returns The snippet array sorted in ascending order by snippet name.
  */
 function sortSnippets(snippets) {
-	const newSnippets = snippets.sort((a, b) => {
-		if (a.name < b.name) {
-			return -1;
-		}
-	}
-	);
-	return newSnippets;
+	return snippets.sort((a, b) => {
+		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+	});
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -864,6 +875,7 @@ function setElementTitles() {
 	setTitle("snip_invert_btn", "Inverts the checkmark of all the snippets in [Current Snippets]\n"
 		+ "(i.e., switches currently 'checked' with 'unchecked').");
 
+	setTitle("snip_sort_btn", "Sorts all snippets in [Current Snippets] in case-insensitive ascending order.");
 	setTitle("snip_reload_btn", "Reloads all snippets in [Current Snippets] with the snippets from DevTools.");
 	setTitle("snip_remove_btn", "Removes the selected items from [Current Snippets].");
 
@@ -1124,30 +1136,31 @@ function addMouseEventsToNewSnippetCheckbox() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Adds a 'click' event listener to all the buttons in the UI.
+ * Adds a 'click' event listener to buttons in the UI.
  */
 function addClickEventToButtons() {
-	addEventToAnElement("snip_loadbgrins_btn").on("click", loadSnippetsFromBgrins);
-	addEventToAnElement("snip_loadbahmutov_btn").on("click", loadSnippetsFromBahmutov);
-	addEventToAnElement("snip_dotest_btn").on("click", doTest);
-	addEventToAnElement("snip_checkall_btn").on("click", checkAllCheckboxes);
-	addEventToAnElement("snip_uncheckall_btn").on("click", uncheckAllCheckboxes);
-	addEventToAnElement("snip_invert_btn").on("click", invertAllCheckboxes);
-	addEventToAnElement("snip_reload_btn").on("click", loadCurrentSnippets);
-	addEventToAnElement("snip_remove_btn").on("click", removeSnippets);
-	addEventToAnElement("snip_save_btn").on("click", saveSnippets);
-	addEventToAnElement("snip_downloadSingleJson_btn").on("click", downloadSingleJsonFile);
-	addEventToAnElement("snip_downloadMultipleJs_btn").on("click", downloadMultipleJsFiles);
+	addEventToElement("snip_loadbgrins_btn").on("click", loadSnippetsFromBgrins);
+	addEventToElement("snip_loadbahmutov_btn").on("click", loadSnippetsFromBahmutov);
+	addEventToElement("snip_dotest_btn").on("click", doTest);
+	addEventToElement("snip_checkall_btn").on("click", checkAllCheckboxes);
+	addEventToElement("snip_uncheckall_btn").on("click", uncheckAllCheckboxes);
+	addEventToElement("snip_invert_btn").on("click", invertAllCheckboxes);
+	addEventToElement("snip_sort_btn").on("click", sortCurrentSnippets);
+	addEventToElement("snip_reload_btn").on("click", loadCurrentSnippets);
+	addEventToElement("snip_remove_btn").on("click", removeSnippets);
+	addEventToElement("snip_save_btn").on("click", saveSnippets);
+	addEventToElement("snip_downloadSingleJson_btn").on("click", downloadSingleJsonFile);
+	addEventToElement("snip_downloadMultipleJs_btn").on("click", downloadMultipleJsFiles);
 }
 
 /** -------------------------------------------------------------------------------------------
- * Attaches an event (defined by its 'name' and callback 'function') to an element having the
+ * Attaches an event defined by its 'name' and  a callback 'function' to an element having the 
  * specified id.
  *
  * @param {string} id The element identifier.
  * @returns The element having the specified id.
  */
-function addEventToAnElement(id) {
+function addEventToElement(id) {
 	const element = _docx.getElementById(id);
 	element.on = function on(eventName, fn) {
 		this.addEventListener(eventName, fn);
@@ -1313,7 +1326,7 @@ const _defaultRoot = "http://localhost:3000";
  *
  * @param {string} route The route.
  * @param {function} callback The function callback.
- * @param {number} msTimeout The timeout in milliseconds to abort the request.
+ * @param {number} msTimeout The timeout in milliseconds before request abort (Default is 5000).
 */
 function doGet(route, callback, msTimeout) {
 	// Create a new AbortController instance.
@@ -1335,7 +1348,6 @@ function doGet(route, callback, msTimeout) {
 
 	// Handle the fetch request.
 	fetchPromise.then((response) => {
-		// Check if the request was successful.
 		if (!response.ok) {
 			throw new Error(response.statusText);
 		}
@@ -1348,7 +1360,6 @@ function doGet(route, callback, msTimeout) {
 			callback(data);
 	}
 	).catch((error) => {
-		// Handle any errors that occurred during the fetch.
 		//console.error(error);
 	}
 	).finally(() => {
@@ -1539,6 +1550,10 @@ div.flex-child-element {
 
 #snip_list label:hover {
 	background-color: #c5cae9;
+}
+
+#snip_save_btn{
+	margin-left: 12px;
 }
 
 input.snip_input[type="checkbox"] {
@@ -1759,6 +1774,14 @@ button:focus {
 	font-weight: 100;
 }
 
+.bracket.left {
+	margin-right: -.2rem;
+}
+
+.bracket.right {
+	margin-left: -.2rem;
+}
+
 .current_snippets {
 	font-size: 0.9em;
 	font-style: italic;
@@ -1779,7 +1802,6 @@ cnt {
 
 `;
 
-// Remember to paste in only the body portion of the HTML!
 const BODY_HTML =
 `
 	<div id="page_header">
@@ -1820,9 +1842,9 @@ const BODY_HTML =
 			<div id="snip_container">
 				<div id="snip_header">
 					<span id="snip_cnt">0</span>
-					<span class="bracket">[</span>
+					<span class="bracket left">[</span>
 					<span id="snip_desc">Current Snippets</span>
-					<span class="bracket">]</span>
+					<span class="bracket right">]</span>
 					<span id="snip_mode"></span>
 				</div>
 				<div id="snip_list"></div>
@@ -1832,8 +1854,9 @@ const BODY_HTML =
 					<button type="button" class="snip_button" id="snip_invert_btn">Invert</button>
 				</div>
 				<div class="button_row">
-					<button type="button" class="snip_button" id="snip_reload_btn">Reload</button>
 					<button type="button" class="snip_button" id="snip_remove_btn">Remove</button>
+					<button type="button" class="snip_button" id="snip_sort_btn">Sort</button>
+					<button type="button" class="snip_button" id="snip_reload_btn">Reload</button>
 					<button type="button" class="snip_button" id="snip_save_btn">Save...</button>
 				</div>
 				<div class="button_row">
@@ -1843,7 +1866,6 @@ const BODY_HTML =
 			</div>
 		</div>
 	</div>
-	<!-- Modal Dialog -->
 	<div id="modal_background" class="modal_background">			
 	</div>
 	<div id="modal_dialog" role="dialog" aria-modal="true">

@@ -166,6 +166,10 @@ div.flex-child-element {
 	background-color: #c5cae9;
 }
 
+#snip_save_btn{
+	margin-left: 12px;
+}
+
 input.snip_input[type="checkbox"] {
 	display: none;
 }
@@ -382,6 +386,14 @@ button:focus {
 	color: #c5cae9;
 	font-size: 1.25em;
 	font-weight: 100;
+}
+
+.bracket.left {
+	margin-right: -.2rem;
+}
+
+.bracket.right {
+	margin-left: -.2rem;
 }
 
 .current_snippets {

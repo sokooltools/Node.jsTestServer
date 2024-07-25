@@ -8,6 +8,7 @@
 		<script type="text/javascript" src="./scripts/snippetmanager.js" defer></script>
 	</head>
 	<body>
+	<!---- Copy only following section into snippetmanager.js ---->
 		<div id="page_header">
 			<span>DevTools Snippet Manager</span>
 		</div>
@@ -46,9 +47,9 @@
 				<div id="snip_container">
 					<div id="snip_header">
 						<span id="snip_cnt">0</span>
-						<span class="bracket">[</span>
+						<span class="bracket left">[</span>
 						<span id="snip_desc">Current Snippets</span>
-						<span class="bracket">]</span>
+						<span class="bracket right">]</span>
 						<span id="snip_mode"></span>
 					</div>
 					<div id="snip_list"></div>
@@ -58,8 +59,9 @@
 						<button type="button" class="snip_button" id="snip_invert_btn">Invert</button>
 					</div>
 					<div class="button_row">
-						<button type="button" class="snip_button" id="snip_reload_btn">Reload</button>
 						<button type="button" class="snip_button" id="snip_remove_btn">Remove</button>
+						<button type="button" class="snip_button" id="snip_sort_btn">Sort</button>
+						<button type="button" class="snip_button" id="snip_reload_btn">Reload</button>
 						<button type="button" class="snip_button" id="snip_save_btn">Save...</button>
 					</div>
 					<div class="button_row">
@@ -69,7 +71,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- Modal Dialog -->
 		<div id="modal_background" class="modal_background">			
 		</div>
 		<div id="modal_dialog" role="dialog" aria-modal="true">
@@ -82,5 +83,6 @@
 				<span id="time_until_autoclose"></span>
 			</div>
 		</div>
+	<!---- Copy only previous section into snippetmanager.js ---->
 	</body>
 </html>
