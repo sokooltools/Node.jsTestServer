@@ -11,13 +11,13 @@ body {
 }
 
 #page_header {
+	font-weight: bold;
+	font-size: 24px;
+	text-align: center;
 	width: 98%;
 	padding: 6px;
 	background: tomato;
 	color: white;
-	font-weight: bold;
-	font-size: 24px;
-	text-align: center;
 }
 
 #drop_files {
@@ -111,12 +111,13 @@ div.flex-child-element {
 
 #snip_cnt {
 	font-family: monospace;
-	font-size: 1rem;
+	font-size: 0.75rem;
 	font-weight: 700;
 	color: rgb(0, 0, 0);
 	background-color: #c5cae9;
-	padding: 0 5px 2px 5px;
+	padding: 2px 5px 2px 5px;
 	border: thin #aaaaaa solid;
+	border-radius: 90%;
 	margin: 0px;
 }
 
@@ -336,15 +337,15 @@ button.ml8 {
 }
 
 .modal_button {
-	margin: 4px;
-	padding: 2px 4px;
 	border-width: 1px;
 	border-radius: 4px;
+	margin: 4px;
+	padding: 2px 4px;
 	height: 23px;
 	width: 75px;
 }
 
-#button_close {
+#modal_close_btn {
 	color: rgb(134, 134, 134);
 	font-size: 28px;
 	font-weight: bold;
@@ -353,8 +354,12 @@ button.ml8 {
 	right: 10px;
 }
 
-#button_close:hover,
-#button_close:focus {
+#modal_close_btn.clickout{
+	color: red;
+}
+
+#modal_close_btn:hover,
+#modal_close_btn:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
@@ -362,14 +367,14 @@ button.ml8 {
 
 button:focus {
 	border-color: #86b7fe;
-	outline: 0;
 	box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+	outline: 0;
 }
 
 #time_until_autoclose {
-	color: rgb(134, 134, 134);
 	font-family: monospace;
 	font-size: 0.6rem;
+	color: rgb(134, 134, 134);
 	float: right;
 	margin-top: 14px;
 	margin-right: 20px;
@@ -383,9 +388,9 @@ button:focus {
 }
 
 .bracket {
-	color: #c5cae9;
 	font-size: 1.25em;
 	font-weight: 100;
+	color: #c5cae9;
 }
 
 .bracket.left {
@@ -407,9 +412,10 @@ cnt {
 	font-family: monospace;
 	font-weight: 700;
 	font-size: 0.8rem;
+	border: thin #aaaaaa solid;
+	border-radius: 90%;
 	color: #000;
 	background-color: #c5cae9;
-	padding: 0 5px 2px 5px;
-	border: thin #aaaaaa solid;
 	margin: 0px;
+	padding: 0 5px 2px 5px;
 }

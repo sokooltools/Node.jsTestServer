@@ -44,15 +44,15 @@ const NO_CHECKMARKS_WARNING = `To {0}, requires at least one item to be selected
 
 const SAVE_SUCCESS = `<p>The selected snippets were successfully saved to ${DEVTOOLS}.</p>
 <p>Note:&nbsp;You can continue to manage ${CURRENT_SNIPPETS} using this <i>DevTools Snippet Manager</i>.</p>
-<p>To actually see the changes reflected in the <b>Snippets</b> tab of ${DEVTOOLS},
+<p>To see the changes reflected in the <b>Snippets</b> tab of ${DEVTOOLS},
 you will need to close this window and all ${DEVTOOLS} windows; then open a new ${DEVTOOLS} window.<p>`;
 
 const CONFIRM_DOWNLOAD = `<p>Ok to download <cnt>{0}</cnt> of <cnt>{1}</cnt> snippets in ${CURRENT_SNIPPETS}?<p/>
 <p>(Note:&nbsp;To circumvent multiple security confirmations, the files will be downloaded with a "<i>.txt</i>"
 extension instead of a "<i>.js</i>" extension).</p>`;
 
-const SAVE_TOKEN_MSG1 = `<p>(Note the currently running snippet: "${state.thisSnippetName}",
-will always be saved in ${DEVTOOLS} no matter whether it is selected in ${CURRENT_SNIPPETS} or not).</p>`;
+const SAVE_TOKEN_MSG1 = `<p>Note: the currently running snippet (i.e., "${state.thisSnippetName}"),
+will always be saved in ${DEVTOOLS} even when it has not been selected in ${CURRENT_SNIPPETS}.</p>`;
 
 const SAVE_TOKEN_MSG2 = `<p>Please be aware that performing a <i>Save</i> results in all the snippets in ${DEVTOOLS}
 being overwritten by the selected snippets in ${CURRENT_SNIPPETS}.</p>`;
@@ -65,7 +65,6 @@ const DialogButton = Object.freeze({
 
 function doTest() {
 	//debugger;
-	//openAppWindow();
 	console.log(DialogButton.OK);
 	doTest1();
 }
@@ -76,10 +75,10 @@ async function doTest1() {
 	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK*", "Cancel"], false);
 	console.log(result);
 	if (result === "OK") {
-		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel", "Other...*"], false, 10);
+		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel", "Other…*"], true, 10);
 		console.log(result);
-		if (result === "Other...")
-			result = await showMsg("You picked 'Other' button");
+		if (result === "Other…")
+			result = await showMsg("You picked the <i>'Other…'</i> button in the previous dialog.");
 		if (result === "OK") {
 			result = await showMsg(SAVE_TOKEN_MSG1, []);
 			console.log(result);
@@ -129,11 +128,11 @@ function openAppWindow() {
 	});
 	_docx = _app_window.document;
 	_docx.head.innerHTML = `
-	${META}
-	<title>${TITLE}</title>
-	<style>${STYLE}</style>
-	<script>${SCRIPT}</script>`;
-	_docx.body.innerHTML = BODY_HTML;
+	${HTML_META}
+	<title>${HTML_TITLE}</title>
+	<style>${HTML_STYLE}</style>
+	<script>${HTML_SCRIPT}</script>`;
+	_docx.body.innerHTML = HTML_BODY;
 	initializePage();
 }
 
@@ -187,6 +186,10 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		const modal_background = _docx.getElementById("modal_background");
 		const modal_dialog = _docx.getElementById("modal_dialog");
 		const modal_buttons = _docx.getElementById("modal_buttons");
+		const time_until_autoclose = _docx.querySelector("#time_until_autoclose");
+		const modal_close_btn = _docx.getElementById("modal_close_btn");
+
+		modal_close_btn.classList = clickOutsideToCancel ? "clickout" : "";
 
 		_docx.getElementById("modal_text").innerHTML = message || "message missing";
 
@@ -194,14 +197,14 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		if (!buttons || buttons.length == 0)
 			buttons = ["OK", "Cancel"];
 
-		// Button with an asterisk ('*') appended to its name is the 'default' button;
-		// otherwise the 'default' button is the first button in the 'buttons' array.
-		let defaultButtonId = "button_1";
+		// The button with an asterisk ('*') appended to its name is the 'default' button;
+		// otherwise the first button in the 'buttons' array is the 'default' button.
+		let defaultButtonIndex = 1;
 		for (let index = 0; index < buttons.length; index++) {
 			const btn = String(buttons[index]);
 			if (btn.endsWith("*")) {
 				buttons[index] = btn.replace("*", "");
-				defaultButtonId = `button_${index + 1}`;
+				defaultButtonIndex = index + 1;
 			}
 		}
 
@@ -219,6 +222,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			});
 			modal_buttons.appendChild(button);
 		});
+		const default_button = _docx.getElementById(`button_${defaultButtonIndex}`);
 
 		modal_background.style.display = "block";
 		modal_dialog.style.display = "block";
@@ -227,12 +231,11 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 
 		// Always make sure to reference the '_docx' object and not 'document'!
 
-		_docx.getElementById(defaultButtonId).focus();
+		default_button.focus();
 
-		const time_until_autoclose = _docx.querySelector("#time_until_autoclose");
 		time_until_autoclose.setAttribute("title", `Click to stop this dialog from auto-closing.`);
 
-		_docx.getElementById("button_close").addEventListener("click", (event) => {
+		modal_close_btn.addEventListener("click", (event) => {
 			//event.stopPropagation();
 			doResolve("Cancel");
 			event.preventDefault();
@@ -241,22 +244,22 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 		_app_window.addEventListener("keydown", app_window_keydown);
 		_app_window.addEventListener("mousedown", app_window_mousedown);
 		_app_window.addEventListener("click", app_window_click);
-	
+
 		if (!isNaN(secsUntilClose) && secsUntilClose > 0) {
 			let numZeros = String(secsUntilClose).match(/\d/g).length;
-			time_until_autoclose.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
+			time_until_autoclose.innerHTML = getTimeToCloseMessage(secsUntilClose, numZeros);
 			time_until_autoclose.addEventListener("click", time_until_autoclose_click);
 			modalIntervalId = setInterval(() => {
 				if (--secsUntilClose <= 0) {
 					doResolve("Cancel");
 				}
-				time_until_autoclose.innerHTML = getHeaderMessage(secsUntilClose, numZeros);
+				time_until_autoclose.innerHTML = getTimeToCloseMessage(secsUntilClose, numZeros);
 			}, 1000);
 		} else {
 			time_until_autoclose.innerHTML = "";
 		}
 
-		function getHeaderMessage(secsUntilClose, numZeros) {
+		function getTimeToCloseMessage(secsUntilClose, numZeros) {
 			return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
 		}
 
@@ -287,8 +290,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 
 		function app_window_mousedown(e) {
 			if (focusableItems.indexOf(e.target) < 0) {
-				//focusableItems[0].focus();
-				_docx.getElementById(defaultButtonId).focus();
+				default_button.focus();
 				e.preventDefault();
 			}
 		}
@@ -367,17 +369,17 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
 			_app_window.removeEventListener("click", app_window_click);
 			_app_window.removeEventListener("mousedown", app_window_mousedown);
 			_app_window.removeEventListener("keydown", app_window_keydown);
+			modal_close_btn.classList = "";
 			resolve();
 		}
 	}
 	).then(() => {
 		return result;
-	}
-	);
+	});
 }
 
 /** -------------------------------------------------------------------------------------------
- * Sorts the [Current Snippets].
+ * Sorts the [Current Snippets] in ascending order by name (case-insensitive).
  */
 function sortCurrentSnippets() {
 	state.scriptSnippets = sortSnippets(state.scriptSnippets);
@@ -425,14 +427,14 @@ function loadCurrentSnippets() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Finishes (i.e., performs the last step of) the load process.
+ * Finishes (i.e., 'performs') the last step of the load process.
 */
 function finishLoad() {
 	renderCurrentSnippets();
 	addChangeEventToAllSnippetCheckboxes();
 	addMouseEventsToAllSnippetCheckboxes();
 	updateCurrentSnippetsHeader();
-	enableDisableButtons();
+	enableOrDisableButtons();
 }
 
 function checkAllCheckboxes() {
@@ -480,13 +482,12 @@ async function removeSnippets() {
 	for (let index = checkboxes.length - 1; index >= 0; index--) {
 		const checkbox = checkboxes[index];
 		if (checkbox.classList.contains("active")) {
-			//console.log(`Removing: "${checkbox.nextElementSibling.innerHTML}".`);
 			checkbox.parentElement.remove();
 			state.scriptSnippets.splice(index, 1);
 		}
 	}
 	updateCurrentSnippetsHeader();
-	enableDisableButtons();
+	enableOrDisableButtons();
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -509,8 +510,8 @@ async function saveSnippets() {
 	}
 	token += SAVE_TOKEN_MSG2;
 	let msg = (cnt < total)
-		? `Ok to save just ${cnt} of the ${total} items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`
-		: `Ok to save all ${total} items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`;
+		? `Ok to save just <cnt>${cnt}</cnt> of <cnt>${total}<cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`
+		: `Ok to save all <cnt>${total}<cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`;
 	let result = showMsg(msg, ["OK", "Cancel"]);
 	if (result === "OK") {
 		saveSelectedSnippetsToDevTools(checkedSnippets);
@@ -734,10 +735,8 @@ function getSnippetsFromDevTools(snippetName) {
 				data = data.find(t => t.name === snippetName);
 			}
 			resolve(data);
-		}
-		);
-	}
-	);
+		});
+	});
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -792,14 +791,14 @@ function addOrRemoveCustomCheckmark(event) {
 	} else {
 		customCheckboxBox.classList.remove("active");
 	}
-	enableDisableButtons();
+	enableOrDisableButtons();
 }
 
 /** -------------------------------------------------------------------------------------------
 * Enables or disables buttons based on whether there are any checkboxes in [Current Snippets]
 * containing a checkmark.
 */
-function enableDisableButtons() {
+function enableOrDisableButtons() {
 	let isNoneChecked = getCheckedSnippetCount() === 0;
 	_docx.getElementById("snip_remove_btn").disabled = isNoneChecked;
 	_docx.getElementById("snip_save_btn").disabled = isNoneChecked || !isDevToolsOfDevTools;
@@ -875,35 +874,35 @@ function setElementTitles() {
 	setTitle("snip_invert_btn", "Inverts the checkmark of all the snippets in [Current Snippets]\n"
 		+ "(i.e., switches currently 'checked' with 'unchecked').");
 
-	setTitle("snip_sort_btn", "Sorts all snippets in [Current Snippets] in case-insensitive ascending order.");
-	setTitle("snip_reload_btn", "Reloads all snippets in [Current Snippets] with the snippets from DevTools.");
+	setTitle("snip_sort_btn", "Sorts all the snippets in [Current Snippets] in case-insensitive ascending order.");
+	setTitle("snip_reload_btn", "Reloads [Current Snippets] with the snippets from DevTools.");
 	setTitle("snip_remove_btn", "Removes the selected items from [Current Snippets].");
 
 	let save_msg = `Saves the selected items in [Current Snippets] to 'DevTools'.\n`
 		+ `*******\n`;
 	save_msg += isDevToolsOfDevTools
-		? `Note: Since all the snippets in 'DevTools' are actually REPLACED by the selected items in\n`
+		? `Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n`
 		+ `[Current Snippets], you will be prompted to confirm this action prior to it being performed.`
 		: `Note: This action can only be performed when this window is opened in 'DevTools' of 'DevTools'.\n`
 		+ `(Close this window; Press CTRL+SHIFT+I; Run the "${state.thisSnippetName}" snippet again… )`;
 	setTitle("snip_save_btn", save_msg);
 
-	setTitle("snip_downloadSingleJson_btn", "Downloads the selected items in [Current Snippets] to a single unified '.json' file.");
-	setTitle("snip_downloadMultipleJs_btn", "Downloads the selected items in [Current Snippets] to multiple '.js' files.");
+	setTitle("snip_downloadSingleJson_btn", "Downloads the selected items in [Current Snippets] as a single unified '.json' file.");
+	setTitle("snip_downloadMultipleJs_btn", "Downloads the selected items in [Current Snippets] as multiple '.js' files.");
 
-	setTitle("snip_dotest_btn", "Opens this snippet's code window in debug mode.");
+	setTitle("snip_dotest_btn", "Runs a pre-defined unit test.");
 
 	setTitle("add_or_replace_it", "Indicates what should happen when adding a snippet which already exists in [Current Snippets].");
-	setTitle("add_it_radio", `When hilighted, the snippet will be ADDED to [Current Snippets]\n`
+	setTitle("add_it_radio", `When hilighted, the snippet will be 'ADDED' to [Current Snippets]\n`
 		+ `as a new snippet with '_copy' appended to its name.`);
-	setTitle("replace_it_radio", "When hilighted, the snippet will REPLACE the existing snippet in [Current Snippets].");
+	setTitle("replace_it_radio", "When hilighted, the snippet will 'REPLACE' the existing snippet in [Current Snippets].");
 
 	setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
 
 	setTitle("snip_header",
-		`Initially shows a list of all snippets saved in 'DevTools'.\n`
-		+ `That is, when this snippet is run from 'DevTools' of 'DevTools' by pressing Ctrl+Shft+I,\n`
-		+ `or when run in 'DevTools' opened from a web page served up from 'LocalHost'.\n`
+		`Initially shows a list of all snippets saved in 'DevTools', i.e., when this\n`
+		+ `snippet is run from 'DevTools' of 'DevTools' by pressing Ctrl+Shft+I,\n`
+		+ `or when run in 'DevTools' opened from a web page served up from 'NodeJS'.\n`
 		+ `In all other cases, this list is shown using auto-generated "example" snippets.\n`
 		+ `*******\n`
 		+ `Subsequent snippets added, replaced, or removed during the current session will\n`
@@ -913,8 +912,12 @@ function setElementTitles() {
 		+ `Hold down the SHIFT key while dragging to select multiple snippets;\n`
 		+ `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`);
 
-	setTitle("snip_loadbgrins_btn", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BGRINS}"`);
-	setTitle("snip_loadbahmutov_btn", `Adds snippets to [Current Snippets] from the following repository:\n   "${EXT_BAHMUTOV}"`);
+	setTitle("modal_close_btn", "Closes this dialog when clicked.\n"
+		+ "(Note: when the color of this button is 'red', it indicates\n"
+		+ "that clicking outside the dialog will also close it.)");
+
+	setTitle("snip_loadbgrins_btn", `Adds snippets from the following repository:\n   "${EXT_BGRINS}"\nto [Current Snippets].`);
+	setTitle("snip_loadbahmutov_btn", `Adds snippets from the following repository:\n   "${EXT_BAHMUTOV}"\nto [Current Snippets].`);
 }
 
 // Drag/Drop zone related stuff ---------------------------------------------------------------
@@ -957,26 +960,27 @@ function loadSnippetsFromJsonFile(contentString) {
 }
 
 function loadSnippetsFromBgrins() {
-	const bgrins_snippets = ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']
-	count.initialize();
-	bgrins_snippets.forEach((snippet) => {
-		xhrGetRequest(EXT_BGRINS + snippet + '/' + snippet + '.js', (request) => {
-			const snippetContentString = request.target.response;
-			addCurrentSnippet(snippet, snippetContentString);
-		});
-	});
-	showRollup();
+	loadSnippetsFromExternal(`${EXT_BGRINS}{0}/{0}.js`, ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']);
 }
 
 function loadSnippetsFromBahmutov() {
-	const bahmutov_snippets = ['timing', 'profile-method-call', 'time-method-call']
-	count.initialize();
-	bahmutov_snippets.forEach((snippet) => {
-		xhrGetRequest(EXT_BAHMUTOV + snippet + '.js', (request) => {
-			const snippetContentString = request.target.response;
-			addCurrentSnippet(snippet, snippetContentString);
+	loadSnippetsFromExternal(`${EXT_BAHMUTOV}{0}.js`, ['timing', 'profile-method-call', 'time-method-call']);
+}
+
+function loadSnippetsFromExternal(url, snippetsArray) {
+	document.querySelector("html").style.cursor = "wait";
+	try {
+		count.initialize();
+		snippetsArray.forEach((snippetName) => {
+			xhrGetRequest(url.format(snippetName), (request) => {
+				addCurrentSnippet(snippetName, request.target.response);
+			});
 		});
-	});
+	} finally {
+		setTimeout(() => {
+			document.querySelector("html").style.cursor = "default";
+		}, 200);
+	}
 	showRollup();
 }
 
@@ -1304,7 +1308,7 @@ if (!String.prototype.format) {
 
 /** -------------------------------------------------------------------------------------------
 *  Extends the javascript array class with a 'contains' method that returns an indication as to
-*  whether the array contains a case-insensitive string value.
+*  whether the array contains a (case-insensitive) string value.
 */
 if (!Array.prototype.contains) {
 	Array.prototype.contains = function () {
@@ -1317,35 +1321,29 @@ if (!Array.prototype.contains) {
 	};
 }
 
-// NodeJS methods ---------------------------------------------------------------------------
-
-const _defaultRoot = "http://localhost:3000";
-
 /** -------------------------------------------------------------------------------------------
- * Performs a GET to the server using a promise.
+ * Performs a GET to the NodeJS server using a promise.
  *
- * @param {string} route The route.
- * @param {function} callback The function callback.
- * @param {number} msTimeout The timeout in milliseconds before request abort (Default is 5000).
+ * @param {string} route The route to the server.
+ * @param {function} callback The callback function.
+ * @param {number} msTimeout The timeout in milliseconds before request aborts (Default is 5000).
 */
 function doGet(route, callback, msTimeout) {
+	const DEFAULT_ROOT = "http://localhost:3000";
 	// Create a new AbortController instance.
 	const controller = new AbortController();
 	const signal = controller.signal;
-
 	// Make the fetch request with the signal.
 	const fetchPromise = fetch(getFullRoute(route), {
 		signal,
 	});
-
 	// Timeout after specified number of milliseconds.
 	const timeoutId = setTimeout(() => {
 		controller.abort();
 		// Abort the fetch request.
 		if (callback)
-			callback("Fetch request timed out.");
+			callback("Server fetch request timed out.");
 	}, msTimeout || 5000);
-
 	// Handle the fetch request.
 	fetchPromise.then((response) => {
 		if (!response.ok) {
@@ -1368,21 +1366,21 @@ function doGet(route, callback, msTimeout) {
 	}
 	);
 	function getFullRoute(route) {
-		return route.startsWith("http") ? route : _defaultRoot + (route.startsWith("/") ? route : "/" + route);
+		return route.startsWith("http") ? route : DEFAULT_ROOT + (route.startsWith("/") ? route : "/" + route);
 	}
 }
 
-const META = `
+const HTML_META = `
     <meta http-equiv="Content-Security-Policy" content="script-src-elem https://ajax.googleapis.com" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 `;
 
-const TITLE = `DevTools Snippet Manager`;
+const HTML_TITLE = `DevTools Snippet Manager`;
 
-const SCRIPT = `<script></script>`;
+const HTML_SCRIPT = `<script></script>`;
 
-const STYLE = `
+const HTML_STYLE = `
 
 * {
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
@@ -1397,13 +1395,13 @@ body {
 }
 
 #page_header {
+	font-weight: bold;
+	font-size: 24px;
+	text-align: center;
 	width: 98%;
 	padding: 6px;
 	background: tomato;
 	color: white;
-	font-weight: bold;
-	font-size: 24px;
-	text-align: center;
 }
 
 #drop_files {
@@ -1497,12 +1495,13 @@ div.flex-child-element {
 
 #snip_cnt {
 	font-family: monospace;
-	font-size: 1rem;
+	font-size: 0.75rem;
 	font-weight: 700;
 	color: rgb(0, 0, 0);
 	background-color: #c5cae9;
-	padding: 0 5px 2px 5px;
+	padding: 2px 5px 2px 5px;
 	border: thin #aaaaaa solid;
+	border-radius: 90%;
 	margin: 0px;
 }
 
@@ -1722,15 +1721,15 @@ button.ml8 {
 }
 
 .modal_button {
-	margin: 4px;
-	padding: 2px 4px;
 	border-width: 1px;
 	border-radius: 4px;
+	margin: 4px;
+	padding: 2px 4px;
 	height: 23px;
 	width: 75px;
 }
 
-#button_close {
+#modal_close_btn {
 	color: rgb(134, 134, 134);
 	font-size: 28px;
 	font-weight: bold;
@@ -1739,8 +1738,12 @@ button.ml8 {
 	right: 10px;
 }
 
-#button_close:hover,
-#button_close:focus {
+#modal_close_btn.clickout{
+	color: red;
+}
+
+#modal_close_btn:hover,
+#modal_close_btn:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
@@ -1748,14 +1751,14 @@ button.ml8 {
 
 button:focus {
 	border-color: #86b7fe;
-	outline: 0;
 	box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+	outline: 0;
 }
 
 #time_until_autoclose {
-	color: rgb(134, 134, 134);
 	font-family: monospace;
 	font-size: 0.6rem;
+	color: rgb(134, 134, 134);
 	float: right;
 	margin-top: 14px;
 	margin-right: 20px;
@@ -1769,9 +1772,9 @@ button:focus {
 }
 
 .bracket {
-	color: #c5cae9;
 	font-size: 1.25em;
 	font-weight: 100;
+	color: #c5cae9;
 }
 
 .bracket.left {
@@ -1793,19 +1796,20 @@ cnt {
 	font-family: monospace;
 	font-weight: 700;
 	font-size: 0.8rem;
+	border: thin #aaaaaa solid;
+	border-radius: 90%;
 	color: #000;
 	background-color: #c5cae9;
-	padding: 0 5px 2px 5px;
-	border: thin #aaaaaa solid;
 	margin: 0px;
+	padding: 0 5px 2px 5px;
 }
 
 `;
 
-const BODY_HTML =
-`
+const HTML_BODY =
+	`
 	<div id="page_header">
-		<span>DevTools Snippet Manager</span>
+			<span>DevTools Snippet Manager</span>
 	</div>
 	<div class="flex-parent-element">
 		<div class="flex-child-element">
@@ -1871,7 +1875,7 @@ const BODY_HTML =
 	<div id="modal_dialog" role="dialog" aria-modal="true">
 		<div id="modal_title_bar">
 			<span>DevTools Snippet Manager</span>
-			<span id="button_close">&times;</span>
+			<span id="modal_close_btn">&times;</span>
 		</div>
 		<div id="modal_text"></div>
 		<div id="modal_buttons">
