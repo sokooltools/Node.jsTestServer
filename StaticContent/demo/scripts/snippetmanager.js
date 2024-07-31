@@ -37,8 +37,8 @@ const CURRENT_SNIPPETS = `<span class='bracket left'>[</span><span class='curren
 
 const HTML_FILENAME = `snippetmanager.htm`;
 const WIN_TITLE = `DevTools Snippet Manager`;
-const EXT_BGRINS = `https://raw.githubusercontent.com/bgrins/devtools-snippets/master/snippets/`;
-const EXT_BAHMUTOV = `https://raw.githubusercontent.com/bahmutov/code-snippets/master/`;
+const URL_BGRINS = `https://raw.githubusercontent.com/bgrins/devtools-snippets/master/snippets/`;
+const URL_BAHMUTOV = `https://raw.githubusercontent.com/bahmutov/code-snippets/master/`;
 const DROP_ZONE_PROMPT = `Drop a '.json' file or multiple '.js' files here (or click here to select the files) to add to ${CURRENT_SNIPPETS}…`;
 const NO_CHECKMARKS_WARNING = `To {0}, requires at least one item to be selected in ${CURRENT_SNIPPETS}.`;
 
@@ -54,7 +54,7 @@ extension instead of a "<i>.js</i>" extension).</p>`;
 const SAVE_TOKEN_MSG1 = `<p>Note: the currently running snippet (i.e., "${state.thisSnippetName}"),
 will always be saved in ${DEVTOOLS} even when it has not been selected in ${CURRENT_SNIPPETS}.</p>`;
 
-const SAVE_TOKEN_MSG2 = `<p>Please be aware that performing a <i>Save</i> results in all the snippets in ${DEVTOOLS}
+const SAVE_TOKEN_MSG2 = `<p>Please be aware that performing the <i>Save...</i> results in all the snippets in ${DEVTOOLS}
 being overwritten by the selected snippets in ${CURRENT_SNIPPETS}.</p>`;
 
 const DialogButton = Object.freeze({
@@ -75,7 +75,7 @@ async function doTest1() {
 	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK*", "Cancel"], false);
 	console.log(result);
 	if (result === "OK") {
-		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel", "Other…*"], true, 10);
+		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel", "Other…*"], false, 10);
 		console.log(result);
 		if (result === "Other…")
 			result = await showMsg("You picked the <i>'Other…'</i> button in the previous dialog.");
@@ -164,218 +164,6 @@ function initializePage() {
 	setElementTitles();
 	addClickEventToButtons();
 	addEventsToDropZone();
-}
-
-/** -------------------------------------------------------------------------------------------
- * Shows a message dialog.
- *
- * @param {string} message The message to display in the dialog.
- * @param {[string]} buttons The array of button names to be displayed in the dialog. (Note: 
- * An asterisk appended to the name indicates it is the default button).
- * @param {bool} clickOutsideToCancel Clicking outside this dialog will close it when true is specified.
- * @param {number? } secsUntilClose The number of seconds to wait before this dialog is auto-
- * closed. When a value for this argument is not specified. there is no timeout.
- * @returns {string} The dialog result ("OK", "Cancel", etc.).
- */
-async function showMsg(message, buttons, clickOutsideToCancel, secsUntilClose) {
-	let result;
-	let modalIntervalId;
-	let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-	return new Promise((resolve) => {
-
-		const modal_background = _docx.getElementById("modal_background");
-		const modal_dialog = _docx.getElementById("modal_dialog");
-		const modal_buttons = _docx.getElementById("modal_buttons");
-		const time_until_autoclose = _docx.querySelector("#time_until_autoclose");
-		const modal_close_btn = _docx.getElementById("modal_close_btn");
-
-		modal_close_btn.classList = clickOutsideToCancel ? "clickout" : "";
-
-		_docx.getElementById("modal_text").innerHTML = message || "message missing";
-
-		// Use default 'buttons' when 'buttons' array not specified.
-		if (!buttons || buttons.length == 0)
-			buttons = ["OK", "Cancel"];
-
-		// The button with an asterisk ('*') appended to its name is the 'default' button;
-		// otherwise the first button in the 'buttons' array is the 'default' button.
-		let defaultButtonIndex = 1;
-		for (let index = 0; index < buttons.length; index++) {
-			const btn = String(buttons[index]);
-			if (btn.endsWith("*")) {
-				buttons[index] = btn.replace("*", "");
-				defaultButtonIndex = index + 1;
-			}
-		}
-
-		// Create the elements dynamically based on the 'buttons' array.
-		let btnNum = 0;
-		buttons.forEach(btn => {
-			let button = document.createElement('button');
-			button.textContent = btn;
-			button.type = "button";
-			button.classList = "snip_button modal_button";
-			button.id = `button_${++btnNum}`;
-			button.addEventListener("click", (event) => {
-				event.stopPropagation();
-				doResolve(btn);
-			});
-			modal_buttons.appendChild(button);
-		});
-		const default_button = _docx.getElementById(`button_${defaultButtonIndex}`);
-
-		modal_background.style.display = "block";
-		modal_dialog.style.display = "block";
-		modal_dialog.style.top = "150px";
-		modal_dialog.style.left = "200px";
-
-		// Always make sure to reference the '_docx' object and not 'document'!
-
-		default_button.focus();
-
-		time_until_autoclose.setAttribute("title", `Click to stop this dialog from auto-closing.`);
-
-		modal_close_btn.addEventListener("click", (event) => {
-			//event.stopPropagation();
-			doResolve("Cancel");
-			event.preventDefault();
-		});
-
-		_app_window.addEventListener("keydown", app_window_keydown);
-		_app_window.addEventListener("mousedown", app_window_mousedown);
-		_app_window.addEventListener("click", app_window_click);
-
-		if (!isNaN(secsUntilClose) && secsUntilClose > 0) {
-			let numZeros = String(secsUntilClose).match(/\d/g).length;
-			time_until_autoclose.innerHTML = getTimeToCloseMessage(secsUntilClose, numZeros);
-			time_until_autoclose.addEventListener("click", time_until_autoclose_click);
-			modalIntervalId = setInterval(() => {
-				if (--secsUntilClose <= 0) {
-					doResolve("Cancel");
-				}
-				time_until_autoclose.innerHTML = getTimeToCloseMessage(secsUntilClose, numZeros);
-			}, 1000);
-		} else {
-			time_until_autoclose.innerHTML = "";
-		}
-
-		function getTimeToCloseMessage(secsUntilClose, numZeros) {
-			return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
-		}
-
-		function getFocusable(context = "_docx") {
-			return Array.from(context.querySelectorAll('button, [href], input:not([type="hidden"]),'
-				+ ' textarea, select, [tabindex]:not([tabindex="-1"])')).filter(function (el) {
-					return !el.closest("[hidden]");
-				});
-		}
-
-		// Get a list of the items in this dialog which are focusable so we can control tabbing.
-		let focusableItems = getFocusable(modal_dialog);
-
-		function time_until_autoclose_click() {
-			clearInterval(modalIntervalId);
-			time_until_autoclose.innerHTML = "This window will no longer auto-close.";
-			setTimeout(() => {
-				time_until_autoclose.innerHTML = "";
-			}, 3000);
-		}
-
-		function app_window_click(e) {
-			if (clickOutsideToCancel && e.target === modal_background) {
-				doResolve("Cancel");
-				e.preventDefault();
-			}
-		}
-
-		function app_window_mousedown(e) {
-			if (focusableItems.indexOf(e.target) < 0) {
-				default_button.focus();
-				e.preventDefault();
-			}
-		}
-
-		function app_window_keydown(e) {
-			if (e.keyCode === 27) { // Escape
-				doResolve("Cancel");
-			} else if (e.keyCode === 9) { // Tab or Shift+Tab
-				const focusedItem = e.target;
-				const focusedItemIndex = focusableItems.indexOf(focusedItem);
-				if (e.shiftKey) {
-					if (!modal_dialog.contains(e.target) || focusedItemIndex === 0) {
-						focusableItems[focusableItems.length - 1].focus();
-					} else {
-						focusableItems[focusedItemIndex - 1].focus();
-					}
-				} else {
-					if (!modal_dialog.contains(e.target) || focusedItemIndex === focusableItems.length - 1) {
-						focusableItems[0].focus();
-					} else {
-						focusableItems[focusedItemIndex + 1].focus();
-					}
-				}
-				e.preventDefault();
-			}
-		}
-
-		dragElement();
-
-		function dragElement() {
-			_docx.getElementById("modal_title_bar").onmousedown = dragMouseDown;
-		}
-
-		function dragMouseDown(e) {
-			e.preventDefault();
-			// Get the mouse cursor position at startup:
-			pos3 = e.clientX;
-			pos4 = e.clientY;
-			// Call a function whenever the cursor moves:
-			_docx.onmousemove = elementDrag;
-			_docx.onmouseup = closeDragElement;
-		}
-
-		function elementDrag(e) {
-			e.preventDefault();
-			// Calculate the new cursor position:
-			pos1 = pos3 - e.clientX;
-			pos2 = pos4 - e.clientY;
-			pos3 = e.clientX;
-			pos4 = e.clientY;
-			// Set the element's new position:
-			modal_dialog.style.left = (modal_dialog.offsetLeft - pos1) + "px";
-			modal_dialog.style.top = (modal_dialog.offsetTop - pos2) + "px";
-		}
-
-		function closeDragElement() {
-			// Stop moving when mouse button is released.
-			_docx.onmousemove = null;
-			_docx.onmouseup = null;
-		}
-
-		function removeButtons() {
-			for (let index = 0; index < buttons.length; index++) {
-				let elem = _docx.getElementById(`button_${index + 1}`);
-				if (elem)
-					elem.remove();
-			};
-		}
-
-		function doResolve(rslt) {
-			result = rslt;
-			removeButtons();
-			clearTimeout(modalIntervalId);
-			modal_background.style.display = "none";
-			modal_dialog.style.display = "none";
-			_app_window.removeEventListener("click", app_window_click);
-			_app_window.removeEventListener("mousedown", app_window_mousedown);
-			_app_window.removeEventListener("keydown", app_window_keydown);
-			modal_close_btn.classList = "";
-			resolve();
-		}
-	}
-	).then(() => {
-		return result;
-	});
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -501,7 +289,7 @@ async function saveSnippets() {
 		showMsg(NO_CHECKMARKS_WARNING.format(`<i>Save</i> snippets to ${DEVTOOLS}`), ["OK"], true, 15);
 		return;
 	}
-	let token = "";
+	let token = "</br></br>";
 	// Make sure to add state.thisSnippet to the array if it's missing.
 	let index = checkedSnippets.findIndex(s => s.name.toLowerCase() === state.thisSnippetName.toLowerCase());
 	if (index < 0) {
@@ -510,10 +298,10 @@ async function saveSnippets() {
 	}
 	token += SAVE_TOKEN_MSG2;
 	let msg = (cnt < total)
-		? `Ok to save just <cnt>${cnt}</cnt> of <cnt>${total}<cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`
-		: `Ok to save all <cnt>${total}<cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`;
-	let result = showMsg(msg, ["OK", "Cancel"]);
-	if (result === "OK") {
+		? `Save just <cnt>${cnt}</cnt> of <cnt>${total}</cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`
+		: `Save all <cnt>${total}</cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`;
+	let result = await showMsg(msg, ["Save", "Cancel"]);
+	if (result === "Save") {
 		saveSelectedSnippetsToDevTools(checkedSnippets);
 	}
 }
@@ -527,7 +315,7 @@ async function downloadSingleJsonFile() {
 	let snippets = getCheckedSnippets();
 	let cnt = snippets.length;
 	if (!cnt) {
-		showMsg(NO_CHECKMARKS_WARNING.format("'Download' a single '.json' file"), ["OK"]);
+		await showMsg(NO_CHECKMARKS_WARNING.format("'Download' a single '.json' file"), ["OK"]);
 		return;
 	}
 	let total = state.scriptSnippets.length;
@@ -716,7 +504,7 @@ async function saveSelectedSnippetsToDevTools(snippetArray) {
 		//InspectorFrontendHost.setPreference("script-snippets", snippets);
 		//InspectorFrontendHost.setPreference("script-snippets-last-identifier", lastIdentifier);
 	}
-	showMsg(SAVE_SUCCESS, ["OK"], true, 15);
+	await showMsg(SAVE_SUCCESS, ["OK"], true, 15);
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -912,12 +700,12 @@ function setElementTitles() {
 		+ `Hold down the SHIFT key while dragging to select multiple snippets;\n`
 		+ `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`);
 
-	setTitle("modal_close_btn", "Closes this dialog when clicked.\n"
-		+ "(Note: when the color of this button is 'red', it indicates\n"
-		+ "that clicking outside the dialog will also close it.)");
+	setTitle("modal_close_btn", "Click to close this dialog.\n"
+		+ "(Note: when this button is 'red', you can also \n"
+		+ "click anywhere outside the dialog to close it.)");
 
-	setTitle("snip_loadbgrins_btn", `Adds snippets from the following repository:\n   "${EXT_BGRINS}"\nto [Current Snippets].`);
-	setTitle("snip_loadbahmutov_btn", `Adds snippets from the following repository:\n   "${EXT_BAHMUTOV}"\nto [Current Snippets].`);
+	setTitle("snip_loadbgrins_btn", `Adds snippets from the following repository:\n   "${URL_BGRINS}"\nto [Current Snippets].`);
+	setTitle("snip_loadbahmutov_btn", `Adds snippets from the following repository:\n   "${URL_BAHMUTOV}"\nto [Current Snippets].`);
 }
 
 // Drag/Drop zone related stuff ---------------------------------------------------------------
@@ -930,7 +718,7 @@ function setElementTitles() {
  * @ count.added The number of snippets added to [Current Snippets].
  * @ count.replaced The number of snippets replaced in [Current Snippets].
  */
-function showRollup() {
+async function showRollup() {
 	let msg;
 	if (count.total === count.added)
 		msg = `${getToken(count.total, 'added')} to ${CURRENT_SNIPPETS}.`;
@@ -939,7 +727,7 @@ function showRollup() {
 	else
 		msg = `${getToken(count.added, 'added')};&nbsp;&nbsp;`
 			+ `${getToken(count.replaced, 'replaced')} in ${CURRENT_SNIPPETS}.`;
-	showMsg(msg, ["OK"], true, 15);
+	const result = await showMsg(msg, ["OK"], true, 15);
 	function getToken(cnt, txt) {
 		return `<cnt>${cnt}</cnt> Snippet${cnt === 1 ? ' was' : 's were'} <b>${txt}</b>`;
 	}
@@ -960,11 +748,11 @@ function loadSnippetsFromJsonFile(contentString) {
 }
 
 function loadSnippetsFromBgrins() {
-	loadSnippetsFromExternal(`${EXT_BGRINS}{0}/{0}.js`, ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']);
+	loadSnippetsFromExternal(`${URL_BGRINS}{0}/{0}.js`, ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']);
 }
 
 function loadSnippetsFromBahmutov() {
-	loadSnippetsFromExternal(`${EXT_BAHMUTOV}{0}.js`, ['timing', 'profile-method-call', 'time-method-call']);
+	loadSnippetsFromExternal(`${URL_BAHMUTOV}{0}.js`, ['timing', 'profile-method-call', 'time-method-call']);
 }
 
 function loadSnippetsFromExternal(url, snippetsArray) {
@@ -1302,8 +1090,7 @@ if (!String.prototype.format) {
 		return this.replace(/{(\d+)}/g, function (match, number) {
 			return typeof args[number] != 'undefined' ? args[number] : match;
 		});
-	}
-		;
+	};
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -1368,6 +1155,239 @@ function doGet(route, callback, msTimeout) {
 	function getFullRoute(route) {
 		return route.startsWith("http") ? route : DEFAULT_ROOT + (route.startsWith("/") ? route : "/" + route);
 	}
+}
+
+/** -------------------------------------------------------------------------------------------
+ * Shows a message dialog.
+ *
+ * @param {string} message The message to display in the dialog.
+ * @param {[string]} buttons The array of button names to be displayed in the dialog. (Note: 
+ * An asterisk appended to the name indicates it is the default button).
+ * @param {bool} clickOutsideToCancel Clicking outside this dialog will close it when true is 
+ * specified.
+ * @param {number? } secsUntilAutoClose  When a value for this argument is specified, it 
+ * indicates the number of seconds to wait until this dialog is automatically closed.
+ * @returns {string} The dialog result ("OK", "Cancel", etc.).
+ */
+async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClose) {
+	let result;
+	let modalIntervalId;
+	let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	return new Promise((resolve) => {
+
+		// Always make sure to reference the '_docx' object and not 'document'!
+
+		const modal_background = _docx.getElementById("modal_background");
+		const modal_dialog = _docx.getElementById("modal_dialog");
+		const modal_buttons = _docx.getElementById("modal_buttons");
+		const modal_close_btn = _docx.getElementById("modal_close_btn");
+		const secs_until_autoclose = _docx.querySelector("#time_until_autoclose");
+
+		modal_close_btn.classList = clickOutsideToCancel ? "clickout" : "";
+
+		_docx.getElementById("modal_text").innerHTML = message || "message missing";
+
+		// Use a default 'buttons' array when none has been specified.
+		if (!buttons || buttons.length == 0)
+			buttons = ["OK", "Cancel"];
+
+		// The button name with an asterisk ('*') appended to its name becomes the 'default' button;
+		// If no asterisk, the first button in the 'buttons' array is the 'default' button.
+		let defaultButtonIndex = 1;
+		for (let index = 0; index < buttons.length; index++) {
+			const btn = String(buttons[index]);
+			if (btn.endsWith("*")) {
+				buttons[index] = btn.replace("*", "");
+				defaultButtonIndex = index + 1;
+			}
+		}
+
+		// Create the html button elments dynamically based on the specified 'buttons' array.
+		let btnNum = 0;
+		buttons.forEach(btn => {
+			let button = document.createElement('button');
+			button.textContent = btn;
+			button.type = "button";
+			button.classList = "snip_button modal_button";
+			button.id = `button_${++btnNum}`;
+			button.addEventListener("click", (event) => {
+				event.stopPropagation();
+				doResolve(btn);
+			});
+			modal_buttons.appendChild(button);
+		});
+		const default_button = _docx.getElementById(`button_${defaultButtonIndex}`);
+
+		modal_background.style.display = "block";
+		modal_dialog.style.display = "block";
+		modal_dialog.style.top = "150px";
+		modal_dialog.style.left = "200px";
+
+		default_button.focus();
+
+		secs_until_autoclose.setAttribute("title", `Click to stop this dialog from auto-closing.`);
+
+		modal_close_btn.addEventListener("click", (event) => {
+			//event.stopPropagation();
+			doResolve("Cancel");
+			event.preventDefault();
+		});
+
+		_app_window.addEventListener("keydown", app_window_keydown);
+		_app_window.addEventListener("mousedown", app_window_mousedown);
+		_app_window.addEventListener("click", app_window_click);
+
+		if (!isNaN(secsUntilAutoClose) && secsUntilAutoClose > 0) {
+			let toggleClass = clickOutsideToCancel ? "clickout" : "autoclose";
+			let numZeros = String(secsUntilAutoClose).match(/\d/g).length;
+			secs_until_autoclose.innerHTML = getTimeToCloseMessage(secsUntilAutoClose, numZeros);
+			secs_until_autoclose.addEventListener("click", time_until_autoclose_click);
+			modalIntervalId = setInterval(() => {
+				if (--secsUntilAutoClose <= 0) {
+					doResolve("Cancel");
+				}
+				modal_close_btn.classList = modal_close_btn.classList == toggleClass ? "" : toggleClass;
+				secs_until_autoclose.innerHTML = getTimeToCloseMessage(secsUntilAutoClose, numZeros);
+			}, 1000);
+		} else {
+			secs_until_autoclose.innerHTML = "";
+		}
+
+		function getTimeToCloseMessage(secsUntilClose, numZeros) {
+			return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
+		}
+
+		function getFocusable(context = "_docx") {
+			return Array.from(context.querySelectorAll('button, [href], input:not([type="hidden"]),'
+				+ ' textarea, select, [tabindex]:not([tabindex="-1"])')).filter(function (el) {
+					return !el.closest("[hidden]");
+				});
+		}
+
+		// Get a list of items in this dialog which are focusable so we can control tabbing.
+		let focusableItems = getFocusable(modal_dialog);
+
+		function time_until_autoclose_click() {
+			clearInterval(modalIntervalId);
+			modal_close_btn.classList = clickOutsideToCancel ? "clickout" : "";
+			secs_until_autoclose.innerHTML = "This window will no longer auto-close.";
+			setTimeout(() => {
+				secs_until_autoclose.innerHTML = "";
+			}, 3000);
+		}
+
+		function app_window_click(e) {
+			if (clickOutsideToCancel && e.target === modal_background) {
+				doResolve("Cancel");
+				e.preventDefault();
+			}
+		}
+
+		function app_window_mousedown(e) {
+			if (focusableItems.indexOf(e.target) < 0) {
+				default_button.focus();
+				e.preventDefault();
+			}
+		}
+
+		/** ------------------------------------------------------------------------------------
+		 * Handles the Esc, Tab, and Shift+Tab keydown events.
+		 * 
+		 * @param {any} e 
+		 */
+		function app_window_keydown(e) {
+			if (e.keyCode === 27) { // Escape
+				doResolve("Cancel");
+			} else if (e.keyCode === 9) { // Tab or Shift+Tab
+				const focusedItem = e.target;
+				const focusedItemIndex = focusableItems.indexOf(focusedItem);
+				if (e.shiftKey) {
+					if (!modal_dialog.contains(e.target) || focusedItemIndex === 0) {
+						focusableItems[focusableItems.length - 1].focus();
+					} else {
+						focusableItems[focusedItemIndex - 1].focus();
+					}
+				} else {
+					if (!modal_dialog.contains(e.target) || focusedItemIndex === focusableItems.length - 1) {
+						focusableItems[0].focus();
+					} else {
+						focusableItems[focusedItemIndex + 1].focus();
+					}
+				}
+				e.preventDefault();
+			}
+		}
+
+		(function dragElement() {
+			_docx.getElementById("modal_title_bar").onmousedown = dragMouseDown;
+		})();
+
+		function dragMouseDown(e) {
+			e.preventDefault();
+			// Get the mouse cursor position at startup:
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			// Call a function whenever the cursor moves:
+			_docx.onmousemove = elementDrag;
+			_docx.onmouseup = closeDragElement;
+		}
+
+		function elementDrag(e) {
+			e.preventDefault();
+			// Calculate the new cursor position:
+			pos1 = pos3 - e.clientX;
+			pos2 = pos4 - e.clientY;
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			// Set the element's new position:
+			modal_dialog.style.left = (modal_dialog.offsetLeft - pos1) + "px";
+			modal_dialog.style.top = (modal_dialog.offsetTop - pos2) + "px";
+		}
+
+		/** ------------------------------------------------------------------------------------
+		 * Stops moving the dialog when the mouse button is released.
+		 */
+		function closeDragElement() {
+			_docx.onmousemove = null;
+			_docx.onmouseup = null;
+		}
+
+		/** ------------------------------------------------------------------------------------
+		 * Removes the buttons when this dialog is closed.
+		 */
+		function removeButtons() {
+			for (let index = 0; index < buttons.length; index++) {
+				let elem = _docx.getElementById(`button_${index + 1}`);
+				if (elem)
+					elem.remove();
+			};
+		}
+
+		function performCleanup(){
+			removeButtons();
+			clearTimeout(modalIntervalId);
+			modal_background.style.display = "none";
+			modal_dialog.style.display = "none";
+			_app_window.removeEventListener("click", app_window_click);
+			_app_window.removeEventListener("mousedown", app_window_mousedown);
+			_app_window.removeEventListener("keydown", app_window_keydown);
+			modal_close_btn.classList = "";
+		}
+
+		/** ------------------------------------------------------------------------------------
+		 * Resolves the promise after performing some cleamup tasks.
+		 * 
+		 * @param {any} reslt The result.
+		 */
+		function doResolve(reslt) {
+			performCleanup();
+			result = reslt;
+			resolve();
+		}
+	}
+	).then(() => {
+		return result;
+	});
 }
 
 const HTML_META = `
@@ -1709,6 +1729,7 @@ button.ml8 {
 }
 
 #modal_text p {
+	line-height: 1.2rem;
 	margin-bottom: 0.75rem;
 }
 
@@ -1738,13 +1759,17 @@ button.ml8 {
 	right: 10px;
 }
 
+#modal_close_btn.autoclose{
+	color: black;
+}
+
 #modal_close_btn.clickout{
 	color: red;
 }
 
 #modal_close_btn:hover,
 #modal_close_btn:focus {
-	color: #000;
+	color: black;
 	text-decoration: none;
 	cursor: pointer;
 }

@@ -325,6 +325,7 @@ button.ml8 {
 }
 
 #modal_text p {
+	line-height: 1.2rem;
 	margin-bottom: 0.75rem;
 }
 
@@ -354,13 +355,17 @@ button.ml8 {
 	right: 10px;
 }
 
+#modal_close_btn.autoclose{
+	color: black;
+}
+
 #modal_close_btn.clickout{
 	color: red;
 }
 
 #modal_close_btn:hover,
 #modal_close_btn:focus {
-	color: #000;
+	color: black;
 	text-decoration: none;
 	cursor: pointer;
 }
