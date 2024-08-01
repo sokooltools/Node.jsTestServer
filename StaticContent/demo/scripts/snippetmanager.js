@@ -80,10 +80,10 @@ async function doTest1() {
 		if (result === "Other…")
 			result = await showMsg("You picked the <i>'Other…'</i> button in the previous dialog.");
 		if (result === "OK") {
-			result = await showMsg(SAVE_TOKEN_MSG1, []);
+			result = await showMsg(SAVE_TOKEN_MSG1, ["OK"]);
 			console.log(result);
 			if (result === "OK") {
-				result = await showMsg(SAVE_TOKEN_MSG2, ["OK"], true, 10);
+				result = await showMsg(SAVE_TOKEN_MSG2, [], true, 10);
 				console.log(result);
 			}
 		}
@@ -498,11 +498,11 @@ async function saveSelectedSnippetsToDevTools(snippetArray) {
 
 	let snippets = serialize(snippetArray);
 	let lastIdentifier = serialize(`${snippetArray.length}`);
-	console.log("\"script-snippets\":", snippets);
-	console.log("\"script-snippets-last-identifier\":", lastIdentifier);
+	// console.log("\"script-snippets\":", snippets);
+	// console.log("\"script-snippets-last-identifier\":", lastIdentifier);
 	if (isDevToolsOfDevTools) {
-		//InspectorFrontendHost.setPreference("script-snippets", snippets);
-		//InspectorFrontendHost.setPreference("script-snippets-last-identifier", lastIdentifier);
+		InspectorFrontendHost.setPreference("script-snippets", snippets);
+		InspectorFrontendHost.setPreference("script-snippets-last-identifier", lastIdentifier);
 	}
 	await showMsg(SAVE_SUCCESS, ["OK"], true, 15);
 }
@@ -727,7 +727,7 @@ async function showRollup() {
 	else
 		msg = `${getToken(count.added, 'added')};&nbsp;&nbsp;`
 			+ `${getToken(count.replaced, 'replaced')} in ${CURRENT_SNIPPETS}.`;
-	const result = await showMsg(msg, ["OK"], true, 15);
+	const result = await showMsg(msg, [], true, 10);
 	function getToken(cnt, txt) {
 		return `<cnt>${cnt}</cnt> Snippet${cnt === 1 ? ' was' : 's were'} <b>${txt}</b>`;
 	}
@@ -1161,8 +1161,9 @@ function doGet(route, callback, msTimeout) {
  * Shows a message dialog.
  *
  * @param {string} message The message to display in the dialog.
- * @param {[string]} buttons The array of button names to be displayed in the dialog. (Note: 
- * An asterisk appended to the name indicates it is the default button).
+ * @param {[string]} buttons The array of button names to be displayed in the dialog. 
+ * Note: 
+ * An asterisk appended to the name of the button indicates it to be the default button.
  * @param {bool} clickOutsideToCancel Clicking outside this dialog will close it when true is 
  * specified.
  * @param {number? } secsUntilAutoClose  When a value for this argument is specified, it 
@@ -1187,9 +1188,9 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 
 		_docx.getElementById("modal_text").innerHTML = message || "message missing";
 
-		// Use a default 'buttons' array when none has been specified.
-		if (!buttons || buttons.length == 0)
-			buttons = ["OK", "Cancel"];
+		// Use 'OK' button as default when none is specified.
+		if (!buttons)
+			buttons = ["OK"];	 
 
 		// The button name with an asterisk ('*') appended to its name becomes the 'default' button;
 		// If no asterisk, the first button in the 'buttons' array is the 'default' button.
@@ -1222,10 +1223,9 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		modal_dialog.style.display = "block";
 		modal_dialog.style.top = "150px";
 		modal_dialog.style.left = "200px";
-
-		default_button.focus();
-
-		secs_until_autoclose.setAttribute("title", `Click to stop this dialog from auto-closing.`);
+		
+		if (default_button)
+			default_button.focus();
 
 		modal_close_btn.addEventListener("click", (event) => {
 			//event.stopPropagation();
@@ -1237,6 +1237,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		_app_window.addEventListener("mousedown", app_window_mousedown);
 		_app_window.addEventListener("click", app_window_click);
 
+		secs_until_autoclose.setAttribute("title", `Click here to stop this dialog from auto-closing.`);
 		if (!isNaN(secsUntilAutoClose) && secsUntilAutoClose > 0) {
 			let toggleClass = clickOutsideToCancel ? "clickout" : "autoclose";
 			let numZeros = String(secsUntilAutoClose).match(/\d/g).length;
@@ -1254,7 +1255,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		}
 
 		function getTimeToCloseMessage(secsUntilClose, numZeros) {
-			return `This window will auto-close in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
+			return `Click here to stop this dialog from auto-closing in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
 		}
 
 		function getFocusable(context = "_docx") {
@@ -1270,7 +1271,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		function time_until_autoclose_click() {
 			clearInterval(modalIntervalId);
 			modal_close_btn.classList = clickOutsideToCancel ? "clickout" : "";
-			secs_until_autoclose.innerHTML = "This window will no longer auto-close.";
+			secs_until_autoclose.innerHTML = "This dialog will no longer auto-close.";
 			setTimeout(() => {
 				secs_until_autoclose.innerHTML = "";
 			}, 3000);
@@ -1284,7 +1285,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		}
 
 		function app_window_mousedown(e) {
-			if (focusableItems.indexOf(e.target) < 0) {
+			if (default_button && focusableItems.indexOf(e.target) < 0) {
 				default_button.focus();
 				e.preventDefault();
 			}
