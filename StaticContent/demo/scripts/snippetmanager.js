@@ -10,7 +10,7 @@ let _dropZoneElement;
 let _isSelecting = false;
 let _eventTargetInnerText;
 
-let count = new class counters {
+let count = new class Counters {
 	filesToProcess = 0;
 	filesProcessed = 0;
 	added = 0;
@@ -51,7 +51,7 @@ const CONFIRM_DOWNLOAD = `<p>Ok to download <cnt>{0}</cnt> of <cnt>{1}</cnt> sni
 <p>(Note:&nbsp;To circumvent multiple security confirmations, the files will be downloaded with a "<i>.txt</i>"
 extension instead of a "<i>.js</i>" extension).</p>`;
 
-const SAVE_TOKEN_MSG1 = `<p>Note: the currently running snippet (i.e., "${state.thisSnippetName}"),
+const SAVE_TOKEN_MSG1 = `<p>Note: the currently running snippet (i.e., "{0}"),
 will always be saved in ${DEVTOOLS} even when it has not been selected in ${CURRENT_SNIPPETS}.</p>`;
 
 const SAVE_TOKEN_MSG2 = `<p>Please be aware that performing the <i>Save...</i> results in all the snippets in ${DEVTOOLS}
@@ -80,7 +80,7 @@ async function doTest1() {
 		if (result === "Other…")
 			result = await showMsg("You picked the <i>'Other…'</i> button in the previous dialog.");
 		if (result === "OK") {
-			result = await showMsg(SAVE_TOKEN_MSG1, ["OK"]);
+			result = await showMsg(SAVE_TOKEN_MSG1.format(state.thisSnippet.name), ["OK"]);
 			console.log(result);
 			if (result === "OK") {
 				result = await showMsg(SAVE_TOKEN_MSG2, [], true, 10);
@@ -294,7 +294,7 @@ async function saveSnippets() {
 	let index = checkedSnippets.findIndex(s => s.name.toLowerCase() === state.thisSnippetName.toLowerCase());
 	if (index < 0) {
 		checkedSnippets.push(state.thisSnippet);
-		token += SAVE_TOKEN_MSG1;
+		token += SAVE_TOKEN_MSG1.format(state.thisSnippet.name);
 	}
 	token += SAVE_TOKEN_MSG2;
 	let msg = (cnt < total)
@@ -1274,7 +1274,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 			secs_until_autoclose.innerHTML = "This dialog will no longer auto-close.";
 			setTimeout(() => {
 				secs_until_autoclose.innerHTML = "";
-			}, 3000);
+			}, 2000);
 		}
 
 		function app_window_click(e) {
