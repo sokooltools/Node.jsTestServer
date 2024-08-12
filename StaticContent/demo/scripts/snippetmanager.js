@@ -57,6 +57,16 @@ will always be saved in ${DEVTOOLS} even when it has not been selected in ${CURR
 const SAVE_TOKEN_MSG2 = `<p>Please be aware that performing the <i>Save...</i> results in all the snippets in ${DEVTOOLS}
 being overwritten by the selected snippets in ${CURRENT_SNIPPETS}.</p>`;
 
+/** -------------------------------------------------------------------------------------------
+* Returns an indication as to whether this window was opened from 'DevTools' of 'DevTools'.
+*/
+const isDevToolsOfDevTools = location.origin.startsWith("devtools://devtools");
+
+/** -------------------------------------------------------------------------------------------
+* Returns an indication as to whether this window was opened from a webpage connected to LocalHost.
+*/
+const isLocalHost = location.hostname === "localhost";
+
 const DialogButton = Object.freeze({
 	CANCEL: 0,
 	CLOSE: 1,
@@ -97,20 +107,10 @@ function decode(msg) {
 }
 
 /** -------------------------------------------------------------------------------------------
-* Returns an indication as to whether this window was opened from 'DevTools' of 'DevTools'.
-*/
-const isDevToolsOfDevTools = location.origin.startsWith("devtools://devtools");
-
-/** -------------------------------------------------------------------------------------------
-* Returns an indication as to whether this window was opened from a webpage connected to LocalHost.
-*/
-const isLocalHost = location.hostname === "localhost";
-
-/** -------------------------------------------------------------------------------------------
 * Opens a new window as _app_window.
 */
 function openAppWindow() {
-	console.log(`Opening '${WIN_TITLE}' window…`);
+	console.log(`[openAppWindow] Opening '${WIN_TITLE}' window…`);
 	let deltaW = Math.abs(window.outerWidth - window.innerWidth);
 	let deltaH = Math.abs(window.outerHeight - window.innerHeight);
 	let winWth = 738 + (isDevToolsOfDevTools ? 16 : 0);
@@ -121,10 +121,11 @@ function openAppWindow() {
 	//console.log(`${windowFeatures}, deltaW=${deltaW}, deltaH=${deltaH}`);
 	_app_window = window.open("", "", windowFeatures);
 	_app_window.addEventListener('beforeunload', () => {
-		console.log(`Closing '${WIN_TITLE}' window…`);
+		console.log(`[openAppWindow] Closing '${WIN_TITLE}' window…`);
 	});
 	window.addEventListener('beforeunload', () => {
-		console.log(`Closing main window…`);
+		console.log(`[openAppWindow] Browser about to be unloaded…`);
+		closeAppWindow();
 	});
 	_docx = _app_window.document;
 	_docx.head.innerHTML = `
@@ -143,7 +144,7 @@ function openThisWindow(winName) {
 	console.log(`Opening "${winName}"…`);
 	_app_window = window;
 	_app_window.addEventListener('beforeunload', () => {
-		console.log(`Closing '${WIN_TITLE}' window…`);
+		console.log(`[openThisWindow] '${WIN_TITLE}' window about to be unloaded…`);
 	});
 	_docx = _app_window.document;
 	_docx.addEventListener("DOMContentLoaded", () => {
@@ -152,7 +153,7 @@ function openThisWindow(winName) {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Performs multiple steps needed to initialize this page.
+ * Performs the steps needed to initialize this page.
  */
 function initializePage() {
 	console.log("Initializing Page…")
@@ -167,7 +168,7 @@ function initializePage() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Sorts the [Current Snippets] in ascending order by name (case-insensitive).
+ * Sorts the [Current Snippets] in ascending order by its (case-insensitive) name.
  */
 function sortCurrentSnippets() {
 	state.scriptSnippets = sortSnippets(state.scriptSnippets);
@@ -175,9 +176,9 @@ function sortCurrentSnippets() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Loads or reloads the snippets from DevTools to [Current Snippets] when this code
- * is being run from DevTools of DevTools. In all other cases it Loads or reloads a example set
- * of sequentially numbered snippets (such as 'example_snippet1', 'example_snippet2', etc.) to
+ * Loads or reloads the snippets from DevTools into [Current Snippets] when this code
+ * is being run from DevTools of DevTools. In all other cases it loads or reloads an example set
+ * of sequentially numbered snippets (e.g. 'example_snippet1', 'example_snippet2', etc.) to
  * [Current Snippets].
 */
 function loadCurrentSnippets() {
@@ -188,10 +189,8 @@ function loadCurrentSnippets() {
 			getLastIdentifierFromDevTools().then((id) => {
 				state.lastIdentifier = id;
 				finishLoad();
-			}
-			);
-		}
-		);
+			});
+		});
 	} else if (isLocalHost) {
 		console.log("Loading [Current Snippet] from DevTools (using local NodeJS)…")
 		doGet("/test/snippets", (snips) => {
@@ -215,7 +214,7 @@ function loadCurrentSnippets() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Finishes (i.e., 'performs') the last step of the load process.
+ * Finishes, i.e., 'performs' the last step of the load process.
 */
 function finishLoad() {
 	renderCurrentSnippets();
@@ -225,6 +224,9 @@ function finishLoad() {
 	enableOrDisableButtons();
 }
 
+/**
+ * Changes the checkboxes of all snippets in [Current Snippets] to be 'checked'.
+ */
 function checkAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
 	checkboxes.forEach((checkbox, index) => {
@@ -237,6 +239,9 @@ function checkAllCheckboxes() {
 	});
 }
 
+/**
+ * Changes the checkboxes of all snippets in [Current Snippets] to be 'unchecked'.
+ */
 function uncheckAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
 	checkboxes.forEach((checkbox, index) => {
@@ -249,6 +254,10 @@ function uncheckAllCheckboxes() {
 	});
 }
 
+/**
+ * Inverts the checkboxes of all snippets in [Current Snippets], 
+ * i.e, changes currrently 'checked' to 'unchecked' and vice versa.
+ */
 function invertAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
 	checkboxes.forEach((checkbox, index) => {
@@ -256,14 +265,16 @@ function invertAllCheckboxes() {
 		addOrRemoveCustomCheckmark({
 			target: checkbox
 		});
-	}
-	);
+	});
 }
 
+/**
+ * Removes all checkmarked snippets from [Current Snippets].
+ */
 async function removeSnippets() {
 	let cnt = getCheckedSnippets().length;
 	if (!cnt) {
-		showMsg(NO_CHECKMARKS_WARNING.format("<i>Remove</i> snippets"), ["OK"], true, 15);
+		await showMsg(NO_CHECKMARKS_WARNING.format("<i>Remove</i> snippets"), ["OK"], true, 15);
 		return;
 	}
 	const checkboxes = _docx.querySelectorAll("div.snip_custom_box");
@@ -286,7 +297,7 @@ async function saveSnippets() {
 	let checkedSnippets = getCheckedSnippets();
 	let cnt = checkedSnippets.length;
 	if (!cnt) {
-		showMsg(NO_CHECKMARKS_WARNING.format(`<i>Save</i> snippets to ${DEVTOOLS}`), ["OK"], true, 15);
+		await showMsg(NO_CHECKMARKS_WARNING.format(`<i>Save</i> snippets to ${DEVTOOLS}`), ["OK"], true, 15);
 		return;
 	}
 	let token = "</br></br>";
@@ -336,7 +347,7 @@ async function downloadMultipleJsFiles() {
 	let snippets = getCheckedSnippets();
 	let cnt = snippets.length;
 	if (!cnt) {
-		showMsg(NO_CHECKMARKS_WARNING.format("'Download' multiple '.js' files"), ["OK"]);
+		await showMsg(NO_CHECKMARKS_WARNING.format("'Download' multiple '.js' files"), ["OK"]);
 		return;
 	}
 	let total = state.scriptSnippets.length;
@@ -407,8 +418,7 @@ function renderCurrentSnippets(newSnippet) {
 		cont.innerHTML = "";
 		state.scriptSnippets.forEach((snippet) => {
 			renderSnippet(snippet);
-		}
-		);
+		});
 	}
 	function renderSnippet(snippet) {
 		const labl = _docx.createElement("label");
@@ -700,9 +710,9 @@ function setElementTitles() {
 		+ `Hold down the SHIFT key while dragging to select multiple snippets;\n`
 		+ `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`);
 
-	setTitle("modal_close_btn", "Click to close this dialog.\n"
-		+ "(Note: when this button is 'red', you can also \n"
-		+ "click anywhere outside the dialog to close it.)");
+	setTitle("modal_close_btn", `Click to close this dialog.\n`
+		+ `(Note: when this button is 'red', you can also \n`
+		+ `click anywhere outside the dialog to close it.)`);
 
 	setTitle("snip_loadbgrins_btn", `Adds snippets from the following repository:\n   "${URL_BGRINS}"\nto [Current Snippets].`);
 	setTitle("snip_loadbahmutov_btn", `Adds snippets from the following repository:\n   "${URL_BAHMUTOV}"\nto [Current Snippets].`);
@@ -828,42 +838,35 @@ function addEventsToDropZone() {
 	_docx.querySelectorAll(".drop-zone__input").forEach((elem) => {
 		// Search up the DOM tree for element which matches a specified CSS selector.
 		_dropZoneElement = elem.closest(".drop-zone");
-
 		// Handles the 'click' event of the drop zone 'input' element.
 		elem.addEventListener("click", () => {
 			elem.value = null;
-		}
-		);
+		});
 
 		// Handles the 'change' event of the drop zone 'input' element.
 		elem.addEventListener("change", (e) => {
 			if (elem.files.length) {
 				loadFiles(elem.files);
 			}
-		}
-		);
+		});
 
 		// Handles the 'click' event of the drop zone element.
 		_dropZoneElement.addEventListener("click", () => {
 			elem.click();
-		}
-		);
+		});
 
 		// Handles the 'dragover' event.
 		_dropZoneElement.addEventListener("dragover", (e) => {
 			e.preventDefault();
 			_dropZoneElement.classList.add("drop-zone--over");
-		}
-		);
+		});
 
 		// Handles both the 'dragleave' and 'dragend' events.
 		["dragleave", "dragend"].forEach((type) => {
 			_dropZoneElement.addEventListener(type, () => {
 				_dropZoneElement.classList.remove("drop-zone--over");
-			}
-			);
-		}
-		);
+			});
+		});
 
 		// Handles the 'drop' event.
 		_dropZoneElement.addEventListener("drop", (e) => {
@@ -873,10 +876,8 @@ function addEventsToDropZone() {
 				loadFiles(elem.files);
 			}
 			_dropZoneElement.classList.remove("drop-zone--over");
-		}
-		);
-	}
-	);
+		});
+	});
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -886,8 +887,7 @@ function addChangeEventToAllSnippetCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
 	checkboxes.forEach((checkbox) => {
 		checkbox.addEventListener("change", addOrRemoveCustomCheckmark);
-	}
-	);
+	});
 
 }
 /** -------------------------------------------------------------------------------------------
@@ -909,8 +909,7 @@ function addMouseEventsToAllSnippetCheckboxes() {
 	snipRows.forEach((snipRow) => {
 		snipRow.addEventListener("mousedown", processMouseDown);
 		snipRow.addEventListener("mouseenter", processMouseEnter);
-	}
-	);
+	});
 	const snipList = _docx.querySelector("#snip_list");
 	snipList.addEventListener("mouseup", processMouseUp);
 	snipList.addEventListener("mouseleave", processMouseLeave);
@@ -983,8 +982,7 @@ function addEventToElement(id) {
 function wait(milliseconds) {
 	return new Promise(resolve => {
 		setTimeout(resolve, milliseconds);
-	}
-	);
+	});
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -1160,15 +1158,18 @@ function doGet(route, callback, msTimeout) {
 /** -------------------------------------------------------------------------------------------
  * Shows a message dialog.
  *
+ * @async
+ *
  * @param {string} message The message to display in the dialog.
- * @param {[string]} buttons The array of button names to be displayed in the dialog. 
+ * @param {[string]} buttons An array containing the names of buttons to be displayed in the 
+ * dialog. 
  * Note: 
- * An asterisk appended to the name of the button indicates it to be the default button.
+ * An asterisk appended to the name of the button indicates it is the default button.
  * @param {bool} clickOutsideToCancel Clicking outside this dialog will close it when true is 
  * specified.
- * @param {number? } secsUntilAutoClose  When a value for this argument is specified, it 
+ * @param {number?} secsUntilAutoClose  When a value for this argument is specified, it 
  * indicates the number of seconds to wait until this dialog is automatically closed.
- * @returns {string} The dialog result ("OK", "Cancel", etc.).
+ * @returns {Promise<string>} The dialog result ("OK", "Cancel", etc.).
  */
 async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClose) {
 	let result;
@@ -1180,19 +1181,20 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 
 		const modal_background = _docx.getElementById("modal_background");
 		const modal_dialog = _docx.getElementById("modal_dialog");
+		const modal_title_bar = _docx.getElementById("modal_title_bar");
 		const modal_buttons = _docx.getElementById("modal_buttons");
 		const modal_close_btn = _docx.getElementById("modal_close_btn");
+		const modal_text = _docx.getElementById("modal_text");
 		const secs_until_autoclose = _docx.querySelector("#time_until_autoclose");
 
+		modal_text.innerHTML = message || "message missing";
 		modal_close_btn.classList = clickOutsideToCancel ? "clickout" : "";
-
-		_docx.getElementById("modal_text").innerHTML = message || "message missing";
 
 		// Use 'OK' button as default when none is specified.
 		if (!buttons)
 			buttons = ["OK"];	 
 
-		// The button name with an asterisk ('*') appended to its name becomes the 'default' button;
+		// A button name with an asterisk ('*') appended to it is the 'default' button;
 		// If no asterisk, the first button in the 'buttons' array is the 'default' button.
 		let defaultButtonIndex = 1;
 		for (let index = 0; index < buttons.length; index++) {
@@ -1203,7 +1205,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 			}
 		}
 
-		// Create the html button elments dynamically based on the specified 'buttons' array.
+		// Create the html button elements dynamically based on the specified 'buttons' array.
 		let btnNum = 0;
 		buttons.forEach(btn => {
 			let button = document.createElement('button');
@@ -1320,7 +1322,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		}
 
 		(function dragElement() {
-			_docx.getElementById("modal_title_bar").onmousedown = dragMouseDown;
+			modal_title_bar.onmousedown = dragMouseDown;
 		})();
 
 		function dragMouseDown(e) {
@@ -1391,11 +1393,15 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 	});
 }
 
+//#region META DATA
+
 const HTML_META = `
     <meta http-equiv="Content-Security-Policy" content="script-src-elem https://ajax.googleapis.com" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 `;
+
+//#endregion
 
 const HTML_TITLE = `DevTools Snippet Manager`;
 

@@ -30,6 +30,7 @@ var _dts = {
 	machinedatetime: cmn.dateToMillisecondsUtc(),
 	machinetimezone: 89,
 	isautodst: true,
+	issyncwithmyclock: false
 };
 
 var _user = {
@@ -82,6 +83,9 @@ router.put("/network/*", function (req, res, next) {
 			break;
 		case "xpressdata":
 			doPutXpressData(req, res);
+			break;
+		case "internetdata":
+			doPutInternetData(req, res);
 			break;
 		default:
 			next();
@@ -422,6 +426,15 @@ function doPutXpressData(req, res) {
 	res.status(200).json(json).end();
 }
 
+function doPutInternetData(req, res) {
+	const json = req.body;
+	const filepath = join(cmn.demodata, "internetdata.json");
+	const data = JSON.parse(cmn.readFileCache(filepath));
+	updateDataWithJson(data, json);
+	cmn.writeFileCache(filepath, data, true);
+	res.status(200).json(json).end();
+}
+
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Saves the security data.
@@ -453,6 +466,7 @@ function doPutDateTimeData(req, res) {
 	_dts.machinedatetime = json.machinedatetime;
 	_dts.machinetimezone = json.machinetimezone;
 	_dts.isautodst = json.isautodst;
+	_dts.issyncwithmyclock = json.issyncwithmyclock;
 	res.status(200).json(json).end();
 }
 

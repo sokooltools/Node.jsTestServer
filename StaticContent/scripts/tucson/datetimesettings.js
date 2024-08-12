@@ -16,8 +16,6 @@ DTS.skipFocus = false;
 DTS.isAdminLevel = CMN.isAdminLevel();
 DTS.cnt = 0;
 
-DTS.dtpicker = $("#datetimepicker");
-
 // -------------------------------------------------------------------------------------------
 // Provides an enumeration for units of time. (index is 1 based!)
 // -------------------------------------------------------------------------------------------
@@ -50,81 +48,6 @@ DTS.TimeObject = function (t, u) {
 	this.timeValue = t;
 	this.units = u;
 };
-
-DTS.init = function () {
-	// -------------------------------------------------------------------------------------------
-	// Initialize the datetimepicker control.
-	// http://trentrichardson.com/examples/timepicker/
-	// -------------------------------------------------------------------------------------------
-	DTS.dtpicker.datetimepicker({
-		dateFormat: SYS.getDateFormat(),
-		timeFormat: SYS.getTimeFormat(),
-		//pickerTimeFormat: SYS.getTimeFormat(),
-		buttonImage: "grid/images/calendar.gif",
-		buttonImageOnly: true,
-		currentText: "Now",
-		closeText: "Done",
-		//controlType: "select",
-		//minDate: 0,
-		parse: "loose",
-		showButtonPanel: true,
-		showTimezone: false,
-		showMillisec: false,
-		showMicrosec: false,
-		showOn: "button",
-		timezone: null,
-		onSelect: function () {
-			SYS.enableSaveAndResetButtons(this);
-		},
-		beforeShow: function () {
-			DTS.skipFocus = true;
-			DTS.stopAutoRefresh();
-		},
-		onClose: function () {
-			DTS.skipBlur = true;
-			DTS.startAutoRefresh();
-		}
-	});
-};
-
-// -------------------------------------------------------------------------------------------
-// Handles the tab changed event raised whenever this tab is reselected.
-// -------------------------------------------------------------------------------------------
-$("ul.css-tabs").on("tabChanged", function (e, idx) {
-	//CMN.debugLog("DTS.tabChanged");
-	if (idx === 2) {
-		DTS.startAutoRefresh();
-	} else {
-		DTS.stopAutoRefresh();
-	}
-});
-
-// -------------------------------------------------------------------------------------------
-// Handles the event raised whenever the "Machine Time Zone" combobox value is changed by the
-// user manually selecting a new value.
-// -------------------------------------------------------------------------------------------
-$("select#sys_cboMachineTimeZone").change(function () {
-	DTS.showOrHideIsAutoDst();
-	DTS.enableDatetimePicker(true);
-	SYS.enableSaveAndResetButtons(this);
-});
-
-// -------------------------------------------------------------------------------------------
-// Make the date/time picker textbox is read-only.
-// -------------------------------------------------------------------------------------------
-DTS.dtpicker.prop("readOnly", true);
-
-// -------------------------------------------------------------------------------------------
-// Bind the keypress and keydown events for all but the TAB and ENTER keys.
-// -------------------------------------------------------------------------------------------
-DTS.dtpicker.on("keypress keydown", function (e) {
-	if (e.keyCode !== 9 && e.keyCode !== 13) {
-		e.preventDefault();
-		e.stopImmediatePropagation();
-		return false;
-	}
-	return true;
-});
 
 // -------------------------------------------------------------------------------------------
 // Handles the onFocus event to start or stop auto refresh depending on certain criteria.
@@ -225,6 +148,7 @@ DTS.loadFromJson = function (json, isDateTimeOnly) {
 	if (!isDateTimeOnly) {
 		$("#sys_cboMachineTimeZone").prop("selectedIndex", parseInt(json.machinetimezone, 10));
 		$("#sys_chkIsAutoDst").prop("checked", json.isautodst !== "0");
+		$("#sys_chkIsSyncWithMyClock").prop("checked", json.issyncwithmyclock !== "0");
 		DTS.showOrHideIsAutoDst();
 		DTS.startAutoRefresh();
 		SYS.setInitialFocus();
@@ -279,10 +203,12 @@ DTS.getJsonFromPage = function () {
 	}
 	var mtz = document.getElementById("sys_cboMachineTimeZone").selectedIndex;
 	var dst = $("#sys_chkIsAutoDst").is(":checked") ? 1 : 0;
+	var smc = $("#sys_chkIsSyncWithMyClock").is(":checked") ? 1 : 0;
 	var json = {
 		machinedatetime: mdt,
 		machinetimezone: mtz,
-		isautodst: dst
+		isautodst: dst,
+		issyncwithmyclock: smc
 	};
 	return json;
 };
@@ -293,7 +219,7 @@ DTS.getJsonFromPage = function () {
 DTS.getSyncDateTime = function () {
 	var idx1 = DTS.json.machinetimezone;
 	if (idx1 == -1) // Handle situation where the timezone returned from the server was unknown.
-		return CMN.dateToMillisecondsUtc(); 
+		return CMN.dateToMillisecondsUtc();
 	var sOrg = document.getElementById("sys_cboMachineTimeZone")[idx1].value; // e.g. Eastern Time = "-300,1"
 	var iOrg = parseInt(sOrg.split(",")[0], 10); // e.g. Eastern Time = -300
 	var sNew = document.getElementById("sys_cboMachineTimeZone")[0].value;
@@ -444,7 +370,7 @@ DTS.doSynchNow = function () {
 				retval = true;
 			}
 		},
-		error: function () {}
+		error: function () { }
 	});
 	CMN.hideBusy();
 	return retval;
@@ -471,7 +397,7 @@ DTS.enableDatetimePicker = function (isEnabled) {
 	var isAdminLevel = CMN.isAdminLevel();
 	if (!isEnabled)
 		isEnabled = !$("#sys_chkIsSyncWithMyClock").prop("checked") &&
-		!$("#sys_chkIsSyncWithInternet").prop("checked");
+			!$("#sys_chkIsSyncWithInternet").prop("checked");
 	$(".ui-datepicker-trigger").prop("disabled", !isAdminLevel || !isEnabled);
 	$("#datetimepicker").datepicker("option", "disabled", !isAdminLevel || !isEnabled);
 	DTS.dtpicker.prop("disabled", true).css("background-color", "white").css("border", "#707070 thin solid");
@@ -574,22 +500,93 @@ DTS.getBrowserTimeZoneIndex = function () {
 	return -1;
 };
 
-// -------------------------------------------------------------------------------------------
-// Add the focus and blur events to the document or window object.
-// -------------------------------------------------------------------------------------------
-// Internet Explorer uses the 'document' object.
-// if (CMN.isIE()) {
-// 	document.onfocusin = DTS.onFocus;
-// 	document.onfocusout = DTS.onBlur;
-// } else {
+DTS.init = function () {
+
+	// -------------------------------------------------------------------------------------------
+	// Add the focus and blur events to the document or window object.
+	// -------------------------------------------------------------------------------------------
 	window.onfocus = DTS.onFocus;
 	window.onblur = DTS.onBlur;
-// }
 
-// Load the comboboxes with data.
-DTS.loadTimeZoneListCombobox();
-DTS.loadInternetTimeServerCombobox();
-DTS.loadRefreshUnitsCombobox();
+	DTS.dtpicker = $("#datetimepicker");
+
+	// -------------------------------------------------------------------------------------------
+	// Make the date/time picker textbox is read-only.
+	// -------------------------------------------------------------------------------------------
+	DTS.dtpicker.prop("readOnly", true);
+
+	// -------------------------------------------------------------------------------------------
+	// Bind the keypress and keydown events for all but the TAB and ENTER keys.
+	// -------------------------------------------------------------------------------------------
+	DTS.dtpicker.on("keypress keydown", function (e) {
+		if (e.keyCode !== 9 && e.keyCode !== 13) {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			return false;
+		}
+		return true;
+	});
+
+	// Load the comboboxes with data.
+	DTS.loadTimeZoneListCombobox();
+	DTS.loadInternetTimeServerCombobox();
+	DTS.loadRefreshUnitsCombobox();
+
+	// -------------------------------------------------------------------------------------------
+	// Handles the tab changed event raised whenever this tab is reselected.
+	// -------------------------------------------------------------------------------------------
+	$("ul.css-tabs").on("tabChanged", function (e, idx) {
+		if (idx === 2) {
+			DTS.startAutoRefresh();
+		} else {
+			DTS.stopAutoRefresh();
+		}
+	});
+
+	// -------------------------------------------------------------------------------------------
+	// Handles the event raised whenever the "Machine Time Zone" combobox value is changed by the
+	// user manually selecting a new value.
+	// -------------------------------------------------------------------------------------------
+	$("select#sys_cboMachineTimeZone").change(function () {
+		DTS.showOrHideIsAutoDst();
+		DTS.enableDatetimePicker(true);
+		SYS.enableSaveAndResetButtons(this);
+	});
+
+	// -------------------------------------------------------------------------------------------
+	// Initialize the datetimepicker control.
+	// http://trentrichardson.com/examples/timepicker/
+	// -------------------------------------------------------------------------------------------
+	DTS.dtpicker.datetimepicker({
+		dateFormat: SYS.getDateFormat(),
+		timeFormat: SYS.getTimeFormat(),
+		//pickerTimeFormat: SYS.getTimeFormat(),
+		buttonImage: "grid/images/calendar.gif",
+		buttonImageOnly: true,
+		currentText: "Now",
+		closeText: "Done",
+		//controlType: "select",
+		//minDate: 0,
+		parse: "loose",
+		showButtonPanel: true,
+		showTimezone: false,
+		showMillisec: false,
+		showMicrosec: false,
+		showOn: "button",
+		timezone: null,
+		onSelect: function () {
+			SYS.enableSaveAndResetButtons(this);
+		},
+		beforeShow: function () {
+			DTS.skipFocus = true;
+			DTS.stopAutoRefresh();
+		},
+		onClose: function () {
+			DTS.skipBlur = true;
+			DTS.startAutoRefresh();
+		}
+	});
+};
 
 //	,timezoneList: [
 //			{ value: -300, label: "Eastern" },
