@@ -29,9 +29,21 @@ const state = {
 	scriptSnippets: [],
 	lastIdentifier: 0,
 	thisSnippet: [],
-	thisSnippetName: "DevToolsSnippetManager"
+	thisSnippetName: "DevToolsSnippetManager",
+	thisSnippetDesc: "DevTools Snippet Manager"
 };
 
+/** -------------------------------------------------------------------------------------------
+* Returns an indication as to whether this window was opened from 'DevTools' of 'DevTools'.
+*/
+const isDevToolsOfDevTools = location.origin.startsWith("devtools://devtools");
+
+/** -------------------------------------------------------------------------------------------
+* Returns an indication as to whether this window was opened from a webpage connected to LocalHost.
+*/
+const isLocalHost = location.hostname === "localhost";
+
+const HZLN = `${"-".repeat(65)}\n`;
 const DEVTOOLS = `<i>DevTools</i>`;
 const CURRENT_SNIPPETS = `<span class='bracket left'>[</span><span class='current_snippets'>Current Snippets</span><span class='bracket right'>]</span>`;
 
@@ -51,27 +63,92 @@ const CONFIRM_DOWNLOAD = `<p>Ok to download <cnt>{0}</cnt> of <cnt>{1}</cnt> sni
 <p>(Note:&nbsp;To circumvent multiple security confirmations, the files will be downloaded with a "<i>.txt</i>"
 extension instead of a "<i>.js</i>" extension).</p>`;
 
+const SAVE_TITLE = `Saves the selected items in [Current Snippets] to 'DevTools'.\n`
+			+ HZLN +  (isDevToolsOfDevTools 
+				? `Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n`
+				+ `[Current Snippets], you will be prompted to confirm this action prior to it actually being performed.`
+				: `Note: This action can only be performed when "${state.thisSnippetDesc}" is opened in 'DevTools' of 'DevTools'.\n`
+				+ `Try the following 3 steps:\n`
+				+ `	Close this window.\n`
+				+ `	Press CTRL+SHIFT+I.\n`
+				+ `	Run this "${state.thisSnippetDesc}" snippet again.`);
+
 const SAVE_TOKEN_MSG1 = `<p>Note: the currently running snippet (i.e., "{0}"),
 will always be saved in ${DEVTOOLS} even when it has not been selected in ${CURRENT_SNIPPETS}.</p>`;
 
 const SAVE_TOKEN_MSG2 = `<p>Please be aware that performing the <i>Save...</i> results in all the snippets in ${DEVTOOLS}
 being overwritten by the selected snippets in ${CURRENT_SNIPPETS}.</p>`;
 
-/** -------------------------------------------------------------------------------------------
-* Returns an indication as to whether this window was opened from 'DevTools' of 'DevTools'.
-*/
-const isDevToolsOfDevTools = location.origin.startsWith("devtools://devtools");
-
-/** -------------------------------------------------------------------------------------------
-* Returns an indication as to whether this window was opened from a webpage connected to LocalHost.
-*/
-const isLocalHost = location.hostname === "localhost";
-
 const DialogButton = Object.freeze({
 	CANCEL: 0,
 	CLOSE: 1,
 	OK: 2
 });
+
+let buttons = new class Buttons {
+	Reload;
+	Remove;
+	Save;
+	DownloadSingleJson;
+	DownloadMultipleJs;
+	Checkall;
+	Uncheckall;
+	Invert;
+	Sort;
+	LoadBgrins;
+	LoadBalmutov;
+	DoTest;
+	initialize() {
+		this.Checkall = _docx.getElementById("snip_checkall_btn");
+		this.Checkall.addEventListener("click", checkAllCheckboxes);
+		this.Checkall.setAttribute("title", "Adds a checkmark to all the snippets in [Current Snippets].");
+
+		this.Uncheckall = _docx.getElementById("snip_uncheckall_btn");
+		this.Uncheckall.addEventListener("click", uncheckAllCheckboxes);
+		this.Uncheckall.setAttribute("title", "Removes the checkmark from all the snippets in [Current Snippets]." );
+
+		this.Invert = _docx.getElementById("snip_invert_btn");
+		this.Invert.addEventListener("click", invertAllCheckboxes);
+		this.Invert.setAttribute("title", "Inverts the checkmark of all the snippets in [Current Snippets]\n"
+			+ "(i.e., switches currently 'checked' with 'unchecked' and vice versa)." );
+
+		this.Remove = _docx.getElementById("snip_remove_btn");
+		this.Remove.addEventListener("click", removeSnippets);
+		this.Remove.setAttribute("title", "Removes the selected items from [Current Snippets]." );
+
+		this.Sort = _docx.getElementById("snip_sort_btn");
+		this.Sort.addEventListener("click", sortCurrentSnippets);
+		this.Sort.setAttribute("title", "Sorts all the snippets in [Current Snippets] in case-insensitive ascending order." );
+
+		this.Reload = _docx.getElementById("snip_reload_btn");
+		this.Reload.addEventListener("click", loadCurrentSnippets);
+		this.Reload.setAttribute("title", "Reloads [Current Snippets] with the snippets from DevTools." );
+
+		this.Save = _docx.getElementById("snip_save_btn");
+		this.Save.addEventListener("click", saveSnippets);
+		this.Save.setAttribute("title", SAVE_TITLE );
+
+		this.DownloadSingleJson = _docx.getElementById("snip_downloadSingleJson_btn");
+		this.DownloadSingleJson.addEventListener("click", downloadSingleJsonFile);
+		this.DownloadSingleJson.setAttribute("title", "Downloads the selected items in [Current Snippets] as a single unified '.json' file." );
+
+		this.DownloadMultipleJs = _docx.getElementById("snip_downloadMultipleJs_btn");
+		this.DownloadMultipleJs.addEventListener("click", downloadMultipleJsFiles);
+		this.DownloadMultipleJs.setAttribute("title", "Downloads the selected items in [Current Snippets] as multiple '.js' files." );
+
+		this.LoadBgrins = _docx.getElementById("snip_loadbgrins_btn");
+		this.LoadBgrins.addEventListener("click", loadSnippetsFromBgrins);
+		this.LoadBgrins.setAttribute("title", `Adds snippets to [Current Snippets] from the following repository:\n..."${URL_BGRINS}"` );
+
+		this.LoadBalmutov = _docx.getElementById("snip_loadbahmutov_btn");
+		this.LoadBalmutov.addEventListener("click", loadSnippetsFromBahmutov);
+		this.LoadBalmutov.setAttribute("title", `Adds snippets to [Current Snippets] from the following repository:\n..."${URL_BAHMUTOV}"` );
+
+		this.DoTest = _docx.getElementById("snip_dotest_btn");
+		this.DoTest.addEventListener("click", doTest);
+		this.DoTest.setAttribute("title", "Runs a pre-defined unit test." );
+	}
+}
 
 function doTest() {
 	//debugger;
@@ -162,8 +239,8 @@ function initializePage() {
 	_docx.getElementById("drop-zone__prompt").innerHTML = DROP_ZONE_PROMPT;
 	loadCurrentSnippets();
 	preserveThisSnippet();
-	setElementTitles();
-	addClickEventToButtons();
+	buttons.initialize();
+	setMiscElementTitles();
 	addEventsToDropZone();
 }
 
@@ -224,7 +301,7 @@ function finishLoad() {
 	enableOrDisableButtons();
 }
 
-/**
+/** -------------------------------------------------------------------------------------------
  * Changes the checkboxes of all snippets in [Current Snippets] to be 'checked'.
  */
 function checkAllCheckboxes() {
@@ -254,7 +331,7 @@ function uncheckAllCheckboxes() {
 	});
 }
 
-/**
+/** -------------------------------------------------------------------------------------------
  * Inverts the checkboxes of all snippets in [Current Snippets], 
  * i.e, changes currrently 'checked' to 'unchecked' and vice versa.
  */
@@ -268,7 +345,7 @@ function invertAllCheckboxes() {
 	});
 }
 
-/**
+/** -------------------------------------------------------------------------------------------
  * Removes all checkmarked snippets from [Current Snippets].
  */
 async function removeSnippets() {
@@ -452,7 +529,7 @@ function updateCurrentSnippetsHeader() {
 	const snip_cnt = _docx.getElementById("snip_cnt");
 	snip_cnt.innerHTML = `${state.scriptSnippets.length}`;
 	const snip_mode = _docx.getElementById("snip_mode");
-	snip_mode.innerHTML = `${(isDevToolsOfDevTools) ? "" : (isLocalHost) ? "(Read-Only)" : "(Examples)"}`
+	snip_mode.innerHTML = `${(isDevToolsOfDevTools) ? "" : (isLocalHost) ? "(Read-Only)" : "(Examples)"}`;
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -482,6 +559,7 @@ function addCurrentSnippet(name, content) {
 		addChangeEventToNewSnippetCheckbox();
 		addMouseEventsToNewSnippetCheckbox();
 		updateCurrentSnippetsHeader();
+		enableOrDisableButtons();
 		count.added++;
 		count.total++;
 	}
@@ -505,7 +583,6 @@ function createSnippet(name, content) {
  * Saves the selected snippets from [Current Snippets] to DevTools.
  */
 async function saveSelectedSnippetsToDevTools(snippetArray) {
-
 	let snippets = serialize(snippetArray);
 	let lastIdentifier = serialize(`${snippetArray.length}`);
 	// console.log("\"script-snippets\":", snippets);
@@ -518,8 +595,8 @@ async function saveSelectedSnippetsToDevTools(snippetArray) {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Returns a promise with an ordered array of all the snippets in DevTools, (or optionally just
- * the single snippet having the specified name).
+ * Returns a promise containing an ordered array of all the snippets in DevTools, (or optionally 
+ * just the single snippet having the specified name).
  *
  * @param {string} snippetName The name of a single snippet to find.
  */
@@ -593,15 +670,23 @@ function addOrRemoveCustomCheckmark(event) {
 }
 
 /** -------------------------------------------------------------------------------------------
-* Enables or disables buttons based on whether there are any checkboxes in [Current Snippets]
-* containing a checkmark.
+* Enables or disables buttons based on several conditions: 
+* 1) whether there are any snippets in [Current Snippets]. 
+* 2) whether there are any checkboxes in [Current Snippets] containing a checkmark.
+* 3) whether this window was opened from a 'DevTools of DevTools' window.
 */
 function enableOrDisableButtons() {
 	let isNoneChecked = getCheckedSnippetCount() === 0;
-	_docx.getElementById("snip_remove_btn").disabled = isNoneChecked;
-	_docx.getElementById("snip_save_btn").disabled = isNoneChecked || !isDevToolsOfDevTools;
-	_docx.getElementById("snip_downloadSingleJson_btn").disabled = isNoneChecked;
-	_docx.getElementById("snip_downloadMultipleJs_btn").disabled = isNoneChecked;
+	let noSnippets = state.scriptSnippets.length === 0;
+	buttons.Checkall.disabled = noSnippets;
+	buttons.Uncheckall.disabled = noSnippets;
+	buttons.Invert.disabled = noSnippets;
+	buttons.Remove.disabled = isNoneChecked;
+	buttons.Sort.disabled = noSnippets;
+	buttons.Reload.disabled = false;
+	buttons.Save.disabled = isNoneChecked || !isDevToolsOfDevTools;
+	buttons.DownloadSingleJson.disabled = isNoneChecked;
+	buttons.DownloadMultipleJs.disabled = isNoneChecked;
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -660,63 +745,33 @@ function processMouseEnter(event) {
 }
 
 /** -------------------------------------------------------------------------------------------
-* Sets the title attribute of various elements in the UI.
+* Sets the 'title' attribute of miscellaneous elements in the UI.
 */
-function setElementTitles() {
-	function setTitle(elementId, text) {
-		_docx.getElementById(elementId).setAttribute("title", text);
-	}
-
-	setTitle("snip_checkall_btn", "Adds a checkmark to all the snippets in [Current Snippets].");
-	setTitle("snip_uncheckall_btn", "Removes the checkmark from all the snippets in [Current Snippets].");
-	setTitle("snip_invert_btn", "Inverts the checkmark of all the snippets in [Current Snippets]\n"
-		+ "(i.e., switches currently 'checked' with 'unchecked').");
-
-	setTitle("snip_sort_btn", "Sorts all the snippets in [Current Snippets] in case-insensitive ascending order.");
-	setTitle("snip_reload_btn", "Reloads [Current Snippets] with the snippets from DevTools.");
-	setTitle("snip_remove_btn", "Removes the selected items from [Current Snippets].");
-
-	let save_msg = `Saves the selected items in [Current Snippets] to 'DevTools'.\n`
-		+ `*******\n`;
-	save_msg += isDevToolsOfDevTools
-		? `Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n`
-		+ `[Current Snippets], you will be prompted to confirm this action prior to it being performed.`
-		: `Note: This action can only be performed when this window is opened in 'DevTools' of 'DevTools'.\n`
-		+ `(Close this window; Press CTRL+SHIFT+I; Run the "${state.thisSnippetName}" snippet again… )`;
-	setTitle("snip_save_btn", save_msg);
-
-	setTitle("snip_downloadSingleJson_btn", "Downloads the selected items in [Current Snippets] as a single unified '.json' file.");
-	setTitle("snip_downloadMultipleJs_btn", "Downloads the selected items in [Current Snippets] as multiple '.js' files.");
-
-	setTitle("snip_dotest_btn", "Runs a pre-defined unit test.");
-
+function setMiscElementTitles() {
 	setTitle("add_or_replace_it", "Indicates what should happen when adding a snippet which already exists in [Current Snippets].");
 	setTitle("add_it_radio", `When hilighted, the snippet will be 'ADDED' to [Current Snippets]\n`
 		+ `as a new snippet with '_copy' appended to its name.`);
 	setTitle("replace_it_radio", "When hilighted, the snippet will 'REPLACE' the existing snippet in [Current Snippets].");
-
 	setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
-
 	setTitle("snip_header",
 		`Initially shows a list of all snippets saved in 'DevTools', i.e., when this\n`
 		+ `snippet is run from 'DevTools' of 'DevTools' by pressing Ctrl+Shft+I,\n`
 		+ `or when run in 'DevTools' opened from a web page served up from 'NodeJS'.\n`
 		+ `In all other cases, this list is shown using auto-generated "example" snippets.\n`
-		+ `*******\n`
+		+ HZLN
 		+ `Subsequent snippets added, replaced, or removed during the current session will\n`
 		+ `also be reflected in this list.\n`
-		+ `*******\n`
+		+ HZLN
 		+ `Click anywhere on a row in this list to select or deselect the snippet;\n`
 		+ `Hold down the SHIFT key while dragging to select multiple snippets;\n`
 		+ `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`);
-
 	setTitle("modal_close_btn", `Click to close this dialog.\n`
 		+ `(Note: when this button is 'red', you can also \n`
 		+ `click anywhere outside the dialog to close it.)`);
-
-	setTitle("snip_loadbgrins_btn", `Adds snippets from the following repository:\n   "${URL_BGRINS}"\nto [Current Snippets].`);
-	setTitle("snip_loadbahmutov_btn", `Adds snippets from the following repository:\n   "${URL_BAHMUTOV}"\nto [Current Snippets].`);
-}
+		function setTitle(elementId, text) {
+			_docx.getElementById(elementId).setAttribute("title", text);
+		}
+	}
 
 // Drag/Drop zone related stuff ---------------------------------------------------------------
 
@@ -821,9 +876,13 @@ function fileLoaded(event) {
 	}
 }
 
+/** -------------------------------------------------------------------------------------------
+ * Called at the end of file loading.
+ */
 function fileLoadedEnd() {
 	if (++count.filesProcessed >= count.filesToProcess) {
 		updateCurrentSnippetsHeader();
+		enableOrDisableButtons();
 		showRollup();
 	}
 }
@@ -925,50 +984,6 @@ function addMouseEventsToNewSnippetCheckbox() {
 	snipRow.addEventListener("mousedown", processMouseDown);
 	snipRow.addEventListener("mouseenter", processMouseEnter);
 }
-
-/** -------------------------------------------------------------------------------------------
- * Adds a 'click' event listener to buttons in the UI.
- */
-function addClickEventToButtons() {
-	addEventToElement("snip_loadbgrins_btn").on("click", loadSnippetsFromBgrins);
-	addEventToElement("snip_loadbahmutov_btn").on("click", loadSnippetsFromBahmutov);
-	addEventToElement("snip_dotest_btn").on("click", doTest);
-	addEventToElement("snip_checkall_btn").on("click", checkAllCheckboxes);
-	addEventToElement("snip_uncheckall_btn").on("click", uncheckAllCheckboxes);
-	addEventToElement("snip_invert_btn").on("click", invertAllCheckboxes);
-	addEventToElement("snip_sort_btn").on("click", sortCurrentSnippets);
-	addEventToElement("snip_reload_btn").on("click", loadCurrentSnippets);
-	addEventToElement("snip_remove_btn").on("click", removeSnippets);
-	addEventToElement("snip_save_btn").on("click", saveSnippets);
-	addEventToElement("snip_downloadSingleJson_btn").on("click", downloadSingleJsonFile);
-	addEventToElement("snip_downloadMultipleJs_btn").on("click", downloadMultipleJsFiles);
-}
-
-/** -------------------------------------------------------------------------------------------
- * Attaches an event defined by its 'name' and  a callback 'function' to an element having the 
- * specified id.
- *
- * @param {string} id The element identifier.
- * @returns The element having the specified id.
- */
-function addEventToElement(id) {
-	const element = _docx.getElementById(id);
-	element.on = function on(eventName, fn) {
-		this.addEventListener(eventName, fn);
-		return this;
-	}
-	return element;
-}
-
-/** -------------------------------------------------------------------------------------------
- * Adds an event listener for closing the _app_window when its ancestor closes.
-*/
-// window.parent.addEventListener('unload', function () {
-//     if (_app_window && !_app_window.closed) {
-//         console.log(`Closing '${WIN_TITLE}' window…`);
-//         _app_window.close();
-//     }
-// });
 
 // Utility methods ----------------------------------------------------------------------------
 
@@ -1192,7 +1207,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 
 		// Use 'OK' button as default when none is specified.
 		if (!buttons)
-			buttons = ["OK"];	 
+			buttons = ["OK"];
 
 		// A button name with an asterisk ('*') appended to it is the 'default' button;
 		// If no asterisk, the first button in the 'buttons' array is the 'default' button.
@@ -1225,7 +1240,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		modal_dialog.style.display = "block";
 		modal_dialog.style.top = "150px";
 		modal_dialog.style.left = "200px";
-		
+
 		if (default_button)
 			default_button.focus();
 
@@ -1366,7 +1381,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 			};
 		}
 
-		function performCleanup(){
+		function performCleanup() {
 			removeButtons();
 			clearTimeout(modalIntervalId);
 			modal_background.style.display = "none";

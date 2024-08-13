@@ -143,6 +143,10 @@ function setToolTips() {
 		content: "Gets the <b>version</b> of each module referenced in the <i>Test Server's</i> package.json file."
 			+ "<p class='small'>[Uses: '/test/version' route].</p>"
 	});
+	$("#getPing").tooltip({
+		content: "Pings the server and returns \"{success}\" or \"Fetch request timed out.\"."
+			+ "<p class='small'>[Uses: '/test/ping' route].</p>"
+	});
 	$("#copySample").tooltip({ content: "Click to copy all the <b>'Sample'</b> text to the clipboard …" });
 	$("#sampleText").tooltip({ content: "Contains the base64string used for test purposes." });
 	$("#resizeGif").tooltip({
@@ -157,5 +161,5 @@ function setToolTips() {
 		content: "Click to copy <i>all</i> or just the <i>selected</i> <b>'Response'</b> text to the clipboard."
 			+ "<p class='small'>(Hold down the control key to&nbsp;<b>unescape</b>&nbsp;the copied text) …</p>"
 	});
-	$("#responseText").tooltip({ content: "Shows the response received from the <i>Test Server</i>." });
+	$("#responseText").tooltip({ content: "Shows the response text received from the <i>Test Server</i>." });
 }
