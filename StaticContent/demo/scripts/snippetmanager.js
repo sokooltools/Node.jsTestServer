@@ -34,18 +34,20 @@ const state = {
 };
 
 /** -------------------------------------------------------------------------------------------
-* Returns an indication as to whether this window was opened from 'DevTools' of 'DevTools'.
+* Provides an indication as to whether this window was opened from 'DevTools' of 'DevTools'.
 */
 const isDevToolsOfDevTools = location.origin.startsWith("devtools://devtools");
 
 /** -------------------------------------------------------------------------------------------
-* Returns an indication as to whether this window was opened from a webpage connected to LocalHost.
+* Provides an indication as to whether this window was opened from a webpage connected to LocalHost.
 */
 const isLocalHost = location.hostname === "localhost";
 
 const HZLN = `${"-".repeat(65)}\n`;
 const DEVTOOLS = `<i>DevTools</i>`;
+const CS = "[Current Snippets]";
 const CURRENT_SNIPPETS = `<span class='bracket left'>[</span><span class='current_snippets'>Current Snippets</span><span class='bracket right'>]</span>`;
+const DEFAULT_ROOT = "http://localhost:3000";
 
 const HTML_FILENAME = `snippetmanager.htm`;
 const WIN_TITLE = `DevTools Snippet Manager`;
@@ -63,15 +65,15 @@ const CONFIRM_DOWNLOAD = `<p>Ok to download <cnt>{0}</cnt> of <cnt>{1}</cnt> sni
 <p>(Note:&nbsp;To circumvent multiple security confirmations, the files will be downloaded with a "<i>.txt</i>"
 extension instead of a "<i>.js</i>" extension).</p>`;
 
-const SAVE_TITLE = `Saves the selected items in [Current Snippets] to 'DevTools'.\n`
-			+ HZLN +  (isDevToolsOfDevTools 
-				? `Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n`
-				+ `[Current Snippets], you will be prompted to confirm this action prior to it actually being performed.`
-				: `Note: This action can only be performed when "${state.thisSnippetDesc}" is opened in 'DevTools' of 'DevTools'.\n`
-				+ `Try the following 3 steps:\n`
-				+ `	Close this window.\n`
-				+ `	Press CTRL+SHIFT+I.\n`
-				+ `	Run this "${state.thisSnippetDesc}" snippet again.`);
+const SAVE_TITLE = `Saves the selected items in ${CS} to 'DevTools'.\n`
+	+ HZLN + (isDevToolsOfDevTools
+		? `Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n`
+		+ `${CS}, you will be prompted to confirm this action prior to it actually being performed.`
+		: `Note: This action can only be performed when "${state.thisSnippetDesc}" is opened in 'DevTools' of 'DevTools'.\n`
+		+ `Try the following 3 steps:\n`
+		+ `	Close this window.\n`
+		+ `	Press CTRL+SHIFT+I.\n`
+		+ `	Run this "${state.thisSnippetDesc}" snippet again.`);
 
 const SAVE_TOKEN_MSG1 = `<p>Note: the currently running snippet (i.e., "{0}"),
 will always be saved in ${DEVTOOLS} even when it has not been selected in ${CURRENT_SNIPPETS}.</p>`;
@@ -86,67 +88,67 @@ const DialogButton = Object.freeze({
 });
 
 let buttons = new class Buttons {
-	Reload;
-	Remove;
-	Save;
-	DownloadSingleJson;
-	DownloadMultipleJs;
 	Checkall;
 	Uncheckall;
 	Invert;
+	Remove;
 	Sort;
+	Reload;
+	Save;
+	DownloadSingleJson;
+	DownloadMultipleJs;
 	LoadBgrins;
 	LoadBalmutov;
 	DoTest;
 	initialize() {
 		this.Checkall = _docx.getElementById("snip_checkall_btn");
 		this.Checkall.addEventListener("click", checkAllCheckboxes);
-		this.Checkall.setAttribute("title", "Adds a checkmark to all the snippets in [Current Snippets].");
+		this.Checkall.setAttribute("title", `Adds a checkmark to all the snippets in ${CS}.`);
 
 		this.Uncheckall = _docx.getElementById("snip_uncheckall_btn");
 		this.Uncheckall.addEventListener("click", uncheckAllCheckboxes);
-		this.Uncheckall.setAttribute("title", "Removes the checkmark from all the snippets in [Current Snippets]." );
+		this.Uncheckall.setAttribute("title", `Removes the checkmark from all the snippets in ${CS}.`);
 
 		this.Invert = _docx.getElementById("snip_invert_btn");
 		this.Invert.addEventListener("click", invertAllCheckboxes);
-		this.Invert.setAttribute("title", "Inverts the checkmark of all the snippets in [Current Snippets]\n"
-			+ "(i.e., switches currently 'checked' with 'unchecked' and vice versa)." );
+		this.Invert.setAttribute("title", `Inverts the checkmark of all the snippets in ${CS}\n`
+			+ "(i.e., switches currently 'checked' with 'unchecked' and vice versa).");
 
 		this.Remove = _docx.getElementById("snip_remove_btn");
 		this.Remove.addEventListener("click", removeSnippets);
-		this.Remove.setAttribute("title", "Removes the selected items from [Current Snippets]." );
+		this.Remove.setAttribute("title", `Removes the selected items from ${CS}.`);
 
 		this.Sort = _docx.getElementById("snip_sort_btn");
 		this.Sort.addEventListener("click", sortCurrentSnippets);
-		this.Sort.setAttribute("title", "Sorts all the snippets in [Current Snippets] in case-insensitive ascending order." );
+		this.Sort.setAttribute("title", `Sorts all the snippets in ${CS} in case-insensitive ascending order.`);
 
 		this.Reload = _docx.getElementById("snip_reload_btn");
 		this.Reload.addEventListener("click", loadCurrentSnippets);
-		this.Reload.setAttribute("title", "Reloads [Current Snippets] with the snippets from DevTools." );
+		this.Reload.setAttribute("title", `Reloads ${CS} with the snippets from DevTools.`);
 
 		this.Save = _docx.getElementById("snip_save_btn");
 		this.Save.addEventListener("click", saveSnippets);
-		this.Save.setAttribute("title", SAVE_TITLE );
+		this.Save.setAttribute("title", SAVE_TITLE);
 
 		this.DownloadSingleJson = _docx.getElementById("snip_downloadSingleJson_btn");
 		this.DownloadSingleJson.addEventListener("click", downloadSingleJsonFile);
-		this.DownloadSingleJson.setAttribute("title", "Downloads the selected items in [Current Snippets] as a single unified '.json' file." );
+		this.DownloadSingleJson.setAttribute("title", `Downloads the selected items in ${CS} as a single unified '.json' file.`);
 
 		this.DownloadMultipleJs = _docx.getElementById("snip_downloadMultipleJs_btn");
 		this.DownloadMultipleJs.addEventListener("click", downloadMultipleJsFiles);
-		this.DownloadMultipleJs.setAttribute("title", "Downloads the selected items in [Current Snippets] as multiple '.js' files." );
+		this.DownloadMultipleJs.setAttribute("title", `Downloads the selected items in ${CS} as multiple '.js' files.`);
 
 		this.LoadBgrins = _docx.getElementById("snip_loadbgrins_btn");
 		this.LoadBgrins.addEventListener("click", loadSnippetsFromBgrins);
-		this.LoadBgrins.setAttribute("title", `Adds snippets to [Current Snippets] from the following repository:\n..."${URL_BGRINS}"` );
+		this.LoadBgrins.setAttribute("title", `Adds snippets to ${CS} from the following repository:\n..."${URL_BGRINS}"`);
 
 		this.LoadBalmutov = _docx.getElementById("snip_loadbahmutov_btn");
 		this.LoadBalmutov.addEventListener("click", loadSnippetsFromBahmutov);
-		this.LoadBalmutov.setAttribute("title", `Adds snippets to [Current Snippets] from the following repository:\n..."${URL_BAHMUTOV}"` );
+		this.LoadBalmutov.setAttribute("title", `Adds snippets to ${CS} from the following repository:\n..."${URL_BAHMUTOV}"`);
 
 		this.DoTest = _docx.getElementById("snip_dotest_btn");
 		this.DoTest.addEventListener("click", doTest);
-		this.DoTest.setAttribute("title", "Runs a pre-defined unit test." );
+		this.DoTest.setAttribute("title", `Runs a pre-defined unit test.`);
 	}
 }
 
@@ -159,13 +161,13 @@ function doTest() {
 async function doTest1() {
 	console.clear();
 	console.log("Test started...");
-	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckedSnippetCount(), state.scriptSnippets.length), ["OK*", "Cancel"], false);
+	let result = await showMsg(CONFIRM_DOWNLOAD.format(getCheckmarkedSnippetCount(), state.scriptSnippets.length), ["OK*", "Cancel"], false);
 	console.log(result);
 	if (result === "OK") {
 		result = await showMsg(SAVE_SUCCESS, ["OK", "Cancel", "Other…*"], false, 10);
 		console.log(result);
 		if (result === "Other…")
-			result = await showMsg("You picked the <i>'Other…'</i> button in the previous dialog.");
+			result = await showMsg("You chose button: <i>'Other…'</i> in the preceding dialog.");
 		if (result === "OK") {
 			result = await showMsg(SAVE_TOKEN_MSG1.format(state.thisSnippet.name), ["OK"]);
 			console.log(result);
@@ -195,7 +197,6 @@ function openAppWindow() {
 	let winLft = (window.screen.width - winWth) / 2;
 	let winTop = (window.screen.height - winHgt) / 2;
 	const windowFeatures = `popup, menubar=0, left=${winLft}, top=${winTop}, width=${winWth}, height=${winHgt}`;
-	//console.log(`${windowFeatures}, deltaW=${deltaW}, deltaH=${deltaH}`);
 	_app_window = window.open("", "", windowFeatures);
 	_app_window.addEventListener('beforeunload', () => {
 		console.log(`[openAppWindow] Closing '${WIN_TITLE}' window…`);
@@ -248,19 +249,22 @@ function initializePage() {
  * Sorts the [Current Snippets] in ascending order by its (case-insensitive) name.
  */
 function sortCurrentSnippets() {
+	// Hold onto the checkmarked snippets so they can be re-checkmarked following the sort.
+	let checkedSnippets = getCheckmarkedSnippets();
 	state.scriptSnippets = sortSnippets(state.scriptSnippets);
 	finishLoad();
+	setCheckmarkedSnippets(checkedSnippets)
 }
 
 /** -------------------------------------------------------------------------------------------
- * Loads or reloads the snippets from DevTools into [Current Snippets] when this code
- * is being run from DevTools of DevTools. In all other cases it loads or reloads an example set
- * of sequentially numbered snippets (e.g. 'example_snippet1', 'example_snippet2', etc.) to
+ * Loads or reloads the snippets from DevTools into [Current Snippets] when this code is being 
+ * run from DevTools of DevTools. In all other cases it loads or reloads an example set of 
+ * sequentially numbered snippets (e.g. 'example_snippet1', 'example_snippet2', etc.) to
  * [Current Snippets].
 */
 function loadCurrentSnippets() {
 	if (isDevToolsOfDevTools) {
-		console.log("Loading [Current Snippet] from DevTools…")
+		console.log(`Loading ${CS} directly from DevTools…`)
 		getSnippetsFromDevTools().then((snips) => {
 			state.scriptSnippets = snips;
 			getLastIdentifierFromDevTools().then((id) => {
@@ -269,7 +273,7 @@ function loadCurrentSnippets() {
 			});
 		});
 	} else if (isLocalHost) {
-		console.log("Loading [Current Snippet] from DevTools (using local NodeJS)…")
+		console.log(`Loading ${CS} from DevTools… (via NodeJS)`)
 		doGet("/test/snippets", (snips) => {
 			if (typeof snips === "object") {
 				state.scriptSnippets = snips;
@@ -280,7 +284,7 @@ function loadCurrentSnippets() {
 			finishLoad();
 		}, 1000);
 	} else {
-		console.log("Loading [Current Snippet] with samples…")
+		console.log(`Loading ${CS} with samples…`)
 		state.scriptSnippets = [];
 		for (let index = 0; index < 30; index++) {
 			state.scriptSnippets.push(createSnippet(`example_snippet${index}`, `snippet${index} content`));
@@ -316,7 +320,7 @@ function checkAllCheckboxes() {
 	});
 }
 
-/**
+/** -------------------------------------------------------------------------------------------
  * Changes the checkboxes of all snippets in [Current Snippets] to be 'unchecked'.
  */
 function uncheckAllCheckboxes() {
@@ -332,8 +336,8 @@ function uncheckAllCheckboxes() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Inverts the checkboxes of all snippets in [Current Snippets], 
- * i.e, changes currrently 'checked' to 'unchecked' and vice versa.
+ * Inverts the checkboxes of all snippets in [Current Snippets], i.e, changes currrently 
+ * 'checked' to 'unchecked' and vice versa.
  */
 function invertAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
@@ -349,7 +353,7 @@ function invertAllCheckboxes() {
  * Removes all checkmarked snippets from [Current Snippets].
  */
 async function removeSnippets() {
-	let cnt = getCheckedSnippets().length;
+	let cnt = getCheckmarkedSnippets().length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format("<i>Remove</i> snippets"), ["OK"], true, 15);
 		return;
@@ -367,11 +371,12 @@ async function removeSnippets() {
 }
 
 /** -------------------------------------------------------------------------------------------
-* Saves the snippets defined in the 'state' object to Devtools following user confirmation.
+* Saves all the checkmarked snippets in [Current Snippets] to 'Devtools' following user 
+* confirmation.
 */
 async function saveSnippets() {
 	let total = state.scriptSnippets.length;
-	let checkedSnippets = getCheckedSnippets();
+	let checkedSnippets = getCheckmarkedSnippets();
 	let cnt = checkedSnippets.length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format(`<i>Save</i> snippets to ${DEVTOOLS}`), ["OK"], true, 15);
@@ -390,17 +395,17 @@ async function saveSnippets() {
 		: `Save all <cnt>${total}</cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`;
 	let result = await showMsg(msg, ["Save", "Cancel"]);
 	if (result === "Save") {
-		saveSelectedSnippetsToDevTools(checkedSnippets);
+		saveCkeckmarkedSnippetsToDevTools(checkedSnippets);
 	}
 }
 
 /** -------------------------------------------------------------------------------------------
-* Downloads all the snippets into a single unified ".json" file as an array of snippets.
+* Downloads all the snippets as a single unified ".json" file containg an array of snippets.
 * The information for each file comes from the state.scriptSnippets object and the file
-* is downloaded to the user's "Downloads" folder.
+* is downloaded to the user's default "Downloads" folder.
 */
 async function downloadSingleJsonFile() {
-	let snippets = getCheckedSnippets();
+	let snippets = getCheckmarkedSnippets();
 	let cnt = snippets.length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format("'Download' a single '.json' file"), ["OK"]);
@@ -412,16 +417,16 @@ async function downloadSingleJsonFile() {
 		"script-snippets": snippets
 	}, ["script-snippets", "name", "content"], 2);
 	download(json_data, fname);
-	console.log(`Downloaded file "${fname}" containing ${cnt} of ${total} items in [Current Snippets].`);
+	console.log(`Downloaded file "${fname}" containing ${cnt} of ${total} items in ${CS}.`);
 }
 
 /** -------------------------------------------------------------------------------------------
  * Downloads all the snippets as individual ".js" files.
  * The information for each downloaded file is defined in the 'state' object and all the files
- * are downloaded to the user's "Downloads" folder.
+ * are downloaded to the user's default "Downloads" folder.
  */
 async function downloadMultipleJsFiles() {
-	let snippets = getCheckedSnippets();
+	let snippets = getCheckmarkedSnippets();
 	let cnt = snippets.length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format("'Download' multiple '.js' files"), ["OK"]);
@@ -445,7 +450,7 @@ async function downloadMultipleJsFiles() {
  * Returns an indication whether a snippet with the specified name exists in the
  * state.scriptSnippets array.
  *
- * @param {any} snippetName The name of the snippet to search for.
+ * @param {any} snippetName The name of the snippet to find.
  * @returns true if a snippet with the specified name exists in the array; otherwise false.
  */
 function snippetExists(snippetName) {
@@ -453,6 +458,14 @@ function snippetExists(snippetName) {
 	return (result) ? result.length > 0 : false;
 }
 
+/** -------------------------------------------------------------------------------------------
+ * Returns the index in the state.scriptSnippets array containing the snippet with the specified
+ * name; Returns -1 when the specified name is not found in the array. 
+ *
+ * @param {any} snippetName The name of the snippet to find.
+ * @returns The index in the state.scriptSnippets array containing the snippet with the 
+ * specified name; otherwise -1.
+ */
 function findSnippetIndex(snippetName) {
 	let index = state.scriptSnippets.findIndex(s => s.name === snippetName);
 	return index;
@@ -525,6 +538,9 @@ function renderCurrentSnippets(newSnippet) {
 	}
 }
 
+/** -------------------------------------------------------------------------------------------
+ * Updates the header of [Current Snippets] to show the number of snippets
+ */
 function updateCurrentSnippetsHeader() {
 	const snip_cnt = _docx.getElementById("snip_cnt");
 	snip_cnt.innerHTML = `${state.scriptSnippets.length}`;
@@ -533,9 +549,9 @@ function updateCurrentSnippetsHeader() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Adds the specified snippet to the state.scriptSnippets array as long as it does not exist;
- * otherwise it replaces the contents of the existing snippet or adds the snippet with "_copy"
- * appended (depending on the radio button setting in the UI).
+ * Adds the specified snippet to the state.scriptSnippets array if it does not already exist;
+ * otherwise it either replaces the contents of the existing snippet or adds the snippet with 
+ * "_copy" appended (depending on the radio button setting in the UI).
  *
  * @param {string} name The name of the snippet.
  * @param {string} content The content of the snippet.
@@ -580,9 +596,9 @@ function createSnippet(name, content) {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Saves the selected snippets from [Current Snippets] to DevTools.
+ * Saves the checkmarked snippets in [Current Snippets] to DevTools.
  */
-async function saveSelectedSnippetsToDevTools(snippetArray) {
+async function saveCkeckmarkedSnippetsToDevTools(snippetArray) {
 	let snippets = serialize(snippetArray);
 	let lastIdentifier = serialize(`${snippetArray.length}`);
 	// console.log("\"script-snippets\":", snippets);
@@ -658,6 +674,12 @@ function preserveThisSnippet() {
 
 // Snippet List  //////////////////////////////////////////////////////////////////
 
+/** -------------------------------------------------------------------------------------------
+ * Adds or removes the checkmark from the custom checkbox by adding an "active" class or 
+ * removing the "active" class from it.
+ * 
+ * @param {any} event The event whose target's parent is the custom checkbox
+ */
 function addOrRemoveCustomCheckmark(event) {
 	const checkbox = event.target;
 	const customCheckboxBox = checkbox.parentElement.querySelector(".snip_custom_box");
@@ -676,7 +698,7 @@ function addOrRemoveCustomCheckmark(event) {
 * 3) whether this window was opened from a 'DevTools of DevTools' window.
 */
 function enableOrDisableButtons() {
-	let isNoneChecked = getCheckedSnippetCount() === 0;
+	let isNoneChecked = getCheckmarkedSnippetCount() === 0;
 	let noSnippets = state.scriptSnippets.length === 0;
 	buttons.Checkall.disabled = noSnippets;
 	buttons.Uncheckall.disabled = noSnippets;
@@ -692,7 +714,7 @@ function enableOrDisableButtons() {
 /** -------------------------------------------------------------------------------------------
 * Gets an array of all the snippet ojects in [Current Snippets] containing a checkmark.
 */
-function getCheckedSnippets() {
+function getCheckmarkedSnippets() {
 	let snippets = [];
 	const checkedboxes = _docx.querySelectorAll(".snip_row input");
 	checkedboxes.forEach((checkbox, index) => {
@@ -702,12 +724,29 @@ function getCheckedSnippets() {
 	return snippets;
 }
 
+function setCheckmarkedSnippets(checkedSnippets) {
+	let index;
+	const checkedboxes = _docx.querySelectorAll(".snip_row input");
+	checkedSnippets.forEach((snippet) => {
+		index = findSnippetIndex(snippet.name);
+		if (index) {
+			let checkbox = checkedboxes[index];
+			checkbox.checked = true;
+			addOrRemoveCustomCheckmark({
+				target: checkbox
+			});
+		}
+	});
+}
+
+// The following 4 function handlers are used in conjunction with the [Current Snippets] list.
+
 /** -------------------------------------------------------------------------------------------
- * Gets the number of [Current Snippets] containing a checkmark.
+ * Gets the number of snippets in [Current Snippets] containing a checkmark.
  *
  * @returns The number of [Current Snippets] containing a checkmark.
  */
-function getCheckedSnippetCount() {
+function getCheckmarkedSnippetCount() {
 	const checkedboxes = _docx.querySelectorAll(".snip_row input:checked");
 	return (checkedboxes) ? checkedboxes.length : 0;
 }
@@ -745,13 +784,13 @@ function processMouseEnter(event) {
 }
 
 /** -------------------------------------------------------------------------------------------
-* Sets the 'title' attribute of miscellaneous elements in the UI.
+* Sets the 'title' attribute of several miscellaneous elements in the UI.
 */
 function setMiscElementTitles() {
-	setTitle("add_or_replace_it", "Indicates what should happen when adding a snippet which already exists in [Current Snippets].");
-	setTitle("add_it_radio", `When hilighted, the snippet will be 'ADDED' to [Current Snippets]\n`
+	setTitle("add_or_replace_it", `Indicates what should happen when adding a snippet which already exists in ${CS}.`);
+	setTitle("add_it_radio", `When hilighted, the snippet will be 'ADDED' to ${CS}\n`
 		+ `as a new snippet with '_copy' appended to its name.`);
-	setTitle("replace_it_radio", "When hilighted, the snippet will 'REPLACE' the existing snippet in [Current Snippets].");
+	setTitle("replace_it_radio", `When hilighted, the snippet will 'REPLACE' the existing snippet in ${CS}.`);
 	setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
 	setTitle("snip_header",
 		`Initially shows a list of all snippets saved in 'DevTools', i.e., when this\n`
@@ -768,12 +807,10 @@ function setMiscElementTitles() {
 	setTitle("modal_close_btn", `Click to close this dialog.\n`
 		+ `(Note: when this button is 'red', you can also \n`
 		+ `click anywhere outside the dialog to close it.)`);
-		function setTitle(elementId, text) {
-			_docx.getElementById(elementId).setAttribute("title", text);
-		}
+	function setTitle(elementId, text) {
+		_docx.getElementById(elementId).setAttribute("title", text);
 	}
-
-// Drag/Drop zone related stuff ---------------------------------------------------------------
+}
 
 /** -------------------------------------------------------------------------------------------
  * Shows a rollup message containing the overall count of snippets added and/or snippets
@@ -887,10 +924,11 @@ function fileLoadedEnd() {
 	}
 }
 
+// Drag/Drop zone related stuff ---------------------------------------------------------------
+
 /** -------------------------------------------------------------------------------------------
  * Adds multiple events ('change', 'click', 'drag', 'drop', etc.) to the elements composing a
  * drop zone.
- *
  */
 function addEventsToDropZone() {
 	// Loads all events used by the drop zone input class.
@@ -976,7 +1014,7 @@ function addMouseEventsToAllSnippetCheckboxes() {
 
 /** -------------------------------------------------------------------------------------------
  * Adds a 'MouseDown' and a 'MouseEnter' event listener to the checkbox of a new snippet (i.e.,
- * the 'last' snippet) added to [Current Snippets].
+ * snippet appended to [Current Snippets]).
  */
 function addMouseEventsToNewSnippetCheckbox() {
 	const snipRows = _docx.querySelectorAll(".snip_row");
@@ -1011,7 +1049,6 @@ function xhrGetRequest(url, callback) {
 	var xhr = new XMLHttpRequest();
 	xhr.open('GET', url, false);
 	xhr.onload = callback;
-
 	xhr.onerror = (err) => {
 		console.error(xhr.statusText);
 	};
@@ -1048,16 +1085,16 @@ function deserialize(text) {
  * Downloads a text file containing the specified data and with the specified name to the
  * user's 'Downloads' folder.
  *
- * @param {string} data The data contained in the file.
- * @param {string} name The name to give the downloaded file.
+ * @param {string} data The data to write to the file.
+ * @param {string} filename The name to give the file.
  */
-function download(data, name) {
+function download(data, filename) {
 	const blob = new window.Blob([data], {
 		'type': 'text/utf-8'
 	})
 	const link = _docx.createElement('a');
 	link.href = URL.createObjectURL(blob);
-	link.download = name;
+	link.download = filename;
 	link.setAttribute('target', '_blank')
 	link.click();
 	URL.revokeObjectURL(link.href);
@@ -1129,7 +1166,6 @@ if (!Array.prototype.contains) {
  * @param {number} msTimeout The timeout in milliseconds before request aborts (Default is 5000).
 */
 function doGet(route, callback, msTimeout) {
-	const DEFAULT_ROOT = "http://localhost:3000";
 	// Create a new AbortController instance.
 	const controller = new AbortController();
 	const signal = controller.signal;
@@ -1180,16 +1216,17 @@ function doGet(route, callback, msTimeout) {
  * dialog. 
  * Note: 
  * An asterisk appended to the name of the button indicates it is the default button.
- * @param {bool} clickOutsideToCancel Clicking outside this dialog will close it when true is 
- * specified.
- * @param {number?} secsUntilAutoClose  When a value for this argument is specified, it 
- * indicates the number of seconds to wait until this dialog is automatically closed.
+ * @param {bool} clickOutsideToCancel Indicates clicking outside this dialog will close it
+ * when true otherwise false.
+ * @param {number?} secsUntilAutoClose  Indicates the number of seconds to wait until this 
+ * dialog is automatically closed.  
+ * 
  * @returns {Promise<string>} The dialog result ("OK", "Cancel", etc.).
  */
 async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClose) {
 	let result;
 	let modalIntervalId;
-	let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	let cpos1 = 0, cpos2 = 0, cpos3 = 0, cpos4 = 0;
 	return new Promise((resolve) => {
 
 		// Always make sure to reference the '_docx' object and not 'document'!
@@ -1336,6 +1373,9 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 			}
 		}
 
+		/** ------------------------------------------------------------------------------------ 
+		* Following 4 functions used for dragging the showMsg dialog.
+		*/
 		(function dragElement() {
 			modal_title_bar.onmousedown = dragMouseDown;
 		})();
@@ -1343,9 +1383,9 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		function dragMouseDown(e) {
 			e.preventDefault();
 			// Get the mouse cursor position at startup:
-			pos3 = e.clientX;
-			pos4 = e.clientY;
-			// Call a function whenever the cursor moves:
+			cpos3 = e.clientX;
+			cpos4 = e.clientY;
+			// Call function whenever the cursor moves:
 			_docx.onmousemove = elementDrag;
 			_docx.onmouseup = closeDragElement;
 		}
@@ -1353,13 +1393,13 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		function elementDrag(e) {
 			e.preventDefault();
 			// Calculate the new cursor position:
-			pos1 = pos3 - e.clientX;
-			pos2 = pos4 - e.clientY;
-			pos3 = e.clientX;
-			pos4 = e.clientY;
+			cpos1 = cpos3 - e.clientX;
+			cpos2 = cpos4 - e.clientY;
+			cpos3 = e.clientX;
+			cpos4 = e.clientY;
 			// Set the element's new position:
-			modal_dialog.style.left = (modal_dialog.offsetLeft - pos1) + "px";
-			modal_dialog.style.top = (modal_dialog.offsetTop - pos2) + "px";
+			modal_dialog.style.left = (modal_dialog.offsetLeft - cpos1) + "px";
+			modal_dialog.style.top = (modal_dialog.offsetTop - cpos2) + "px";
 		}
 
 		/** ------------------------------------------------------------------------------------
@@ -1381,9 +1421,9 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 			};
 		}
 
-		function performCleanup() {
-			removeButtons();
+		function cleanup() {
 			clearTimeout(modalIntervalId);
+			removeButtons();
 			modal_background.style.display = "none";
 			modal_dialog.style.display = "none";
 			_app_window.removeEventListener("click", app_window_click);
@@ -1398,8 +1438,8 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		 * @param {any} reslt The result.
 		 */
 		function doResolve(reslt) {
-			performCleanup();
 			result = reslt;
+			cleanup();
 			resolve();
 		}
 	}
