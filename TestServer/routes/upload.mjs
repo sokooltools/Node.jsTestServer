@@ -17,8 +17,8 @@ var router = Router();
 //}));
 //app.use(express.urlencoded({ extended: true }));
 
-import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 // Define upload route.
 router.post("/", function (req, res) {

@@ -24,7 +24,7 @@ var ABT = {
 	loadPage: function () {
 		$.ajax({
 			type: "GET",
-			url: "/services/network/aboutinfo?lang=" + CFG.getLanguage(),
+			url: `/services/network/aboutinfo?lang=${CFG.getLanguage()}`,
 			dataType: "xml",
 			async: false,
 			cache: false,
@@ -46,13 +46,13 @@ var ABT = {
 	// Loads data into page using the specified "AboutInfo" xml object.
 	// -------------------------------------------------------------------------------------------
 	loadPageFromXml: function (xml) {
-		var nodes = ["ModelNumber", "Memory", "Assemblies", "Download"];
-		for (var i in nodes) {
+		const nodes = ["ModelNumber", "Memory", "Assemblies", "Download"];
+		for (let i in nodes) {
 			if (nodes.hasOwnProperty(i)) {
-				var node = nodes[i];
-				var sel = $("#abt_txt" + node);
+				const node = nodes[i];
+				const sel = $(`#abt_txt${node}`);
 				if (!sel.length) {
-					$("#abt_" + node + "Data").before(this.getExpandElemHtml(node, $(xml).find(node).text()));
+					$(`#abt_${node}Data`).before(this.getExpandElemHtml(node, $(xml).find(node).text()));
 				}
 				switch (node) {
 					case "ModelNumber":
@@ -78,7 +78,7 @@ var ABT = {
 		CFG.setLabelsAndTitles(xml);
 
 		// Check cookie to see if a reboot has been requested by a license update.
-		var isReboot = CMN.getCookie(document, "reboot") === "true";
+		const isReboot = CMN.getCookie(document, "reboot") === "true";
 		if (isReboot) {
 			CMN.setCookie(document, "reboot", "false", null);
 			CFG.doReboot();
@@ -91,7 +91,7 @@ var ABT = {
 	loadPageData: function () {
 		$.ajax({
 			type: "GET",
-			url: "/services/network/aboutdata?lang=" + CFG.getLanguage(),
+			url: `/services/network/aboutdata?lang=${CFG.getLanguage()}`,
 			dataType: "json",
 			async: false,
 			cache: false,
@@ -131,7 +131,7 @@ var ABT = {
 	// Fixes a model number which is not extended by removing the last six characters.
 	// -------------------------------------------------------------------------------------------
 	trimModelNumber: function (modelNumber) {
-		if (modelNumber.length === 21 && modelNumber.substr(14, 1) != "X")
+		if (modelNumber.length === 21 && modelNumber.substr(14, 1) !== "X")
 			modelNumber = modelNumber.substr(0, 15);
 		return modelNumber;
 	},
@@ -141,9 +141,9 @@ var ABT = {
 	// -------------------------------------------------------------------------------------------
 	getExpandElemHtml: function (tag, value) {
 		var str = "<tr>";
-		str += "<td id=\"abt_lnk" + tag + "\" class=\"abt_lnkAll\" onclick=\"ABT.toggleTable('" + tag + "');\">";
-		str += "<a  id=\"abt_lbl" + tag + "\"></a></td>";
-		str += "<td id=\"abt_txt" + tag + "\" class=\"abt_cellData\">" + value + "</td>";
+		str += `<td id="abt_lnk${tag}" class="abt_lnkAll" onclick="ABT.toggleTable('${tag}');">`;
+		str += `<a  id="abt_lbl${tag}"></a></td>`;
+		str += `<td id="abt_txt${tag}" class="abt_cellData">${value}</td>`;
 		str += "</tr>";
 		return str;
 	},
@@ -159,15 +159,15 @@ var ABT = {
 		$(nodes).each(
 			function () {
 				str += "<tr>";
-				str += "<td id=\"abt_lbl" + $(this).attr("Id") + "\" class=\"abt_modRowHeader\"";
-				str += " title=\"" + CFG.getToolTip($(this)) + "\">";
+				str += `<td id="abt_lbl${$(this).attr("Id")}" class="abt_modRowHeader"`;
+				str += ` title="${CFG.getToolTip($(this))}">`;
 				str += $(this).attr("lbl");
 				str += "</td>";
 				str += "<td class=\"abt_modCellData\">";
 				str += $(this).text();
 				str += "</td>";
 				str += "</tr>";
-				if ($(this).attr("Id") == "RESERVED" && $(this).text() == "X")
+				if ($(this).attr("Id") === "RESERVED" && $(this).text() === "X")
 					isExtended = true;
 			});
 		if (isExtended) {
@@ -203,9 +203,9 @@ var ABT = {
 		str += `	<td class="abt_modRowH" colspan="2">Software Options</td>`;
 		str += `	<td class="abt_modRowH" colspan="2">Communication Options</td>`;
 		str += "</tr>";
-		var nodes = $(xml).find("ModelNumberItemsExt").children();
+		const nodes = $(xml).find("ModelNumberItemsExt").children();
 		for (var i = 0, len = 8; i < len; i++) {
-			var node = $(nodes)[i + 8];
+			let node = $(nodes)[i + 8];
 			str += "<tr>";
 			str += `<td class="abt_modCell1" title="${this.getToolTip(node)}">`;
 			str += node.getAttribute("lbl");
@@ -234,7 +234,7 @@ var ABT = {
 	// -------------------------------------------------------------------------------------------
 	getToolTip: function (node) {
 		if (!node) return "";
-		var title = node.getAttribute("ttp");
+		const title = node.getAttribute("ttp");
 		return title === "" ? node.getAttribute("lbl") : title;
 	},
 
@@ -246,9 +246,9 @@ var ABT = {
 		str += "<thead>";
 		str += "<tr class=\"abt_tr1\">";
 		var nodes = $(xml).find("AssembliesHeader");
-		str += "<th class=\"abt_th2\">" + nodes.attr("Id") + "</th>";
-		str += "<th class=\"abt_th3\">" + nodes.attr("Version") + "</th>";
-		str += "<th class=\"abt_th4\">" + nodes.attr("ModDate") + "</th>";
+		str += `<th class="abt_th2">${nodes.attr("Id")}</th>`;
+		str += `<th class="abt_th3">${nodes.attr("Version")}</th>`;
+		str += `<th class="abt_th4">${nodes.attr("ModDate")}</th>`;
 		str += "</tr>";
 		str += "</thead>";
 		str += "<tbody>";
@@ -279,12 +279,12 @@ var ABT = {
 		$(nodes).each(
 			function () {
 				str += "<tr>";
-				str += "<td id=\"abt_lblMemh" + $(this).attr("Id") + "\" class=\"abt_memRowHeader\"";
-				str += " title=\"" + CFG.getToolTip($(this)) + "\">";
+				str += `<td id="abt_lblMemh${$(this).attr("Id")}" class="abt_memRowHeader"`;
+				str += ` title="${CFG.getToolTip($(this))}">`;
 				str += $(this).attr("lbl");
 				str += "</td>";
-				str += "<td id=\"abt_lblMem" + $(this).attr("Id") + "\" class=\"abt_memCellData\">";
-				str += "" + CMN.numberWithCommas($(this).text());
+				str += `<td id="abt_lblMem${$(this).attr("Id")}" class="abt_memCellData">`;
+				str += `${CMN.numberWithCommas($(this).text())}`;
 				str += "</td>";
 				str += "</tr>";
 			});
@@ -301,13 +301,13 @@ var ABT = {
 		nodes = nodes.children();
 		$(nodes).each(
 			function () {
-				let fname = $(this).attr("Id").replace(/\\/g, "\\\\");
+				const fname = $(this).attr("Id").replace(/\\/g, "\\\\");
 				str += "<tr>";
 				str += "<td class=\"abt_lnkDownloadData abt_lnkAll\">";
 				//str += "<a onclick=\"this.download('" + $(this).attr("Id").replace(/\\/g, "\\\\") + "');\"";
-				str += "<a href=\"download?fn=" + fname + "\"";
-				str += " title=\"" + CFG.getToolTip($(this)) + "\">";
-				str += "" + $(this).attr("lbl");
+				str += `<a href="download?fn=${fname}"`;
+				str += ` title="${CFG.getToolTip($(this))}">`;
+				str += `${$(this).attr("lbl")}`;
 				str += "</a>";
 				str += "</td>";
 				str += "</tr>";
@@ -320,10 +320,10 @@ var ABT = {
 	// Toggles the display of a particular data table.
 	// -------------------------------------------------------------------------------------------
 	toggleTable: function (tag) {
-		var el = document.getElementById("abt_" + tag + "Data");
+		const el = document.getElementById(`abt_${tag}Data`);
 		if (!el)
 			return;
-		var sel = $("#abt_lnk" + tag);
+		const sel = $(`#abt_lnk${tag}`);
 		if (el.style.display === "none") {
 			sel[0].innerText = (sel[0].innerText.replace("+", "-"));
 			el.style.display = "block"; // ""
@@ -341,13 +341,13 @@ var ABT = {
 	// Collapses the display of all data tables.
 	// -------------------------------------------------------------------------------------------
 	collapseTables: function () {
-		var nodes = ["ModelNumber", "Assemblies", "Download", "Memory"];
-		for (var i in nodes) {
+		const nodes = ["ModelNumber", "Assemblies", "Download", "Memory"];
+		for (let i in nodes) {
 			if (nodes.hasOwnProperty(i)) {
-				var tag = nodes[i];
-				var el = document.getElementById("abt_" + tag + "Data");
+				const tag = nodes[i];
+				const el = document.getElementById(`abt_${tag}Data`);
 				if (el && el.style.display !== "none") {
-					var sel = $("#abt_lnk" + tag);
+					const sel = $(`#abt_lnk${tag}`);
 					sel[0].innerText = (sel[0].innerText.replace("-", "+"));
 					el.style.display = "none";
 					sel.toggleClass("abt_lnkExpanded");
@@ -360,7 +360,7 @@ var ABT = {
 	// Downloads the file corresponding to the specified file name to the user's computer.
 	// -------------------------------------------------------------------------------------------
 	download: function (fName) {
-		let route = `${CMN.isMockMode() ? "/download?fn=" : "/download.aspx?fn="}${fName}`;
+		const route = `${CMN.isMockMode() ? "/download?fn=" : "/download.aspx?fn="}${fName}`;
 		window.location.href = `${window.location.origin}${route}`;
 	},
 
@@ -388,27 +388,27 @@ var ABT = {
 	// Adds values to the about info xml and returns it.
 	// -------------------------------------------------------------------------------------------
 	addMockDataValuesToXml: function (xml1) {
-		var xml2 = CMN.getXml("/services/network/demo/aboutinfo");
+		const xml2 = CMN.getXml("/services/network/demo/aboutinfo");
 		// Process Model Number Data.
 		var itms = $(xml1).find("ModelNumberItem");
 		var id, i;
 		for (i = 0; i < itms.length; i++) {
 			id = $(itms)[i].attributes.getNamedItem("Id").value;
-			$(xml1).find("ModelNumberItem[Id='" + id + "']").text($(xml2).find("ModelNumberItem[Id='" + id + "']").text());
+			$(xml1).find(`ModelNumberItem[Id='${id}']`).text($(xml2).find(`ModelNumberItem[Id='${id}']`).text());
 		}
 		// Process Extended Model Number Data.
 		itms = $(xml1).find("ModelNumberItemExt");
 		for (i = 0; i < itms.length; i++) {
 			id = $(itms)[i].attributes.getNamedItem("Id").value;
-			$(xml1).find("ModelNumberItemExt[Id='" + id + "']").text($(xml2).find("ModelNumberItemExt[Id='" + id + "']").text());
+			$(xml1).find(`ModelNumberItemExt[Id='${id}']`).text($(xml2).find(`ModelNumberItemExt[Id='${id}']`).text());
 		}
 		// Process Aseemblies Data.
 		$(xml1).find("Assemblies").attr("Visible", $(xml2).find("Assemblies").attr("Visible"));
 		itms = $(xml1).find("Assembly");
 		for (i = 0; i < itms.length; i++) {
 			id = $(itms)[i].getAttribute("Id").replace(/\\/g, "\\\\");
-			var sel1 = $(xml1).find("Assembly[Id='" + id + "']");
-			var sel2 = $(xml2).find("Assembly[Id='" + id + "']");
+			const sel1 = $(xml1).find(`Assembly[Id='${id}']`);
+			const sel2 = $(xml2).find(`Assembly[Id='${id}']`);
 			sel1.attr("Version", sel2.attr("Version"));
 			sel1.attr("ModDate", sel2.attr("ModDate"));
 		}
@@ -474,9 +474,9 @@ var ABT = {
 		// methods to upload files does not work with versions prior to IE 10!)
 		// -------------------------------------------------------------------------------------------
 		$("#frmAboutInfo").submit(function (e) {
-			var licenseFile = $("#abt_txtLicenseFile").val();
+			const licenseFile = $("#abt_txtLicenseFile").val();
 			if (licenseFile.length > 0) {
-				if (licenseFile.split('\\').pop().toLowerCase() === "license.xml") {
+				if (licenseFile.split("\\").pop().toLowerCase() === "license.xml") {
 					if (CMN.isMockMode()) {
 						CFG.showInfo(this.xml);
 						ABT.loadPage();
@@ -485,7 +485,7 @@ var ABT = {
 						CMN.showBusy(CMN.lookup(ABT.xml, ABT.msgs.UPDATING_LICENSE));
 					}
 				} else {
-					CFG.showInfo(ABT.xml, ABT.msgs.INVALID_LICENSE_FILE, licenseFile.split('\\').pop());
+					CFG.showInfo(ABT.xml, ABT.msgs.INVALID_LICENSE_FILE, licenseFile.split("\\").pop());
 				}
 			}
 			return false;

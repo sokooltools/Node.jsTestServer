@@ -3,11 +3,12 @@
 // -----------------------------------------------------------------------------------------------------
 
 // See https://code.visualstudio.com/docs/languages/javascript for explanation of above.
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
 
-import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import { createRequire } from "module";
+const reqr = createRequire(import.meta.url);
+
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 import { Router } from "express";
 import { join } from "path";
@@ -15,9 +16,10 @@ import { format } from "util";
 
 import { parse } from "url";
 
-var cmn = require(join(__dirname, "common.js"));
 
-//var errorhandler = require('errorhandler')
+var cmn = reqr(join(__dirname, "common.js"));
+
+//var errorhandler = reqr('errorhandler')
 //app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
 var router = Router();
@@ -40,7 +42,7 @@ var _user = {
 	enabled: 1,
 	deleted: 0,
 	datecreated: 0.0,
-	datemodified: 0.0,
+	datemodified: 0.0
 };
 
 var _session = {
@@ -52,7 +54,7 @@ var _session = {
 	datemodified: 0.0,
 	lastaccessed: 0.0,
 	ipaddress: "",
-	id: "id_1",
+	id: "id_1"
 };
 
 // ----------------------------- PUT HANDLERS -----------------------------------
@@ -120,7 +122,7 @@ router.get(
 		const json = {
 			adapterid: req.params.adapterid,
 			hostoraddress: req.params.hostoraddress,
-			iscurrentipaddress: req.params.adapterid === "3", // TODO:
+			iscurrentipaddress: req.params.adapterid === "3" // TODO:
 		};
 		res.status(200).json(json).end();
 	}
@@ -131,7 +133,7 @@ router.get(
 		"/network/isExisting/:hostOrAddress",
 		"/network/isExisting/:hostOrAddress/:attempts",
 		"/network/isExisting/:hostOrAddress/:attempts/:timeout",
-		"/network/isExistingmachinename/:hostOrAddress",
+		"/network/isExistingmachinename/:hostOrAddress"
 	],
 	function (req, res) {
 		doGetIsExisting(req, res);
@@ -192,11 +194,10 @@ router.get("/network/*", function (req, res, next) {
 			case "securitysettings":
 			case "systemsettings":
 			case "xpresssettings":
-				let lang = req.query.lang ? req.query.lang.toString() : "en";
 				filepath = join(
 					cmn.globalization,
 					"languages",
-					lang,
+					req.query.lang ? req.query.lang.toString() : "en",
 					lastseg + ".xml"
 				);
 				res.set("Content-Type", "text/xml");
@@ -281,7 +282,7 @@ function doGetMemoryInfo(req, res) {
 		allocated: alloc,
 		inuse: inuse,
 		free: alloc - inuse,
-		refreshrate: 5000,
+		refreshrate: 5000
 	};
 	res.status(200).json(obj).end();
 }
@@ -342,10 +343,10 @@ function doPutLogin(req, res) {
 		console.log("'%s' login succeeded.", username);
 		// The username and remember cookies expire after 7 days.
 		res.cookie("username", username, {
-			maxAge: 604800000,
+			maxAge: 604800000
 		}); // 7 days
 		res.cookie("remember", remember, {
-			maxAge: 604800000,
+			maxAge: 604800000
 		});
 		// These other cookies expire when the session ends.
 		res.cookie("userlevel", _user.userlevel);
@@ -571,7 +572,7 @@ function addOrUpdateSessions(user) {
 			id: `id_${maxId + 1}`,
 			ipaddress: "",
 			// @ts-ignore
-			lastaccessed: null,
+			lastaccessed: null
 		};
 		sessions.push(_session);
 	}

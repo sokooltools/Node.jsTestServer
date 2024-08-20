@@ -298,8 +298,8 @@
                     if ( type == "dragstart" && !ia.cancelled )
                         callback.update();
                 }
-                while ( ++i < len )
-                    // restore the original event & type
+                while ( ++i < len );
+				// restore the original event & type
                     event.type = orig.type;
                     event.originalEvent = orig.event;
                     // return all handler results

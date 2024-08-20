@@ -94,8 +94,8 @@
           cache: true,
           success: onSuccess,
           error: function () {
-            onError(fromPage, toPage)
-          }
+            onError(fromPage, toPage);
+		  }
         });
         req.fromPage = fromPage;
         req.toPage = toPage;

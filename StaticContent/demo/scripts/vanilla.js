@@ -1,24 +1,24 @@
 var Vanilla = {};
 Vanilla.key = "Vanilla";
 
-const jquery_url = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js";
+//const jquery_url = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js";
 
 /**
  * Downloads a test zip file to the "Downloads" folder.
  * 
  */
 Vanilla.downloadZip = function () {
-	var zip = new JSZip();
+	const zip = new JSZip();
 	zip.file("test1.js", "Test1\n");
 	zip.file("test2.js", "Test2\n");
 	zip.file("test3.js", "Test3\n");
 	zip
 		.generateAsync({
-			type: "base64",
+			type: "base64"
 		})
 		.then(
 			function (base64) {
-				window.location = "data:application/zip;base64," + base64;
+				window.location = `data:application/zip;base64,${base64}`;
 			},
 			function (err) {
 				console.error(err);
@@ -42,9 +42,9 @@ Vanilla.MatchPortion = Object.freeze({
  * @returns true if the specified portion of the URL has a match; otherwise false.
  */
 Vanilla.isExistingScript = function (url, matchPortion) {
-	var scripts = document.getElementsByTagName("script");
-	for (var i = 0; i < scripts.length; i++) {
-		let src = scripts[i].src.toLocaleLowerCase();
+	const scripts = document.getElementsByTagName("script");
+	for (let i = 0; i < scripts.length; i++) {
+		const src = scripts[i].src.toLocaleLowerCase();
 		url = url.toLocaleLowerCase();
 		if (matchPortion === Vanilla.MatchPortion.STARTSWITH && src.startsWith(url)) return true;
 		else if (matchPortion === Vanilla.MatchPortion.ENDSWITH && src.endsWith(url)) return true;
@@ -71,10 +71,10 @@ function functionExists(receiver, functionName) {
  * @returns A Promise
  */
 function loadjQuery(url, functionName) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		console.log(`Loading '${functionName}'... ('${url}')`);
 		if (!functionExists(this, "jQuery")) {
-			let s = document.createElement("script");
+			const s = document.createElement("script");
 			s.setAttribute("type", "text/javascript");
 			s.setAttribute("src", url);
 			s.integrity = "sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs";
@@ -107,19 +107,18 @@ function loadjQuery(url, functionName) {
  */
 Vanilla.loadScript = function (url, functionName) {
 	return new Promise((resolve, reject) => {
-        let jqueryUrl = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js";
-
+		const jqueryUrl = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js";
 		loadjQuery(jqueryUrl, "jQuery")
 			.then(() => {
 				console.log(`Loading '${functionName}'... ('${url}')`);
 				if (!functionExists(window, functionName)) {
 					fetch(url, {
 						headers: {
-							"Content-Type": "text/javascript",
+							"Content-Type": "text/javascript"
 						},
 						cache: "default",
-						mode: "cors",
-					})
+						mode: "cors"
+						})
 						.then((response) => response.text())
 						.then((data) => {
 							const dynamicFunction = new Function(data);

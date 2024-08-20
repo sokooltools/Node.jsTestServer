@@ -127,8 +127,8 @@
           if (e.id == columnid) {
             if (e.grouping != null) {
               var entry = $("<div id='" + _gridUid + e.id + "_entry' data-id='" + e.id + "' class='slick-dropped-grouping'>");
-              var span = $("<span class='slick-groupby-remove'></span>").text(column.text() + " ")
-              span.appendTo(entry);
+              var span = $("<span class='slick-groupby-remove'></span>").text(column.text() + " ");
+			  span.appendTo(entry);
               $("</div>").appendTo(entry);
               entry.appendTo(container);
               addColumnGroupBy(e, column, container, entry);

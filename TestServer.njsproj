@@ -1,647 +1,661 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build"
-	xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-	<PropertyGroup>
-		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-		<VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-		<Name>TestServer</Name>
-		<RootNamespace>ExpressApp1</RootNamespace>
-		<NodeExeArguments>
-		</NodeExeArguments>
-		<ScriptArguments>
-		</ScriptArguments>
-		<SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
-		<LaunchUrl>demo\demo.htm</LaunchUrl>
-	</PropertyGroup>
-	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<SchemaVersion>2.0</SchemaVersion>
-		<ProjectGuid>a29156a7-909b-4a0a-899f-1e902a6ab961</ProjectGuid>
-		<ProjectHome>.</ProjectHome>
-		<StartupFile>TestServer/app.js</StartupFile>
-		<SearchPath>
-		</SearchPath>
-		<WorkingDirectory>D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool</WorkingDirectory>
-		<OutputPath>.</OutputPath>
-		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-		<ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-		<ProjectView>ProjectFiles</ProjectView>
-		<NodejsPort>3000</NodejsPort>
-		<StartWebBrowser>True</StartWebBrowser>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DebugSymbols>true</DebugSymbols>
-		<BaseIntermediateOutputPath>D:\Temp\Web\TestServer\obj</BaseIntermediateOutputPath>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<DebugSymbols>true</DebugSymbols>
-		<BaseIntermediateOutputPath>D:\Temp\Web\TestServer\obj</BaseIntermediateOutputPath>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="StaticContent\demo\scripts\jquery.fine-uploader.min.js" />
-		<Compile Include="StaticContent\grid\lib\jquery.event.drag-2.3.0.js" />
-		<Compile Include="StaticContent\grid\lib\jquery.event.drop-2.3.0.js" />
-		<Compile Include="StaticContent\grid\plugins\slick.cellexternalcopymanager.js" />
-		<Compile Include="StaticContent\grid\plugins\slick.draggablegrouping.js" />
-		<Compile Include="TestServer\app.js" />
-		<Compile Include="TestServer\routes\common.js" />
-		<Compile Include="TestServer\routes\services.js">
-			<SubType>Code</SubType>
-		</Compile>
-		<Compile Include="TestServer\routes\test.js">
-			<SubType>Code</SubType>
-		</Compile>
-		<Compile Include="TestServer\routes\download.js" />
-		<Compile Include="TestServer\routes\index.js" />
-		<Compile Include="TestServer\routes\upload.js">
-			<SubType>Code</SubType>
-		</Compile>
-		<Compile Include="TestServer\routes\uploads.js" />
-		<Compile Include="TestServer\routes\users.js" />
-		<Compile Include="StaticContent\demo\scripts\jquery.fine-uploader.js" />
-		<Content Include="LICENSE" />
-		<Content Include="nodejs.ico" />
-		<Content Include="package.json" />
-		<Content Include="README.md" />
-		<Content Include="Solution Items\body-parser mod .jpg" />
-		<Content Include="Solution Items\Dependencies.txt">
-			<SubType>Code</SubType>
-		</Content>
-		<Content Include="Solution Items\DeveloperNotes.txt" />
-		<Content Include="Solution Items\NPM List Modules.jpg" />
-		<Content Include="StaticContent\demo\data\ErrorDialog.txt" />
-		<Content Include="StaticContent\demo\data\NetworkInfo3.json" />
-		<Content Include="StaticContent\demo\data\Sessions.json" />
-		<Content Include="StaticContent\demo\data\XpressData.json" />
-		<Content Include="StaticContent\demo\data\AboutData.json">
-			<SubType>Code</SubType>
-		</Content>
-		<Content Include="AssemblyVersion.cs" />
-		<Content Include="StaticContent\ConfigTool.htm" />
-		<Content Include="StaticContent\demo\themes\testserver-admin.css" />
-		<Content Include="StaticContent\docs\globalization.zip" />
-		<Content Include="StaticContent\globalization\SupportedLanguages.json" />
-		<Content Include="StaticContent\Loading.htm" />
-		<Content Include="StaticContent\Properties\AssemblyInfo.cs" />
-		<Content Include="StaticContent\StaticContent.csproj" />
-		<Content Include="StaticContent\demo\Demo.htm" />
-		<Content Include="StaticContent\demo\Demo.ico" />
-		<Content Include="StaticContent\demo\data\AboutInfo.xml" />
-		<Content Include="StaticContent\demo\data\AdapterInfo.json" />
-		<Content Include="StaticContent\demo\data\NetworkInfo2.json" />
-		<Content Include="StaticContent\demo\data\SupportedLanguages.xml" />
-		<Content Include="StaticContent\demo\data\SystemData.json" />
-		<Content Include="StaticContent\demo\data\TimeZoneList.json" />
-		<Content Include="StaticContent\demo\data\Users.json" />
-		<Content Include="StaticContent\demo\data\UsersSessions.json" />
-		<Content Include="StaticContent\demo\data\XpressShell.htm" />
-		<Content Include="StaticContent\demo\docs\Sessions.json" />
-		<Content Include="StaticContent\demo\docs\codesyscontrol.cfg" />
-		<Content Include="StaticContent\demo\docs\litesw.log" />
-		<Content Include="StaticContent\demo\docs\retmem.log" />
-		<Content Include="StaticContent\demo\docs\webServer.exe.log" />
-		<Content Include="StaticContent\demo\docs\webserver.exe.ini" />
-		<Content Include="StaticContent\demo\pages\AjaxTest.htm" />
-		<Content Include="StaticContent\demo\data\AjaxTest.txt" />
-		<Content Include="StaticContent\demo\pages\ColorTest.htm" />
-		<Content Include="StaticContent\demo\pages\CustomCombo.htm" />
-		<Content Include="StaticContent\demo\pages\DateTimePicker.htm" />
-		<Content Include="StaticContent\demo\pages\ErrorDialog.htm" />
-		<Content Include="StaticContent\demo\pages\JsonTest.htm" />
-		<Content Include="StaticContent\demo\pages\StandardDialog.htm" />
-		<Content Include="StaticContent\demo\pages\TabControl1.htm" />
-		<Content Include="StaticContent\demo\pages\TabControl2.htm" />
-		<Content Include="StaticContent\demo\pages\TestServerAdmin.htm" />
-		<Content Include="StaticContent\demo\pages\Upload.htm" />
-		<Content Include="StaticContent\demo\pages\UserEntryDialog.htm" />
-		<Content Include="StaticContent\demo\pages\tabpages\content1.htm" />
-		<Content Include="StaticContent\demo\pages\tabpages\content2.htm" />
-		<Content Include="StaticContent\demo\pages\tabpages\content3-slow.php" />
-		<Content Include="StaticContent\demo\pages\tabpages\content3.htm" />
-		<Content Include="StaticContent\demo\pages\tabpages\content4-broken.php" />
-		<Content Include="StaticContent\demo\scripts\AjaxTest.js" />
-		<Content Include="StaticContent\demo\scripts\JsonTest.js" />
-		<Content Include="StaticContent\demo\scripts\demo.js" />
-		<Content Include="StaticContent\demo\scripts\jquery.fine-uploader.js.map" />
-		<Content Include="StaticContent\demo\scripts\jquery.fine-uploader.min.js.map" />
-		<Content Include="StaticContent\demo\scripts\testserver-admin.js" />
-		<Content Include="StaticContent\demo\themes\base\images\busy.gif" />
-		<Content Include="StaticContent\demo\themes\base\images\eye192.png" />
-		<Content Include="StaticContent\demo\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-		<Content Include="StaticContent\demo\themes\base\images\ui-icons_222222_256x240.png" />
-		<Content Include="StaticContent\demo\themes\base\images\ui-icons_888888_256x240.png" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\continue.gif" />
-		<Content Include="StaticContent\demo\themes\demo.css" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\edit.gif" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\fine-uploader-new.css" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\fine-uploader-new.min.css" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\loading.gif" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\pause.gif" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\processing.gif" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\retry.gif" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\not_available-generic.png" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\waiting-generic.png" />
-		<Content Include="StaticContent\demo\themes\standalone.css" />
-		<Content Include="StaticContent\demo\themes\tabs-no-images.css" />
-		<Content Include="StaticContent\demo\themes\fine-uploader\trash.gif" />
-		<Content Include="StaticContent\docs\PAC_User_Guide.pdf" />
-		<Content Include="StaticContent\docs\WebServer.exe.ini.docx" />
-		<Content Include="StaticContent\docs\WebServer.exe.log.docx" />
-		<Content Include="StaticContent\favicon.ico" />
-		<Content Include="StaticContent\globalization\InternetTimeServers.json" />
-		<Content Include="StaticContent\globalization\Languages\de\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\de\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\en\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\es\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\fr\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\it\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\nl\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\xx\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\AboutInfo.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\ConfigTool.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\InternetSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\Login.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\NetworkSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\RefreshUnits.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\SecuritySettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\SystemSettings.xml" />
-		<Content Include="StaticContent\globalization\Languages\zh\XpressSettings.xml" />
-		<Content Include="StaticContent\globalization\ModelNumberData.xml" />
-		<Content Include="StaticContent\globalization\SupportedLanguages.xml" />
-		<Content Include="StaticContent\grid\images\CheckboxN.png" />
-		<Content Include="StaticContent\grid\images\CheckboxY.png" />
-		<Content Include="StaticContent\grid\images\GrpCheckboxN.png" />
-		<Content Include="StaticContent\grid\images\GrpCheckboxY.png" />
-		<Content Include="StaticContent\grid\images\actions.gif" />
-		<Content Include="StaticContent\grid\images\ajax-loader-small.gif" />
-		<Content Include="StaticContent\grid\images\arrow_redo.png" />
-		<Content Include="StaticContent\grid\images\arrow_right_peppermint.png" />
-		<Content Include="StaticContent\grid\images\arrow_right_spearmint.png" />
-		<Content Include="StaticContent\grid\images\arrow_undo.png" />
-		<Content Include="StaticContent\grid\images\bullet_blue.png" />
-		<Content Include="StaticContent\grid\images\bullet_star.png" />
-		<Content Include="StaticContent\grid\images\bullet_toggle_minus.png" />
-		<Content Include="StaticContent\grid\images\bullet_toggle_plus.png" />
-		<Content Include="StaticContent\grid\images\calendar.gif" />
-		<Content Include="StaticContent\grid\images\collapse.gif" />
-		<Content Include="StaticContent\grid\images\comment_yellow.gif" />
-		<Content Include="StaticContent\grid\images\delete.png" />
-		<Content Include="StaticContent\grid\images\down.gif" />
-		<Content Include="StaticContent\grid\images\drag-handle.png" />
-		<Content Include="StaticContent\grid\images\editor-helper-bg.gif" />
-		<Content Include="StaticContent\grid\images\expand.gif" />
-		<Content Include="StaticContent\grid\images\header-bg.gif" />
-		<Content Include="StaticContent\grid\images\header-columns-bg.gif" />
-		<Content Include="StaticContent\grid\images\header-columns-over-bg.gif" />
-		<Content Include="StaticContent\grid\images\help.png" />
-		<Content Include="StaticContent\grid\images\info.gif" />
-		<Content Include="StaticContent\grid\images\listview.gif" />
-		<Content Include="StaticContent\grid\images\pencil.gif" />
-		<Content Include="StaticContent\grid\images\row-over-bg.gif" />
-		<Content Include="StaticContent\grid\images\sort-asc.gif" />
-		<Content Include="StaticContent\grid\images\sort-asc.png" />
-		<Content Include="StaticContent\grid\images\sort-desc.gif" />
-		<Content Include="StaticContent\grid\images\sort-desc.png" />
-		<Content Include="StaticContent\grid\images\stripes.png" />
-		<Content Include="StaticContent\grid\images\tag_red.png" />
-		<Content Include="StaticContent\grid\images\tick.png" />
-		<Content Include="StaticContent\grid\images\user_identity.gif" />
-		<Content Include="StaticContent\grid\images\user_identity_plus.gif" />
-		<Content Include="StaticContent\grid\lib\jquery.event.drag-2.2.js" />
-		<Content Include="StaticContent\grid\lib\jquery.event.drop-2.2.js" />
-		<Content Include="StaticContent\grid\plugins\slick.autotooltips.js" />
-		<Content Include="StaticContent\grid\plugins\slick.cellcopymanager.js" />
-		<Content Include="StaticContent\grid\plugins\slick.cellrangedecorator.js" />
-		<Content Include="StaticContent\grid\plugins\slick.cellrangeselector.js" />
-		<Content Include="StaticContent\grid\plugins\slick.cellselectionmodel.js" />
-		<Content Include="StaticContent\grid\plugins\slick.checkboxselectcolumn.js" />
-		<Content Include="StaticContent\grid\plugins\slick.headerbuttons.css" />
-		<Content Include="StaticContent\grid\plugins\slick.headerbuttons.js" />
-		<Content Include="StaticContent\grid\plugins\slick.headermenu.css" />
-		<Content Include="StaticContent\grid\plugins\slick.headermenu.js" />
-		<Content Include="StaticContent\grid\plugins\slick.rowmovemanager.js" />
-		<Content Include="StaticContent\grid\plugins\slick.rowselectionmodel.js" />
-		<Content Include="StaticContent\grid\slick-default-theme.css" />
-		<Content Include="StaticContent\grid\slick.core.js" />
-		<Content Include="StaticContent\grid\slick.dataview.js" />
-		<Content Include="StaticContent\grid\slick.editors.js" />
-		<Content Include="StaticContent\grid\slick.formatters.js" />
-		<Content Include="StaticContent\grid\slick.grid.css" />
-		<Content Include="StaticContent\grid\slick.grid.js" />
-		<Content Include="StaticContent\grid\slick.groupitemmetadataprovider.js" />
-		<Content Include="StaticContent\grid\slick.remotemodel.js" />
-		<Content Include="StaticContent\help\aboutinfo.htm" />
-		<Content Include="StaticContent\help\common.htm" />
-		<Content Include="StaticContent\help\images\aboutinfo\img01.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img02.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img03.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img04.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img05.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img06.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img06b.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img07.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img08.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img09.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img10.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img11.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img12.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img13.png" />
-		<Content Include="StaticContent\help\images\aboutinfo\img14.png" />
-		<Content Include="StaticContent\help\images\common\img01.png" />
-		<Content Include="StaticContent\help\images\common\img02.png" />
-		<Content Include="StaticContent\help\images\common\img03.png" />
-		<Content Include="StaticContent\help\images\common\img04.png" />
-		<Content Include="StaticContent\help\images\common\img05.png" />
-		<Content Include="StaticContent\help\images\internetsettings\img01.png" />
-		<Content Include="StaticContent\help\images\internetsettings\img02.png" />
-		<Content Include="StaticContent\help\images\internetsettings\img03.png" />
-		<Content Include="StaticContent\help\images\internetsettings\img04.png" />
-		<Content Include="StaticContent\help\images\internetsettings\img05.png" />
-		<Content Include="StaticContent\help\images\internetsettings\img06.png" />
-		<Content Include="StaticContent\help\images\login\img00.png" />
-		<Content Include="StaticContent\help\images\login\img01.png" />
-		<Content Include="StaticContent\help\images\login\img02.png" />
-		<Content Include="StaticContent\help\images\login\img03.png" />
-		<Content Include="StaticContent\help\images\login\img04.png" />
-		<Content Include="StaticContent\help\images\login\img05.png" />
-		<Content Include="StaticContent\help\images\login\img06.png" />
-		<Content Include="StaticContent\help\images\networksettings\img01.png" />
-		<Content Include="StaticContent\help\images\networksettings\img02.png" />
-		<Content Include="StaticContent\help\images\networksettings\img03.png" />
-		<Content Include="StaticContent\help\images\networksettings\img04.png" />
-		<Content Include="StaticContent\help\images\networksettings\img05.png" />
-		<Content Include="StaticContent\help\images\networksettings\img05b.png" />
-		<Content Include="StaticContent\help\images\networksettings\img05c.png" />
-		<Content Include="StaticContent\help\images\networksettings\img05d.png" />
-		<Content Include="StaticContent\help\images\networksettings\img06a.png" />
-		<Content Include="StaticContent\help\images\networksettings\img06b.png" />
-		<Content Include="StaticContent\help\images\networksettings\img07.png" />
-		<Content Include="StaticContent\help\images\networksettings\img08.png" />
-		<Content Include="StaticContent\help\images\networksettings\img09.png" />
-		<Content Include="StaticContent\help\images\networksettings\img10.png" />
-		<Content Include="StaticContent\help\images\networksettings\img11.png" />
-		<Content Include="StaticContent\help\images\networksettings\img12.png" />
-		<Content Include="StaticContent\help\images\networksettings\img13.png" />
-		<Content Include="StaticContent\help\images\networksettings\img14.png" />
-		<Content Include="StaticContent\help\images\networksettings\img15.png" />
-		<Content Include="StaticContent\help\images\networksettings\img15a.png" />
-		<Content Include="StaticContent\help\images\networksettings\img15b.png" />
-		<Content Include="StaticContent\help\images\networksettings\img16.png" />
-		<Content Include="StaticContent\help\images\networksettings\img17.png" />
-		<Content Include="StaticContent\help\images\networksettings\img18.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img00.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img01.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img02.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img03.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img04.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img05.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img06.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img07.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img08.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img09.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img10.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img11.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img12.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img13.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img14.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img15.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img16.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img17.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img18.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img19.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img20.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img21.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img22.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img23.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img24.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img25.png" />
-		<Content Include="StaticContent\help\images\securitysettings\img26.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img01.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img02.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img03.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img04.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img05.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img06.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img07.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img08.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img09.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img10.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img11.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img12.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img13.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img14.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img15.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img16.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img16a.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img17.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img18.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img19.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img20.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img21.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img22.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img23.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img23a.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img24.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img25.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img26.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img27.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img28.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img29.png" />
-		<Content Include="StaticContent\help\images\systemsettings\img30.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img00.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img01.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img02.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img03.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img04.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img05.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img06.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img07.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img08.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img09.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img10.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img11.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img12.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img13.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img14.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img15.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img16.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img17.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img18.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img19.png" />
-		<Content Include="StaticContent\help\images\xpresssettings\img20.png" />
-		<Content Include="StaticContent\help\internetsettings.htm" />
-		<Content Include="StaticContent\help\login.htm" />
-		<Content Include="StaticContent\help\networksettings.htm" />
-		<Content Include="StaticContent\help\scripts\abt_images.js" />
-		<Content Include="StaticContent\help\scripts\help.js" />
-		<Content Include="StaticContent\help\scripts\lgn_images.js" />
-		<Content Include="StaticContent\help\scripts\net_images.js" />
-		<Content Include="StaticContent\help\scripts\sys_images.js" />
-		<Content Include="StaticContent\help\securitysettings.htm" />
-		<Content Include="StaticContent\help\systemsettings.htm" />
-		<Content Include="StaticContent\help\themes\help.css" />
-		<Content Include="StaticContent\help\xpresssettings.htm" />
-		<Content Include="StaticContent\postbuild.cmd" />
-		<Content Include="StaticContent\postdeploy.cmd" />
-		<Content Include="StaticContent\prebuild.cmd" />
-		<Content Include="StaticContent\scripts\detect.js" />
-		<Content Include="StaticContent\scripts\jquery-migrate.js" />
-		<Content Include="StaticContent\scripts\jquery.js" />
-		<Content Include="StaticContent\scripts\jquery.mousewheel.js" />
-		<Content Include="StaticContent\scripts\jquery.tools.min.js" />
-		<Content Include="StaticContent\scripts\jquery.validate.js" />
-		<Content Include="StaticContent\scripts\json.js" />
-		<Content Include="StaticContent\scripts\moment.js" />
-		<Content Include="StaticContent\scripts\tucson\aboutinfo.js" />
-		<Content Include="StaticContent\scripts\tucson\datetimesettings.js" />
-		<Content Include="StaticContent\scripts\tucson\internetsettings.js" />
-		<Content Include="StaticContent\scripts\tucson\memoryinfo.js" />
-		<Content Include="StaticContent\scripts\tucson\networksettings.js" />
-		<Content Include="StaticContent\scripts\tucson\securitygrid.js" />
-		<Content Include="StaticContent\scripts\tucson\securitysettings.js" />
-		<Content Include="StaticContent\scripts\tucson\systemsettings.js" />
-		<Content Include="StaticContent\scripts\tucson\tucson.common.js" />
-		<Content Include="StaticContent\scripts\tucson\tucson.configtool.js" />
-		<Content Include="StaticContent\scripts\tucson\tucson.login.js" />
-		<Content Include="StaticContent\scripts\tucson\tucson.utils.js" />
-		<Content Include="StaticContent\scripts\tucson\xpresssettings.js" />
-		<Content Include="StaticContent\scripts\ui\jquery-ui-sliderAccess.js" />
-		<Content Include="StaticContent\scripts\ui\jquery-ui-timepicker-addon.js" />
-		<Content Include="StaticContent\scripts\ui\jquery-ui.custom.js" />
-		<Content Include="StaticContent\scripts\ui\jquery-ui.js" />
-		<Content Include="StaticContent\scripts\ui\jquery.blockUI.js" />
-		<Content Include="StaticContent\scripts\ui\jquery.color.js" />
-		<Content Include="StaticContent\scripts\ui\jquery.effects.core.js" />
-		<Content Include="StaticContent\scripts\ui\jquery.file-ajax.js" />
-		<Content Include="StaticContent\scripts\ui\jquery.ipaddress.js" />
-		<Content Include="StaticContent\scripts\ui\jquery.language.switcher.js" />
-		<Content Include="StaticContent\scripts\ui\jquery.uploadfile.js" />
-		<Content Include="StaticContent\themes\base\flags\de.png" />
-		<Content Include="StaticContent\themes\base\flags\en.png" />
-		<Content Include="StaticContent\themes\base\flags\es.png" />
-		<Content Include="StaticContent\themes\base\flags\fr.png" />
-		<Content Include="StaticContent\themes\base\flags\gb.png" />
-		<Content Include="StaticContent\themes\base\flags\it.png" />
-		<Content Include="StaticContent\themes\base\flags\ja.png" />
-		<Content Include="StaticContent\themes\base\flags\nl.png" />
-		<Content Include="StaticContent\themes\base\flags\sw.png" />
-		<Content Include="StaticContent\themes\base\flags\xx.png" />
-		<Content Include="StaticContent\themes\base\flags\zh.png" />
-		<Content Include="StaticContent\themes\base\images\animated-overlay.gif" />
-		<Content Include="StaticContent\themes\base\images\arrow-down.gif" />
-		<Content Include="StaticContent\themes\base\images\busy.gif" />
-		<Content Include="StaticContent\themes\base\images\ping.png" />
-		<Content Include="StaticContent\themes\base\images\ui-anim_basic_16x16.gif" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
-		<Content Include="StaticContent\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-		<Content Include="StaticContent\themes\base\images\ui-icons_222222_256x240.png" />
-		<Content Include="StaticContent\themes\base\images\ui-icons_2e83ff_256x240.png" />
-		<Content Include="StaticContent\themes\base\images\ui-icons_454545_256x240.png" />
-		<Content Include="StaticContent\themes\base\images\ui-icons_888888_256x240.png" />
-		<Content Include="StaticContent\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-		<Content Include="StaticContent\themes\base\jquery-language-flags.css" />
-		<Content Include="StaticContent\themes\base\jquery-language-switcher.css" />
-		<Content Include="StaticContent\themes\base\jquery-ui-timepicker-addon.css" />
-		<Content Include="StaticContent\themes\base\jquery-ui.css" />
-		<Content Include="StaticContent\themes\base\jquery.ui.all.css" />
-		<Content Include="StaticContent\themes\tucson\aboutinfo.css" />
-		<Content Include="StaticContent\themes\tucson\configtool.css" />
-		<Content Include="StaticContent\themes\tucson\configtool10.css" />
-		<Content Include="StaticContent\themes\tucson\images\asterisk.png" />
-		<Content Include="StaticContent\themes\tucson\images\busy.gif" />
-		<Content Include="StaticContent\themes\tucson\images\exclamation.png" />
-		<Content Include="StaticContent\themes\tucson\images\exclamation2.png" />
-		<Content Include="StaticContent\themes\tucson\images\eye192.png" />
-		<Content Include="StaticContent\themes\tucson\images\favicon.ico" />
-		<Content Include="StaticContent\themes\tucson\images\gradient.png" />
-		<Content Include="StaticContent\themes\tucson\images\help.png" />
-		<Content Include="StaticContent\themes\tucson\images\help_hover.png" />
-		<Content Include="StaticContent\themes\tucson\images\logo.png" />
-		<Content Include="StaticContent\themes\tucson\images\question.png" />
-		<Content Include="StaticContent\themes\tucson\images\tagline.jpg" />
-		<Content Include="StaticContent\themes\tucson\images\underconstruction.png" />
-		<Content Include="StaticContent\themes\tucson\images\xpressshell.png" />
-		<Content Include="StaticContent\themes\tucson\ipaddress.css" />
-		<Content Include="StaticContent\themes\tucson\securitygrid.css" />
-		<Content Include="StaticContent\themes\tucson\systemsettings.css" />
-		<Content Include="StaticContent\themes\tucson\tabs-no-images.css" />
-		<Content Include="StaticContent\themes\tucson\xpresssettings.css" />
-		<Content Include="StaticContent\tucsontabpages\AboutInfo.htm" />
-		<Content Include="StaticContent\tucsontabpages\InternetSettings.htm" />
-		<Content Include="StaticContent\tucsontabpages\Login.htm" />
-		<Content Include="StaticContent\tucsontabpages\NetworkSettings.htm" />
-		<Content Include="StaticContent\tucsontabpages\SecuritySettings.htm" />
-		<Content Include="StaticContent\tucsontabpages\SystemSettings.htm" />
-		<Content Include="StaticContent\tucsontabpages\XpressSettings.htm" />
-		<Content Include="TestServer\StartServer.cmd" />
-		<Content Include="TestServer\nodejs.ico" />
-		<Content Include="TestServer\typings.json" />
-		<Content Include="TestServer\views\index.htm" />
-		<Content Include="StaticContent\docs\error.htm">
-			<SubType>Code</SubType>
-		</Content>
-		<Content Include="StaticContent\demo\pages\FineUploader.htm">
-			<SubType>Code</SubType>
-		</Content>
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Solution Items\" />
-		<Folder Include="StaticContent\" />
-		<Folder Include="StaticContent\Properties\" />
-		<Folder Include="StaticContent\demo\" />
-		<Folder Include="StaticContent\demo\data\" />
-		<Folder Include="StaticContent\demo\docs\" />
-		<Folder Include="StaticContent\demo\pages\" />
-		<Folder Include="StaticContent\demo\pages\tabpages\" />
-		<Folder Include="StaticContent\demo\scripts\" />
-		<Folder Include="StaticContent\demo\themes\" />
-		<Folder Include="StaticContent\demo\themes\base\" />
-		<Folder Include="StaticContent\demo\themes\base\images\" />
-		<Folder Include="StaticContent\demo\themes\source\" />
-		<Folder Include="StaticContent\demo\themes\fine-uploader\" />
-		<Folder Include="StaticContent\docs\" />
-		<Folder Include="StaticContent\globalization\" />
-		<Folder Include="StaticContent\globalization\Languages\" />
-		<Folder Include="StaticContent\globalization\Languages\de\" />
-		<Folder Include="StaticContent\globalization\Languages\en\" />
-		<Folder Include="StaticContent\globalization\Languages\es\" />
-		<Folder Include="StaticContent\globalization\Languages\fr\" />
-		<Folder Include="StaticContent\globalization\Languages\it\" />
-		<Folder Include="StaticContent\globalization\Languages\nl\" />
-		<Folder Include="StaticContent\globalization\Languages\xx\" />
-		<Folder Include="StaticContent\globalization\Languages\zh\" />
-		<Folder Include="StaticContent\grid\" />
-		<Folder Include="StaticContent\grid\images\" />
-		<Folder Include="StaticContent\grid\lib\" />
-		<Folder Include="StaticContent\grid\plugins\" />
-		<Folder Include="StaticContent\help\" />
-		<Folder Include="StaticContent\help\images\" />
-		<Folder Include="StaticContent\help\images\aboutinfo\" />
-		<Folder Include="StaticContent\help\images\common\" />
-		<Folder Include="StaticContent\help\images\internetsettings\" />
-		<Folder Include="StaticContent\help\images\login\" />
-		<Folder Include="StaticContent\help\images\networksettings\" />
-		<Folder Include="StaticContent\help\images\securitysettings\" />
-		<Folder Include="StaticContent\help\images\systemsettings\" />
-		<Folder Include="StaticContent\help\images\xpresssettings\" />
-		<Folder Include="StaticContent\help\images\~temp\" />
-		<Folder Include="StaticContent\help\scripts\" />
-		<Folder Include="StaticContent\help\themes\" />
-		<Folder Include="StaticContent\scripts\" />
-		<Folder Include="StaticContent\scripts\tucson\" />
-		<Folder Include="StaticContent\scripts\ui\" />
-		<Folder Include="StaticContent\themes\" />
-		<Folder Include="StaticContent\themes\base\" />
-		<Folder Include="StaticContent\themes\base\flags\" />
-		<Folder Include="StaticContent\themes\base\images\" />
-		<Folder Include="StaticContent\themes\tucson\" />
-		<Folder Include="StaticContent\themes\tucson\images\" />
-		<Folder Include="StaticContent\tucsontabpages\" />
-		<Folder Include="TestServer\" />
-		<Folder Include="TestServer\routes\" />
-		<Folder Include="TestServer\views\" />
-	</ItemGroup>
-	<!-- Do not delete the following Import Project.	While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
-	<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
-	<Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
-	<ProjectExtensions>
-		<VisualStudio>
-			<FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-				<WebProjectProperties>
-					<UseIIS>False</UseIIS>
-					<AutoAssignPort>True</AutoAssignPort>
-					<DevelopmentServerPort>0</DevelopmentServerPort>
-					<DevelopmentServerVPath>/</DevelopmentServerVPath>
-					<IISUrl>http://localhost:48022/</IISUrl>
-					<NTLMAuthentication>False</NTLMAuthentication>
-					<UseCustomServer>True</UseCustomServer>
-					<CustomServerUrl>http://localhost:3000</CustomServerUrl>
-					<SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-				</WebProjectProperties>
-			</FlavorProperties>
-			<FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
-				<WebProjectProperties>
-					<StartPageUrl>
-					</StartPageUrl>
-					<StartAction>CurrentPage</StartAction>
-					<AspNetDebugging>True</AspNetDebugging>
-					<SilverlightDebugging>False</SilverlightDebugging>
-					<NativeDebugging>False</NativeDebugging>
-					<SQLDebugging>False</SQLDebugging>
-					<ExternalProgram>
-					</ExternalProgram>
-					<StartExternalURL>
-					</StartExternalURL>
-					<StartCmdLineArguments>
-					</StartCmdLineArguments>
-					<StartWorkingDirectory>
-					</StartWorkingDirectory>
-					<EnableENC>False</EnableENC>
-					<AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
-				</WebProjectProperties>
-			</FlavorProperties>
-		</VisualStudio>
-	</ProjectExtensions>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>TestServer</Name>
+    <RootNamespace>ExpressApp1</RootNamespace>
+    <NodeExeArguments>
+    </NodeExeArguments>
+    <ScriptArguments>
+    </ScriptArguments>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+    <LaunchUrl>demo\demo.htm</LaunchUrl>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>a29156a7-909b-4a0a-899f-1e902a6ab961</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>TestServer/app.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ProjectFiles</ProjectView>
+    <NodejsPort>3000</NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <BaseIntermediateOutputPath>D:\Temp\Web\TestServer\obj</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <BaseIntermediateOutputPath>D:\Temp\Web\TestServer\obj</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="StaticContent\grid\lib\jquery.event.drag-2.3.0.js" />
+    <Compile Include="StaticContent\grid\lib\jquery.event.drop-2.3.0.js" />
+    <Compile Include="StaticContent\grid\plugins\slick.cellexternalcopymanager.js" />
+    <Compile Include="StaticContent\grid\plugins\slick.draggablegrouping.js" />
+    <Compile Include="TestServer\routes\common.js" />
+    <Compile Include="StaticContent\demo\scripts\jquery.fine-uploader.js" />
+    <Content Include=".eslintrc.json" />
+    <Content Include="jsconfig.json" />
+    <Content Include="LICENSE" />
+    <Content Include="nodejs.ico" />
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="Solution Items\body-parser mod .jpg" />
+    <Content Include="Solution Items\Dependencies.txt">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Solution Items\DeveloperNotes.txt" />
+    <Content Include="Solution Items\NPM List Modules.jpg" />
+    <Content Include="StaticContent\demo\data\ErrorDialog.txt" />
+    <Content Include="StaticContent\demo\data\NetworkInfo3.json" />
+    <Content Include="StaticContent\demo\data\Sessions.json" />
+    <Content Include="StaticContent\demo\data\tabpages\content1.htm" />
+    <Content Include="StaticContent\demo\data\tabpages\content2.htm" />
+    <Content Include="StaticContent\demo\data\tabpages\content3-slow.php" />
+    <Content Include="StaticContent\demo\data\tabpages\content3.htm" />
+    <Content Include="StaticContent\demo\data\tabpages\content4-broken.php" />
+    <Content Include="StaticContent\demo\data\TestServer-Admin.txt" />
+    <Content Include="StaticContent\demo\data\XpressData.json" />
+    <Content Include="StaticContent\demo\data\AboutData.json">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="AssemblyVersion.cs" />
+    <Content Include="StaticContent\ConfigTool.htm" />
+    <Content Include="StaticContent\demo\Dialog.htm" />
+    <Content Include="StaticContent\demo\pages\TestServer-Admin.htm" />
+    <Content Include="StaticContent\demo\scripts\colortest.js" />
+    <Content Include="StaticContent\demo\scripts\customcombo.js" />
+    <Content Include="StaticContent\demo\scripts\datetimepicker.js" />
+    <Content Include="StaticContent\demo\scripts\errordialog.js" />
+    <Content Include="StaticContent\demo\scripts\fineuploader.js" />
+    <Content Include="StaticContent\demo\scripts\miscutils.js" />
+    <Content Include="StaticContent\demo\scripts\snippetmanager.js" />
+    <Content Include="StaticContent\demo\scripts\standarddialog.js" />
+    <Content Include="StaticContent\demo\scripts\tabcontrol1.js" />
+    <Content Include="StaticContent\demo\scripts\tabcontrol2.js" />
+    <Content Include="StaticContent\demo\scripts\upload.js" />
+    <Content Include="StaticContent\demo\scripts\userentrydialog.js" />
+    <Content Include="StaticContent\demo\scripts\vanilla.js" />
+    <Content Include="StaticContent\demo\snippetmanager.htm" />
+    <Content Include="StaticContent\demo\themes\snippetmanager.css" />
+    <Content Include="StaticContent\demo\themes\testserver-admin.css" />
+    <Content Include="StaticContent\demo\themes\userentrydialog.css" />
+    <Content Include="StaticContent\demo\vanilla.htm" />
+    <Content Include="StaticContent\globalization\SupportedLanguages.json" />
+    <Content Include="StaticContent\Loading.htm" />
+    <Content Include="StaticContent\Properties\AssemblyInfo.cs" />
+    <Content Include="StaticContent\StaticContent.csproj" />
+    <Content Include="StaticContent\demo\Demo.htm" />
+    <Content Include="StaticContent\demo\Demo.ico" />
+    <Content Include="StaticContent\demo\data\AboutInfo.xml" />
+    <Content Include="StaticContent\demo\data\AdapterInfo.json" />
+    <Content Include="StaticContent\demo\data\NetworkInfo2.json" />
+    <Content Include="StaticContent\demo\data\SupportedLanguages.xml" />
+    <Content Include="StaticContent\demo\data\SystemData.json" />
+    <Content Include="StaticContent\demo\data\TimeZoneList.json" />
+    <Content Include="StaticContent\demo\data\Users.json" />
+    <Content Include="StaticContent\demo\data\UsersSessions.json" />
+    <Content Include="StaticContent\demo\data\XpressShell.htm" />
+    <Content Include="StaticContent\demo\docs\Sessions.json" />
+    <Content Include="StaticContent\demo\docs\codesyscontrol.cfg" />
+    <Content Include="StaticContent\demo\docs\webserver.exe.ini" />
+    <Content Include="StaticContent\demo\pages\AjaxTest.htm" />
+    <Content Include="StaticContent\demo\data\AjaxTest.txt" />
+    <Content Include="StaticContent\demo\pages\ColorTest.htm" />
+    <Content Include="StaticContent\demo\pages\CustomCombo.htm" />
+    <Content Include="StaticContent\demo\pages\DateTimePicker.htm" />
+    <Content Include="StaticContent\demo\pages\ErrorDialog.htm" />
+    <Content Include="StaticContent\demo\pages\JsonTest.htm" />
+    <Content Include="StaticContent\demo\pages\StandardDialog.htm" />
+    <Content Include="StaticContent\demo\pages\TabControl1.htm" />
+    <Content Include="StaticContent\demo\pages\TabControl2.htm" />
+    <Content Include="StaticContent\demo\pages\Upload.htm" />
+    <Content Include="StaticContent\demo\pages\UserEntryDialog.htm" />
+    <Content Include="StaticContent\demo\pages\tabpages\content1.htm" />
+    <Content Include="StaticContent\demo\pages\tabpages\content2.htm" />
+    <Content Include="StaticContent\demo\pages\tabpages\content3-slow.php" />
+    <Content Include="StaticContent\demo\pages\tabpages\content3.htm" />
+    <Content Include="StaticContent\demo\pages\tabpages\content4-broken.php" />
+    <Content Include="StaticContent\demo\scripts\AjaxTest.js" />
+    <Content Include="StaticContent\demo\scripts\JsonTest.js" />
+    <Content Include="StaticContent\demo\scripts\demo.js" />
+    <Content Include="StaticContent\demo\scripts\jquery.fine-uploader.js.map" />
+    <Content Include="StaticContent\demo\scripts\testserver-admin.js" />
+    <Content Include="StaticContent\demo\themes\base\images\busy.gif" />
+    <Content Include="StaticContent\demo\themes\base\images\eye192.png" />
+    <Content Include="StaticContent\demo\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="StaticContent\demo\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="StaticContent\demo\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\continue.gif" />
+    <Content Include="StaticContent\demo\themes\demo.css" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\edit.gif" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\fine-uploader-new.css" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\loading.gif" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\pause.gif" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\processing.gif" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\retry.gif" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\not_available-generic.png" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\waiting-generic.png" />
+    <Content Include="StaticContent\demo\themes\standalone.css" />
+    <Content Include="StaticContent\demo\themes\tabs-no-images.css" />
+    <Content Include="StaticContent\demo\themes\fine-uploader\trash.gif" />
+    <Content Include="StaticContent\docs\PAC_User_Guide.pdf" />
+    <Content Include="StaticContent\docs\WebServer.exe.ini.docx" />
+    <Content Include="StaticContent\docs\WebServer.exe.log.docx" />
+    <Content Include="StaticContent\favicon.ico" />
+    <Content Include="StaticContent\globalization\InternetTimeServers.json" />
+    <Content Include="StaticContent\globalization\Languages\de\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\de\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\en\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\es\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\fr\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\it\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\nl\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\xx\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\AboutInfo.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\ConfigTool.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\InternetSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\Login.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\NetworkSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\RefreshUnits.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\SecuritySettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\SystemSettings.xml" />
+    <Content Include="StaticContent\globalization\Languages\zh\XpressSettings.xml" />
+    <Content Include="StaticContent\globalization\ModelNumberData.xml" />
+    <Content Include="StaticContent\globalization\SupportedLanguages.xml" />
+    <Content Include="StaticContent\grid\images\CheckboxN.png" />
+    <Content Include="StaticContent\grid\images\CheckboxY.png" />
+    <Content Include="StaticContent\grid\images\GrpCheckboxN.png" />
+    <Content Include="StaticContent\grid\images\GrpCheckboxY.png" />
+    <Content Include="StaticContent\grid\images\actions.gif" />
+    <Content Include="StaticContent\grid\images\ajax-loader-small.gif" />
+    <Content Include="StaticContent\grid\images\arrow_redo.png" />
+    <Content Include="StaticContent\grid\images\arrow_right_peppermint.png" />
+    <Content Include="StaticContent\grid\images\arrow_right_spearmint.png" />
+    <Content Include="StaticContent\grid\images\arrow_undo.png" />
+    <Content Include="StaticContent\grid\images\bullet_blue.png" />
+    <Content Include="StaticContent\grid\images\bullet_star.png" />
+    <Content Include="StaticContent\grid\images\bullet_toggle_minus.png" />
+    <Content Include="StaticContent\grid\images\bullet_toggle_plus.png" />
+    <Content Include="StaticContent\grid\images\calendar.gif" />
+    <Content Include="StaticContent\grid\images\collapse.gif" />
+    <Content Include="StaticContent\grid\images\comment_yellow.gif" />
+    <Content Include="StaticContent\grid\images\delete.png" />
+    <Content Include="StaticContent\grid\images\down.gif" />
+    <Content Include="StaticContent\grid\images\drag-handle.png" />
+    <Content Include="StaticContent\grid\images\editor-helper-bg.gif" />
+    <Content Include="StaticContent\grid\images\expand.gif" />
+    <Content Include="StaticContent\grid\images\header-bg.gif" />
+    <Content Include="StaticContent\grid\images\header-columns-bg.gif" />
+    <Content Include="StaticContent\grid\images\header-columns-over-bg.gif" />
+    <Content Include="StaticContent\grid\images\help.png" />
+    <Content Include="StaticContent\grid\images\info.gif" />
+    <Content Include="StaticContent\grid\images\listview.gif" />
+    <Content Include="StaticContent\grid\images\pencil.gif" />
+    <Content Include="StaticContent\grid\images\row-over-bg.gif" />
+    <Content Include="StaticContent\grid\images\sort-asc.gif" />
+    <Content Include="StaticContent\grid\images\sort-asc.png" />
+    <Content Include="StaticContent\grid\images\sort-desc.gif" />
+    <Content Include="StaticContent\grid\images\sort-desc.png" />
+    <Content Include="StaticContent\grid\images\stripes.png" />
+    <Content Include="StaticContent\grid\images\tag_red.png" />
+    <Content Include="StaticContent\grid\images\tick.png" />
+    <Content Include="StaticContent\grid\images\user_identity.gif" />
+    <Content Include="StaticContent\grid\images\user_identity_plus.gif" />
+    <Content Include="StaticContent\grid\lib\jquery.event.drag-2.2.js" />
+    <Content Include="StaticContent\grid\lib\jquery.event.drop-2.2.js" />
+    <Content Include="StaticContent\grid\plugins\slick.autotooltips.js" />
+    <Content Include="StaticContent\grid\plugins\slick.cellcopymanager.js" />
+    <Content Include="StaticContent\grid\plugins\slick.cellrangedecorator.js" />
+    <Content Include="StaticContent\grid\plugins\slick.cellrangeselector.js" />
+    <Content Include="StaticContent\grid\plugins\slick.cellselectionmodel.js" />
+    <Content Include="StaticContent\grid\plugins\slick.checkboxselectcolumn.js" />
+    <Content Include="StaticContent\grid\plugins\slick.headerbuttons.css" />
+    <Content Include="StaticContent\grid\plugins\slick.headerbuttons.js" />
+    <Content Include="StaticContent\grid\plugins\slick.headermenu.css" />
+    <Content Include="StaticContent\grid\plugins\slick.headermenu.js" />
+    <Content Include="StaticContent\grid\plugins\slick.rowmovemanager.js" />
+    <Content Include="StaticContent\grid\plugins\slick.rowselectionmodel.js" />
+    <Content Include="StaticContent\grid\slick-default-theme.css" />
+    <Content Include="StaticContent\grid\slick.core.js" />
+    <Content Include="StaticContent\grid\slick.dataview.js" />
+    <Content Include="StaticContent\grid\slick.editors.js" />
+    <Content Include="StaticContent\grid\slick.formatters.js" />
+    <Content Include="StaticContent\grid\slick.grid.css" />
+    <Content Include="StaticContent\grid\slick.grid.js" />
+    <Content Include="StaticContent\grid\slick.groupitemmetadataprovider.js" />
+    <Content Include="StaticContent\grid\slick.remotemodel.js" />
+    <Content Include="StaticContent\help\aboutinfo.htm" />
+    <Content Include="StaticContent\help\common.htm" />
+    <Content Include="StaticContent\help\images\aboutinfo\img01.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img02.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img03.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img04.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img05.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img06.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img06b.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img07.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img08.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img09.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img10.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img11.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img12.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img13.png" />
+    <Content Include="StaticContent\help\images\aboutinfo\img14.png" />
+    <Content Include="StaticContent\help\images\common\img01.png" />
+    <Content Include="StaticContent\help\images\common\img02.png" />
+    <Content Include="StaticContent\help\images\common\img03.png" />
+    <Content Include="StaticContent\help\images\common\img04.png" />
+    <Content Include="StaticContent\help\images\common\img05.png" />
+    <Content Include="StaticContent\help\images\internetsettings\img01.png" />
+    <Content Include="StaticContent\help\images\internetsettings\img02.png" />
+    <Content Include="StaticContent\help\images\internetsettings\img03.png" />
+    <Content Include="StaticContent\help\images\internetsettings\img04.png" />
+    <Content Include="StaticContent\help\images\internetsettings\img05.png" />
+    <Content Include="StaticContent\help\images\internetsettings\img06.png" />
+    <Content Include="StaticContent\help\images\login\img00.png" />
+    <Content Include="StaticContent\help\images\login\img01.png" />
+    <Content Include="StaticContent\help\images\login\img02.png" />
+    <Content Include="StaticContent\help\images\login\img03.png" />
+    <Content Include="StaticContent\help\images\login\img04.png" />
+    <Content Include="StaticContent\help\images\login\img05.png" />
+    <Content Include="StaticContent\help\images\login\img06.png" />
+    <Content Include="StaticContent\help\images\networksettings\img01.png" />
+    <Content Include="StaticContent\help\images\networksettings\img02.png" />
+    <Content Include="StaticContent\help\images\networksettings\img03.png" />
+    <Content Include="StaticContent\help\images\networksettings\img04.png" />
+    <Content Include="StaticContent\help\images\networksettings\img05.png" />
+    <Content Include="StaticContent\help\images\networksettings\img05b.png" />
+    <Content Include="StaticContent\help\images\networksettings\img05c.png" />
+    <Content Include="StaticContent\help\images\networksettings\img05d.png" />
+    <Content Include="StaticContent\help\images\networksettings\img06a.png" />
+    <Content Include="StaticContent\help\images\networksettings\img06b.png" />
+    <Content Include="StaticContent\help\images\networksettings\img07.png" />
+    <Content Include="StaticContent\help\images\networksettings\img08.png" />
+    <Content Include="StaticContent\help\images\networksettings\img09.png" />
+    <Content Include="StaticContent\help\images\networksettings\img10.png" />
+    <Content Include="StaticContent\help\images\networksettings\img11.png" />
+    <Content Include="StaticContent\help\images\networksettings\img12.png" />
+    <Content Include="StaticContent\help\images\networksettings\img13.png" />
+    <Content Include="StaticContent\help\images\networksettings\img14.png" />
+    <Content Include="StaticContent\help\images\networksettings\img15.png" />
+    <Content Include="StaticContent\help\images\networksettings\img15a.png" />
+    <Content Include="StaticContent\help\images\networksettings\img15b.png" />
+    <Content Include="StaticContent\help\images\networksettings\img16.png" />
+    <Content Include="StaticContent\help\images\networksettings\img17.png" />
+    <Content Include="StaticContent\help\images\networksettings\img18.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img00.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img01.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img02.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img03.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img04.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img05.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img06.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img07.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img08.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img09.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img10.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img11.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img12.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img13.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img14.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img15.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img16.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img17.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img18.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img19.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img20.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img21.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img22.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img23.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img24.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img25.png" />
+    <Content Include="StaticContent\help\images\securitysettings\img26.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img01.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img02.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img03.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img04.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img05.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img06.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img07.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img08.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img09.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img10.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img11.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img12.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img13.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img14.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img15.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img16.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img16a.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img17.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img18.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img19.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img20.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img21.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img22.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img23.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img23a.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img24.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img25.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img26.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img27.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img28.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img29.png" />
+    <Content Include="StaticContent\help\images\systemsettings\img30.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img00.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img01.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img02.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img03.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img04.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img05.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img06.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img07.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img08.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img09.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img10.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img11.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img12.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img13.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img14.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img15.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img16.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img17.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img18.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img19.png" />
+    <Content Include="StaticContent\help\images\xpresssettings\img20.png" />
+    <Content Include="StaticContent\help\internetsettings.htm" />
+    <Content Include="StaticContent\help\login.htm" />
+    <Content Include="StaticContent\help\networksettings.htm" />
+    <Content Include="StaticContent\help\scripts\abt_images.js" />
+    <Content Include="StaticContent\help\scripts\help.js" />
+    <Content Include="StaticContent\help\scripts\lgn_images.js" />
+    <Content Include="StaticContent\help\scripts\net_images.js" />
+    <Content Include="StaticContent\help\scripts\sys_images.js" />
+    <Content Include="StaticContent\help\securitysettings.htm" />
+    <Content Include="StaticContent\help\systemsettings.htm" />
+    <Content Include="StaticContent\help\themes\help.css" />
+    <Content Include="StaticContent\help\xpresssettings.htm" />
+    <Content Include="StaticContent\postbuild.cmd" />
+    <Content Include="StaticContent\postdeploy.cmd" />
+    <Content Include="StaticContent\prebuild.cmd" />
+    <Content Include="StaticContent\scripts\detect.js" />
+    <Content Include="StaticContent\scripts\jquery-migrate.js" />
+    <Content Include="StaticContent\scripts\jquery.js" />
+    <Content Include="StaticContent\scripts\jquery.mousewheel.js" />
+    <Content Include="StaticContent\scripts\jquery.tools.min.js" />
+    <Content Include="StaticContent\scripts\jquery.validate.js" />
+    <Content Include="StaticContent\scripts\json.js" />
+    <Content Include="StaticContent\scripts\moment.js" />
+    <Content Include="StaticContent\scripts\tucson\aboutinfo.js" />
+    <Content Include="StaticContent\scripts\tucson\datetimesettings.js" />
+    <Content Include="StaticContent\scripts\tucson\internetsettings.js" />
+    <Content Include="StaticContent\scripts\tucson\memoryinfo.js" />
+    <Content Include="StaticContent\scripts\tucson\networksettings.js" />
+    <Content Include="StaticContent\scripts\tucson\securitygrid.js" />
+    <Content Include="StaticContent\scripts\tucson\securitysettings.js" />
+    <Content Include="StaticContent\scripts\tucson\systemsettings.js" />
+    <Content Include="StaticContent\scripts\tucson\tucson.common.js" />
+    <Content Include="StaticContent\scripts\tucson\tucson.configtool.js" />
+    <Content Include="StaticContent\scripts\tucson\tucson.login.js" />
+    <Content Include="StaticContent\scripts\tucson\tucson.utils.js" />
+    <Content Include="StaticContent\scripts\tucson\xpresssettings.js" />
+    <Content Include="StaticContent\scripts\ui\jquery-ui-sliderAccess.js" />
+    <Content Include="StaticContent\scripts\ui\jquery-ui-timepicker-addon.js" />
+    <Content Include="StaticContent\scripts\ui\jquery-ui.custom.js" />
+    <Content Include="StaticContent\scripts\ui\jquery-ui.js" />
+    <Content Include="StaticContent\scripts\ui\jquery.blockUI.js" />
+    <Content Include="StaticContent\scripts\ui\jquery.color.js" />
+    <Content Include="StaticContent\scripts\ui\jquery.effects.core.js" />
+    <Content Include="StaticContent\scripts\ui\jquery.file-ajax.js" />
+    <Content Include="StaticContent\scripts\ui\jquery.ipaddress.js" />
+    <Content Include="StaticContent\scripts\ui\jquery.language.switcher.js" />
+    <Content Include="StaticContent\scripts\ui\jquery.uploadfile.js" />
+    <Content Include="StaticContent\themes\base\flags\de.png" />
+    <Content Include="StaticContent\themes\base\flags\en.png" />
+    <Content Include="StaticContent\themes\base\flags\es.png" />
+    <Content Include="StaticContent\themes\base\flags\fr.png" />
+    <Content Include="StaticContent\themes\base\flags\gb.png" />
+    <Content Include="StaticContent\themes\base\flags\it.png" />
+    <Content Include="StaticContent\themes\base\flags\ja.png" />
+    <Content Include="StaticContent\themes\base\flags\nl.png" />
+    <Content Include="StaticContent\themes\base\flags\sw.png" />
+    <Content Include="StaticContent\themes\base\flags\xx.png" />
+    <Content Include="StaticContent\themes\base\flags\zh.png" />
+    <Content Include="StaticContent\themes\base\images\animated-overlay.gif" />
+    <Content Include="StaticContent\themes\base\images\arrow-down.gif" />
+    <Content Include="StaticContent\themes\base\images\busy.gif" />
+    <Content Include="StaticContent\themes\base\images\ping.png" />
+    <Content Include="StaticContent\themes\base\images\ui-anim_basic_16x16.gif" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="StaticContent\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="StaticContent\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="StaticContent\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="StaticContent\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="StaticContent\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="StaticContent\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="StaticContent\themes\base\jquery-language-flags.css" />
+    <Content Include="StaticContent\themes\base\jquery-language-switcher.css" />
+    <Content Include="StaticContent\themes\base\jquery-ui-timepicker-addon.css" />
+    <Content Include="StaticContent\themes\base\jquery-ui.css" />
+    <Content Include="StaticContent\themes\base\jquery.ui.all.css" />
+    <Content Include="StaticContent\themes\tucson\aboutinfo.css" />
+    <Content Include="StaticContent\themes\tucson\configtool.css" />
+    <Content Include="StaticContent\themes\tucson\configtool10.css" />
+    <Content Include="StaticContent\themes\tucson\images\asterisk.png" />
+    <Content Include="StaticContent\themes\tucson\images\busy.gif" />
+    <Content Include="StaticContent\themes\tucson\images\exclamation.png" />
+    <Content Include="StaticContent\themes\tucson\images\exclamation2.png" />
+    <Content Include="StaticContent\themes\tucson\images\eye192.png" />
+    <Content Include="StaticContent\themes\tucson\images\favicon.ico" />
+    <Content Include="StaticContent\themes\tucson\images\gradient.png" />
+    <Content Include="StaticContent\themes\tucson\images\help.png" />
+    <Content Include="StaticContent\themes\tucson\images\help_hover.png" />
+    <Content Include="StaticContent\themes\tucson\images\logo.png" />
+    <Content Include="StaticContent\themes\tucson\images\question.png" />
+    <Content Include="StaticContent\themes\tucson\images\tagline.jpg" />
+    <Content Include="StaticContent\themes\tucson\images\underconstruction.png" />
+    <Content Include="StaticContent\themes\tucson\images\xpressshell.png" />
+    <Content Include="StaticContent\themes\tucson\ipaddress.css" />
+    <Content Include="StaticContent\themes\tucson\securitygrid.css" />
+    <Content Include="StaticContent\themes\tucson\systemsettings.css" />
+    <Content Include="StaticContent\themes\tucson\tabs-no-images.css" />
+    <Content Include="StaticContent\themes\tucson\xpresssettings.css" />
+    <Content Include="StaticContent\tucsontabpages\AboutInfo.htm" />
+    <Content Include="StaticContent\tucsontabpages\InternetSettings.htm" />
+    <Content Include="StaticContent\tucsontabpages\Login.htm" />
+    <Content Include="StaticContent\tucsontabpages\NetworkSettings.htm" />
+    <Content Include="StaticContent\tucsontabpages\SecuritySettings.htm" />
+    <Content Include="StaticContent\tucsontabpages\SystemSettings.htm" />
+    <Content Include="StaticContent\tucsontabpages\XpressSettings.htm" />
+    <Content Include="TestServer\app.mjs" />
+    <Content Include="TestServer\routes\download.mjs" />
+    <Content Include="TestServer\routes\fineupload.js" />
+    <Content Include="TestServer\routes\index.mjs" />
+    <Content Include="TestServer\routes\services.mjs" />
+    <Content Include="TestServer\routes\test.mjs" />
+    <Content Include="TestServer\routes\upload.mjs" />
+    <Content Include="TestServer\routes\users.mjs" />
+    <Content Include="TestServer\StartServer.cmd" />
+    <Content Include="TestServer\nodejs.ico" />
+    <Content Include="TestServer\typings.json" />
+    <Content Include="TestServer\views\index.htm" />
+    <Content Include="StaticContent\docs\error.htm">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="StaticContent\demo\pages\FineUploader.htm">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Solution Items\" />
+    <Folder Include="StaticContent\" />
+    <Folder Include="StaticContent\demo\data\tabpages\" />
+    <Folder Include="StaticContent\Properties\" />
+    <Folder Include="StaticContent\demo\" />
+    <Folder Include="StaticContent\demo\data\" />
+    <Folder Include="StaticContent\demo\docs\" />
+    <Folder Include="StaticContent\demo\pages\" />
+    <Folder Include="StaticContent\demo\pages\tabpages\" />
+    <Folder Include="StaticContent\demo\scripts\" />
+    <Folder Include="StaticContent\demo\themes\" />
+    <Folder Include="StaticContent\demo\themes\base\" />
+    <Folder Include="StaticContent\demo\themes\base\images\" />
+    <Folder Include="StaticContent\demo\themes\source\" />
+    <Folder Include="StaticContent\demo\themes\fine-uploader\" />
+    <Folder Include="StaticContent\docs\" />
+    <Folder Include="StaticContent\globalization\" />
+    <Folder Include="StaticContent\globalization\Languages\" />
+    <Folder Include="StaticContent\globalization\Languages\de\" />
+    <Folder Include="StaticContent\globalization\Languages\en\" />
+    <Folder Include="StaticContent\globalization\Languages\es\" />
+    <Folder Include="StaticContent\globalization\Languages\fr\" />
+    <Folder Include="StaticContent\globalization\Languages\it\" />
+    <Folder Include="StaticContent\globalization\Languages\nl\" />
+    <Folder Include="StaticContent\globalization\Languages\xx\" />
+    <Folder Include="StaticContent\globalization\Languages\zh\" />
+    <Folder Include="StaticContent\grid\" />
+    <Folder Include="StaticContent\grid\images\" />
+    <Folder Include="StaticContent\grid\lib\" />
+    <Folder Include="StaticContent\grid\plugins\" />
+    <Folder Include="StaticContent\help\" />
+    <Folder Include="StaticContent\help\images\" />
+    <Folder Include="StaticContent\help\images\aboutinfo\" />
+    <Folder Include="StaticContent\help\images\common\" />
+    <Folder Include="StaticContent\help\images\internetsettings\" />
+    <Folder Include="StaticContent\help\images\login\" />
+    <Folder Include="StaticContent\help\images\networksettings\" />
+    <Folder Include="StaticContent\help\images\securitysettings\" />
+    <Folder Include="StaticContent\help\images\systemsettings\" />
+    <Folder Include="StaticContent\help\images\xpresssettings\" />
+    <Folder Include="StaticContent\help\images\~temp\" />
+    <Folder Include="StaticContent\help\scripts\" />
+    <Folder Include="StaticContent\help\themes\" />
+    <Folder Include="StaticContent\scripts\" />
+    <Folder Include="StaticContent\scripts\tucson\" />
+    <Folder Include="StaticContent\scripts\ui\" />
+    <Folder Include="StaticContent\themes\" />
+    <Folder Include="StaticContent\themes\base\" />
+    <Folder Include="StaticContent\themes\base\flags\" />
+    <Folder Include="StaticContent\themes\base\images\" />
+    <Folder Include="StaticContent\themes\tucson\" />
+    <Folder Include="StaticContent\themes\tucson\images\" />
+    <Folder Include="StaticContent\tucsontabpages\" />
+    <Folder Include="TestServer\" />
+    <Folder Include="TestServer\routes\" />
+    <Folder Include="TestServer\views\" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.	While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:3000</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

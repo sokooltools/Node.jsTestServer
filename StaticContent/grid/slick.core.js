@@ -87,7 +87,7 @@
      */
     this.isImmediatePropagationStopped = function () {
       return isImmediatePropagationStopped;
-    }
+    };
   }
 
   /***
@@ -183,7 +183,7 @@
       handlers = [];
 
       return this;  // allow chaining
-    }
+    };
   }
 
   /***
@@ -267,7 +267,7 @@
       else {
         return "(" + this.fromRow + ":" + this.fromCell + " - " + this.toRow + ":" + this.toCell + ")";
       }
-    }
+    };
   }
 
 

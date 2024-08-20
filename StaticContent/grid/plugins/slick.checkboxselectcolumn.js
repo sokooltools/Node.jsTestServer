@@ -90,8 +90,8 @@
     function toggleRowSelection(row) {
       if (_selectedRowsLookup[row]) {
         _grid.setSelectedRows($.grep(_grid.getSelectedRows(), function (n) {
-          return n != row
-        }));
+          return n != row;
+		}));
       } else {
         _grid.setSelectedRows(_grid.getSelectedRows().concat(row));
       }
@@ -115,8 +115,8 @@
         }
       }
       _grid.setSelectedRows($.grep(_grid.getSelectedRows(), function (n) {
-        return removeRows.indexOf(n)<0
-      }));
+        return removeRows.indexOf(n)<0;
+	  }));
     }
 
     function handleHeaderClick(e, args) {

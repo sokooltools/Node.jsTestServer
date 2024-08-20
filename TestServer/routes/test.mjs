@@ -2,8 +2,8 @@
 // test.mjs  ( e.g. http://localhost:3000/test/xxx )
 // -----------------------------------------------------------------------------------------------------
 
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+import { createRequire } from "module";
+const reqr = createRequire(import.meta.url);
 
 import express, { Router } from "express";
 
@@ -13,7 +13,7 @@ var fs = await import("fs");
 
 var router = Router();
 
-var gifResize = require("@gumlet/gif-resize");
+var gifResize = reqr("@gumlet/gif-resize");
 
 import helmet from "helmet";
 
@@ -37,12 +37,12 @@ app.use(helmet({
 	contentSecurityPolicy: {
 		directives: {
 			defaultSrc: ["'self'"],
-			connectSrc: ["'self'", 'http://127.0.0.1:8000', 'ws://localhost:3000/', 'https://localhost:443/']
+			connectSrc: ["'self'", "http://127.0.0.1:8000", "ws://localhost:3000/", "https://localhost:443/"]
 		}
 	}
 }));
 
-var bodyParser = require("body-parser");
+var bodyParser = reqr("body-parser");
 app.use(bodyParser.json({ limit: "10mb" }));
 // app.use(bodyParser.raw({ limit: "10mb" }));
 // app.use(bodyParser.urlencoded({ imit: "10mb", extended: true, parameterLimit: 50 }));
@@ -114,20 +114,20 @@ router.get("/snippets", function (req, res) {
 			return;
 		}
 		const token1 = '"script-snippets":';
-		const token2 = '"script-snippets-last-identifier":';
 		let data = buf.toString();
 		let n = data.indexOf(token1);
 		if (n > -1) {
 			data = data.substring(n + token1.length);
+			const token2 = '"script-snippets-last-identifier":';
 			n = data.indexOf(token2);
 			if (n > -1) {
 				data = data.substring(0, n);
-				if (data.charAt(data.length - 1) === ',') {
+				if (data.charAt(data.length - 1) === ",") {
 					data = data.substring(0, data.length - 1);
 				}
 				data = data.trim();
 			}
-		}	
+		}
 		let jsonL1 = JSON.parse(data);
 		jsonL1 = JSON.parse(jsonL1).sort(sortByProperty("name"));
 		//let jsonL2 = {
@@ -170,8 +170,8 @@ router.get("/versions", function (req, res) {
 			for (const key of keys) {
 				try {
 					const dir = path.join(key, "package.json");
-					const resolved = require.resolve(dir);
-					obj[key] = require(resolved).version;
+					const resolved = reqr.resolve(dir);
+					obj[key] = reqr(resolved).version;
 				} catch (err) {
 					console.error(`Could not resolve: '${key}'`);
 					continue;
@@ -237,16 +237,17 @@ router.get("*", function (req, res) {
 // --- HELPER FUNCTIONS ------------------------------------------------------------------------
 
 // Gets the Base64 string (read synchronously) from the specified file.
-function getBase64StringFromFile(file) {
-	try {
-		const binary = readFileSync(file, { encoding: "base64" });
-	} catch (err) {
-		console.error("Error reading file:", err);
-	}
-	return null;
-};
+//function getBase64StringFromFile(file) {
+//	try {
+//		const binary = readFileSync(file, { encoding: "base64" });
+//	} catch (err) {
+//		console.error("Error reading file:", err);
+//	}
+//	return null;
+//};
 
 // Gets the Base64 string (read asynchronously) from the specified file.
+// ReSharper disable once UnusedLocals
 async function getBase64StringFromFileAsync(filePath) {
 	try {
 		return fs.readFile(filePath, { encoding: "base64" });
@@ -291,7 +292,7 @@ function getBase64StringMinusMeta(base64String) {
  *
  */
 function getDownloadsFolder() {
-	const registry = require("registry-js");
+	const registry = reqr("registry-js");
 	let folder = `${process.env.USERPROFILE}\\Downloads`;
 	const folders =
 		registry.enumerateValues(

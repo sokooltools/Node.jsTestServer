@@ -41,7 +41,7 @@ $(function () {
 		const json = {
 			"base64String": sampleText.val(),
 			"width": 150
-		}
+		};
 		DEMO.doPut("/test/resize-gif", json, showResponse);
 	});
 
@@ -49,7 +49,7 @@ $(function () {
 		const json = {
 			"base64String": sampleText.val(),
 			"filename": "testserver.gif"
-		}
+		};
 		DEMO.doPut("/test/upload-gif", json, showResponse);
 	});
 
@@ -65,7 +65,7 @@ $(function () {
 
 	sampleText = $("textarea#sampleText");
 	sampleText.val(ts_jsonText);
-	responseText = $("textarea#responseText")
+	responseText = $("textarea#responseText");
 
 	setToolTips();
 });
@@ -77,18 +77,18 @@ function showResponse(json) {
 
 function copySample(e) {
 	const textArea = document.getElementById("sampleText");
-	let text = getSelectedText(textArea);
+	const text = getSelectedText(textArea);
 	if (!text) {
 		MISC.showDialog("There is nothing to copy.", e.target, 3000, textArea);
 		return;
 	}
 	navigator.clipboard.writeText(text);
-	let isAll = textArea.selectionStart == textArea.selectionEnd;
+	const isAll = textArea.selectionStart === textArea.selectionEnd;
 	MISC.showDialog(`${isAll ? "All the" : "The selected"} 'Sample' text was copied to the clipboard!`, e.target, 3000, textArea);
 }
 
 function copyResponse(e) {
-	let textArea = document.getElementById("responseText");
+	const textArea = document.getElementById("responseText");
 	let text = getSelectedText(textArea);
 	if (!text) {
 		MISC.showDialog("There is nothing to copy.", e.target, 3000, textArea);
@@ -98,7 +98,7 @@ function copyResponse(e) {
 		text = getUnescapedString(text);
 	}
 	navigator.clipboard.writeText(text);
-	let isAll = textArea.selectionStart == textArea.selectionEnd;
+	const isAll = textArea.selectionStart === textArea.selectionEnd;
 	MISC.showDialog(`${isAll ? "All the" : "The selected"} 'Response' text was copied ${e.ctrlKey ? "(unescaped)" : ""} to the clipboard!`, e.target, 3000, textArea);
 }
 
@@ -106,16 +106,16 @@ function getUnescapedString(escapedString) {
 	if (!escapedString)
 		return null;
 	escapedString = escapedString.replace(/\\\\/g, "");
-	return escapedString.replace(/\\"/g, '"').replace(/\\'/g, '\'').replace(/\\n/g, '\n').replace(/\\r/g, '\r').replace(/\\t/g, '\t');
+	return escapedString.replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\n/g, "\n").replace(/\\r/g, "\r").replace(/\\t/g, "\t");
 }
 
 function getSelectedText(textArea) {
 	// Obtain index of the first selected character.
-	let start = textArea.selectionStart;
+	const start = textArea.selectionStart;
 	// Obtain index of the last selected character.
-	let finish = textArea.selectionEnd;
+	const finish = textArea.selectionEnd;
 	// Return selected text.
-	return (start != finish) ? textArea.value.substring(start, finish) : textArea.value;
+	return (start !== finish) ? textArea.value.substring(start, finish) : textArea.value;
 }
 
 function setToolTips() {

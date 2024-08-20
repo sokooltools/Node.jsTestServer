@@ -14,7 +14,7 @@ import fs from "fs";
 import path from "path";
 
 import url from "url";
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 const staticContent = path.join(path.dirname(__dirname), "..\\StaticContent");
 
 //import { createRequire } from 'module';
@@ -98,7 +98,6 @@ function getFullPathForFilename(filename) {
 
 /** Returns the content-type + charset string based on the mime type. */
 function getContentType(mimeType) {
-	const charsetUtf8 = "; charset=UTF-8";
 	// Content types that do not start with text/.. but usually contain charset=utf-8
 	const specialCase = [
 		"application/json",
@@ -108,9 +107,10 @@ function getContentType(mimeType) {
 	let outputContentType = mimeType;
 	// Return undefined.
 	if (!outputContentType)
-		return;
+		return outputContentType;
 	if (outputContentType.startsWith("text/") || specialCase.includes(outputContentType)) {
 		// Combine Content-Type with charset=utf-8
+		const charsetUtf8 = "; charset=UTF-8";
 		outputContentType += charsetUtf8;
 		// Return combined.
 		return outputContentType;

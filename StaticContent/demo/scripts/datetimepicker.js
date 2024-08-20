@@ -11,7 +11,7 @@ dtp.datetimepicker({
 	timeFormat: "hh:mm:ss TT",
 	separator: " @ ",
 	showTimezone: false,
-	timezone: null,
+	timezone: null
 });
 
 $("#utility_example_1_setdt").on("click", function () {

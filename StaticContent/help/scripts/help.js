@@ -11,8 +11,8 @@ $(document).ready(function() {
 	$("#help_btnScrollToTop").prop("title", "Click to go to the top of this page...");
 	$("#help_btnShowCommon").prop("title", 'Click to show "Global Help" (help which is common to all pages)...');
 	$("#help_btnClose").prop("title", "Click to close this online help...");
-	var pg = getQueryStringByName("tok");
-	$("#help_btnGoBack").text(pg).prop("title", 'Click to go back to the "' + pg + '"');
+	const pg = getQueryStringByName("tok");
+	$("#help_btnGoBack").text(pg).prop("title", `Click to go back to the "${pg}"`);
 
 	$("#help_Toolbar").on("click", function(e) {
 		if (e.ctrlKey)
@@ -21,8 +21,8 @@ $(document).ready(function() {
 	});
 
 	$("#help_btnShowCommon").on("click", function() {
-		var pA = window.location.pathname.split("/");
-		location.href = "common.htm?tok=" + document.title + "&ret=" + pA[pA.length - 1];
+		const pA = window.location.pathname.split("/");
+		location.href = `common.htm?tok=${document.title}&ret=${pA[pA.length - 1]}`;
 		return false;
 	});
 
@@ -49,7 +49,7 @@ $(document).ready(function() {
 		var sel = $("LI.li2 > a");
 		//sel.prop('title', "Click to go to the top of this page...");
 		sel.prop("href", "#");
-		var mid = Math.round(sel.length / 2);
+		const mid = Math.round(sel.length / 2);
 		var str = "<table id='help_toc_table'>";
 		str += "<caption id='help_toc_caption'>Table of Contents</caption>";
 		str += "<tr>";
@@ -58,26 +58,26 @@ $(document).ready(function() {
 		var i;
 		var sec;
 		for (i = 0; i < mid; i++) {
-			sel[i].id = "A" + (i + 1);
+			sel[i].id = `A${i + 1}`;
 			if (sel[i].innerHTML !== "")
-				str += "<li class='li1'><a href='#" + sel[i].id + "'>" + sel[i].innerHTML + "</a></li>";
+				str += `<li class='li1'><a href='#${sel[i].id}'>${sel[i].innerHTML}</a></li>`;
 			else {
-				sec = "Step " + (i + 1);
-				str += "<li class='li1'><a href='#" + sel[i].id + "'>" + sec + "</a></li>";
+				sec = `Step ${i + 1}`;
+				str += `<li class='li1'><a href='#${sel[i].id}'>${sec}</a></li>`;
 				sel[i].innerHTML = sec;
 			}
 		}
 		str += "</ol>";
 		str += "</td>";
 		str += "<td class='td1'>";
-		str += "<ol start='" + (mid + 1) + "'>";
+		str += `<ol start='${mid + 1}'>`;
 		for (i = mid; i < sel.length; i++) {
-			sel[i].id = "A" + (i + 1);
+			sel[i].id = `A${i + 1}`;
 			if (sel[i].innerHTML !== "")
-				str += "<li class='li1'><a href='#" + sel[i].id + "'>" + sel[i].innerHTML + "</a></li>";
+				str += `<li class='li1'><a href='#${sel[i].id}'>${sel[i].innerHTML}</a></li>`;
 			else {
-				sec = "Step " + (i + 1);
-				str += "<li class='li1'><a href='#" + sel[i].id + "'>" + sec + "</a></li>";
+				sec = `Step ${i + 1}`;
+				str += `<li class='li1'><a href='#${sel[i].id}'>${sec}</a></li>`;
 				sel[i].innerHTML = sec;
 			}
 		}
@@ -126,7 +126,7 @@ $(document).ready(function() {
 			$(this).fadeIn("slow");
 		}
 		var scrollDiv = $(this);
-		$(window).scroll(
+		$(window).on("scroll",
 			function()
 			{
 				if ($(window).scrollTop() === "0") {
@@ -145,7 +145,7 @@ $(document).ready(function() {
 				}, "slow");
 			}
 		);
-	}
+	};
 	$("#hb-gotop").scrollToTop();
 });
 
@@ -154,8 +154,8 @@ $(document).ready(function() {
 // -------------------------------------------------------------------------------------------
 function getQueryStringByName(name) {
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(location.search);
+	const regex = new RegExp(`[\\?&]${name}=([^&#]*)`);
+	const results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
@@ -181,10 +181,10 @@ function scrollToElement(elId) {
 function showImageNames() {
 	if ($("span").hasClass("imns"))
 		return;
-	var sel1 = $("li.li2 > a");
-	var sel2 = $("[src$='.png']");
-	for (var i = 0; i < sel1.length; i++) {
-		sel1[i].innerHTML += "<span class='imns'> [" + sel2[i].src.substring(sel2[i].src.lastIndexOf("/") + 1) + "]</span>";
+	const sel1 = $("li.li2 > a");
+	const sel2 = $("[src$='.png']");
+	for (let i = 0; i < sel1.length; i++) {
+		sel1[i].innerHTML += `<span class='imns'> [${sel2[i].src.substring(sel2[i].src.lastIndexOf("/") + 1)}]</span>`;
 	}
-	window.console.log("Now showing " + sel2.length + " image names...");
+	window.console.log(`Now showing ${sel2.length} image names...`);
 }

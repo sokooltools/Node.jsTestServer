@@ -22,7 +22,7 @@
             "name": "Launch Demo in Edge (File-Based)",
             "request": "launch",
             "type": "msedge",
-            "url": "D:/Users/Ronn/Documents/Visual Studio 2019/DevTools/ParkerConfigTool/StaticContent/Demo/Demo.htm",
+            "url": "D:/Users/Ronn/Documents/Visual Studio 2019/DevTools/Node.jsTestServer/StaticContent/Demo/Demo.htm",
             "webRoot": "${workspaceFolder}/staticcontent"
         },
         {

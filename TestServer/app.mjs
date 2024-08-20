@@ -10,13 +10,13 @@
 // NPM      10.2.4
 // Express  4.15.3
 
-"use strict";
+//"use strict";
 
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+import { createRequire } from "module";
+const reqr = createRequire(import.meta.url);
 
-import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 //const __filename = url.fileURLToPath(import.meta.url);
 
 import http from "http";
@@ -37,8 +37,8 @@ import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
 import debug from "debug";
 
-var bodyParser = require("body-parser");
-var fineupload = require("./routes/fineupload.js");
+var bodyParser = reqr("body-parser");
+var fineupload = reqr("./routes/fineupload.js");
 
 //var services  = await import( "./routes/services.mjs");
 import services from "./routes/services.mjs";
@@ -149,8 +149,8 @@ httpServer.listen(app.get("port"), function () {
 });
 
 const options = {
-	key: fs.readFileSync(path.join(__dirname, './Security/localhost.key')),
-	cert: fs.readFileSync(path.join(__dirname, './Security/localhost.crt')),
+	key: fs.readFileSync(path.join(__dirname, "./Security/localhost.key")),
+	cert: fs.readFileSync(path.join(__dirname, "./Security/localhost.crt"))
 };
 
 const httpsServer = https.createServer(options, app);

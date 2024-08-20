@@ -16,15 +16,16 @@ MISC.formatFileSize = function (bytes, decimalPoint) {
 	return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 }
 
-String.prototype.format = function () {
-	var args = arguments;
-	return this.replace(/{([0-9]+)}/g, (match, index) => typeof args[index] == "undefined" ? match : args[index]);
+if (!String.prototype.format) {
+	String.prototype.format = function() {
+		var args = arguments;
+		return this.replace(/{([0-9]+)}/g, (match, index) => typeof args[index] == "undefined" ? match : args[index]);
+	}
 }
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Shows a dialog containing the specified message
- * matching object.
+ * Shows a dialog containing the specified message matching object.
  * @param {string} msg The message to display in the dialog.
  * @param {string} elem The optional element to use for locating the dialog beside; otherwise dialog is centered in window.
  * @param {number} timeout The optional amount of time (in milliseconds) to wait before the dialog is auto-closed; otherwise indefinite.
@@ -32,7 +33,7 @@ String.prototype.format = function () {
  */
 MISC.showDialog = function (msg, elem, timeout, focusElement) {
 	let timeoutID;
-	let td = $("#testdlg");
+	const td = $("#testdlg");
 	// Select the dialog div and show it as a jQuery dialog.
 	td.dialog({
 		autoOpen: false,

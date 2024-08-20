@@ -13,7 +13,6 @@ $("#demo_getCustomComboValue").on("click", function () {
 $.widget("custom.combobox", {
 	_create: function () {
 		this.wrapper = $("<span>").addClass("custom-combobox").insertAfter(this.element);
-
 		this.element.hide();
 		this._createAutocomplete();
 		this._createShowAllButton();
@@ -21,7 +20,6 @@ $.widget("custom.combobox", {
 	_createAutocomplete: function () {
 		const selected = this.element.children(":selected");
 		const value = selected.val() ? selected.text() : "";
-
 		this.input = $("<input>")
 			.appendTo(this.wrapper)
 			.val(value)
@@ -31,28 +29,26 @@ $.widget("custom.combobox", {
 			.autocomplete({
 				delay: 0,
 				minLength: 0,
-				source: $.proxy(this, "_source"),
+				source: $.proxy(this, "_source")
 			})
 			.tooltip({
 				classes: {
-					"ui-tooltip": "ui-state-highlight",
-				},
+					"ui-tooltip": "ui-state-highlight"
+				}
 			});
 		this._on(this.input, {
 			autocompleteselect: function (event, ui) {
 				ui.item.option.selected = true;
 				this._trigger("select", event, {
-					item: ui.item.option,
+					item: ui.item.option
 				});
-			},
-
+			}
 			//,autocompletechange: "_removeIfInvalid"
 		});
 	},
 	_createShowAllButton: function () {
 		var input = this.input,
 			wasOpen = false;
-
 		$("<a>")
 			.attr("tabIndex", -1)
 			//.attr("title", "the title") // "Show All Items"
@@ -60,9 +56,9 @@ $.widget("custom.combobox", {
 			.appendTo(this.wrapper)
 			.button({
 				icons: {
-					primary: "ui-icon-triangle-1-s",
+					primary: "ui-icon-triangle-1-s"
 				},
-				text: false,
+				text: false
 			})
 			.removeClass("ui-corner-all")
 			.addClass("custom-combobox-toggle ui-corner-right")
@@ -90,15 +86,16 @@ $.widget("custom.combobox", {
 					return {
 						label: text,
 						value: text,
-						option: this,
+						option: this
 					};
+				return null;
 			})
 		);
 	},
 	_destroy: function () {
 		this.wrapper.remove();
 		this.element.show();
-	},
+	}
 });
 
 $("#combobox1").combobox();

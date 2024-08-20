@@ -6,8 +6,8 @@ import { join } from "path";
 import { Router } from "express";
 var router = Router();
 
-import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 // "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\Node.jsTestServer\TestServer\views\index.htm"
 const file = join(__dirname, "../views/index.htm");
 

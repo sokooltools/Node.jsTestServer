@@ -248,9 +248,9 @@
             'fromRow': activeRow,
             'toCell': activeCell+this.w-1,
             'toRow': activeRow+this.h-1
-          }
+          };
 
-          this.markCopySelection([bRange]);
+		  this.markCopySelection([bRange]);
           _grid.getSelectionModel().setSelectedRanges([bRange]);
           this.cellExternalCopyManager.onPasteCells.notify({ranges: [bRange]});
         },
@@ -284,9 +284,9 @@
             'fromRow': activeRow,
             'toCell': activeCell+this.w-1,
             'toRow': activeRow+this.h-1
-          }
+          };
 
-          this.markCopySelection([bRange]);
+		  this.markCopySelection([bRange]);
           _grid.getSelectionModel().setSelectedRanges([bRange]);
           this.cellExternalCopyManager.onPasteCells.notify({ranges: [bRange]});
           

@@ -8,21 +8,21 @@ createUploader = (function () {
 		template: "qq-template-manual-trigger",
 		request: {
 			// The endpoint (route) to send upload requests to.
-			endpoint: "/fineupload",
+			endpoint: "/fineupload"
 		},
 		deleteFile: {
 			enabled: false,
-			endpoint: "/fineupload",
+			endpoint: "/fineupload"
 		},
 		thumbnails: {
 			placeholders: {
 				waitingPath: "../themes/fine-uploader/waiting-generic.png",
-				notAvailablePath: "../themes/fine-uploader/not_available-generic.png",
-			},
+				notAvailablePath: "../themes/fine-uploader/not_available-generic.png"
+			}
 		},
 		retry: {
 			// Enable or disable retrying uploads that receive any error response. (defaults to false)
-			enableAuto: false,
+			enableAuto: false
 		},
 		callbacks: {
 			onComplete: function (id, name, response) {
@@ -33,7 +33,7 @@ createUploader = (function () {
 					//viewBtn.setAttribute("href", "file://" + serverPathToFile);
 					//window.qq(viewBtn).removeClass("qq-hide");
 				}
-			},
+			}
 		},
 		// Prevents user from simultaneously selecting or dropping more than one item when false.
 		multiple: true,
@@ -43,8 +43,8 @@ createUploader = (function () {
 			sizeLimit: 5242880,
 			// The maximum number of items that can be potentially uploaded in this session.
 			// (Will reject all items that are added or retried after this limit is reached.)
-			itemLimit: 15,
-		},
+			itemLimit: 15
+		}
 	});
 })();
 

@@ -120,21 +120,21 @@ var DEMO = {
 					.autocomplete({
 						delay: 0,
 						minLength: 0,
-						source: $.proxy(this, "_source"),
+						source: $.proxy(this, "_source")
 					})
 					.tooltip({
 						classes: {
-							"ui-tooltip": "ui-state-highlight",
-						},
+							"ui-tooltip": "ui-state-highlight"
+						}
 					});
 
 				this._on(this.input, {
 					autocompleteselect: function (event, ui) {
 						ui.item.option.selected = true;
 						this._trigger("select", event, {
-							item: ui.item.option,
+							item: ui.item.option
 						});
-					},
+					}
 				});
 			},
 			_createShowAllButton: function () {
@@ -147,9 +147,9 @@ var DEMO = {
 					.appendTo(this.wrapper)
 					.button({
 						icons: {
-							primary: "ui-icon-triangle-1-s",
+							primary: "ui-icon-triangle-1-s"
 						},
-						text: false,
+						text: false
 					})
 					.removeClass("ui-corner-all")
 					.addClass("custom-combobox-toggle ui-corner-right")
@@ -177,7 +177,7 @@ var DEMO = {
 							return {
 								label: text,
 								value: text,
-								option: this,
+								option: this
 							};
 						}
 						return {};
@@ -187,7 +187,7 @@ var DEMO = {
 			_destroy: function () {
 				this.wrapper.remove();
 				this.element.show();
-			},
+			}
 		});
 
 		$("#combobox1").combobox();
@@ -209,11 +209,11 @@ var DEMO = {
 	defaultRoot: "http://localhost:3000"
 	,
 	getFullRoute: function (route) {
-		return route.startsWith("http")  
-		? route  
-		: this.defaultRoot + (route.startsWith("/") 
-		? route 
-		: "/" + route);
+		return route.startsWith("http")
+			? route
+			: this.defaultRoot + (route.startsWith("/")
+				? route
+				: "/" + route);
 	}
 	,
 	/**
@@ -230,7 +230,7 @@ var DEMO = {
 
 		// Make the fetch request with the signal.
 		const fetchPromise = fetch(this.getFullRoute(route), {
-			signal,
+			signal
 		});
 
 		// Timeout after specified number of milliseconds.
@@ -282,7 +282,7 @@ var DEMO = {
 				"Content-Length": jsonBody.length
 			},
 			// Convert JSON data to a string and set it as the request body.
-			body: jsonBody,
+			body: jsonBody
 		};
 		// Make the fetch request using the provided options.
 		fetch(this.getFullRoute(route), options)
@@ -325,7 +325,7 @@ var DEMO = {
 				$.unblockUI({
 					onUnblock: function () {
 						this.showDialog('Sorry... only raw "html" pages can be opened from the desktop!');
-					},
+					}
 				});
 				return false;
 			}
@@ -395,8 +395,8 @@ var DEMO = {
 			message: `<img src="themes/base/images/busy.gif"/> ${msg}`,
 			//timeout: 15000,
 			overlayCSS: {
-				backgroundColor: "#A0A0A0",
-			},
+				backgroundColor: "#A0A0A0"
+			}
 		});
 	}
 	,
@@ -406,7 +406,7 @@ var DEMO = {
 	// -------------------------------------------------------------------------------------------
 	goToPage: function (doc, urlRoot, page, numAttempt) {
 		const protocol = this.getProtocol();
-		if (!numAttempt) 
+		if (!numAttempt)
 			numAttempt = 1;
 		this.debugLog(`Attempting to connect to: '${urlRoot}'... (${numAttempt})`);
 		//var img = new window.Image();  //document.createElement("img");
@@ -459,11 +459,11 @@ var DEMO = {
 			buttons: {
 				OK: function () {
 					$(this).dialog("close");
-				},
+				}
 			},
 			width: 400,
 			height: 200,
-			title: title ? title : "jQuery Demos",
+			title: title ? title : "jQuery Demos"
 		});
 	}
 	,

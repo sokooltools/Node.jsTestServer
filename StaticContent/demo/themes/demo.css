@@ -198,11 +198,12 @@ input#demo_rdoWeb {
 	pointer-events: none;
 }
 
-input::file-selector-button {
+/*
+	input::file-selector-button {
 	font-weight: 300;
 	color:dodgerblue;
 	padding: 0.25em;
 	border: thin solid grey;
 	border-radius: 3px;
   }
-  
+  */

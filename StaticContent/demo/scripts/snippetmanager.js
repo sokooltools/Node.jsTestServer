@@ -23,7 +23,7 @@ let count = new class Counters {
 		this.replaced = 0;
 		this.total = 0;
 	}
-}
+};
 
 const state = {
 	scriptSnippets: [],
@@ -67,8 +67,7 @@ extension instead of a "<i>.js</i>" extension).</p>`;
 
 const SAVE_TITLE = `Saves the selected items in ${CS} to 'DevTools'.\n`
 	+ HZLN + (isDevToolsOfDevTools
-		? `Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n`
-		+ `${CS}, you will be prompted to confirm this action prior to it actually being performed.`
+		? `Note: Since all the snippets in 'DevTools' will be REPLACED by the selected items in\n${`${CS}, you will be prompted to confirm this action prior to it actually being performed.`}`
 		: `Note: This action can only be performed when "${state.thisSnippetDesc}" is opened in 'DevTools' of 'DevTools'.\n`
 		+ `Try the following 3 steps:\n`
 		+ `	Close this window.\n`
@@ -104,53 +103,42 @@ let buttons = new class Buttons {
 		this.Checkall = _docx.getElementById("snip_checkall_btn");
 		this.Checkall.addEventListener("click", checkAllCheckboxes);
 		this.Checkall.setAttribute("title", `Adds a checkmark to all the snippets in ${CS}.`);
-
 		this.Uncheckall = _docx.getElementById("snip_uncheckall_btn");
 		this.Uncheckall.addEventListener("click", uncheckAllCheckboxes);
 		this.Uncheckall.setAttribute("title", `Removes the checkmark from all the snippets in ${CS}.`);
-
 		this.Invert = _docx.getElementById("snip_invert_btn");
 		this.Invert.addEventListener("click", invertAllCheckboxes);
 		this.Invert.setAttribute("title", `Inverts the checkmark of all the snippets in ${CS}\n`
 			+ "(i.e., switches currently 'checked' with 'unchecked' and vice versa).");
-
 		this.Remove = _docx.getElementById("snip_remove_btn");
 		this.Remove.addEventListener("click", removeSnippets);
 		this.Remove.setAttribute("title", `Removes the selected items from ${CS}.`);
-
 		this.Sort = _docx.getElementById("snip_sort_btn");
 		this.Sort.addEventListener("click", sortCurrentSnippets);
 		this.Sort.setAttribute("title", `Sorts all the snippets in ${CS} in case-insensitive ascending order.`);
-
 		this.Reload = _docx.getElementById("snip_reload_btn");
 		this.Reload.addEventListener("click", loadCurrentSnippets);
 		this.Reload.setAttribute("title", `Reloads ${CS} with the snippets from DevTools.`);
-
 		this.Save = _docx.getElementById("snip_save_btn");
 		this.Save.addEventListener("click", saveSnippets);
 		this.Save.setAttribute("title", SAVE_TITLE);
-
 		this.DownloadSingleJson = _docx.getElementById("snip_downloadSingleJson_btn");
 		this.DownloadSingleJson.addEventListener("click", downloadSingleJsonFile);
 		this.DownloadSingleJson.setAttribute("title", `Downloads the selected items in ${CS} as a single unified '.json' file.`);
-
 		this.DownloadMultipleJs = _docx.getElementById("snip_downloadMultipleJs_btn");
 		this.DownloadMultipleJs.addEventListener("click", downloadMultipleJsFiles);
 		this.DownloadMultipleJs.setAttribute("title", `Downloads the selected items in ${CS} as multiple '.js' files.`);
-
 		this.LoadBgrins = _docx.getElementById("snip_loadbgrins_btn");
 		this.LoadBgrins.addEventListener("click", loadSnippetsFromBgrins);
 		this.LoadBgrins.setAttribute("title", `Adds snippets to ${CS} from the following repository:\n..."${URL_BGRINS}"`);
-
 		this.LoadBalmutov = _docx.getElementById("snip_loadbahmutov_btn");
 		this.LoadBalmutov.addEventListener("click", loadSnippetsFromBahmutov);
 		this.LoadBalmutov.setAttribute("title", `Adds snippets to ${CS} from the following repository:\n..."${URL_BAHMUTOV}"`);
-
 		this.DoTest = _docx.getElementById("snip_dotest_btn");
 		this.DoTest.addEventListener("click", doTest);
 		this.DoTest.setAttribute("title", `Runs a pre-defined unit test.`);
 	}
-}
+};
 
 function doTest() {
 	//debugger;
@@ -180,28 +168,23 @@ async function doTest1() {
 	console.log("Test finished.");
 }
 
-function decode(msg) {
-	msg = msg.replace(/\<[bi]?\>|\<\/[bi]\>/, "");
-	return msg;
-}
-
 /** -------------------------------------------------------------------------------------------
 * Opens a new window as _app_window.
 */
 function openAppWindow() {
 	console.log(`[openAppWindow] Opening '${WIN_TITLE}' window…`);
-	let deltaW = Math.abs(window.outerWidth - window.innerWidth);
-	let deltaH = Math.abs(window.outerHeight - window.innerHeight);
-	let winWth = 738 + (isDevToolsOfDevTools ? 16 : 0);
-	let winHgt = 526 + (isDevToolsOfDevTools ? deltaH : 0);
-	let winLft = (window.screen.width - winWth) / 2;
-	let winTop = (window.screen.height - winHgt) / 2;
+	//const deltaW = Math.abs(window.outerWidth - window.innerWidth);
+	const deltaH = Math.abs(window.outerHeight - window.innerHeight);
+	const winWth = 738 + (isDevToolsOfDevTools ? 16 : 0);
+	const winHgt = 526 + (isDevToolsOfDevTools ? deltaH : 0);
+	const winLft = (window.screen.width - winWth) / 2;
+	const winTop = (window.screen.height - winHgt) / 2;
 	const windowFeatures = `popup, menubar=0, left=${winLft}, top=${winTop}, width=${winWth}, height=${winHgt}`;
 	_app_window = window.open("", "", windowFeatures);
-	_app_window.addEventListener('beforeunload', () => {
+	_app_window.addEventListener("beforeunload", () => {
 		console.log(`[openAppWindow] Closing '${WIN_TITLE}' window…`);
 	});
-	window.addEventListener('beforeunload', () => {
+	window.addEventListener("beforeunload", () => {
 		console.log(`[openAppWindow] Browser about to be unloaded…`);
 		closeAppWindow();
 	});
@@ -221,7 +204,7 @@ function openAppWindow() {
 function openThisWindow(winName) {
 	console.log(`Opening "${winName}"…`);
 	_app_window = window;
-	_app_window.addEventListener('beforeunload', () => {
+	_app_window.addEventListener("beforeunload", () => {
 		console.log(`[openThisWindow] '${WIN_TITLE}' window about to be unloaded…`);
 	});
 	_docx = _app_window.document;
@@ -234,7 +217,7 @@ function openThisWindow(winName) {
  * Performs the steps needed to initialize this page.
  */
 function initializePage() {
-	console.log("Initializing Page…")
+	console.log("Initializing Page…");
 	_docx.querySelector("title").textContent = WIN_TITLE;
 	_docx.getElementById("page_header").innerHTML = WIN_TITLE;
 	_docx.getElementById("drop-zone__prompt").innerHTML = DROP_ZONE_PROMPT;
@@ -250,10 +233,10 @@ function initializePage() {
  */
 function sortCurrentSnippets() {
 	// Hold onto the checkmarked snippets so they can be re-checkmarked following the sort.
-	let checkedSnippets = getCheckmarkedSnippets();
+	const checkedSnippets = getCheckmarkedSnippets();
 	state.scriptSnippets = sortSnippets(state.scriptSnippets);
 	finishLoad();
-	setCheckmarkedSnippets(checkedSnippets)
+	setCheckmarkedSnippets(checkedSnippets);
 }
 
 /** -------------------------------------------------------------------------------------------
@@ -264,7 +247,7 @@ function sortCurrentSnippets() {
 */
 function loadCurrentSnippets() {
 	if (isDevToolsOfDevTools) {
-		console.log(`Loading ${CS} directly from DevTools…`)
+		console.log(`Loading ${CS} directly from DevTools…`);
 		getSnippetsFromDevTools().then((snips) => {
 			state.scriptSnippets = snips;
 			getLastIdentifierFromDevTools().then((id) => {
@@ -273,7 +256,7 @@ function loadCurrentSnippets() {
 			});
 		});
 	} else if (isLocalHost) {
-		console.log(`Loading ${CS} from DevTools… (via NodeJS)`)
+		console.log(`Loading ${CS} from DevTools… (via NodeJS)`);
 		doGet("/test/snippets", (snips) => {
 			if (typeof snips === "object") {
 				state.scriptSnippets = snips;
@@ -284,7 +267,7 @@ function loadCurrentSnippets() {
 			finishLoad();
 		}, 1000);
 	} else {
-		console.log(`Loading ${CS} with samples…`)
+		console.log(`Loading ${CS} with samples…`);
 		state.scriptSnippets = [];
 		for (let index = 0; index < 30; index++) {
 			state.scriptSnippets.push(createSnippet(`example_snippet${index}`, `snippet${index} content`));
@@ -310,7 +293,7 @@ function finishLoad() {
  */
 function checkAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
-	checkboxes.forEach((checkbox, index) => {
+	checkboxes.forEach((checkbox) => {
 		if (!checkbox.checked) {
 			checkbox.checked = true;
 			addOrRemoveCustomCheckmark({
@@ -325,7 +308,7 @@ function checkAllCheckboxes() {
  */
 function uncheckAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
-	checkboxes.forEach((checkbox, index) => {
+	checkboxes.forEach((checkbox) => {
 		if (checkbox.checked) {
 			checkbox.checked = false;
 			addOrRemoveCustomCheckmark({
@@ -341,7 +324,7 @@ function uncheckAllCheckboxes() {
  */
 function invertAllCheckboxes() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
-	checkboxes.forEach((checkbox, index) => {
+	checkboxes.forEach((checkbox) => {
 		checkbox.checked = !checkbox.checked;
 		addOrRemoveCustomCheckmark({
 			target: checkbox
@@ -353,7 +336,7 @@ function invertAllCheckboxes() {
  * Removes all checkmarked snippets from [Current Snippets].
  */
 async function removeSnippets() {
-	let cnt = getCheckmarkedSnippets().length;
+	const cnt = getCheckmarkedSnippets().length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format("<i>Remove</i> snippets"), ["OK"], true, 15);
 		return;
@@ -375,25 +358,25 @@ async function removeSnippets() {
 * confirmation.
 */
 async function saveSnippets() {
-	let total = state.scriptSnippets.length;
-	let checkedSnippets = getCheckmarkedSnippets();
-	let cnt = checkedSnippets.length;
+	const total = state.scriptSnippets.length;
+	const checkedSnippets = getCheckmarkedSnippets();
+	const cnt = checkedSnippets.length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format(`<i>Save</i> snippets to ${DEVTOOLS}`), ["OK"], true, 15);
 		return;
 	}
 	let token = "</br></br>";
 	// Make sure to add state.thisSnippet to the array if it's missing.
-	let index = checkedSnippets.findIndex(s => s.name.toLowerCase() === state.thisSnippetName.toLowerCase());
+	const index = checkedSnippets.findIndex(s => s.name.toLowerCase() === state.thisSnippetName.toLowerCase());
 	if (index < 0) {
 		checkedSnippets.push(state.thisSnippet);
 		token += SAVE_TOKEN_MSG1.format(state.thisSnippet.name);
 	}
 	token += SAVE_TOKEN_MSG2;
-	let msg = (cnt < total)
+	const msg = (cnt < total)
 		? `Save just <cnt>${cnt}</cnt> of <cnt>${total}</cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`
 		: `Save all <cnt>${total}</cnt> items in ${CURRENT_SNIPPETS} to ${DEVTOOLS}?${token}`;
-	let result = await showMsg(msg, ["Save", "Cancel"]);
+	const result = await showMsg(msg, ["Save", "Cancel"]);
 	if (result === "Save") {
 		saveCkeckmarkedSnippetsToDevTools(checkedSnippets);
 	}
@@ -405,14 +388,14 @@ async function saveSnippets() {
 * is downloaded to the user's default "Downloads" folder.
 */
 async function downloadSingleJsonFile() {
-	let snippets = getCheckmarkedSnippets();
-	let cnt = snippets.length;
+	const snippets = getCheckmarkedSnippets();
+	const cnt = snippets.length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format("'Download' a single '.json' file"), ["OK"]);
 		return;
 	}
-	let total = state.scriptSnippets.length;
-	let fname = `edge-snippets${getDateTimeToken()}.json`;
+	const total = state.scriptSnippets.length;
+	const fname = `edge-snippets${getDateTimeToken()}.json`;
 	const json_data = serialize({
 		"script-snippets": snippets
 	}, ["script-snippets", "name", "content"], 2);
@@ -426,19 +409,19 @@ async function downloadSingleJsonFile() {
  * are downloaded to the user's default "Downloads" folder.
  */
 async function downloadMultipleJsFiles() {
-	let snippets = getCheckmarkedSnippets();
-	let cnt = snippets.length;
+	const snippets = getCheckmarkedSnippets();
+	const cnt = snippets.length;
 	if (!cnt) {
 		await showMsg(NO_CHECKMARKS_WARNING.format("'Download' multiple '.js' files"), ["OK"]);
 		return;
 	}
-	let total = state.scriptSnippets.length;
-	let result = await showMsg(CONFIRM_DOWNLOAD.format(cnt, total));
+	const total = state.scriptSnippets.length;
+	const result = await showMsg(CONFIRM_DOWNLOAD.format(cnt, total));
 	if (result === "OK") {
 		console.clear();
 		for (let i = 0; i < cnt; i++) {
-			let snippet = snippets[i];
-			let fname = snippet.name + ".txt";
+			const snippet = snippets[i];
+			const fname = snippet.name + ".txt";
 			download(snippet.content, fname);
 			console.log(`Downloaded (${i + 1} of ${cnt}) files: "${fname}".`);
 			await wait(100);
@@ -446,17 +429,17 @@ async function downloadMultipleJsFiles() {
 	}
 }
 
-/** -------------------------------------------------------------------------------------------
- * Returns an indication whether a snippet with the specified name exists in the
- * state.scriptSnippets array.
- *
- * @param {any} snippetName The name of the snippet to find.
- * @returns true if a snippet with the specified name exists in the array; otherwise false.
- */
-function snippetExists(snippetName) {
-	const result = state.scriptSnippets.filter((s) => s.name === snippetName)
-	return (result) ? result.length > 0 : false;
-}
+// /** -------------------------------------------------------------------------------------------
+// * Returns an indication whether a snippet with the specified name exists in the
+// * state.scriptSnippets array.
+// *
+// * @param {any} snippetName The name of the snippet to find.
+// * @returns true if a snippet with the specified name exists in the array; otherwise false.
+// */
+//function snippetExists(snippetName) {
+//	const result = state.scriptSnippets.filter((s) => s.name === snippetName);
+//	return (result) ? result.length > 0 : false;
+//}
 
 /** -------------------------------------------------------------------------------------------
  * Returns the index in the state.scriptSnippets array containing the snippet with the specified
@@ -467,7 +450,7 @@ function snippetExists(snippetName) {
  * specified name; otherwise -1.
  */
 function findSnippetIndex(snippetName) {
-	let index = state.scriptSnippets.findIndex(s => s.name === snippetName);
+	const index = state.scriptSnippets.findIndex(s => s.name === snippetName);
 	return index;
 }
 
@@ -557,9 +540,9 @@ function updateCurrentSnippetsHeader() {
  * @param {string} content The content of the snippet.
  */
 function addCurrentSnippet(name, content) {
-	let index = findSnippetIndex(name);
+	const index = findSnippetIndex(name);
 	if (index >= 0) {
-		let addItRadioButton = _docx.querySelector("label#add_it_radio input");
+		const addItRadioButton = _docx.querySelector("label#add_it_radio input");
 		if (addItRadioButton.checked) {
 			addCurrentSnippet(name + "_copy", content);
 		} else {
@@ -568,7 +551,7 @@ function addCurrentSnippet(name, content) {
 			count.total++;
 		}
 	} else {
-		let newSnippet = createSnippet(name, content);
+		const newSnippet = createSnippet(name, content);
 		state.scriptSnippets.push(newSnippet);
 		state.lastIdentifier = newSnippet.id;
 		renderCurrentSnippets(newSnippet);
@@ -592,15 +575,15 @@ function createSnippet(name, content) {
 	return {
 		name: name,
 		content: content //,id: serialize(parseInt(state.lastIdentifier) + 1)
-	}
+	};
 }
 
 /** -------------------------------------------------------------------------------------------
  * Saves the checkmarked snippets in [Current Snippets] to DevTools.
  */
 async function saveCkeckmarkedSnippetsToDevTools(snippetArray) {
-	let snippets = serialize(snippetArray);
-	let lastIdentifier = serialize(`${snippetArray.length}`);
+	const snippets = serialize(snippetArray);
+	const lastIdentifier = serialize(`${snippetArray.length}`);
 	// console.log("\"script-snippets\":", snippets);
 	// console.log("\"script-snippets-last-identifier\":", lastIdentifier);
 	if (isDevToolsOfDevTools) {
@@ -617,7 +600,7 @@ async function saveCkeckmarkedSnippetsToDevTools(snippetArray) {
  * @param {string} snippetName The name of a single snippet to find.
  */
 function getSnippetsFromDevTools(snippetName) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		InspectorFrontendHost.getPreferences(prefs => {
 			let data = deserialize(prefs["script-snippets"]);
 			if (snippetName === undefined) {
@@ -648,7 +631,7 @@ function sortSnippets(snippets) {
  * @returns The last script snippets identifier stored inside DevTools.
  */
 function getLastIdentifierFromDevTools() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		InspectorFrontendHost.getPreferences(prefs => {
 			const data = (prefs["script-snippets-last-identifier"]);
 			resolve(data);
@@ -668,7 +651,7 @@ function preserveThisSnippet() {
 			console.error(error);
 		});
 	} else {
-		state.thisSnippet = createSnippet(state.thisSnippetName, "Example content of 'This Snippet'")
+		state.thisSnippet = createSnippet(state.thisSnippetName, "Example content of 'This Snippet'");
 	}
 }
 
@@ -698,8 +681,8 @@ function addOrRemoveCustomCheckmark(event) {
 * 3) whether this window was opened from a 'DevTools of DevTools' window.
 */
 function enableOrDisableButtons() {
-	let isNoneChecked = getCheckmarkedSnippetCount() === 0;
-	let noSnippets = state.scriptSnippets.length === 0;
+	const isNoneChecked = getCheckmarkedSnippetCount() === 0;
+	const noSnippets = state.scriptSnippets.length === 0;
 	buttons.Checkall.disabled = noSnippets;
 	buttons.Uncheckall.disabled = noSnippets;
 	buttons.Invert.disabled = noSnippets;
@@ -715,7 +698,7 @@ function enableOrDisableButtons() {
 * Gets an array of all the snippet ojects in [Current Snippets] containing a checkmark.
 */
 function getCheckmarkedSnippets() {
-	let snippets = [];
+	const snippets = [];
 	const checkedboxes = _docx.querySelectorAll(".snip_row input");
 	checkedboxes.forEach((checkbox, index) => {
 		if (checkbox.checked)
@@ -730,7 +713,7 @@ function setCheckmarkedSnippets(checkedSnippets) {
 	checkedSnippets.forEach((snippet) => {
 		index = findSnippetIndex(snippet.name);
 		if (index) {
-			let checkbox = checkedboxes[index];
+			const checkbox = checkedboxes[index];
 			checkbox.checked = true;
 			addOrRemoveCustomCheckmark({
 				target: checkbox
@@ -770,10 +753,10 @@ function processMouseUp() {
 }
 
 function processMouseEnter(event) {
-	let txt = event.target.innerText;
+	const txt = event.target.innerText;
 	if (_isSelecting && (txt === "" || txt !== _eventTargetInnerText)) {
 		if (event.shiftKey) {
-			let checkbox = event.target.closest(".snip_row").firstElementChild;
+			const checkbox = event.target.closest(".snip_row").firstElementChild;
 			checkbox.checked = event.ctrlKey === false;
 			addOrRemoveCustomCheckmark({
 				target: checkbox
@@ -793,17 +776,9 @@ function setMiscElementTitles() {
 	setTitle("replace_it_radio", `When hilighted, the snippet will 'REPLACE' the existing snippet in ${CS}.`);
 	setTitle("drop_files", "Click or drop a '.js' or '.json' file here…");
 	setTitle("snip_header",
-		`Initially shows a list of all snippets saved in 'DevTools', i.e., when this\n`
-		+ `snippet is run from 'DevTools' of 'DevTools' by pressing Ctrl+Shft+I,\n`
-		+ `or when run in 'DevTools' opened from a web page served up from 'NodeJS'.\n`
-		+ `In all other cases, this list is shown using auto-generated "example" snippets.\n`
-		+ HZLN
-		+ `Subsequent snippets added, replaced, or removed during the current session will\n`
-		+ `also be reflected in this list.\n`
-		+ HZLN
-		+ `Click anywhere on a row in this list to select or deselect the snippet;\n`
-		+ `Hold down the SHIFT key while dragging to select multiple snippets;\n`
-		+ `Hold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`);
+		`Initially shows a list of all snippets saved in 'DevTools', i.e., when this\nsnippet is run from 'DevTools' of 'DevTools' by pressing Ctrl+Shft+I,\nor when run in 'DevTools' opened from a web page served up from 'NodeJS'.\nIn all other cases, this list is shown using auto-generated "example" snippets.\n${
+		HZLN}Subsequent snippets added, replaced, or removed during the current session will\nalso be reflected in this list.\n${
+		HZLN}Click anywhere on a row in this list to select or deselect the snippet;\nHold down the SHIFT key while dragging to select multiple snippets;\nHold down the SHIFT key + CTRL key while dragging to deselect multiple snippets.`);
 	setTitle("modal_close_btn", `Click to close this dialog.\n`
 		+ `(Note: when this button is 'red', you can also \n`
 		+ `click anywhere outside the dialog to close it.)`);
@@ -823,15 +798,15 @@ function setMiscElementTitles() {
 async function showRollup() {
 	let msg;
 	if (count.total === count.added)
-		msg = `${getToken(count.total, 'added')} to ${CURRENT_SNIPPETS}.`;
+		msg = `${getToken(count.total, "added")} to ${CURRENT_SNIPPETS}.`;
 	else if (count.total === count.replaced)
-		msg = `${getToken(count.total, 'replaced')} in ${CURRENT_SNIPPETS}.`;
+		msg = `${getToken(count.total, "replaced")} in ${CURRENT_SNIPPETS}.`;
 	else
-		msg = `${getToken(count.added, 'added')};&nbsp;&nbsp;`
-			+ `${getToken(count.replaced, 'replaced')} in ${CURRENT_SNIPPETS}.`;
-	const result = await showMsg(msg, [], true, 10);
+		msg = `${getToken(count.added, "added")};&nbsp;&nbsp;`
+			+ `${getToken(count.replaced, "replaced")} in ${CURRENT_SNIPPETS}.`;
+	await showMsg(msg, [], true, 10);
 	function getToken(cnt, txt) {
-		return `<cnt>${cnt}</cnt> Snippet${cnt === 1 ? ' was' : 's were'} <b>${txt}</b>`;
+		return `<cnt>${cnt}</cnt> Snippet${cnt === 1 ? " was" : "s were"} <b>${txt}</b>`;
 	}
 }
 
@@ -842,19 +817,19 @@ async function showRollup() {
  * (Each element of the array contains a 'name' and a 'content' property).
  */
 function loadSnippetsFromJsonFile(contentString) {
-	let jsonData = deserialize(contentString);
-	let jsonDataSorted = sortSnippets(jsonData["script-snippets"]);
+	const jsonData = deserialize(contentString);
+	const jsonDataSorted = sortSnippets(jsonData["script-snippets"]);
 	jsonDataSorted.forEach(snippet => {
 		addCurrentSnippet(snippet.name, snippet.content);
 	});
 }
 
 function loadSnippetsFromBgrins() {
-	loadSnippetsFromExternal(`${URL_BGRINS}{0}/{0}.js`, ['allcolors', 'cachebuster', 'cssreload', 'cssprettifier', 'hashlink']);
+	loadSnippetsFromExternal(`${URL_BGRINS}{0}/{0}.js`, ["allcolors", "cachebuster", "cssreload", "cssprettifier", "hashlink"]);
 }
 
 function loadSnippetsFromBahmutov() {
-	loadSnippetsFromExternal(`${URL_BAHMUTOV}{0}.js`, ['timing', 'profile-method-call', 'time-method-call']);
+	loadSnippetsFromExternal(`${URL_BAHMUTOV}{0}.js`, ["timing", "profile-method-call", "time-method-call"]);
 }
 
 function loadSnippetsFromExternal(url, snippetsArray) {
@@ -877,16 +852,16 @@ function loadSnippetsFromExternal(url, snippetsArray) {
 function loadFiles(files) {
 	count.initialize();
 	count.filesToProcess = files.length;
-	const stack = Object.keys(files).forEach((key) => {
+	Object.keys(files).forEach((key) => {
 		const file = files[key];
 		const reader = new FileReader();
 		reader.fileName = file.name;
 		reader.onerror = (() => {
 			throw Error;
-		})
+		});
 		reader.onabort = (() => {
 			throw Error;
-		})
+		});
 		reader.onload = fileLoaded;
 		reader.onloadend = fileLoadedEnd;
 		reader.readAsText(file);
@@ -941,7 +916,7 @@ function addEventsToDropZone() {
 		});
 
 		// Handles the 'change' event of the drop zone 'input' element.
-		elem.addEventListener("change", (e) => {
+		elem.addEventListener("change", () => {
 			if (elem.files.length) {
 				loadFiles(elem.files);
 			}
@@ -993,7 +968,7 @@ function addChangeEventToAllSnippetCheckboxes() {
 */
 function addChangeEventToNewSnippetCheckbox() {
 	const checkboxes = _docx.querySelectorAll(".snip_row input");
-	let lastCheckbox = checkboxes[checkboxes.length - 1];
+	const lastCheckbox = checkboxes[checkboxes.length - 1];
 	lastCheckbox.addEventListener("change", addOrRemoveCustomCheckmark);
 }
 
@@ -1047,9 +1022,9 @@ function wait(milliseconds) {
  */
 function xhrGetRequest(url, callback) {
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', url, false);
+	xhr.open("GET", url, false);
 	xhr.onload = callback;
-	xhr.onerror = (err) => {
+	xhr.onerror = () => {
 		console.error(xhr.statusText);
 	};
 	xhr.send();
@@ -1090,12 +1065,12 @@ function deserialize(text) {
  */
 function download(data, filename) {
 	const blob = new window.Blob([data], {
-		'type': 'text/utf-8'
-	})
-	const link = _docx.createElement('a');
+		'type': "text/utf-8"
+	});
+	const link = _docx.createElement("a");
 	link.href = URL.createObjectURL(blob);
 	link.download = filename;
-	link.setAttribute('target', '_blank')
+	link.setAttribute("target", "_blank");
 	link.click();
 	URL.revokeObjectURL(link.href);
 }
@@ -1107,38 +1082,39 @@ function download(data, filename) {
  * @returns A tokenized version of the current 'Date' and 'Time'.
  */
 function getDateTimeToken() {
-	let d = new Date();
-	var fileName = "_" + d.getFullYear();
-	let month = d.getMonth() + 1;
-	fileName += "" + ((month < 10) ? "0" + month : month);
-	let day = d.getDate();
-	fileName += "" + ((day < 10) ? "0" + day : day);
-	let hours = d.getHours();
-	fileName += "_" + ((hours < 10) ? "0" + hours : hours);
-	let minutes = d.getMinutes();
-	fileName += "" + ((minutes < 10) ? "0" + minutes : minutes);
-	let seconds = d.getSeconds();
-	fileName += "" + ((seconds < 10) ? "0" + seconds : seconds);
+	const d = new Date();
+	var fileName = `_${d.getFullYear()}`;
+	const month = d.getMonth() + 1;
+	fileName += `${(month < 10) ? `0${month}` : month}`;
+	const day = d.getDate();
+	fileName += `${(day < 10) ? `0${day}` : day}`;
+	const hours = d.getHours();
+	fileName += `_${(hours < 10) ? `0${hours}` : hours}`;
+	const minutes = d.getMinutes();
+	fileName += `${(minutes < 10) ? `0${minutes}` : minutes}`;
+	const seconds = d.getSeconds();
+	fileName += `${(seconds < 10) ? `0${seconds}` : seconds}`;
 	return fileName;
 }
 
-function tryFunction(fn) {
-	console.log("Tring function: " + fn.name)
-	try {
-		fn();
-	} catch (exception) {
-		console.warn(exception.stack.replace(/:(\d+):(\d+)/g, "$& (Line $1, Column $2)"));
-	}
-}
+//function tryFunction(fn) {
+//	console.log(`Tring function: ${fn.name}`);
+//	try {
+//		fn();
+//	} catch (exception) {
+//		console.warn(exception.stack.replace(/:(\d+):(\d+)/g, "$& (Line $1, Column $2)"));
+//	}
+//}
 
 /** -------------------------------------------------------------------------------------------
-*  Extends the javascript string class with a method similar to 'String.Format' in C#.
+*  Extends the javascript string class with a format method which will replace numbered tokens
+*  in the string with the specified value arguments (works similar to 'String.Format' in C#).
 */
 if (!String.prototype.format) {
 	String.prototype.format = function () {
 		var args = arguments;
 		return this.replace(/{(\d+)}/g, function (match, number) {
-			return typeof args[number] != 'undefined' ? args[number] : match;
+			return typeof args[number] != "undefined" ? args[number] : match;
 		});
 	};
 }
@@ -1149,9 +1125,9 @@ if (!String.prototype.format) {
 */
 if (!Array.prototype.contains) {
 	Array.prototype.contains = function () {
-		if (typeof arguments[0] !== 'string')
+		if (typeof arguments[0] !== "string")
 			return false;
-		let upperCaseNames = this.map(function (x) {
+		const upperCaseNames = this.map(function (x) {
 			return x.toUpperCase();
 		});
 		return upperCaseNames.indexOf(arguments[0].toUpperCase()) >= 0;
@@ -1171,7 +1147,7 @@ function doGet(route, callback, msTimeout) {
 	const signal = controller.signal;
 	// Make the fetch request with the signal.
 	const fetchPromise = fetch(getFullRoute(route), {
-		signal,
+		signal
 	});
 	// Timeout after specified number of milliseconds.
 	const timeoutId = setTimeout(() => {
@@ -1193,7 +1169,7 @@ function doGet(route, callback, msTimeout) {
 		if (callback)
 			callback(data);
 	}
-	).catch((error) => {
+	).catch(() => {
 		//console.error(error);
 	}
 	).finally(() => {
@@ -1202,7 +1178,7 @@ function doGet(route, callback, msTimeout) {
 	}
 	);
 	function getFullRoute(route) {
-		return route.startsWith("http") ? route : DEFAULT_ROOT + (route.startsWith("/") ? route : "/" + route);
+		return route.startsWith("http") ? route : DEFAULT_ROOT + (route.startsWith("/") ? route : `/${route}`);
 	}
 }
 
@@ -1260,7 +1236,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		// Create the html button elements dynamically based on the specified 'buttons' array.
 		let btnNum = 0;
 		buttons.forEach(btn => {
-			let button = document.createElement('button');
+			const button = document.createElement("button");
 			button.textContent = btn;
 			button.type = "button";
 			button.classList = "snip_button modal_button";
@@ -1301,7 +1277,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 				if (--secsUntilAutoClose <= 0) {
 					doResolve("Cancel");
 				}
-				modal_close_btn.classList = modal_close_btn.classList == toggleClass ? "" : toggleClass;
+				modal_close_btn.classList = modal_close_btn.classList === toggleClass ? "" : toggleClass;
 				secs_until_autoclose.innerHTML = getTimeToCloseMessage(secsUntilAutoClose, numZeros);
 			}, 1000);
 		} else {
@@ -1309,7 +1285,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		}
 
 		function getTimeToCloseMessage(secsUntilClose, numZeros) {
-			return `Click here to stop this dialog from auto-closing in <b>${String(secsUntilClose).padStart(numZeros, '0')}</b> seconds...`;
+			return `Click here to stop this dialog from auto-closing in <b>${String(secsUntilClose).padStart(numZeros, "0")}</b> seconds...`;
 		}
 
 		function getFocusable(context = "_docx") {
@@ -1415,7 +1391,7 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 		 */
 		function removeButtons() {
 			for (let index = 0; index < buttons.length; index++) {
-				let elem = _docx.getElementById(`button_${index + 1}`);
+				const elem = _docx.getElementById(`button_${index + 1}`);
 				if (elem)
 					elem.remove();
 			};
