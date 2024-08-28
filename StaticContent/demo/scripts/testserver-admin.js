@@ -10,31 +10,36 @@ $(function () {
 	DEMO.loadCommon();
 
 	$("#clearscreen").on("click", function () {
-		DEMO.doGet("/test/clear", showResponse);
+		doGet("/test/clear", showResponse);
 	});
 
 	$("#getAbout").on("click", function () {
-		DEMO.doGet("/test/about", showResponse);
+		doGet("/test/about", showResponse);
 	});
 
 	$("#getJson").on("click", function () {
-		DEMO.doGet("/test/json", showResponse);
+		doGet("/test/json", showResponse);
 	});
 
 	$("#getArray").on("click", function () {
-		DEMO.doGet("/test/array", showResponse);
+		doGet("/test/array", showResponse);
 	});
 
 	$("#getSnippets").on("click", function () {
-		DEMO.doGet("/test/snippets", showResponse);
+		doGet("/test/snippets", showResponse);
 	});
 
-	$("#getVersion").on("click", function () {
-		DEMO.doGet("/test/versions", showResponse);
+	$("#getVersions").on("click", function () {
+		doGet("/test/versions", showResponse);
+	});
+
+	$("#getVersionsExt").on("click", function () {
+		let tree_depth = $("input#tree_depth").val() || -1;
+		doGet(`/test/versionsExt/${tree_depth}`, showRawResponse, 9000);
 	});
 
 	$("#getPing").on("click", function () {
-		DEMO.doGet("/test/ping", showResponse, 50);
+		doGet("/test/ping", showResponse, 50);
 	});
 
 	$("#resizeGif").on("click", function () {
@@ -42,7 +47,7 @@ $(function () {
 			"base64String": sampleText.val(),
 			"width": 150
 		};
-		DEMO.doPut("/test/resize-gif", json, showResponse);
+		doPut("/test/resize-gif", json, showResponse);
 	});
 
 	$("#uploadGif").on("click", function () {
@@ -50,18 +55,16 @@ $(function () {
 			"base64String": sampleText.val(),
 			"filename": "testserver.gif"
 		};
-		DEMO.doPut("/test/upload-gif", json, showResponse);
+		doPut("/test/upload-gif", json, showResponse);
 	});
 
 	$("button#copySample").on("click", (e) => {
 		copySample(e);
-	}
-	);
+	});
 
 	$("button#copyResponse").on("click", (e) => {
 		copyResponse(e);
-	}
-	);
+	});
 
 	sampleText = $("textarea#sampleText");
 	sampleText.val(ts_jsonText);
@@ -70,9 +73,27 @@ $(function () {
 	setToolTips();
 });
 
-function showResponse(json) {
-	//console.log(json);
-	responseText.val(JSON.stringify(json, null, 2));
+function doGet(route, callback, msTimeout) {
+	modal_background.style.display = "block";
+	DEMO.doGet(route, callback, msTimeout);
+}
+
+function doPut(route, data, callback) {
+	modal_background.style.display = "block";
+	DEMO.doPut(route, data, callback);
+}
+
+function showResponse() {
+	let retVal = JSON.stringify(arguments[0], null, 2);
+	responseText.val(retVal);
+	modal_background.style.display = "none";
+}
+
+function showRawResponse() {
+	let retVal = JSON.stringify(arguments[0], null, 2);
+	retVal = getUnescapedString(retVal);
+	responseText.val(retVal);
+	modal_background.style.display = "none";
 }
 
 function copySample(e) {
@@ -82,6 +103,7 @@ function copySample(e) {
 		MISC.showDialog("There is nothing to copy.", e.target, 3000, textArea);
 		return;
 	}
+	textArea.focus();
 	navigator.clipboard.writeText(text);
 	const isAll = textArea.selectionStart === textArea.selectionEnd;
 	MISC.showDialog(`${isAll ? "All the" : "The selected"} 'Sample' text was copied to the clipboard!`, e.target, 3000, textArea);
@@ -97,16 +119,23 @@ function copyResponse(e) {
 	if (e.ctrlKey) {
 		text = getUnescapedString(text);
 	}
+	textArea.focus();
 	navigator.clipboard.writeText(text);
 	const isAll = textArea.selectionStart === textArea.selectionEnd;
 	MISC.showDialog(`${isAll ? "All the" : "The selected"} 'Response' text was copied ${e.ctrlKey ? "(unescaped)" : ""} to the clipboard!`, e.target, 3000, textArea);
 }
 
 function getUnescapedString(escapedString) {
-	if (!escapedString)
-		return null;
-	escapedString = escapedString.replace(/\\\\/g, "");
-	return escapedString.replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\n/g, "\n").replace(/\\r/g, "\r").replace(/\\t/g, "\t");
+	return (!escapedString)
+		? null
+		: escapedString
+			.replace(/[\n]+$/g, "")
+			.replace(/\\'/g, "'")
+			.replace(/\\"/g, '"')
+			.replace(/\\t/g, "\t")
+			.replace(/\\n/g, "\n")
+			.replace(/\\r/g, "\r")
+		;
 }
 
 function getSelectedText(textArea) {
@@ -139,9 +168,16 @@ function setToolTips() {
 		content: "Gets all the <b>Snippets</b> from DevTools."
 			+ "<p class='small'>[Uses: '/test/snippets' route].</p>"
 	});
-	$("#getVersion").tooltip({
-		content: "Gets the <b>version</b> of each module referenced in the <i>Test Server's</i> package.json file."
-			+ "<p class='small'>[Uses: '/test/version' route].</p>"
+	$("#getVersions").tooltip({
+		content: "Gets the <b>dependencies</b> of each module referenced in the <i>Test Server's</i> '<b>package.json</b>' file."
+			+ "<p class='small'>[Uses: '/test/versions' route].</p>"
+	});
+	$("#getVersionsExt").tooltip({
+		content: "Gets the <b>dependencies</b> of each module referenced in the <i>Test Server's</i> '<b>package.json.lock</b>' file."
+			+ "<p class='small'>[Uses: '/test/versionsext/{depth}' route].</p>"
+	});
+	$("#tree_depth_label, #tree_depth").tooltip({
+		content: "Specifies the depth (a number between 0 and 9), of the tree to be displayed."
 	});
 	$("#getPing").tooltip({
 		content: "Pings the server and returns \"{success}\" or \"Fetch request timed out.\"."

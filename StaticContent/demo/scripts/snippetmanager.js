@@ -532,7 +532,7 @@ function updateCurrentSnippetsHeader() {
 }
 
 /** -------------------------------------------------------------------------------------------
- * Adds the specified snippet to the state.scriptSnippets array if it does not already exist;
+ * Adds the specified snippet to the 'state.scriptSnippets' array if it does not already exist;
  * otherwise it either replaces the contents of the existing snippet or adds the snippet with 
  * "_copy" appended (depending on the radio button setting in the UI).
  *
@@ -707,6 +707,12 @@ function getCheckmarkedSnippets() {
 	return snippets;
 }
 
+/** -------------------------------------------------------------------------------------------
+ * Sets the checkmarks of snippets in [Current Snippets] corresponding to the specified 
+ * array of checkmarked snippets.
+ * 
+ * @param {array} checkedSnippets The array of checkmarked snippets.
+ */
 function setCheckmarkedSnippets(checkedSnippets) {
 	let index;
 	const checkedboxes = _docx.querySelectorAll(".snip_row input");
@@ -1424,22 +1430,17 @@ async function showMsg(message, buttons, clickOutsideToCancel, secsUntilAutoClos
 	});
 }
 
-//#region META DATA
-
 const HTML_META = `
     <meta http-equiv="Content-Security-Policy" content="script-src-elem https://ajax.googleapis.com" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 `;
 
-//#endregion
-
 const HTML_TITLE = `DevTools Snippet Manager`;
 
 const HTML_SCRIPT = `<script></script>`;
 
 const HTML_STYLE = `
-
 * {
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 	padding: 0px;

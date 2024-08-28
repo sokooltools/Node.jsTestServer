@@ -27,3 +27,4 @@ for /f "tokens=*" %%a in ('NPM -v')  do set _npmVer=%%a
 echo NPM               [v%_npmVer%]
 :: Start the server
 set DEBUG=testserver:* & set PORT=3000 & npm start 
+pause

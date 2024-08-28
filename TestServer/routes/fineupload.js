@@ -13,14 +13,12 @@
  * Requirements:
  *  - express (for handling requests)
  *  - multiparty (for parsing request payloads)
- *  - mkdirp (for "mkdir -p" support)
  */
 
 // Dependencies
 var express = require("express");
 var fs = require("fs");
 var path = require("path");
-var mkdirp = require("mkdirp");
 var formidable = require("formidable");
 
 // The name of the file input field from the body html in the browser.
@@ -28,7 +26,7 @@ var fileInputName = process.env.FILE_INPUT_NAME || "qqfile";
 // The path where the uploaded file(s) will be saved.
 var uploadedFilesPath = process.env.UPLOADED_FILES_DIR || path.join(__dirname, "../../Uploaded/");
 // The max file size in bytes, (0 for 'unlimited').
-var maxFileSize = process.env.MAX_FILE_SIZE || 0; 
+var maxFileSize = process.env.MAX_FILE_SIZE || 0;
 // The name of the sub-folder where individual chunks will be stored.
 var chunkDirName = "chunks";
 
@@ -62,17 +60,21 @@ function onSimpleUpload(fields, file, res) {
 	const uuid = fields.qquuid;
 	var responseData = {
 		success: false,
+		error: "",
 		filePath: file[0].filepath
 	};
 	// Set the new (edited) name.
 	file.name = fields.qqfilename;
 	if (isValid(file[0].size)) {
-		moveUploadedFile(file, uuid, function () {
-			responseData.success = true;
-			res.send(responseData);
-		},
+		moveUploadedFile(file, uuid,
 			function () {
-				responseData.error = "Problem copying the file!";
+				responseData.success = true;
+				console.log(`Successfully uploaded "${file.name}" (${fields.qqtotalfilesize} bytes)`);
+				res.send(responseData);
+			},
+			function () {
+				responseData.error = `Problem uploading "${file.name}"!`;
+				console.error(responseData.error);
 				res.send(responseData);
 			});
 	} else {
@@ -131,7 +133,6 @@ function failWithTooBigFile(responseData, res) {
 function onDeleteFile(req, res) {
 	const uuid = req.params.uuid;
 	const fpth = uploadedFilesPath + uuid;
-	//rimraf(fpth, function(error) { // RAS
 	fs.unlink(fpth, function (error) {
 		if (error) {
 			console.error(`Problem deleting file! ${error}`);
@@ -211,7 +212,7 @@ function isValid(size) {
 }
 
 /* -------------------------------------------------------------------------------------------*/ /**
- * Moves a file from its source to its destination.
+ * Moves a file from its source to its destination making sure the destination directory exists.
  * @param {string} destinationDir The directory to move the file to.
  * @param {string} sourceFile The source file.
  * @param {string} destinationFile The destination file.
@@ -219,33 +220,36 @@ function isValid(size) {
  * @param {any} failure The callback on failure.
  */
 function moveFile(destinationDir, sourceFile, destinationFile, success, failure) {
-	mkdirp(destinationDir, function (error) {
-		var sourceStream, destStream;
+	fs.mkdir(destinationDir, { recursive: true }, (error) => {
 		if (error) {
 			console.error(`Problem creating directory ${destinationDir}: ${error}`);
 			failure();
 		} else {
-			sourceStream = fs.createReadStream(sourceFile);
-			destStream = fs.createWriteStream(destinationFile);
-			sourceStream
-				.on("error", function (err) {
-					console.error(`Problem copying file: ${err.stack}`);
-					destStream.end();
-					failure();
-				})
-				.on("end", function () {
-					destStream.end();
-					// Delete source file from temp folder.
-					fs.unlink(this.path, function (err) {
-						if (err) {
-							console.log(`Problem deleting source file! ${err}`);
-						}
-					});
-					success();
-				})
-				.pipe(destStream);
+			writeStream(sourceFile, destinationFile, success, failure);
 		}
-	});
+	})
+}
+
+function writeStream(sourceFile, destinationFile, success, failure) {
+	var sourceStream = fs.createReadStream(sourceFile);
+	var destStream = fs.createWriteStream(destinationFile);
+	sourceStream
+		.on("error", function (err) {
+			console.error(`Problem copying file: ${err.stack}`);
+			destStream.end();
+			failure();
+		})
+		.on("end", function () {
+			destStream.end();
+			// Delete source file from temp folder.
+			fs.unlink(this.path, function (err) {
+				if (err) {
+					console.log(`Problem deleting source file! ${err}`);
+				}
+			});
+			success();
+		})
+		.pipe(destStream);
 }
 
 function appendToStream(destStream, srcDir, srcFilesnames, index, success, failure) {

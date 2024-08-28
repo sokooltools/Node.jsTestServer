@@ -3,11 +3,11 @@
 // -----------------------------------------------------------------------------------------------------
 
 var fs = require("fs");
-var os = require("os");
+const os = require("os");
 var path = require("path");
 var moment = require("moment");
 var url = require("url");
-var dns = require("dns-sync");
+var dns = require("dns");
 var tcpp = require("tcp-ping");
 
 /* -------------------------------------------------------------------------------------------*/

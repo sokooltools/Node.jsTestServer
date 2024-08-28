@@ -46,11 +46,7 @@ var DEMO = {
 		$("#demo_rdoWeb").prop("checked", isWeb === "true");
 		$("#demo_rdoDesktop").prop("checked", isWeb === "false");
 
-		if (isWeb === "true") {
-			setDisabled("demo_rdoWeb");
-		} else {
-			setDisabled("demo_rdoDesktop");
-		}
+		setDisabled(isWeb ? "demo_rdoWeb" : "demo_rdoDesktop");
 
 		$("#demo_rdoHttp").prop("checked", isSsl === "false");
 		$("#demo_rdoHttps").prop("checked", isSsl === "true");
@@ -240,6 +236,9 @@ var DEMO = {
 			if (callback) callback("Fetch request timed out.");
 		}, msTimeout || 5000);
 
+		//if (caller) caller.style.cursor = "wait";
+		//document.body.style.cursor = "wait";
+
 		// Handle the fetch request
 		fetchPromise
 			.then((response) => {
@@ -261,6 +260,8 @@ var DEMO = {
 			.finally(() => {
 				// Clear the timeout.
 				clearTimeout(timeoutId);
+				//document.body.style.cursor = "default";
+				//if (caller) caller.style.cursor = "default";
 			});
 	}
 	,

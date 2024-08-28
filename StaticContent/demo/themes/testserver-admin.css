@@ -1,7 +1,7 @@
-body {
+/*body { */
 	/* font-family: sans-serif, Palatino, Verdana; */
 	/* font-size: 0.8em; */
-}
+/*} */
 
 button#back {
 	width: 15em;
@@ -45,6 +45,7 @@ textarea#sampleText {
 }
 
 textarea#responseText {
+	padding: 0.25em 0.5em;
 	width: 99.5%;
 	margin-top: 0.75em;
 	flex-wrap: nowrap;
@@ -88,4 +89,25 @@ div#responseDiv {
 
 .small {
 	font-size: 0.85em;
+}
+
+.modal_background {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	padding: 10px;
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	cursor: wait;
+}
+
+input#tree_depth{
+	font-family: Verdana, Geneva, Tahoma, sans-serif ;
+	font-size: 9pt;
+	width: 24pt;
 }

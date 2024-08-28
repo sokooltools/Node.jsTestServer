@@ -38,7 +38,12 @@
 			<a id="getSnippets" href="javascript:;" class="cell" title=".">Get DevTools Snippets</a>
 		</div>
 		<div class="row2">
-			<a id="getVersion" href="javascript:;" class="cell" title=".">Get Module Versions</a>
+			<a id="getVersions" href="javascript:;" class="cell" title=".">Get Dependencies</a>
+		</div>
+		<div class="row2">
+			<a id="getVersionsExt" href="javascript:;" class="cell" title=".">Get Dependencies (Extended)</a>
+			<label id="tree_depth_label" for="tree_depth" title=".">Tree Depth:</label>
+  			<input id="tree_depth" type="number" name="tree_depth" min="0" max="9" value="4" title=".">
 		</div>
 		<div class="row2">
 			<a id="getPing" href="javascript:;" class="cell" title=".">Ping Server</a>
@@ -64,5 +69,6 @@
 			<textarea id="responseText" wrap="off" spellcheck="false" title="."></textarea>
 		</div>
 		<div id="testdlg" class="ui-dialog-content ui-widget-content"></div>
+		<div id="modal_background" class="modal_background"></div>
 	</body>
 </html>

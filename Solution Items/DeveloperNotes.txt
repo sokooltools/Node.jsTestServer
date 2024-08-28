@@ -62,3 +62,34 @@ https://github.com/expressjs/serve-favicon#readme
 :: /Y  Suppresses prompting to confirm you want to overwrite an existing destination file.
 :: ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+----------------------------------------------------------------------
+To determine if a Node.js module is unreferenced, you can use tools and techniques that analyze your project’s dependencies. 
+Here are some effective methods:
+
+Method 1: Using depcheck
+
+	depcheck is a popular tool that helps identify unused dependencies in your project. Here’s how to use it:
+
+	Install depcheck globally:
+
+	npm install -g depcheck
+
+	Run depcheck in your project directory:
+
+	depcheck
+
+	This will list all the dependencies that are not being used in your code1.
+
+Method 2: Using npm-check
+
+	npm-check is another tool that can help you manage your dependencies, including identifying unused ones:
+
+	Install npm-check globally:
+
+	npm install -g npm-check
+
+	Run npm-check with the -u flag to get an interactive UI:
+
+	npm-check -u
+
+	This will show you a list of dependencies and their statuses, including any that are unused2.
