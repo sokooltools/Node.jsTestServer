@@ -6,8 +6,8 @@
 
 //"use strict";
 
-import { createRequire } from "module";
-const reqr = createRequire(import.meta.url);
+//import { createRequire } from "module";
+//const reqr = createRequire(import.meta.url);
 
 import * as url from "url";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
@@ -27,11 +27,10 @@ import morgan from "morgan";
 var fs = await import("fs");
 var path = await import("path");
 
+import debug from "debug";
 import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
-import debug from "debug";
-
-var bodyParser = reqr("body-parser");
+import bodyParser from 'body-parser';
 
 import fineupload from "./routes/fineupload.mjs";
 import services from "./routes/services.mjs";
