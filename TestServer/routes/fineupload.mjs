@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------------------------------
-// fineupload.js
+// fineupload.mjs
 // -----------------------------------------------------------------------------------------------------
 
 /**
@@ -16,21 +16,24 @@
  */
 
 // Dependencies
-var express = require("express");
-var fs = require("fs");
-var path = require("path");
-var formidable = require("formidable");
+import { Router } from "express";
+import { unlink, readdir, createWriteStream, mkdir, createReadStream } from "fs";
+import { join } from "path";
+import { IncomingForm } from "formidable";
+
+import url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 // The name of the file input field from the body html in the browser.
 var fileInputName = process.env.FILE_INPUT_NAME || "qqfile";
 // The path where the uploaded file(s) will be saved.
-var uploadedFilesPath = process.env.UPLOADED_FILES_DIR || path.join(__dirname, "../../Uploaded/");
+var uploadedFilesPath = process.env.UPLOADED_FILES_DIR || join(__dirname, "../../Uploaded/");
 // The max file size in bytes, (0 for 'unlimited').
 var maxFileSize = process.env.MAX_FILE_SIZE || 0;
 // The name of the sub-folder where individual chunks will be stored.
 var chunkDirName = "chunks";
 
-var router = express.Router();
+var router = Router();
 
 router.post("/", onUpload);
 
@@ -40,7 +43,7 @@ router.delete("//:uuid", onDeleteFile);
 // onUpload
 // -----------------------------------------------------------------------------------------------------
 function onUpload(req, res) {
-	const form = new formidable.IncomingForm();
+	const form = new IncomingForm();
 	form.parse(req, function (err, fields, files) {
 		const partIndex = fields.qqpartindex;
 		// Requires "text/plain" to ensure support for IE9 and older.
@@ -133,7 +136,7 @@ function failWithTooBigFile(responseData, res) {
 function onDeleteFile(req, res) {
 	const uuid = req.params.uuid;
 	const fpth = uploadedFilesPath + uuid;
-	fs.unlink(fpth, function (error) {
+	unlink(fpth, function (error) {
 		if (error) {
 			console.error(`Problem deleting file! ${error}`);
 			res.status(500);
@@ -151,7 +154,7 @@ function onDeleteFile(req, res) {
  */
 function moveUploadedFile(file, uuid, success, failure) {
 	const destinationDir = uploadedFilesPath;
-	const fileDestination = path.join(destinationDir, file[0].originalFilename);
+	const fileDestination = join(destinationDir, file[0].originalFilename);
 	moveFile(destinationDir, file[0].filepath, fileDestination, success, failure);
 }
 
@@ -165,9 +168,9 @@ function moveUploadedFile(file, uuid, success, failure) {
  * @param {any} failure The failure callback
  */
 function storeChunk(file, uuid, index, numChunks, success, failure) {
-	const destinationDir = path.join(uploadedFilesPath + uuid, chunkDirName);
+	const destinationDir = join(uploadedFilesPath + uuid, chunkDirName);
 	const chunkFilename = getChunkFilename(index, numChunks);
-	const fileDestination = path.join(destinationDir, chunkFilename);
+	const fileDestination = join(destinationDir, chunkFilename);
 	moveFile(destinationDir, file[0].filepath, fileDestination, success, failure);
 }
 
@@ -179,19 +182,19 @@ function storeChunk(file, uuid, index, numChunks, success, failure) {
  * @param {any} failure The failure callback
  */
 function combineChunks(file, uuid, success, failure) {
-	var chunksDir = path.join(uploadedFilesPath + uuid, chunkDirName);
+	var chunksDir = join(uploadedFilesPath + uuid, chunkDirName);
 	const destinationDir = uploadedFilesPath + uuid;
-	var fileDestination = path.join(destinationDir, file[0].originalFilename);
-	fs.readdir(chunksDir, function (err, fileNames) {
+	var fileDestination = join(destinationDir, file[0].originalFilename);
+	readdir(chunksDir, function (err, fileNames) {
 		var destFileStream;
 		if (err) {
 			console.error(`Problem listing chunks! ${err}`);
 			failure();
 		} else {
 			fileNames.sort();
-			destFileStream = fs.createWriteStream(fileDestination, { flags: "a" });
+			destFileStream = createWriteStream(fileDestination, { flags: "a" });
 			appendToStream(destFileStream, chunksDir, fileNames, 0, function () {
-				fs.unlink(chunksDir, function (rimrafError) {
+				unlink(chunksDir, function (rimrafError) {
 					if (rimrafError) {
 						console.log(`Problem deleting chunks dir! ${rimrafError}`);
 					}
@@ -220,7 +223,7 @@ function isValid(size) {
  * @param {any} failure The callback on failure.
  */
 function moveFile(destinationDir, sourceFile, destinationFile, success, failure) {
-	fs.mkdir(destinationDir, { recursive: true }, (error) => {
+	mkdir(destinationDir, { recursive: true }, (error) => {
 		if (error) {
 			console.error(`Problem creating directory ${destinationDir}: ${error}`);
 			failure();
@@ -231,8 +234,8 @@ function moveFile(destinationDir, sourceFile, destinationFile, success, failure)
 }
 
 function writeStream(sourceFile, destinationFile, success, failure) {
-	var sourceStream = fs.createReadStream(sourceFile);
-	var destStream = fs.createWriteStream(destinationFile);
+	var sourceStream = createReadStream(sourceFile);
+	var destStream = createWriteStream(destinationFile);
 	sourceStream
 		.on("error", function (err) {
 			console.error(`Problem copying file: ${err.stack}`);
@@ -242,7 +245,7 @@ function writeStream(sourceFile, destinationFile, success, failure) {
 		.on("end", function () {
 			destStream.end();
 			// Delete source file from temp folder.
-			fs.unlink(this.path, function (err) {
+			unlink(this.path, function (err) {
 				if (err) {
 					console.log(`Problem deleting source file! ${err}`);
 				}
@@ -254,7 +257,7 @@ function writeStream(sourceFile, destinationFile, success, failure) {
 
 function appendToStream(destStream, srcDir, srcFilesnames, index, success, failure) {
 	if (index < srcFilesnames.length) {
-		fs.createReadStream(srcDir + srcFilesnames[index])
+		createReadStream(srcDir + srcFilesnames[index])
 			.on("end", function () {
 				appendToStream(destStream, srcDir, srcFilesnames, index + 1, success, failure);
 			})
@@ -276,4 +279,4 @@ function getChunkFilename(index, count) {
 	return (zeros + index).slice(-digits);
 }
 
-module.exports = router;
+export default router;

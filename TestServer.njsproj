@@ -542,7 +542,7 @@
     <Content Include="StaticContent\tucsontabpages\XpressSettings.htm" />
     <Content Include="TestServer\app.mjs" />
     <Content Include="TestServer\routes\download.mjs" />
-    <Content Include="TestServer\routes\fineupload.js" />
+    <Content Include="TestServer\routes\fineupload.mjs" />
     <Content Include="TestServer\routes\index.mjs" />
     <Content Include="TestServer\routes\services.mjs" />
     <Content Include="TestServer\routes\test.mjs" />

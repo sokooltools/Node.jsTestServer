@@ -4,12 +4,6 @@
 
 // https://nodejs.org/en/
 
-// MODULE   VERSION
-// -------  -------------
-// Node     20.11.0
-// NPM      10.2.4
-// Express  4.15.3
-
 //"use strict";
 
 import { createRequire } from "module";
@@ -38,9 +32,8 @@ import cookieParser from "cookie-parser";
 import debug from "debug";
 
 var bodyParser = reqr("body-parser");
-var fineupload = reqr("./routes/fineupload.js");
 
-//var services  = await import( "./routes/services.mjs");
+import fineupload from "./routes/fineupload.mjs";
 import services from "./routes/services.mjs";
 import index from "./routes/index.mjs";
 import upload from "./routes/upload.mjs";
@@ -63,7 +56,7 @@ if (app.get("env") === "development") {
 	// Log everything to std console immediately.
 	//app.use(morgan(":method :url :status :res[content-length] - :response-time ms", { immediate: function(){} }));
 } else {
-	// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\TestServer\Logs"
+	// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\Node.jsTestServer\TestServer\Logs"
 	var logsDir = path.join(__dirname, "Logs");
 	// Ensure the "Logs" directory exists.
 	if (!fs.existsSync(logsDir))
@@ -83,10 +76,10 @@ app.use(bodyParser.json({ limit: "10mb" }));
 
 app.use(cookieParser());
 
-// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool"
+// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\Node.jsTestServer"
 var rootFolder = path.dirname(__dirname);
 
-// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\ParkerConfigTool\StaticContent"
+// "D:\Users\Ronn\Documents\Visual Studio 2019\DevTools\Node.jsTestServer\StaticContent"
 var contentFldr = path.join(rootFolder, "StaticContent");
 
 app.use(favicon(path.join(contentFldr, "favicon.ico")));
