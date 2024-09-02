@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------------------------------------
-// downloadd.mjs
+// download.mjs
 // -----------------------------------------------------------------------------------------------------
 
 // Example URL: http://localhost:3000/download?fn=litesw.log
@@ -15,7 +15,7 @@ import path from "path";
 
 import url from "url";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
-const staticContent = path.join(path.dirname(__dirname), "..\\StaticContent");
+const _staticContent = path.join(path.dirname(__dirname), "..\\StaticContent");
 
 //import { createRequire } from 'module';
 //const require = createRequire(import.meta.url);
@@ -77,22 +77,22 @@ router.get("*", function (req, res) {
 function getFullPathForFilename(filename) {
 	switch (filename.toLowerCase()) {
 		case "pacremotedesktop.exe":
-			return path.join(staticContent, "..\\", "utilities", filename);
+			return path.join(_staticContent, "..\\", "utilities", filename);
 		case "globalization.zip":
-			return path.join(staticContent, "globalization", filename);
+			return path.join(_staticContent, "globalization", filename);
 		case "pac_user_guide.pdf":
 		case "webserver.exe.ini.docx":
 		case "webserver.exe.log.docx":
-			return path.join(staticContent, "docs", filename);
+			return path.join(_staticContent, "docs", filename);
 		case "codesyscontrol.cfg":
 		case "litesw.log":
 		case "retmem.log":
 		case "sessions.json":
 		case "webserver.exe.ini":
 		case "webserver.exe.log":
-			return path.join(staticContent, "demo", "docs", filename);
+			return path.join(_staticContent, "demo", "docs", filename);
 		default:
-			return path.join(staticContent, "files", filename);
+			return path.join(_staticContent, "files", filename);
 	}
 }
 

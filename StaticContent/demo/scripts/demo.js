@@ -217,7 +217,7 @@ var DEMO = {
 	 *
 	 * @param {String} route The route.
 	 * @param {function} callback The function callback.
-	 * @param {number} msTimeout The timeout in milliseconds to abort the request.
+	 * @param {number} msTimeout The timeout in milliseconds before request is aborted.
 	*/
 	doGet: function (route, callback, msTimeout) {
 		// Create a new AbortController instance.
@@ -235,9 +235,6 @@ var DEMO = {
 			// Abort the fetch request.
 			if (callback) callback("Fetch request timed out.");
 		}, msTimeout || 5000);
-
-		//if (caller) caller.style.cursor = "wait";
-		//document.body.style.cursor = "wait";
 
 		// Handle the fetch request
 		fetchPromise
@@ -260,8 +257,6 @@ var DEMO = {
 			.finally(() => {
 				// Clear the timeout.
 				clearTimeout(timeoutId);
-				//document.body.style.cursor = "default";
-				//if (caller) caller.style.cursor = "default";
 			});
 	}
 	,

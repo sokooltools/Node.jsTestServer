@@ -2,33 +2,31 @@
 // common.js
 // -----------------------------------------------------------------------------------------------------
 
-var fs = require("fs");
-const os = require("os");
-var path = require("path");
-var moment = require("moment");
-var url = require("url");
-var dns = require("dns");
-var tcpp = require("tcp-ping");
+import { readFileSync } from "fs";
+import { networkInterfaces, hostname } from "os";
+import { join, parse } from "path";
+import { parse as urlParse } from "url";
+import { lookup } from "dns";
+import { ping } from "tcp-ping";
+import moment from "moment";
 
-/* -------------------------------------------------------------------------------------------*/
-/**
- * Path to the static content (i.e. "../StaticContent")
- */
-var fileroot = path.join(path.dirname(__dirname), "..\\StaticContent");
-
-/* -------------------------------------------------------------------------------------------*/
-/**
- * Path to the demo data files (i.e. "../StaticContent/demo/data")
- */
-var demodata = path.join(fileroot, "demo/data");
-
-/* -------------------------------------------------------------------------------------------*/
-/**
- * Path to the language data files (i.e. "../StaticContent/globalization")
- */
-var globalization = path.join(fileroot, "globalization");
+//var fileroot = join(dirname(__dirname), "..\\StaticContent");
+//var demodata = join(fileroot, "demo/data");
+//var globalization = join(fileroot, "globalization");
 
 var filecache = [];
+
+/* -------------------------------------------------------------------------------------------*/
+/**
+ * Path to the demo data files (i.e. "./StaticContent/demo/data")
+ */
+export var demodata = "./StaticContent/demo/data";
+
+/* -------------------------------------------------------------------------------------------*/
+/**
+ * Path to the language data files (i.e. "StaticContent/globalization")
+ */
+export var globalization = "StaticContent/globalization";
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -36,7 +34,7 @@ var filecache = [];
  * otherwise reads the data from disk, adds it to the cache, then returns it.
  * @param {string | number | Buffer | import("url").URL} filepath
  */
-module.exports.readFileCache = function (filepath) {
+export function readFileCache (filepath) {
 	var retval = "";
 	for (let index = 0; index < filecache.length; index++) {
 		const element = filecache[index];
@@ -47,7 +45,7 @@ module.exports.readFileCache = function (filepath) {
 		}
 	}
 	if (!retval) {
-		retval = fs.readFileSync(filepath, "utf8");
+		retval = readFileSync(filepath, "utf8");
 		filecache.push({
 			filepath: filepath,
 			data: retval,
@@ -55,7 +53,7 @@ module.exports.readFileCache = function (filepath) {
 		console.log('\rREAD (from disk): "%s"...', filepath);
 	}
 	return retval;
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -76,12 +74,12 @@ var findElement = function (arr, propName, propValue) {
 /**
  * Returns the last segment of the specified request url.
  * @param {string} requestUrl the request URL
- * @returns {string}
+ * @returns {string} An filename including an extension (if any) all in lowercase.
  */
-module.exports.getLastSegment = function (requestUrl) {
-	const fullUrl = url.parse(requestUrl, true);
-	return path.parse(fullUrl.pathname).base.toLowerCase();
-};
+export function getLastSegment (requestUrl) {
+	const fullUrl = urlParse(requestUrl, true);
+	return parse(fullUrl.pathname).base.toLowerCase();
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -90,37 +88,37 @@ module.exports.getLastSegment = function (requestUrl) {
  * @param {object} json
  * @param {boolean} [islogged=false]
  */
-module.exports.writeFileCache = function (filepath, json, islogged) {
+export function writeFileCache (filepath, json, islogged) {
 	const element = findElement(filecache, "filepath", filepath);
 	if (element) {
 		element.data = JSON.stringify(json);
 		if (islogged) console.log("WRITE TO CACHE: %s", element.data);
 	}
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the time zone object corresponding to the specified index in the master time zone list.
- * @param {string | number} index
+ * @param {string | number} index A number or a string representing the index in the time zone list.
  */
-module.exports.getTimeZone = function (index) {
-	const filepath = path.join(demodata, "timezonelist.json");
+export function getTimeZone (index) {
+	const filepath = join(demodata, "timezonelist.json");
 	const data = readFileCache(filepath);
 	const json = JSON.parse(data);
 	return json[index];
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the date that represents the specified number of milliseconds since 01-01-1970.
  * @param {string | number} milliseconds
  */
-module.exports.millisecondsToDate = function (milliseconds) {
+export function millisecondsToDate (milliseconds) {
 	if (typeof milliseconds === "string") {
 		return new Date(parseFloat(milliseconds));
 	}
 	return new Date(milliseconds);
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -128,9 +126,9 @@ module.exports.millisecondsToDate = function (milliseconds) {
  * (The current date is used when no date is specified).
  *  @param {string | Date} [dt]
  */
-module.exports.dateToMilliseconds = function (dt) {
+export function dateToMilliseconds (dt) {
 	return Date.parse(!dt ? new Date().toString() : dt.toString());
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -138,7 +136,7 @@ module.exports.dateToMilliseconds = function (dt) {
  * (The current date is used when no date is specified).
  *  @param {Date} [dt]
  */
-module.exports.dateToMillisecondsUtc = function (dt) {
+export function dateToMillisecondsUtc (dt) {
 	if (!dt) dt = new Date();
 	return Date.UTC(
 		dt.getFullYear(),
@@ -148,7 +146,7 @@ module.exports.dateToMillisecondsUtc = function (dt) {
 		dt.getMinutes(),
 		dt.getSeconds()
 	);
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -156,20 +154,20 @@ module.exports.dateToMillisecondsUtc = function (dt) {
  * midnight 01-01-1970.
  * @param {string} milliseconds
  */
-module.exports.millisecondsUtcToDate = function (milliseconds) {
+export function millisecondsUtcToDate (milliseconds) {
 	const millisecOffset = new Date().getTimezoneOffset() * 60000;
 	return new Date(parseFloat(milliseconds) + millisecOffset);
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns a string formatted as "MM/DD/YYYY hh:mm:ss A" that the specified date represents.
  * (The current date is used when no date is specified).
  */
-module.exports.getFormattedDateTime = function (dt) {
+export function getFormattedDateTime (dt) {
 	if (!dt) dt = new Date();
 	return moment(dt).format("MM/DD/YYYY hh:mm:ss A");
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -177,41 +175,41 @@ module.exports.getFormattedDateTime = function (dt) {
  * @param {number} min
  * @param {number} max
  */
-module.exports.randomIntFromInterval = function (min, max) {
+export function randomIntFromInterval (min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns a randomly generated GUID (e.g. "b9eabcc0-91bc-47c3-bf34-21867891d96a").
  */
-module.exports.createGuid = function () {
+export function createGuid () {
 	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
 		const r = (Math.random() * 16) | 0;
 		const v = c === "x" ? r : (r & 0x3) | 0x8;
 		return v.toString(16);
 	});
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the specified text converted to title case (e.g. "john smith" becomes "John Smith").
  * @param {{ replace: (arg0: RegExp, arg1: (txt: any) => any) => void; }} text
  */
-module.exports.toTitleCase = function (text) {
+export function toTitleCase (text) {
 	return text.replace(/\w\S*/g, function (txt) {
 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 	});
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns an indication as to whether the specified IPv4 Address begins with a number.
  * @param {string} ipAddress
  */
-module.exports.startsWithNumber = function (ipAddress) {
+export function startsWithNumber (ipAddress) {
 	return ipAddress && /^[0-9]/.test(ipAddress);
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -219,12 +217,12 @@ module.exports.startsWithNumber = function (ipAddress) {
  * valid ip address.
  * @param {string} ipAddress
  */
-module.exports.isValidIpAddress = function (ipAddress) {
+export function isValidIpAddress (ipAddress) {
 	const pattern =
 		"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
 		"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
 	return new RegExp(pattern).test(ipAddress);
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /*
@@ -232,8 +230,8 @@ module.exports.isValidIpAddress = function (ipAddress) {
  * adapters on this computer.
  * @param {string} ipAddress
  */
-module.exports.isLocalIpAddress = function (ipAddress) {
-	const interfaces = os.networkInterfaces();
+export function isLocalIpAddress (ipAddress) {
+	const interfaces = networkInterfaces();
 	for (let k in interfaces) {
 		if (interfaces.hasOwnProperty(k)) {
 			const intrface = interfaces[k];
@@ -252,7 +250,7 @@ module.exports.isLocalIpAddress = function (ipAddress) {
 		}
 	}
 	return false;
-};
+}
 
 /* -------------------------------------------------------------------------------------------*/
 /**
@@ -262,12 +260,12 @@ module.exports.isLocalIpAddress = function (ipAddress) {
  * @param {any} attempts
  * @param {any} timeout
  */
-module.exports.isExisting = function (hostOrAddress, port, attempts, timeout) {
+export function isExisting (hostOrAddress, port, attempts, timeout) {
 	return new Promise(function (resolve, reject) {
 		// Is it an ip address or a host name?
-		if (module.exports.isValidIpAddress(hostOrAddress)) {
+		if (isValidIpAddress(hostOrAddress)) {
 			// Is it a local ip address?
-			if (module.exports.isLocalIpAddress(hostOrAddress)) {
+			if (isLocalIpAddress(hostOrAddress)) {
 				return resolve(
 					newResponse(
 						200,
@@ -278,11 +276,11 @@ module.exports.isExisting = function (hostOrAddress, port, attempts, timeout) {
 			}
 		} else {
 			// Does it start with a number?
-			if (module.exports.startsWithNumber(hostOrAddress)) {
+			if (startsWithNumber(hostOrAddress)) {
 				return resolve(newResponse(400, false, "Bad IP Address"));
 			}
 			// Is it the name of this host?
-			if (hostOrAddress === os.hostname()) {
+			if (hostOrAddress === hostname()) {
 				return resolve(
 					newResponse(
 						200,
@@ -293,7 +291,7 @@ module.exports.isExisting = function (hostOrAddress, port, attempts, timeout) {
 			}
 			if (!attempts) {
 				// First try to look it up using DNS.
-				const result = dns.lookup(hostOrAddress);
+				const result = lookup(hostOrAddress);
 				if (result) {
 					return resolve(newResponse(200, true, ""));
 				} else {
@@ -309,7 +307,7 @@ module.exports.isExisting = function (hostOrAddress, port, attempts, timeout) {
 		}
 		// If all else fails, try pinging it.
 		(function () {
-			tcpp.ping(
+			ping(
 				{
 					address: hostOrAddress,
 					port: parseInt(port || 80),
@@ -344,20 +342,18 @@ module.exports.isExisting = function (hostOrAddress, port, attempts, timeout) {
 			};
 		}
 	});
-};
+}
 
 // /* -------------------------------------------------------------------------------------------*/
 // /**
 //  * Returns the specified date and time formatted as "mm-dd-yyyy hh:mi:ss am". If a date is not
 //    specified the current date is used.
 // */
-// module.exports.getFormattedDateTime = function(date) {
-//   const formatter = new Intl.DateTimeFormat('en-US',{
+// export getFormattedDateTime = function(date) {
+//    const formatter = new Intl.DateTimeFormat('en-US',{
 // 		month: '2-digit',day: '2-digit',year: 'numeric',
 // 		hour: '2-digit',minute: '2-digit',second: '2-digit'
 //   });
-// return formatter.format((date) ? date : new Date());};
+//   return formatter.format((date) ? date : new Date());
+// };
 
-//module.exports.readFileCache = readFileCache;
-module.exports.demodata = demodata;
-module.exports.globalization = globalization;

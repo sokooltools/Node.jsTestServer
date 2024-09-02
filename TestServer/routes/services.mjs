@@ -4,23 +4,17 @@
 
 // See https://code.visualstudio.com/docs/languages/javascript for explanation of above.
 
-import { createRequire } from "module";
-const reqr = createRequire(import.meta.url);
-
-import * as url from "url";
-const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
-
-import { Router } from "express";
 import { join } from "path";
+
 import { format } from "util";
 
 import { parse } from "url";
 
-
-var cmn = reqr(join(__dirname, "common.js"));
+import * as cmn from "./common.mjs";
 
 //var errorhandler = reqr('errorhandler')
 //app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+import { Router } from "express";
 
 var router = Router();
 

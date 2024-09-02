@@ -29,14 +29,39 @@ $(function () {
 		doGet("/test/snippets", showResponse);
 	});
 
-	$("#getVersions").on("click", function () {
-		doGet("/test/versions", showResponse);
+	$("#getNpmDepends").on("click", function () {
+		doGet("/test/npmdepends", showResponse);
 	});
 
-	$("#getVersionsExt").on("click", function () {
-		let tree_depth = $("input#tree_depth").val() || -1;
-		doGet(`/test/versionsExt/${tree_depth}`, showRawResponse, 9000);
+	$("#getNpmDependsExt").on("click", function () {
+		getNpmDependendsExt();
 	});
+
+	$("input#tree_depth").on("keydown", function (e) {
+		if (e.which == '13') {
+			getNpmDependendsExt();
+		}
+	});
+
+	function getNpmDependendsExt(){
+		let tree_depth = $("input#tree_depth").val() || -1;
+		doGet(`/test/npmdependsext/${tree_depth}`, showRawResponse, 9000);
+	}
+
+	$("#npmExplain").on("click", function () {
+		getNpmExplain();
+	});
+
+	$("input#explainwhat").on("keydown", function (e) {
+		if (e.which == '13') {
+			getNpmExplain();
+		}
+	});
+
+	function getNpmExplain(){
+		const module_to_explain = $("input#explainwhat").val();
+		doGet(`/test/npmexplain/${module_to_explain}`, showRawResponse, 5000);
+	}
 
 	$("#getPing").on("click", function () {
 		doGet("/test/ping", showResponse, 50);
@@ -168,16 +193,23 @@ function setToolTips() {
 		content: "Gets all the <b>Snippets</b> from DevTools."
 			+ "<p class='small'>[Uses: '/test/snippets' route].</p>"
 	});
-	$("#getVersions").tooltip({
+	$("#getNpmDepends").tooltip({
 		content: "Gets the <b>dependencies</b> of each module referenced in the <i>Test Server's</i> '<b>package.json</b>' file."
 			+ "<p class='small'>[Uses: '/test/versions' route].</p>"
 	});
-	$("#getVersionsExt").tooltip({
-		content: "Gets the <b>dependencies</b> of each module referenced in the <i>Test Server's</i> '<b>package.json.lock</b>' file."
+	$("#getNpmDependsExt").tooltip({
+		content: "Gets all the <b>dependencies</b> of each module referenced in the <i>Test Server's</i> '<b>package.json.lock</b>' file."
 			+ "<p class='small'>[Uses: '/test/versionsext/{depth}' route].</p>"
 	});
 	$("#tree_depth_label, #tree_depth").tooltip({
 		content: "Specifies the depth (a number between 0 and 9), of the tree to be displayed."
+	});
+	$("#npmExplain").tooltip({
+		content: "Gets the <b>dependencies</b> of the specified module as referenced in the <i>Test Server's</i> '<b>package.json.lock</b>' file."
+			+ "<p class='small'>[Uses: '/test/npmexplain/{module}' route].</p>"
+	});
+	$("#explainwhat_label, #explainwhat").tooltip({
+		content: "Specifies the module to explain."
 	});
 	$("#getPing").tooltip({
 		content: "Pings the server and returns \"{success}\" or \"Fetch request timed out.\"."

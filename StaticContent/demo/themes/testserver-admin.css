@@ -109,5 +109,14 @@ div#responseDiv {
 input#tree_depth{
 	font-family: Verdana, Geneva, Tahoma, sans-serif ;
 	font-size: 9pt;
+	font-weight: 400;
 	width: 24pt;
+}
+
+input#explainwhat{
+	FONT-WEIGHT: 500;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 9pt;
+	font-weight: 400;
+	width: 175px;
 }

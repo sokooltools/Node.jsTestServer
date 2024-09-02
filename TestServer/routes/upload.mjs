@@ -10,32 +10,21 @@ import { join } from "path";
 
 var router = Router();
 
-//var app = express();
-//const bodyParser = require("body-parser");
-//app.use(bodyParser.urlencoded({
-//    extended: true
-//}));
-//app.use(express.urlencoded({ extended: true }));
-
 import * as url from "url";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 // Define upload route.
 router.post("/", function (req, res) {
-
-	// console.log(req.body);
-
 	const form = new IncomingForm();
 	var uploadsDir = join(__dirname, "../../Uploaded/");
 	form.uploadDir = uploadsDir;
+
 	form.parse(req, function (err, fields, files) {
 
 		if (err) {
 			next(err);
 			return;
 		}
-
-		//const xx = fields.base64StringTextArea.value;
 
 		// Ensure new directory exists.
 		existsSync(uploadsDir) || mkdirSync(uploadsDir);

@@ -3,24 +3,23 @@
 // -----------------------------------------------------------------------------------------------------
 
 import { createRequire } from "module";
-const reqr = createRequire(import.meta.url);
-
 import express, { Router } from "express";
 
 var path = await import("path");
-
 var fs = await import("fs");
 
 var router = Router();
 
+import * as cmn from "./common.mjs";
+
+const reqr = createRequire(import.meta.url);
 var gifResize = reqr("@gumlet/gif-resize");
+
+import bodyParser from "body-parser";
 
 import helmet from "helmet";
 
-import * as url from "url";
-const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
-import { join } from "path";
-var cmn = reqr(join(__dirname, "common.js"));
+import { exec } from "child_process";
 
 var app = express();
 
@@ -47,7 +46,6 @@ app.use(helmet({
 	}
 }));
 
-var bodyParser = reqr("body-parser");
 app.use(bodyParser.json({ limit: "10mb" }));
 // app.use(bodyParser.raw({ limit: "10mb" }));
 // app.use(bodyParser.urlencoded({ limit: "10mb", extended: true, parameterLimit: 50 }));
@@ -135,7 +133,6 @@ router.get("/snippets", function (req, res) {
 		}
 		let jsonL1 = JSON.parse(data);
 		jsonL1 = JSON.parse(jsonL1).sort(sortByProperty("name"));
-		//jsonL1 = {"snippets": jsonL1}
 		res.status(200).json(jsonL1);
 	});
 	function sortByProperty(property) {
@@ -155,7 +152,7 @@ router.get("/array", function (req, res) {
 });
 
 // Returns the version of all node modules listed in the project's package.json.
-router.get("/versions", function (req, res) {
+router.get("/npmdepends", function (req, res) {
 	// Read the file asynchronously.
 	fs.readFile("package.json", (err, data) => {
 		if (err) {
@@ -188,8 +185,15 @@ router.get("/versions", function (req, res) {
 	});
 });
 
-router.get("/versionsext/*", function (req, res) {
-	const { exec } = reqr('child_process');
+
+// Returns the extended list of dependencies based on the specified tree depth.
+/*
+	To debug function containing 'exec': 
+	Enable the 'Auto Attach: With Flag' feature in VS Code. 
+	This can be done by running the command 'Toggle Auto Attach' from the 
+	Command Palette (Ctrl+Shift+P), and selecting the appropriate mode.
+*/
+router.get("/npmdependsext/*", function (req, res) {
 	const tree_depth = cmn.getLastSegment(req.url);
 	let toExec = (!(tree_depth) || isNaN(tree_depth) || tree_depth < 0)
 		? `npm ls -a`
@@ -197,9 +201,11 @@ router.get("/versionsext/*", function (req, res) {
 	exec(toExec, (error, stdout, stderr) => {
 		if (error) {
 			console.error(`Error: ${error.message}`);
+			return res.status(500).send(`Error: ${error.message}`);
 		}
 		else if (stderr) {
 			console.error(`Stderr: ${stderr}`);
+			return res.status(500).send(`Stderr: ${stderr}`);
 		} else {
 			let jsonL1 = {
 				"dependencies": {}
@@ -208,10 +214,38 @@ router.get("/versionsext/*", function (req, res) {
 			res.status(200).json(jsonL1);
 		}
 	});
-	function getUnescapedString(escapedString) {
-		return (!escapedString)
-			? null
-			: escapedString
+});
+
+router.get("/npmexplain/*", function (req, res) {
+	const toExplain = cmn.getLastSegment(req.url);
+	if (toExplain==="npmexplain")
+		return res.status(200).json(`Error: 'Module' not provided to NPM Explain.`);
+	const toExec = `npm explain ${toExplain}`;
+	exec(toExec, (error, stdout, stderr) => {
+		if (error) {
+			console.error(`Error: ${error.message}`);
+			res.status(200).json(`Error: ${error.message}`);
+		}
+		else if (stderr) {
+			console.error(`Stderr: ${stderr}`);
+			res.status(200).json(`Stderr: ${stderr}`);
+		} else {
+			let json = getUnescapedString(stdout);
+			res.status(200).json(json);
+		}
+	});
+});
+
+/**
+ * Returns an unescaped string
+ * 
+ * @param {any} escapedString The string containing the characters to be unescaped.
+ * @returns An unescaped string.
+ */
+function getUnescapedString(escapedString) {
+	return (!escapedString)
+		? null
+		: escapedString
 			.replace(/\\"/g, '"')
 			.replace(/\\'/g, "'")
 			.replace(/\\n/g, "\n")
@@ -219,10 +253,8 @@ router.get("/versionsext/*", function (req, res) {
 			.replace(/\\t/g, "\t")
 			.replace(/\\\\/g, "\\")
 			.replace(/[\n]+$/g, "")
-			;
-	}
-});
-
+		;
+}
 
 // Uploads a GIF (rec'd as a Base64String) to this server's Downloads folder.
 router.put("/upload-gif", function (req, res) {
@@ -344,8 +376,6 @@ function getDownloadsFolder() {
 	}
 	return folder;
 }
-
-
 
 //function doDownload(res){
 //    //const filePath = `${__dirname}/uploaded/temp.gif`;    

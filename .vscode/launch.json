@@ -7,39 +7,32 @@
     "configurations": [
         {
             "name": "Run npm start",
-            "command": "npm start",
+            "type": "node-terminal",
             "request": "launch",
-            "type": "node-terminal"
-        },
-        {
-            "name": "Launch Demo in Edge (LocalHost:3000)",
-            "request": "launch",
-            "type": "msedge",
-            "url": "http://localhost:3000/demo/demo.htm",
-            "webRoot": "${workspaceFolder}/staticcontent"
-        },
-        {
-            "name": "Launch Demo in Edge (File-Based)",
-            "request": "launch",
-            "type": "msedge",
-            "url": "D:/Users/Ronn/Documents/Visual Studio 2019/DevTools/Node.jsTestServer/StaticContent/Demo/Demo.htm",
-            "webRoot": "${workspaceFolder}/staticcontent"
+            "command": "npm start"
         },
         {
             "name": "Attach to Edge",
-            "port": 9222,
-            "request": "attach",
             "type": "msedge",
+            "request": "attach",
+            "port": 9222,
             "webRoot": "${workspaceFolder}"
         },
         {
             "name": "Attach to Process ID",
-            "processId": "${command:PickProcess}",
+            "type": "node",
             "request": "attach",
+            "processId": "${command:PickProcess}",
             "skipFiles": [
                 "<node_internals>/**"
-            ],
-            "type": "node"
+            ]
+        },
+        {
+            "name": "Launch Demo in Edge (LocalHost:3000)",
+            "type": "msedge",
+            "request": "launch",
+            "url": "http://localhost:3000/demo/demo.htm",
+            "webRoot": "${workspaceFolder}/staticcontent"
         },
         {
             "name": "Launch TestServer",
