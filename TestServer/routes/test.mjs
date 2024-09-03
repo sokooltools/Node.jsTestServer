@@ -2,16 +2,13 @@
 // test.mjs  ( e.g. http://localhost:3000/test/xxx )
 // -----------------------------------------------------------------------------------------------------
 
-import { createRequire } from "module";
 import express, { Router } from "express";
 
 var path = await import("path");
 var fs = await import("fs");
-
-var router = Router();
-
 import * as cmn from "./common.mjs";
 
+import { createRequire } from "module";
 const reqr = createRequire(import.meta.url);
 var gifResize = reqr("@gumlet/gif-resize");
 
@@ -22,6 +19,7 @@ import helmet from "helmet";
 import { exec } from "child_process";
 
 var app = express();
+var router = Router();
 
 // app.use(express.json({
 // 	//limit: "10mb", verify: (req, res, buf) => { req.rawBody = buf.toString() }
@@ -219,7 +217,7 @@ router.get("/npmdependsext/*", function (req, res) {
 router.get("/npmexplain/*", function (req, res) {
 	const toExplain = cmn.getLastSegment(req.url);
 	if (toExplain==="npmexplain")
-		return res.status(200).json(`Error: 'Module' not provided to NPM Explain.`);
+		return res.status(200).json(`Error: 'Module' to explain was not provided.`);
 	const toExec = `npm explain ${toExplain}`;
 	exec(toExec, (error, stdout, stderr) => {
 		if (error) {

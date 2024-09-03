@@ -1,7 +1,6 @@
 // ====================================================================================================
 // TestServer-admin.js
 // ====================================================================================================
-var DEMO = window.DEMO;
 
 var sampleText;
 var responseText;
@@ -43,25 +42,15 @@ $(function () {
 		}
 	});
 
-	function getNpmDependendsExt(){
-		let tree_depth = $("input#tree_depth").val() || -1;
-		doGet(`/test/npmdependsext/${tree_depth}`, showRawResponse, 9000);
-	}
-
 	$("#npmExplain").on("click", function () {
 		getNpmExplain();
 	});
 
-	$("input#explainwhat").on("keydown", function (e) {
+	$("input#explain_what").on("keydown", function (e) {
 		if (e.which == '13') {
 			getNpmExplain();
 		}
 	});
-
-	function getNpmExplain(){
-		const module_to_explain = $("input#explainwhat").val();
-		doGet(`/test/npmexplain/${module_to_explain}`, showRawResponse, 5000);
-	}
 
 	$("#getPing").on("click", function () {
 		doGet("/test/ping", showResponse, 50);
@@ -97,6 +86,16 @@ $(function () {
 
 	setToolTips();
 });
+
+function getNpmDependendsExt(){
+	let tree_depth = $("input#tree_depth").val() || -1;
+	doGet(`/test/npmdependsext/${tree_depth}`, showRawResponse, 9000);
+}
+
+function getNpmExplain(){
+	const explain_what = $("input#explain_what").val();
+	doGet(`/test/npmexplain/${explain_what}`, showRawResponse, 5000);
+}
 
 function doGet(route, callback, msTimeout) {
 	modal_background.style.display = "block";
@@ -147,7 +146,9 @@ function copyResponse(e) {
 	textArea.focus();
 	navigator.clipboard.writeText(text);
 	const isAll = textArea.selectionStart === textArea.selectionEnd;
-	MISC.showDialog(`${isAll ? "All the" : "The selected"} 'Response' text was copied ${e.ctrlKey ? "(unescaped)" : ""} to the clipboard!`, e.target, 3000, textArea);
+	MISC.showDialog(`${isAll ? "All the" : "The selected"} 'Response' text was copied ${e.ctrlKey 
+		? "(unescaped)" 
+		: ""} to the clipboard!`, e.target, 3000, textArea);
 }
 
 function getUnescapedString(escapedString) {
@@ -195,11 +196,11 @@ function setToolTips() {
 	});
 	$("#getNpmDepends").tooltip({
 		content: "Gets the <b>dependencies</b> of each module referenced in the <i>Test Server's</i> '<b>package.json</b>' file."
-			+ "<p class='small'>[Uses: '/test/versions' route].</p>"
+			+ "<p class='small'>[Uses: '/test/npmdepends' route].</p>"
 	});
 	$("#getNpmDependsExt").tooltip({
 		content: "Gets all the <b>dependencies</b> of each module referenced in the <i>Test Server's</i> '<b>package.json.lock</b>' file."
-			+ "<p class='small'>[Uses: '/test/versionsext/{depth}' route].</p>"
+			+ "<p class='small'>[Uses: '/test/npmdependsext/{depth}' route].</p>"
 	});
 	$("#tree_depth_label, #tree_depth").tooltip({
 		content: "Specifies the depth (a number between 0 and 9), of the tree to be displayed."
@@ -208,7 +209,7 @@ function setToolTips() {
 		content: "Gets the <b>dependencies</b> of the specified module as referenced in the <i>Test Server's</i> '<b>package.json.lock</b>' file."
 			+ "<p class='small'>[Uses: '/test/npmexplain/{module}' route].</p>"
 	});
-	$("#explainwhat_label, #explainwhat").tooltip({
+	$("#explain_what_label, #explain_what").tooltip({
 		content: "Specifies the module to explain."
 	});
 	$("#getPing").tooltip({
