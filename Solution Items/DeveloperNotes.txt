@@ -29,20 +29,6 @@ The name of each image as part of each "Help" page can be exposed on the page by
 
 	*** Press [F12] to display the developer window.
 
-[NodeJS DOWNLOAD]
-
-http://expressjs.com/
-http://momentjs.com/
-https://github.com/expressjs/body-parser#readme
-https://github.com/expressjs/cookie-parser#readme
-https://github.com/visionmedia/debug#readme
-https://github.com/FineUploader/fine-uploader#readme
-https://github.com/felixge/node-formidable
-https://github.com/broofa/node-mime#readme
-https://github.com/substack/node-mkdirp#readme
-https://github.com/expressjs/morgan#readme
-https://github.com/isaacs/rimraf#readme
-https://github.com/expressjs/serve-favicon#readme
 
 
 [BATCH FILE XCOPY HELP]

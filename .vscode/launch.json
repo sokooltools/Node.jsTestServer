@@ -6,17 +6,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run npm start",
-            "type": "node-terminal",
+            "name": "Launch ScrapBook.mjs",
+            "type": "node",
             "request": "launch",
-            "command": "npm start"
+            "program": "${workspaceFolder}/testserver/scrapbook.mjs",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
         },
         {
             "name": "Attach to Edge",
             "type": "msedge",
             "request": "attach",
-            "port": 9222,
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "port": 9222
         },
         {
             "name": "Attach to Process ID",
@@ -42,6 +45,12 @@
             "skipFiles": [
                 "<node_internals/**>"
             ]
+        },
+        {
+            "name": "Run npm start",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm start"
         }
     ]
-}
+ }

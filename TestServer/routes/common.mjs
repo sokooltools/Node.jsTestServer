@@ -73,8 +73,8 @@ var findElement = function (arr, propName, propValue) {
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the last segment of the specified request url.
- * @param {string} requestUrl the request URL
- * @returns {string} An filename including an extension (if any) all in lowercase.
+ * @param {string} requestUrl the request URL.
+ * @returns {string} A filename including its extension (if any) all in lowercase.
  */
 export function getLastSegment (requestUrl) {
 	const fullUrl = urlParse(requestUrl, true);
@@ -98,20 +98,26 @@ export function writeFileCache (filepath, json, islogged) {
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Returns the time zone object corresponding to the specified index in the master time zone list.
- * @param {string | number} index A number or a string representing the index in the time zone list.
+ * Returns a 'timezone' object obtained from the master 'timezonelist.json' file.
+ * @param {number | string } value The index of the time zone object in the time zone list or 
+ * the time zone object having the 'standardname' property value in the time zone list.
  */
-export function getTimeZone (index) {
+export function getTimeZone(value) {
 	const filepath = join(demodata, "timezonelist.json");
-	const data = readFileCache(filepath);
+	const data = readFileSync(filepath, "utf8");
 	const json = JSON.parse(data);
-	return json[index];
+	if (!Number.isInteger(value)) {
+		const found = json.find(obj => obj['standardname'] === value);
+		if (found)
+			return found;
+	}
+	return json[value];
 }
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the date that represents the specified number of milliseconds since 01-01-1970.
- * @param {string | number} milliseconds
+ * @param {string | number} The number of milliseconds to resolve.
  */
 export function millisecondsToDate (milliseconds) {
 	if (typeof milliseconds === "string") {
@@ -123,8 +129,7 @@ export function millisecondsToDate (milliseconds) {
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the number of milliseconds since midnight 01-01-1970 that the specified date represents.
- * (The current date is used when no date is specified).
- *  @param {string | Date} [dt]
+ *  @param {string | Date} [dt] The Date [default = current Date and Time].
  */
 export function dateToMilliseconds (dt) {
 	return Date.parse(!dt ? new Date().toString() : dt.toString());
@@ -132,9 +137,9 @@ export function dateToMilliseconds (dt) {
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Returns the number of milliseconds UTC since midinight 01-01-1970 that the specified date represents.
- * (The current date is used when no date is specified).
- *  @param {Date} [dt]
+ * Returns the number of milliseconds UTC since midinight 01-01-1970 that the specified date 
+ * represents.
+ *  @param {Date} [dt] The Date and Time UTC [default = current Date and Time UTC].
  */
 export function dateToMillisecondsUtc (dt) {
 	if (!dt) dt = new Date();
@@ -165,17 +170,19 @@ export function millisecondsUtcToDate (milliseconds) {
  * (The current date is used when no date is specified).
  */
 export function getFormattedDateTime (dt) {
-	if (!dt) dt = new Date();
-	return moment(dt).format("MM/DD/YYYY hh:mm:ss A");
+	return moment(dt || new Date()).format("MM/DD/YYYY hh:mm:ss A");
 }
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Returns a random integer value between the specified min and max values (inclusive).
+ * Returns a random integer value between the specified min [default=0] and max [default=10] 
+ * values (inclusive).
  * @param {number} min
  * @param {number} max
  */
 export function randomIntFromInterval (min, max) {
+	min = min ? min : 0;
+	max = max ? max : 10;
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 

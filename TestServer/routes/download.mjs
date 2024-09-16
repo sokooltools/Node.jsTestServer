@@ -17,11 +17,6 @@ import url from "url";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 const _staticContent = path.join(path.dirname(__dirname), "..\\StaticContent");
 
-//import { createRequire } from 'module';
-//const require = createRequire(import.meta.url);
-
-//import mime from "mime";
-
 // This gets invoked for all requests passed to this router.
 // router.use(function (req, res, next) {
 //   console.log("    Download requested: %s", new Date(Date.now()).toLocaleString());

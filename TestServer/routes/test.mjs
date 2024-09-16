@@ -18,6 +18,8 @@ import helmet from "helmet";
 
 import { exec } from "child_process";
 
+import registry from "registry-js";
+
 var app = express();
 var router = Router();
 
@@ -254,14 +256,14 @@ function getUnescapedString(escapedString) {
 		;
 }
 
-// Uploads a GIF (rec'd as a Base64String) to this server's Downloads folder.
+// Uploads a GIF (rec'd as a Base64String) to this server's 'Downloads' folder.
 router.put("/upload-gif", function (req, res) {
 	try {
 		const downloadsFolder = getDownloadsFolder();
 		const fileName = req.body.filename ? req.body.filename : "testserver.gif";
 		const bufferIn = getBufferFromBase64String(req.body.base64String);
 		const fullpath = path.join(downloadsFolder, fileName);
-		const msg1 = `Uploaded GIF '${fullpath}' to the server.`;
+		const msg1 = `Uploaded the GIF file "${fileName}" to this server's 'Downloads' folder (i.e., "${downloadsFolder}").`;
 		const msg2 = "The GIF was successfully uploaded to the server.";
 		fs.writeFileSync(fullpath, bufferIn);
 		console.log(msg1);
@@ -359,7 +361,7 @@ function getBase64StringMinusMeta(base64String) {
  *
  */
 function getDownloadsFolder() {
-	const registry = reqr("registry-js");
+	//const registry = reqr("registry-js");
 	let folder = `${process.env.USERPROFILE}\\Downloads`;
 	const folders =
 		registry.enumerateValues(
