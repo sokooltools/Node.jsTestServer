@@ -101,8 +101,8 @@ router.put("*", function (req, res) {
 // ----------------------------------- GET HANDLERS ----------------------------------------
 
 router.get("/xpressshell", function (req, res) {
-	const filename = "xpressshell.htm";
-	res.status(200).sendFile(join(cmn.demodata, filename));
+	const htmlFile = "xpressshell.htm";
+	res.status(200).sendFile(htmlFile, {root: cmn.demodata});
 });
 
 router.get(

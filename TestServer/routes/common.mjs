@@ -32,15 +32,16 @@ export var globalization = "StaticContent/globalization";
 /**
  * Returns the data associated with the specified file path from the filecache if it exists;
  * otherwise reads the data from disk, adds it to the cache, then returns it.
- * @param {string | number | Buffer | import("url").URL} filepath
+ * @param {string | number | Buffer | import("url").URL} filepath The file to read from cache.
+ * @param {boolean} islogged Indicates whether to log this action [default = false].
  */
-export function readFileCache (filepath) {
+export function readFileCache(filepath, isLogged) {
 	var retval = "";
 	for (let index = 0; index < filecache.length; index++) {
 		const element = filecache[index];
 		if (element.filepath === filepath) {
 			retval = element.data;
-			console.log('\rREAD (from cache): "%s"...', filepath);
+			if (isLogged) console.log('\rREAD (from cache): "%s"...', filepath);
 			break;
 		}
 	}
@@ -50,7 +51,7 @@ export function readFileCache (filepath) {
 			filepath: filepath,
 			data: retval,
 		});
-		console.log('\rREAD (from disk): "%s"...', filepath);
+		if (isLogged) console.log('\rREAD (from disk): "%s"...', filepath);
 	}
 	return retval;
 }
@@ -76,7 +77,7 @@ var findElement = function (arr, propName, propValue) {
  * @param {string} requestUrl the request URL.
  * @returns {string} A filename including its extension (if any) all in lowercase.
  */
-export function getLastSegment (requestUrl) {
+export function getLastSegment(requestUrl) {
 	const fullUrl = urlParse(requestUrl, true);
 	return parse(fullUrl.pathname).base.toLowerCase();
 }
@@ -86,9 +87,9 @@ export function getLastSegment (requestUrl) {
  * Updates the file cache with the specified json object corresponding to the specified filepath.
  * @param {string} filepath
  * @param {object} json
- * @param {boolean} [islogged=false]
+ * @param {boolean} [islogged = false]
  */
-export function writeFileCache (filepath, json, islogged) {
+export function writeFileCache(filepath, json, islogged) {
 	const element = findElement(filecache, "filepath", filepath);
 	if (element) {
 		element.data = JSON.stringify(json);
@@ -119,7 +120,7 @@ export function getTimeZone(value) {
  * Returns the date that represents the specified number of milliseconds since 01-01-1970.
  * @param {string | number} The number of milliseconds to resolve.
  */
-export function millisecondsToDate (milliseconds) {
+export function millisecondsToDate(milliseconds) {
 	if (typeof milliseconds === "string") {
 		return new Date(parseFloat(milliseconds));
 	}
@@ -129,9 +130,9 @@ export function millisecondsToDate (milliseconds) {
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the number of milliseconds since midnight 01-01-1970 that the specified date represents.
- *  @param {string | Date} [dt] The Date [default = current Date and Time].
+ *  @param {string | Date} [dt] The Date and Time [default = current Date and Time].
  */
-export function dateToMilliseconds (dt) {
+export function dateToMilliseconds(dt) {
 	return Date.parse(!dt ? new Date().toString() : dt.toString());
 }
 
@@ -141,7 +142,7 @@ export function dateToMilliseconds (dt) {
  * represents.
  *  @param {Date} [dt] The Date and Time UTC [default = current Date and Time UTC].
  */
-export function dateToMillisecondsUtc (dt) {
+export function dateToMillisecondsUtc(dt) {
 	if (!dt) dt = new Date();
 	return Date.UTC(
 		dt.getFullYear(),
@@ -155,11 +156,11 @@ export function dateToMillisecondsUtc (dt) {
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Returns the date that represents the specified number of milliseconds UTC since
- * midnight 01-01-1970.
+ * Returns the date that represents the specified number of milliseconds UTC since midnight 
+ * 01-01-1970.
  * @param {string} milliseconds
  */
-export function millisecondsUtcToDate (milliseconds) {
+export function millisecondsUtcToDate(milliseconds) {
 	const millisecOffset = new Date().getTimezoneOffset() * 60000;
 	return new Date(parseFloat(milliseconds) + millisecOffset);
 }
@@ -167,30 +168,28 @@ export function millisecondsUtcToDate (milliseconds) {
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns a string formatted as "MM/DD/YYYY hh:mm:ss A" that the specified date represents.
- * (The current date is used when no date is specified).
+ * @param {string | Date} [dt] The Date and Time [default = current Date and Time].
  */
-export function getFormattedDateTime (dt) {
+export function getFormattedDateTime(dt) {
 	return moment(dt || new Date()).format("MM/DD/YYYY hh:mm:ss A");
 }
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Returns a random integer value between the specified min [default=0] and max [default=10] 
- * values (inclusive).
- * @param {number} min
- * @param {number} max
+ * Returns a random integer value between the specified min and max values (inclusive).
+ * @param {number} min The minimum value [default = 0].
+ * @param {number} max The maximum value [default = 10].
  */
-export function randomIntFromInterval (min, max) {
+export function randomIntFromInterval(min, max) {
 	min = min ? min : 0;
-	max = max ? max : 10;
-	return Math.floor(Math.random() * (max - min + 1) + min);
+	return Math.floor(Math.random() * ((max || 10) - min + 1) + min);
 }
 
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns a randomly generated GUID (e.g. "b9eabcc0-91bc-47c3-bf34-21867891d96a").
  */
-export function createGuid () {
+export function createGuid() {
 	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
 		const r = (Math.random() * 16) | 0;
 		const v = c === "x" ? r : (r & 0x3) | 0x8;
@@ -201,9 +200,10 @@ export function createGuid () {
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns the specified text converted to title case (e.g. "john smith" becomes "John Smith").
- * @param {{ replace: (arg0: RegExp, arg1: (txt: any) => any) => void; }} text
+ * @param {{ replace: (arg0: RegExp, arg1: (txt: any) => any) => void; }} text The text to be 
+ * converted to title case.
  */
-export function toTitleCase (text) {
+export function toTitleCase(text) {
 	return text.replace(/\w\S*/g, function (txt) {
 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 	});
@@ -212,9 +212,9 @@ export function toTitleCase (text) {
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns an indication as to whether the specified IPv4 Address begins with a number.
- * @param {string} ipAddress
+ * @param {string} ipAddress The IP Address to check.
  */
-export function startsWithNumber (ipAddress) {
+export function startsWithNumber(ipAddress) {
 	return ipAddress && /^[0-9]/.test(ipAddress);
 }
 
@@ -222,9 +222,9 @@ export function startsWithNumber (ipAddress) {
 /**
  * Returns an indication as to whether the specified IPv4 address represents a structurally
  * valid ip address.
- * @param {string} ipAddress
+ * @param {string} ipAddress The IP Address to check.
  */
-export function isValidIpAddress (ipAddress) {
+export function isValidIpAddress(ipAddress) {
 	const pattern =
 		"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
 		"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
@@ -232,12 +232,12 @@ export function isValidIpAddress (ipAddress) {
 }
 
 /* -------------------------------------------------------------------------------------------*/
-/*
+/**
  * Returns an indication as to whether the specified IPv4 address is bound to any of the network
  * adapters on this computer.
- * @param {string} ipAddress
+ * @param {string} ipAddress The IP Address to check.
  */
-export function isLocalIpAddress (ipAddress) {
+export function isLocalIpAddress(ipAddress) {
 	const interfaces = networkInterfaces();
 	for (let k in interfaces) {
 		if (interfaces.hasOwnProperty(k)) {
@@ -262,12 +262,12 @@ export function isLocalIpAddress (ipAddress) {
 /* -------------------------------------------------------------------------------------------*/
 /**
  * Returns an indication as to whether the specified IP address or Host Name exists on the network.
- * @param {string} hostOrAddress
- * @param {any} port
- * @param {any} attempts
- * @param {any} timeout
+ * @param {string} hostOrAddress The host name or IP Address to check for existence.
+ * @param {any} port The port number.
+ * @param {any} attempts The number of attempts to make before aborting.
+ * @param {any} timeout The timeout in milliseconds before aborting.
  */
-export function isExisting (hostOrAddress, port, attempts, timeout) {
+export function isExisting(hostOrAddress, port, attempts, timeout) {
 	return new Promise(function (resolve, reject) {
 		// Is it an ip address or a host name?
 		if (isValidIpAddress(hostOrAddress)) {
