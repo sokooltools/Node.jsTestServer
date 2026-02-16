@@ -179,6 +179,7 @@ export function getFormattedDateTime(dt) {
  * Returns a random integer value between the specified min and max values (inclusive).
  * @param {number} min The minimum value [default = 0].
  * @param {number} max The maximum value [default = 10].
+ * @returns {number} A random integer between min and max (inclusive).
  */
 export function randomIntFromInterval(min, max) {
 	min = min ? min : 0;
@@ -187,7 +188,8 @@ export function randomIntFromInterval(min, max) {
 
 /* -------------------------------------------------------------------------------------------*/
 /**
- * Returns a randomly generated GUID (e.g. "b9eabcc0-91bc-47c3-bf34-21867891d96a").
+ * Creates a new GUID (Globally Unique Identifier).
+ * @returns {string} A new GUID value (e.g. "3f2504e0-4f89-41d3-9a0c-0305e82c3301").
  */
 export function createGuid() {
 	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
